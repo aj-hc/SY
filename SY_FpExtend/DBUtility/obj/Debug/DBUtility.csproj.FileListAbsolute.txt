@@ -1,0 +1,9 @@
+C:\Users\danyun\Desktop\SY_FpExtend\DBUtility\bin\Debug\RuRo.DBUtility.dll
+C:\Users\danyun\Desktop\SY_FpExtend\DBUtility\bin\Debug\RuRo.DBUtility.pdb
+C:\Users\danyun\Desktop\SY_FpExtend\DBUtility\bin\Debug\IBatisNet.Common.dll
+C:\Users\danyun\Desktop\SY_FpExtend\DBUtility\bin\Debug\IBatisNet.DataMapper.dll
+C:\Users\danyun\Desktop\SY_FpExtend\DBUtility\bin\Debug\MySql.Data.dll
+C:\Users\danyun\Desktop\SY_FpExtend\DBUtility\bin\Debug\System.Data.SQLite.DLL
+C:\Users\danyun\Desktop\SY_FpExtend\DBUtility\obj\Debug\DBUtility.csprojResolveAssemblyReference.cache
+C:\Users\danyun\Desktop\SY_FpExtend\DBUtility\obj\Debug\RuRo.DBUtility.dll
+C:\Users\danyun\Desktop\SY_FpExtend\DBUtility\obj\Debug\RuRo.DBUtility.pdb
