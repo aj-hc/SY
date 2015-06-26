@@ -54,7 +54,27 @@ namespace RuRo.BLL
         /// <returns></returns>
         public string GetSY_HC_GetPatientInfoJson(RuRo.Model.FP_SY_HIS_IP_PublicInterface model)
         {
-           return FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(dal.GetSY_HC_GetPatientInfo(model));
+           DataSet ds = dal.GetSY_HC_GetPatientInfo(model);
+           if (ds.Tables[0].Rows.Count > 0)
+           {
+               for (int i = 0; i < ds.Tables[0].Rows.Count - 1; i++)
+               {
+                   if (i == ds.Tables[0].Rows.Count - 1)
+                   {
+                       break;
+                   }
+                   ds.Tables[0].Rows[i].Delete();
+               }
+               ds.AcceptChanges();
+               model.In_InPatientID = Convert.ToInt32(ds.Tables[0].Rows[0]["InPatientID"]);
+               model.In_CodeType = Convert.ToInt32(ds.Tables[0].Rows[0]["InPatientID"]);
+               string res =  FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(ds);
+               return res;
+           }
+           else 
+           {
+               return FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(dal.GetSY_HC_GetPatientInfo(model));
+           }
         }
         #endregion
 
