@@ -62,7 +62,7 @@ function querybycode() {
             clearForm();
             alert(data);
             if (data == "" || data == null) {
-                alert("无数据");
+                alert("无数据，查询超时");
             }
             else {
                 var datastr = eval("(" + data + ")");
@@ -70,19 +70,26 @@ function querybycode() {
                     alert(datastr._BaseInfo);
                     var _BaseInfo = eval("(" + datastr._BaseInfo + ")")
                     if (_BaseInfo.ds) {
-                        alert(_BaseInfo.ds);
-                        var ds = eval("(" + _BaseInfo.ds + ")")
-                        AddBaseInfoToForm(ds);
+                        var ds = _BaseInfo.ds;
+                        AddBaseInfoToForm(ds[0]);
                     }
                     //格式需要更改
                 }
                 if (datastr._ClinicalInfo) {
                     alert(datastr._ClinicalInfo);
-                    var _ClinicalInfo = eval(datastr._ClinicalInfo);
+                    var _ClinicalInfo = eval("(" + datastr._ClinicalInfo + ")")
                     if (_ClinicalInfo.ds) {
-                        alert(_ClinicalInfo.ds);
-                        var ds = eval(_ClinicalInfo);
-                        $('#dg_ClinicInfo').datagrid('loadData', ds);
+                        var ds = _ClinicalInfo.ds;
+                        //alert(ds.length);
+                        //for (var i = 0; i < ds.length; i++) {
+                        //    var data = ds[i];
+                        //   // $('#ClinicalInfoDg').datagrid('loadData', data);
+                        //    $('#ClinicalInfoDg').datagrid({ loadFilter: pagerFilter }).datagrid('loadData', data);
+                        //}
+
+
+                        $('#ClinicalInfoDg').datagrid({ loadFilter: pagerFilter }).datagrid('loadData', ds);
+
                     }
                 }
             }
@@ -110,49 +117,86 @@ function clearForm() {
     $('#dg_ClinicInfo').datagrid('loadData', { total: 0, rows: [] });
 }
 
+
+function trimdata(trime)
+{
+    $.trim("")
+}
 function AddBaseInfoToForm(_BaseInfo) {
+
     if (_BaseInfo['PatientName']) {
-        $("#_80").textbox('setValue', _BaseInfo['PatientName']);
+        $("#_80").textbox('setValue', $.trim(_BaseInfo['PatientName']));
     }
     if (_BaseInfo['IPSeqNoText']) {
-        $("#_81").textbox('setValue', _BaseInfo['IPSeqNoText']);
+        $("#_81").textbox('setValue', $.trim(_BaseInfo['IPSeqNoText']));
     }
     if (_BaseInfo['PatientCardNo']) {
-        $("#_82").textbox('setValue', _BaseInfo['PatientCardNo']);
+        $("#_82").textbox('setValue', $.trim(_BaseInfo['PatientCardNo']));
     }
     if (_BaseInfo['SexFlag']) {
-        $("#_83").textbox('setValue', _BaseInfo['SexFlag']);
+        switch (_BaseInfo['SexFlag'])
+        {
+            case '0':
+                $("#_115").textbox('setValue', "未知");
+                break;
+            case '1':
+                $("#_115").textbox('setValue', "男");
+                break;
+            case '2':
+                $("#_115").textbox('setValue', "女");
+            default:
+                $("#_115").textbox('setValue', "未知");
+                break;
+        }
     }
     if (_BaseInfo['Birthday']) {
         var Birthday = _BaseInfo['Birthday'].substring(0, 10);
         $("#_84").textbox('setValue', Birthday);
     }
     if (_BaseInfo['BloodTypeFlag']) {
-        $("#_85").textbox('setValue', _BaseInfo['BloodTypeFlag']);
+        switch (_BaseInfo['BloodTypeFlag']) {
+            case 1:
+                $("#_116").textbox('setValue', "A");
+                break;
+            case 2:
+                $("#_116").textbox('setValue', "B");
+                break;
+            case 3:
+                $("#_116").textbox('setValue', "AB");
+            case 4:
+                $("#_116").textbox('setValue', "O");
+            case 5:
+                $("#_116").textbox('setValue', "其他");
+            case 6:
+                $("#_116").textbox('setValue', "未查");
+            default:
+                $("#_116").textbox('setValue', "未查");
+                break;
+        }
     }
     if (_BaseInfo['Phone']) {
-        $("#_86").textbox('setValue', _BaseInfo['Phone']);
+        $("#_86").textbox('setValue', $.trim(_BaseInfo['Phone']));
     }
     if (_BaseInfo['ContactPhone']) {
-        $("#_87").textbox('setValue', _BaseInfo['ContactPhone']);
+        $("#_87").textbox('setValue', $.trim(_BaseInfo['ContactPhone']));
     }
     if (_BaseInfo['ContactPerson']) {
-        $("#_88").textbox('setValue', _BaseInfo['ContactPerson']);
+        $("#_88").textbox('setValue', $.trim(_BaseInfo['ContactPerson']));
     }
     if (_BaseInfo['NativePlace']) {
-        $("#_89").textbox('setValue', _BaseInfo['NativePlace']);
+        $("#_89").textbox('setValue', $.trim(_BaseInfo['NativePlace']));
     }
     if (_BaseInfo['RegisterSeqNO']) {
-        $("#_90").textbox('setValue', _BaseInfo['RegisterSeqNO']);
+        $("#_90").textbox('setValue', $.trim(_BaseInfo['RegisterSeqNO']));
     }
     if (_BaseInfo['PatientID']) {
-        $("#_91").textbox('setValue', _BaseInfo['PatientID']);
+        $("#_91").textbox('setValue', $.trim(_BaseInfo['PatientID']));
     }
     if (_BaseInfo['RegisterID']) {
-        $("#_92").textbox('setValue', _BaseInfo['RegisterID']);
+        $("#_92").textbox('setValue', $.trim(_BaseInfo['RegisterID']));
     }
     if (_BaseInfo['InPatientID']) {
-        $("#_93").textbox('setValue', _BaseInfo['InPatientID']);
+        $("#_93").textbox('setValue', $.trim(_BaseInfo['InPatientID']));
     }
 }
 
@@ -209,7 +253,7 @@ $(function () {
 function login() {
     $('#frmLogin').form({
         type: 'POST',
-        url: "Login.aspx?type=login",
+        url: "Login.ashx?type=login",
         onSubmit: function () {
             // 做某些检查 
             // 返回 false 来阻止提交 
@@ -217,6 +261,7 @@ function login() {
         success: function (data) {
             if (data == "恭喜你,登录成功,欢迎使用FreezerPro协同助手！") {
                 $('#Login').dialog('close');
+                displayToolbar();
             }
             else if (data == "对不起,用户名或密码错误,请重新输入！") {
                 $.messager.alert('提示', data, 'info');

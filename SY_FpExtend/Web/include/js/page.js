@@ -7,8 +7,6 @@ $(function () {
             { field: 'ck', checkbox: true, width: '5%' },
             { field: 'DiagnoseTypeFlag', title: '诊断类型', width: '15%' },
             { field: 'DiagnoseDateTime', title: '诊断日期', width: '10%', sortable: true },
-            { field: 'RegisterID', title: '挂号ID', width: '10%', align: 'center' },
-            { field: 'InPatientID', title: '住院ID', width: '10%', align: 'center' },
             { field: 'ICDCode', title: 'ICD码', width: '10%', align: 'center', sortable: true },
             { field: 'DiseaseName', title: '疾病名称', width: '20%', align: 'center', sortable: true },
             { field: 'Description', title: '疾病描述', width: '20%', align: 'center' },
@@ -17,7 +15,7 @@ $(function () {
         pagination: true
     });
    //加载模拟数据
-    $('#ClinicalInfoDg').datagrid({ loadFilter: pagerFilter }).datagrid('loadData', getData());
+    //$('#ClinicalInfoDg').datagrid({ loadFilter: pagerFilter }).datagrid('loadData', getData());
 });
 
 //初始化样本信息面板
