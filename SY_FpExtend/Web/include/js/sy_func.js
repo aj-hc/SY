@@ -209,7 +209,7 @@ $(function () {
 function login() {
     $('#frmLogin').form({
         type: 'POST',
-        url: "Login.ashx?type=login",
+        url: "Login.aspx?type=login",
         onSubmit: function () {
             // 做某些检查 
             // 返回 false 来阻止提交 
@@ -217,7 +217,6 @@ function login() {
         success: function (data) {
             if (data == "恭喜你,登录成功,欢迎使用FreezerPro协同助手！") {
                 $('#Login').dialog('close');
-                displayToolbar();
             }
             else if (data == "对不起,用户名或密码错误,请重新输入！") {
                 $.messager.alert('提示', data, 'info');

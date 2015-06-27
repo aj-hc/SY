@@ -15,7 +15,7 @@ namespace RuRo.Web
             {
                 FreezerProUrl();
                 //访问页面时做登陆检查
-
+                
             }
             
         }

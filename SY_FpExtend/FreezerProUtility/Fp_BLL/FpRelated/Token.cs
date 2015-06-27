@@ -8,46 +8,45 @@ namespace FreezerProUtility.Fp_BLL
 {
     public class Token
     {
-        //创建数据层对象
-        DataWithFP dateWithFP;
-        string auth_Token;
-
-        public string Auth_Token
-        {
-            get { return auth_Token; }
-            set { auth_Token = value; }
-        }
-
+        public string UserName { get; set; }
+        public string PassWord { get; set; }
         #region 构造函数
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="username">用户名</param>
         /// <param name="password">密码</param>
-        public Token(string username,string password)
+        public Token(string username, string password)
         {
-            dateWithFP = new DataWithFP(username, password);
-            Auth_Token = dateWithFP.getDateFromFp(FpMethod.gen_token,"");
+            UserName = username;
+            PassWord = password;
         }
         #endregion
-        public string Get_Token()
+        private string Get_Auth_Token()
         {
-            if (checkAuth_Token())
-            {
-                return Auth_Token;
-            }
-            else
-            {
-                return "";
-            }
+            FpUrlMaker FpUrlMaker = new Fp_BLL.FpUrlMaker();
+            FpUrlMaker.UserName = UserName;
+            FpUrlMaker.PassWord = PassWord;
+            string connFpUrl = string.Format("{0}&method={1}", FpUrlMaker.ConnFpUrl, Fp_Common.FpMethod.gen_token);
+            string result = DataWithFP.getDateFromFp(connFpUrl);
+            return result;
         }
+
         /// <summary>
         /// 检查是否能获取到auth_token（能获取说明账号密码路径都没问题）
         /// </summary>
         /// <returns>返回检查结果</returns>
         public bool checkAuth_Token()
         {
-            return ValidationData.checkAuth_Token(Auth_Token);
+            string auth_TokenStr = Get_Auth_Token();
+            return ValidationData.checkAuth_Token(auth_TokenStr);
+        }
+
+
+        public bool checkLogin()
+        {
+            string auth_TokenStr = Get_Auth_Token();
+            return ValidationData.checkAuth_Token(auth_TokenStr);
         }
     }
 }

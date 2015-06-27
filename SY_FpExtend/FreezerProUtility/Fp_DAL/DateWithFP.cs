@@ -82,7 +82,7 @@ namespace FreezerProUtility.Fp_DAL
         /// </summary>
         /// <param name="url"></param>
         /// <returns></returns>
-        private string getdata(string url)
+        private static string getdata(string url)
         {
             HttpItem item = new HttpItem();
             HttpHelper http = new HttpHelper();
@@ -90,7 +90,7 @@ namespace FreezerProUtility.Fp_DAL
             return http.GetHtml(item).Html;
         }
         //提交数据到fp方法
-        private string postdata(string url, string data)
+        private static string postdata(string url, string data)
         {
             HttpItem item = new HttpItem();
             HttpHelper http = new HttpHelper();
@@ -138,11 +138,11 @@ namespace FreezerProUtility.Fp_DAL
         /// <param name="url">提交地址</param>
         /// <param name="date"></param>
         /// <returns></returns>
-        public string postDateToFp(string url, string date)
+        public static string postDateToFp(string url, string date)
         {
             return postdata(url, date);
         }
-        public string getDateFromFp(string url)
+        public static string getDateFromFp(string url)
         {
             return getdata(url);
         }

@@ -5,17 +5,13 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace RuRo.Web.Fp_Ajax
+namespace RuRo.Web
 {
-    public partial class L : System.Web.UI.Page
+    public partial class Login : System.Web.UI.Page
     {
         string username = "", password = "";
         protected void Page_Load(object sender, EventArgs e)
         {
-            Response.ContentType = "text/html";
-            if (Request.Params["type"] == "checklogin")
-            {
-            }
             if (Request.Params["type"] == "logout")
             {
                 Response.Cookies["loginCookie"].Expires.AddDays(0);
@@ -25,18 +21,24 @@ namespace RuRo.Web.Fp_Ajax
             {
                 username = Request.Params["username"];
                 password = Request.Params["password"];
-                if (true)
+                if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password))
                 {
-                    HttpCookie loginCookie = new HttpCookie("loginCookie");
-                    loginCookie.Values.Add("Username", username);
-                    loginCookie.Values.Add("Password", password);
-                    loginCookie.Expires = DateTime.Now.AddDays(1);
-                    Response.Cookies.Add(loginCookie);
-                    Response.Write("恭喜你,登录成功,欢迎使用FreezerPro协同助手！");
+                    if (checkToken(Context))
+                    {
+                        string newPassowrd = FreezerProUtility.Fp_Common.EncodeAndDecodeString.Encode(password);
+                        HttpCookie loginCookie = new HttpCookie("loginCookie");
+                        loginCookie.Values.Add("Username", username);
+                        loginCookie.Values.Add("Password", newPassowrd);
+                        loginCookie.Expires = DateTime.Now.AddDays(1);
+                        Response.Cookies.Add(loginCookie);
+                        Context.Session.Add("Username", username);
+                        Context.Session.Add("Password", newPassowrd);
+                        Response.Write("{\"success\":true,\"msg\":\"恭喜你,登录成功,欢迎使用FreezerPro协同助手！\"}");
+                    }
                 }
                 else
                 {
-                    Response.Write("对不起,用户名或密码错误,请重新输入！");
+                    Response.Write("{\"success\":false,\"msg\":\"对不起,用户名或密码错误,请重新输入！\"}");
                 }
             }
         }
@@ -52,7 +54,6 @@ namespace RuRo.Web.Fp_Ajax
                 return ("<button style=\"width:40px;\" onclick=\"doimport()\">导入</button><button style=\"width:40px;\" onclick=\"logout()\">注销</button>");
             }
         }
-
         /// <summary>
         /// 根据账号密码检查token
         /// </summary>
@@ -65,8 +66,9 @@ namespace RuRo.Web.Fp_Ajax
             password = Request.Params["password"];
             if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password))
             {
-                //BLL.Token token = new BLL.Token(username, password);
-                //return token.checkAuth_Token();
+                //通过api方法检查登陆，并将账号密码传入
+                FreezerProUtility.Fp_BLL.Token token = new FreezerProUtility.Fp_BLL.Token(username,password);
+                //return token.checkLogin();
             }
             return false;
         }

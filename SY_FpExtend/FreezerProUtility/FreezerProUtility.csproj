@@ -52,6 +52,7 @@
     <Compile Include="Fp_BLL\FpRelated\Token.cs" />
     <Compile Include="Fp_BLL\FpRelated\UserFields.cs" />
     <Compile Include="Fp_BLL\FpRelated\Users.cs" />
+    <Compile Include="Fp_BLL\FpRelated\FpUrlMaker.cs" />
     <Compile Include="Fp_BLL\ValidationData.cs" />
     <Compile Include="Fp_Common\EncodeAndDecodeString.cs" />
     <Compile Include="Fp_Common\FpHelper\Config.cs" />

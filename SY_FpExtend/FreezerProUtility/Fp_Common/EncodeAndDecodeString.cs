@@ -5,9 +5,9 @@ namespace FreezerProUtility.Fp_Common
 {
     public static class EncodeAndDecodeString
     {
-        const string KEY_64 = "ZssyFree";//注意了，是8个字符，64位（中山三院+freezerpro）
+        const string KEY_64 = "ShYiFree";//注意了，是8个字符，64位（ShYi+freezerpro）
 
-        const string IV_64 = "ZssyFree";
+        const string IV_64 = "ShYiFree";
         /// <summary>
         /// 加密字符串
         /// </summary>
@@ -56,10 +56,7 @@ namespace FreezerProUtility.Fp_Common
             {
                 return "";
             }
-            
         }
-
-
         #region 方式2
         ////默认密钥向量
         //private static byte[] Keys = { 0x12, 0x34, 0x56, 0x78, 0x90, 0xAB, 0xCD, 0xEF };

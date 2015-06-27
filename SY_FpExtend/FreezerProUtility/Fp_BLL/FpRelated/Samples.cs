@@ -1,17 +1,14 @@
-﻿
-using FreezerProUtility.Fp_Common;
+﻿using FreezerProUtility.Fp_Common;
 using FreezerProUtility.Fp_Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-
 namespace FreezerProUtility.Fp_BLL
 {
     public class Samples
     {
-
         //创建数据层对象
         FreezerProUtility.Fp_DAL.DataWithFP dataWithFP = new FreezerProUtility.Fp_DAL.DataWithFP();
 
@@ -107,6 +104,24 @@ namespace FreezerProUtility.Fp_BLL
             return sample_info;
         } 
         #endregion
-        
+
+        public string Import_Sample(string url, string jsondata)
+        {
+            string json = "";
+            string background_job = "";//boolean (true or false)
+            string next_box = "";//boolean (true or false)
+            string subdivision_barcode = "";
+            string sample_type = "";
+            string create_storage = ""; //创建储存结构才有 box_type
+            string box_type = "";
+
+            //01.先判断储存结构是否存在，存在就添加
+            //02.储存结构空间不足则再次添加储存结构
+            //03.储存结构命名-->Tem-->username-->month-->bag
+            //------>判断存储结构是否存在------>判断条件---冰箱--当前用户--月份。冰箱名指定（TEM）,用户名：当前用户全名，月份--当前日期
+            //添加样品时需要查找指定盒子是否存在，不存在就添加，存在就检查数量是否合规
+
+            return Fp_DAL.DataWithFP.postDateToFp(url, jsondata);
+        }
     }
 }

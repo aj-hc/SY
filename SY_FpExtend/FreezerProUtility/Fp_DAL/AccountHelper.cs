@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-//
 using System.Threading;
 using System.Web;
 using System.Web.SessionState;
@@ -18,7 +17,6 @@ namespace FreezerProUtility.Fp_DAL
         /// <returns></returns>
         public static List<string> GetActiveAccountUesrName()
         {
-
             List<string> userNameAndPasswordList = new List<string>();
             string Username = "", Password = "";//账号密码
             if (HttpContext.Current.Request.Cookies["loginCookie"] != null)
@@ -26,7 +24,15 @@ namespace FreezerProUtility.Fp_DAL
                 Username = HttpContext.Current.Request.Cookies["loginCookie"].Values["Username"].ToString();
                 Password = HttpContext.Current.Request.Cookies["loginCookie"].Values["Password"].ToString();
                 userNameAndPasswordList.Add(Username);
-                userNameAndPasswordList.Add(Password);
+                userNameAndPasswordList.Add(FreezerProUtility.Fp_Common.EncodeAndDecodeString.Decode(Password));
+            }
+            else
+            {
+                userNameAndPasswordList.Clear();
+                Username = HttpContext.Current.Session["Username"].ToString();
+                Password = HttpContext.Current.Session["Password"].ToString();
+                userNameAndPasswordList.Add(Username);
+                userNameAndPasswordList.Add(FreezerProUtility.Fp_Common.EncodeAndDecodeString.Decode(Password));
             }
             return userNameAndPasswordList;
         }

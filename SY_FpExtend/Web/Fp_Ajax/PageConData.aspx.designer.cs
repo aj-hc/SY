@@ -10,6 +10,6 @@
 namespace RuRo.Web.Fp_Ajax {
     
     
-    public partial class test {
+    public partial class PageConData {
     }
 }
