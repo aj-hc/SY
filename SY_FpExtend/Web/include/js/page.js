@@ -24,30 +24,33 @@ $(function () {
                 }
             },
             {
-                field: 'DiagnoseDateTime', title: '诊断日期', width: '20%', sortable: true, editor: { type: 'datebox', options: { required: true } }
+                field: 'DiagnoseDateTime', title: '诊断日期', width: '20%', sortable: true, editor: { type: 'validatebox', options: { required: true } }
             },
-            { field: 'ICDCode', title: 'ICD码', width: '15%', align: 'center', sortable: true, editor: { type: 'text', options: { required: false } } },
-            { field: 'DiseaseName', title: '疾病名称', width: '20%', align: 'center', sortable: true, editor: { type: 'text', options: { required: false } } },
-            { field: 'Description', title: '疾病描述', width: '20%', align: 'center', editor: { type: 'text', options: { required: false } } },
+            { field: 'ICDCode', title: 'ICD码', width: '15%', align: 'center', sortable: true, editor: { type: 'validatebox', options: { required: false } } },
+            { field: 'DiseaseName', title: '疾病名称', width: '20%', align: 'center', sortable: true, editor: { type: 'validatebox', options: { required: false } } },
+            { field: 'Description', title: '疾病描述', width: '20%', align: 'center', editor: { type: 'validatebox', options: { required: false } } },
         ]],
         singleSelect: false,
         pagination: true,
-        toolbar: [{
-            text: '添加', iconCls: 'icon-add', handler: function () {
-                if (editRow != undefined) {
+        toolbar: [
+            {
+                text: '添加', iconCls: 'icon-add', handler: function ()
+                {
+                    if (editRow != undefined)
+                    {
                     $ClinicalInfoDg.datagrid('endEdit', editRow);
-                }
-                if (editRow == undefined) {
+                    }
+                    if (editRow == undefined)
+                    {
                     $ClinicalInfoDg.datagrid('insertRow', {
                         index: 0,
                         row: {}
-                    });
-
+    });
                     $ClinicalInfoDg.datagrid('beginEdit', 0);
                     editRow = 0;
+                    }
                 }
-            }
-        }, '-', {
+            }, '-', {
             text: '保存', iconCls: 'icon-save', handler: function () {
                 $ClinicalInfoDg.datagrid('endEdit', editRow);
 
@@ -105,35 +108,79 @@ $(function () {
                 $ClinicalInfoDg.datagrid('endEdit', editRow);
             }
         }
-        //加载模拟数据
-        //$('#ClinicalInfoDg').datagrid({ loadFilter: pagerFilter }).datagrid('loadData', getData());
-    });
+   //加载模拟数据
+    //$('#ClinicalInfoDg').datagrid({ loadFilter: pagerFilter }).datagrid('loadData', getData());
+});
 })
 
 
 //初始化样本信息面板
 $(function () {
+    var editRow = undefined;
+    var $dg_SampleInfo = $('#dg_SampleInfo');
     $('#dg_SampleInfo').datagrid({
         title: '取样信息',
         columns: [[
-            { field: 'SampleType', title: '样品类型', width: '15%', align: 'center' },
-            { field: 'Scount', title: '管数', width: '10%', align: 'center' },
-            { field: 'Others', title: '其他信息', width: '10%', align: 'center' },//动态列--根据样品类型展示不同的数据
+            { field: 'SampleType', title: '样品类型', width: '15%', align: 'center',editor: { type: 'validatebox', options: { required: false } } },
+            { field: 'Scount', title: '管数', width: '10%', align: 'center', editor: { type: 'validatebox', options: { required: false } } },
+            { field: 'Others', title: '其他信息', width: '10%', align: 'center', editor: { type: 'validatebox', options: { required: false } } },//动态列--根据样品类型展示不同的数据
         ]],
         onClickRow: onClickRow,
         singleSelect: false,
         pagination: true
     });
-
     $('#dg_SampleInfo').datagrid({
         toolbar: [{
             iconCls: 'icon-add',
             handler: function () { append(); }
         }, '-', {
             iconCls: 'icon-remove',
-            handler: function () { remove(); }
+            handler: function () { removeit(); }
         }]
     });
+    
+    //$('#dg_SampleInfo').datagrid({
+    //    toolbar: [{
+    //        text: '添加', iconCls: 'icon-add', handler: function () {
+    //            if (editRow != undefined) {
+    //                $dg_SampleInfo.datagrid('endEdit', editRow);
+    //            }
+    //            if (editRow == undefined) {
+    //                $dg_SampleInfo.datagrid('insertRow', {
+    //                    index: 0,
+    //                    row: {}
+    //                });
+    //                $dg_SampleInfo.datagrid('beginEdit', 0);
+    //                editRow = 0;
+    //            }
+    //        }
+    //    }, '-', {
+    //        text: '删除', iconCls: 'icon-remove', handler: function () {
+    //            var row = $dg_SampleInfo.datagrid('getSelected');
+    //            if (row) {
+    //                var rowIndex = $dg_SampleInfo.datagrid('getRowIndex', row);
+    //                $dg_SampleInfo.datagrid('deleteRow', rowIndex);
+    //            }
+    //        }
+    //    }, '-', {
+    //        text: '修改', iconCls: 'icon-edit', handler: function () {
+    //            var row = $dg_SampleInfo.datagrid('getSelected');
+    //            if (row != null) {
+    //                if (editRow != undefined) {
+    //                    $dg_SampleInfo.datagrid('endEdit', editRow);
+    //                }
+    //                if (editRow == undefined) {
+    //                    var index = $dg_SampleInfo.datagrid('getRowIndex', row);
+    //                    $dg_SampleInfo.datagrid('beginEdit', index);
+    //                    editRow = index;
+    //                    $dg_SampleInfo.datagrid('unselectAll');
+    //                }
+    //            } else {
+
+    //            }
+    //        }
+    //    }],
+    //});
 });
 
 ///
@@ -162,9 +209,10 @@ function onClickRow(index) {
         }
     }
 }
+//修改添加方法
 function append() {
     if (endEditing()) {
-        $('#dg_SampleInfo').datagrid('appendRow');
+        $('#dg_SampleInfo').datagrid('appendRow', { ck: true });
         editIndex = $('#dg_SampleInfo').datagrid('getRows').length - 1;
         $('#dg_SampleInfo').datagrid('selectRow', editIndex)
                 .datagrid('beginEdit', editIndex);
@@ -176,6 +224,7 @@ function removeit() {
             .datagrid('deleteRow', editIndex);
     editIndex = undefined;
 }
+
 function accept() {
     if (endEditing()) {
         $('#dg_SampleInfo').datagrid('acceptChanges');
