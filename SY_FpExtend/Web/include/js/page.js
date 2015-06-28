@@ -1,45 +1,186 @@
 ﻿//初始化临床信息面板
 $(function () {
-    $('#ClinicalInfoDg').datagrid({
+    var editRow = undefined;
+    var $ClinicalInfoDg = $('#ClinicalInfoDg');
+    $ClinicalInfoDg.datagrid({
         title: '临床信息',
         columns: [[
             { field: 'ck', checkbox: true, width: '5%' },
-            { field: 'DiagnoseTypeFlag', title: '诊断类型', width: '15%' },
-            { field: 'DiagnoseDateTime', title: '诊断日期', width: '10%', sortable: true },
-            { field: 'ICDCode', title: 'ICD码', width: '10%', align: 'center', sortable: true },
-            { field: 'DiseaseName', title: '疾病名称', width: '20%', align: 'center', sortable: true },
-            { field: 'Description', title: '疾病描述', width: '20%', align: 'center' },
+            {
+                field: 'DiagnoseTypeFlag', title: '诊断类型', width: '20%',
+                formatter: function (value, row) {
+                    return row.DiagnoseTypeFlag;
+                },
+                editor: {
+                    type: 'combobox',
+                    options: {
+                        method: 'get',
+                        valueField: 'DiagnoseTypeFlag',
+                        textField: 'text',
+                        url: '../Fp_Ajax/PageConData.aspx?conMarc=DiagnoseTypeFlag',
+                        panelHeight: 'auto',
+                        required: true
+                    }
+                }
+            },
+            {
+                field: 'DiagnoseDateTime', title: '诊断日期', width: '20%', sortable: true, editor: { type: 'validatebox', options: { required: true } }
+            },
+            { field: 'ICDCode', title: 'ICD码', width: '15%', align: 'center', sortable: true, editor: { type: 'validatebox', options: { required: false } } },
+            { field: 'DiseaseName', title: '疾病名称', width: '20%', align: 'center', sortable: true, editor: { type: 'validatebox', options: { required: false } } },
+            { field: 'Description', title: '疾病描述', width: '20%', align: 'center', editor: { type: 'validatebox', options: { required: false } } },
         ]],
         singleSelect: false,
-        pagination: true
+        pagination: true,
+        toolbar: [
+            {
+                text: '添加', iconCls: 'icon-add', handler: function ()
+                {
+                    if (editRow != undefined)
+                    {
+                    $ClinicalInfoDg.datagrid('endEdit', editRow);
+                    }
+                    if (editRow == undefined)
+                    {
+                    $ClinicalInfoDg.datagrid('insertRow', {
+                        index: 0,
+                        row: {}
+                    });
+                    $ClinicalInfoDg.datagrid('beginEdit', 0);
+                    editRow = 0;
+                    }
+                }
+            }, '-', {
+            text: '保存', iconCls: 'icon-save', handler: function () {
+                $ClinicalInfoDg.datagrid('endEdit', editRow);
+
+                //如果调用acceptChanges(),使用getChanges()则获取不到编辑和新增的数据。
+
+                //使用JSON序列化datarow对象，发送到后台。
+                var rows = $ClinicalInfoDg.datagrid('getChanges');
+
+                var rowstr = JSON.stringify(rows);
+                $.post('/Home/Create', rowstr, function (data) {
+
+                });
+            }
+        }, '-', {
+            text: '删除', iconCls: 'icon-remove', handler: function () {
+                var row = $ClinicalInfoDg.datagrid('getSelected');
+                if (row) {
+                    var rowIndex = $ClinicalInfoDg.datagrid('getRowIndex', row);
+                    $ClinicalInfoDg.datagrid('deleteRow', rowIndex);
+                }
+            }
+        }, '-', {
+            text: '修改', iconCls: 'icon-edit', handler: function () {
+                var row = $ClinicalInfoDg.datagrid('getSelected');
+                if (row != null) {
+                    if (editRow != undefined) {
+                        $ClinicalInfoDg.datagrid('endEdit', editRow);
+                    }
+                    if (editRow == undefined) {
+                        var index = $ClinicalInfoDg.datagrid('getRowIndex', row);
+                        $ClinicalInfoDg.datagrid('beginEdit', index);
+                        editRow = index;
+                        $ClinicalInfoDg.datagrid('unselectAll');
+                    }
+                } else {
+
+                }
+            }
+        }],
+        onAfterEdit: function (rowIndex, rowData, changes) {
+            editRow = undefined;
+        },
+        onDblClickRow: function (rowIndex, rowData) {
+            if (editRow != undefined) {
+                $ClinicalInfoDg.datagrid('endEdit', editRow);
+            }
+
+            if (editRow == undefined) {
+                $ClinicalInfoDg.datagrid('beginEdit', rowIndex);
+                editRow = rowIndex;
+            }
+        },
+        onClickRow: function (rowIndex, rowData) {
+            if (editRow != undefined) {
+                $ClinicalInfoDg.datagrid('endEdit', editRow);
+            }
+        }
+        //加载模拟数据
+        //$('#ClinicalInfoDg').datagrid({ loadFilter: pagerFilter }).datagrid('loadData', getData());
     });
-   //加载模拟数据
-    //$('#ClinicalInfoDg').datagrid({ loadFilter: pagerFilter }).datagrid('loadData', getData());
-});
+})
+
 
 //初始化样本信息面板
 $(function () {
+    var editRow = undefined;
+    var $dg_SampleInfo = $('#dg_SampleInfo');
     $('#dg_SampleInfo').datagrid({
         title: '取样信息',
         columns: [[
-            { field: 'SampleType', title: '样品类型', width: '15%', align: 'center' },
-            { field: 'Scount', title: '管数', width: '10%', align: 'center'},
-            { field: 'Others', title: '其他信息', width: '10%', align: 'center' },//动态列--根据样品类型展示不同的数据
+            { field: 'SampleType', title: '样品类型', width: '15%', align: 'center',editor: { type: 'validatebox', options: { required: false } } },
+            { field: 'Scount', title: '管数', width: '10%', align: 'center', editor: { type: 'validatebox', options: { required: false } } },
+            { field: 'Others', title: '其他信息', width: '10%', align: 'center', editor: { type: 'validatebox', options: { required: false } } },//动态列--根据样品类型展示不同的数据
         ]],
         onClickRow: onClickRow,
         singleSelect: false,
         pagination: true
     });
-
     $('#dg_SampleInfo').datagrid({
         toolbar: [{
             iconCls: 'icon-add',
             handler: function () { append(); }
         }, '-', {
             iconCls: 'icon-remove',
-            handler: function () { remove(); }
+            handler: function () { removeit(); }
         }]
     });
+    
+    //$('#dg_SampleInfo').datagrid({
+    //    toolbar: [{
+    //        text: '添加', iconCls: 'icon-add', handler: function () {
+    //            if (editRow != undefined) {
+    //                $dg_SampleInfo.datagrid('endEdit', editRow);
+    //            }
+    //            if (editRow == undefined) {
+    //                $dg_SampleInfo.datagrid('insertRow', {
+    //                    index: 0,
+    //                    row: {}
+    //                });
+    //                $dg_SampleInfo.datagrid('beginEdit', 0);
+    //                editRow = 0;
+    //            }
+    //        }
+    //    }, '-', {
+    //        text: '删除', iconCls: 'icon-remove', handler: function () {
+    //            var row = $dg_SampleInfo.datagrid('getSelected');
+    //            if (row) {
+    //                var rowIndex = $dg_SampleInfo.datagrid('getRowIndex', row);
+    //                $dg_SampleInfo.datagrid('deleteRow', rowIndex);
+    //            }
+    //        }
+    //    }, '-', {
+    //        text: '修改', iconCls: 'icon-edit', handler: function () {
+    //            var row = $dg_SampleInfo.datagrid('getSelected');
+    //            if (row != null) {
+    //                if (editRow != undefined) {
+    //                    $dg_SampleInfo.datagrid('endEdit', editRow);
+    //                }
+    //                if (editRow == undefined) {
+    //                    var index = $dg_SampleInfo.datagrid('getRowIndex', row);
+    //                    $dg_SampleInfo.datagrid('beginEdit', index);
+    //                    editRow = index;
+    //                    $dg_SampleInfo.datagrid('unselectAll');
+    //                }
+    //            } else {
+
+    //            }
+    //        }
+    //    }],
+    //});
 });
 
 ///
@@ -68,9 +209,10 @@ function onClickRow(index) {
         }
     }
 }
+//修改添加方法
 function append() {
     if (endEditing()) {
-        $('#dg_SampleInfo').datagrid('appendRow');
+        $('#dg_SampleInfo').datagrid('appendRow', { ck: true });
         editIndex = $('#dg_SampleInfo').datagrid('getRows').length - 1;
         $('#dg_SampleInfo').datagrid('selectRow', editIndex)
                 .datagrid('beginEdit', editIndex);
@@ -82,6 +224,7 @@ function removeit() {
             .datagrid('deleteRow', editIndex);
     editIndex = undefined;
 }
+
 function accept() {
     if (endEditing()) {
         $('#dg_SampleInfo').datagrid('acceptChanges');
@@ -95,8 +238,6 @@ function getChanges() {
     var rows = $('#dg_SampleInfo').datagrid('getChanges');
     alert(rows.length + ' rows are changed!');
 }
-///
-
 function getData() {
     var rows = [];
     for (var i = 1; i <= 200; i++) {
@@ -148,17 +289,22 @@ function pagerFilter(data) {
 //给In_CodeType下拉框绑定值
 $(function () {
     $('#In_CodeType').combobox({
+        editable: false,
         method: 'get',
         valueField: 'In_CodeType',
         textField: 'text',
         url: '../Fp_Ajax/PageConData.aspx?conMarc=In_CodeType',
         panelHeight: 'auto',
-    });
+        onLoadSuccess: function () { //数据加载完毕事件
+            $("#In_CodeType").combobox('setValue', '住院号');
+        }
+    })
 })
 
 //给性别下拉框绑定值
 $(function () {
     $('#_115').combobox({
+        editable: false,
         method: 'get',
         valueField: 'SexFlag',
         textField: 'text',
@@ -169,6 +315,7 @@ $(function () {
 
 //给血型下拉框绑定值
 $(function () {
+    editable: false,
     $('#_116').combobox({
         method: 'get',
         valueField: 'BloodTypeFlag',
@@ -178,12 +325,11 @@ $(function () {
     });
 })
 
-
 //给取材方式下拉框绑定值
 $(function () {
     $('#_101').combobox({
         url: '../Fp_Ajax/PageConData.aspx?conMarc=SamplingMethod',
-        multiple:true,
+        multiple: true,
         method: 'get',
         valueField: 'samplingMethod',
         textField: 'text',
@@ -192,14 +338,14 @@ $(function () {
 })
 
 
-//初始化win
+//初始化win弹窗在显示器中央
 function doimport() {
-    window.open('Login.aspx', 'title', 'height=600px,width=940px,top=0,left=0,toolbar=no,menubar=no,resizable=no,scrollbars=yes,location=no,status=no');
+    var width = 940;
+    var height = 600;
+    var l = Math.round((window.screen.width - width) / 2);
+    var t = Math.round((window.screen.height - height) / 2);
+    window.open('Login.aspx', 'newwindow', 'height=' + height + ', width=' + width + ', top=' + t + ',left=' + l + ',toolbar=no, menubar=no, scrollbars=yes, resizable=no,location=no, status=no')
 }
-
-//function but() {
-
-//}
 
 //操作dg_SampleInfo
 function remove() {
@@ -235,7 +381,3 @@ function postData() {
     });
     $('#mainform').submit();
 }
-
-
-
-
