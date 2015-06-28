@@ -8,6 +8,7 @@ using System.Data;
 using System.IO;
 using System.Web.Security;
 using LTP.Accounts.Bus;
+using System.Globalization;
 namespace RuRo.Web 
 {
 	/// <summary>
@@ -80,6 +81,14 @@ namespace RuRo.Web
 		}
 		protected void Application_Error(Object sender, EventArgs e)
 		{
+            // 在出现未处理的错误时运行的代码
+            Exception objErr = Server.GetLastError().GetBaseException();
+            //记录出现错误的IP地址
+            string strIP = Request.UserHostAddress;
+            string err = "Ip【" + strIP + "】" + Environment.NewLine + "Error in【" + Request.Url.ToString() +
+                               "】" + Environment.NewLine + "Error Message【" + objErr.Message.ToString() + "】";
+            //记录错误
+            WriteError(err);
 			
 		}
 		protected void Session_End(Object sender, EventArgs e)
@@ -89,7 +98,6 @@ namespace RuRo.Web
 		protected void Application_End(Object sender, EventArgs e)
 		{
 		}
-			
 		#region Web 窗体设计器生成的代码
 		/// <summary>
 		/// 设计器支持所需的方法 - 不要使用代码编辑器修改
@@ -100,6 +108,32 @@ namespace RuRo.Web
 			this.components = new System.ComponentModel.Container();
 		}
 		#endregion
+
+        //记录错误日志
+        public static void WriteError(string errorMessage)
+        {
+            try
+            {
+                string path = "~/Error/AppError/" + DateTime.Today.ToString("yyMMdd") + ".txt";
+                if (!File.Exists(System.Web.HttpContext.Current.Server.MapPath(path)))
+                {
+                    File.Create(System.Web.HttpContext.Current.Server.MapPath(path)).Close();
+                }
+                using (StreamWriter w = File.AppendText(System.Web.HttpContext.Current.Server.MapPath(path)))
+                {
+                    w.WriteLine("\r\nLog Entry : ");
+                    w.WriteLine("{0}", DateTime.Now.ToString(CultureInfo.InvariantCulture));
+                    w.WriteLine(errorMessage);
+                    w.WriteLine("________________________________________________________");
+                    w.Flush();
+                    w.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                WriteError(ex.Message);
+            }
+        }
 	}
 }
 

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Security.Cryptography;  
 using System.Text;
-namespace Maticsoft.Common.DEncrypt
+namespace RuRo.Common.DEncrypt
 {
 	/// <summary>
 	/// DES加密/解密类。
@@ -22,7 +22,7 @@ namespace Maticsoft.Common.DEncrypt
         /// <returns></returns>
 		public static string Encrypt(string Text) 
 		{
-			return Encrypt(Text,"MATICSOFT");
+            return Encrypt(Text, "RUROFREE");
 		}
 		/// <summary> 
 		/// 加密数据 
@@ -61,7 +61,7 @@ namespace Maticsoft.Common.DEncrypt
         /// <returns></returns>
 		public static string Decrypt(string Text) 
 		{
-			return Decrypt(Text,"MATICSOFT");
+            return Decrypt(Text, "RUROFREE");
 		}
 		/// <summary> 
 		/// 解密数据 

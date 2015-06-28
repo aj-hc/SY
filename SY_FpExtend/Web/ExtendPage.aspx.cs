@@ -11,28 +11,14 @@ namespace RuRo.Web
 {
     public partial class ExtendPage : System.Web.UI.Page
     {
+        public bool loginState = false;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
-
+                //页面第一次加载
+                //判断是否有cookie
             }
         }
-
-        //private void BaseInfoUrl()
-        //{
-        //    string s = "Fp_ExtendPage/BaseInfo.aspx";
-        //    ifBaseInfo.Attributes.Add("src", s);
-        //}
-        //private void ClinicalInfoUrl()
-        //{
-        //    string s = "Fp_ExtendPage/ClinicalInfo.aspx";
-        //    ClinicalInfo.Attributes.Add("src", s);
-        //}
-        //private void SampleInfoUrl()
-        //{
-        //    string s = "Fp_ExtendPage/SampleInfo.aspx";
-        //    SampleInfo.Attributes.Add("src", s);
-        //}
     }
 }

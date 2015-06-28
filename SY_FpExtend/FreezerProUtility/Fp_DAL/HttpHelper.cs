@@ -15,7 +15,6 @@ namespace FreezerProUtility.Fp_DAL
     /// </summary>
     internal class HttpHelper
     {
-
         #region 预定义方变量
         //默认的编码
         private Encoding encoding = Encoding.Default;

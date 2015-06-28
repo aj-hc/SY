@@ -87,7 +87,6 @@ function querybycode() {
                         //    $('#ClinicalInfoDg').datagrid({ loadFilter: pagerFilter }).datagrid('loadData', data);
                         //}
 
-
                         $('#ClinicalInfoDg').datagrid({ loadFilter: pagerFilter }).datagrid('loadData', ds);
 
                     }
@@ -118,10 +117,10 @@ function clearForm() {
 }
 
 
-function trimdata(trime)
-{
+function trimdata(trime) {
     $.trim("")
 }
+//绑定数据到基本信息数据框
 function AddBaseInfoToForm(_BaseInfo) {
 
     if (_BaseInfo['PatientName']) {
@@ -134,8 +133,7 @@ function AddBaseInfoToForm(_BaseInfo) {
         $("#_82").textbox('setValue', $.trim(_BaseInfo['PatientCardNo']));
     }
     if (_BaseInfo['SexFlag']) {
-        switch (_BaseInfo['SexFlag'])
-        {
+        switch (_BaseInfo['SexFlag']) {
             case '0':
                 $("#_115").textbox('setValue', "未知");
                 break;
@@ -227,11 +225,12 @@ function getdatabybarcode() {
 ////页面加载时访问
 function displayToolbar() {
     $.ajax({
-        type: 'POST',
-        url: 'Login.ashx',
-        data: { type: 'checklogin' },
+        type: 'GET',
+        url: '/Fp_Ajax/Login.aspx?type=checklogin',
         success: function (data) {
-            $('#MenuBar').html(data);
+            if (data.success) {
+                $('#MenuBar').html(data);
+            }
         },
         dataType: "text"
     });
@@ -249,37 +248,40 @@ $(function () {
         }
     });
 })
+
 //登陆
 function login() {
     $('#frmLogin').form({
-        type: 'POST',
-        url: "Login.ashx?type=login",
+        type: 'GET',
+        url: "Login.aspx?type=login",
         onSubmit: function () {
             // 做某些检查 
             // 返回 false 来阻止提交 
+            param.type = 'login';
+            return $(this).form('enableValidation').form('validate');
         },
         success: function (data) {
-            if (data == "恭喜你,登录成功,欢迎使用FreezerPro协同助手！") {
-                $('#Login').dialog('close');
-                displayToolbar();
-            }
-            else if (data == "对不起,用户名或密码错误,请重新输入！") {
+            var tem = eval("(" + data + ")")
+            if (tem[success]) {
                 $.messager.alert('提示', data, 'info');
             }
         }
     });
     $('#frmLogin').submit();
+
 }
 
 //注销登陆
 function logout() {
-    $.messager.confirm('询问', '确定要注销当前登录用户么？', function (ok) {
+    $.messager.confirm('询问', '确定取消？', function (ok) {
         if (ok) {
             $.ajax({
-                type: 'POST',
-                url: 'Login.ashx?type=logout',
-                success: function (data) {
-                    $('#MenuBar').html(data);
+                type: 'GRT',
+                url: 'Login.aspx?type=logout',
+                    success: function (data) {
+                    window.opener = null;
+                    window.open('', '_self');
+                    window.close()
                 },
                 dataType: "text",
             });

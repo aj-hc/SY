@@ -8,7 +8,7 @@ using System.IO;
 using System.Net;
 using System.Net.Mail;
 
-namespace Maticsoft.Common
+namespace RuRo.Common
 {
     public class MailSender
     {

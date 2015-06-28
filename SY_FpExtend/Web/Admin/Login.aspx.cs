@@ -54,9 +54,7 @@ namespace Maticsoft.Web.Admin
                     this.lblMsg.Text = "对不起，你错误登录了三次，系统登录锁定！";
                     return;
                 }
-
             }
-
             #region 检查验证码
             if ((Session["CheckCode"] != null) && (Session["CheckCode"].ToString() != ""))
             {

@@ -68,7 +68,6 @@ namespace FreezerProUtility.Fp_DAL
             set { receivedData = value; }
         }
     }
-
     internal class WebClient
     {
         Encoding encoding = Encoding.Default;
@@ -390,7 +389,6 @@ namespace FreezerProUtility.Fp_DAL
             }
         }
     }
-
     /// <summary>    
     /// 对文件和文本数据进行Multipart形式的编码    
     /// </summary>    

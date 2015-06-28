@@ -17,7 +17,6 @@ namespace Maticsoft.Web.Admin
 					Response.Clear();
 					Response.Write("<script language=javascript>window.alert('您没有权限进入本页！\\n请登录或与管理员联系！');history.back();</script>");
 					Response.End();
-                   
 				}
                
 			}

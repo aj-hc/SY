@@ -137,6 +137,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="JavaScriptPlus.cs" />
+    <Compile Include="CookieHelper.cs" />
     <Compile Include="DataTableHelper.cs" />
     <Compile Include="HttpProc.cs" />
     <Compile Include="JsonHelper.cs" />
@@ -174,6 +176,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="RMB.cs" />
+    <Compile Include="SessionHelper.cs" />
     <Compile Include="StringPlus.cs" />
     <Compile Include="TimeParser.cs" />
     <Compile Include="UrlOper.cs" />

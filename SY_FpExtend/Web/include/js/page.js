@@ -1,5 +1,4 @@
-﻿
-//初始化临床信息面板
+﻿//初始化临床信息面板
 $(function () {
     $('#ClinicalInfoDg').datagrid({
         title: '临床信息',
@@ -146,8 +145,6 @@ function pagerFilter(data) {
     return data;
 }
 
-
-
 //给In_CodeType下拉框绑定值
 $(function () {
     $('#In_CodeType').combobox({
@@ -158,6 +155,7 @@ $(function () {
         panelHeight: 'auto',
     });
 })
+
 //给性别下拉框绑定值
 $(function () {
     $('#_115').combobox({
@@ -168,6 +166,7 @@ $(function () {
         panelHeight: 'auto',
     });
 })
+
 //给血型下拉框绑定值
 $(function () {
     $('#_116').combobox({
@@ -178,6 +177,7 @@ $(function () {
         panelHeight: 'auto',
     });
 })
+
 
 //给取材方式下拉框绑定值
 $(function () {
@@ -193,20 +193,20 @@ $(function () {
 
 
 //初始化win
-function but() {
-    window.open('ExtendPage.aspx', 'title', 'height=600px,width=940px,top=0,left=0,toolbar=no,menubar=no,resizable=no,scrollbars=yes,location=no,status=no');
+function doimport() {
+    window.open('Login.aspx', 'title', 'height=600px,width=940px,top=0,left=0,toolbar=no,menubar=no,resizable=no,scrollbars=yes,location=no,status=no');
 }
 
 //function but() {
 
 //}
 
-
 //操作dg_SampleInfo
 function remove() {
     var datagrid = $(this).datagrid;
     alert(datagrid);
 }
+
 //function appendSampleInfo()
 //{
 //    var index;

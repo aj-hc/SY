@@ -80,7 +80,6 @@
     <Content Include="ExtendPage.aspx" />
     <Content Include="Fp_Ajax\Fp_Ajax.txt" />
     <Content Include="Fp_Ajax\GetData.aspx" />
-    <Content Include="Fp_Ajax\Login.aspx" />
     <Content Include="Fp_Ajax\PageConData.aspx" />
     <Content Include="Fp_Ajax\SubmitData.aspx" />
     <Content Include="Fp_ExtendPage\00.Fp_ExtendPage备注.txt" />
@@ -88,6 +87,186 @@
     <Content Include="Fp_ExtendPage\ClinicalInfo.aspx" />
     <Content Include="Fp_ExtendPage\SampleInfo.aspx" />
     <Content Include="Global.asax" />
+    <Content Include="HtmlPage1.html" />
+    <Content Include="Images\Images\about16.gif" />
+    <Content Include="Images\Images\add16.gif" />
+    <Content Include="Images\Images\a_te01.gif" />
+    <Content Include="Images\Images\a_te02.gif" />
+    <Content Include="Images\Images\b1.gif" />
+    <Content Include="Images\Images\b11-1.gif" />
+    <Content Include="Images\Images\b11-2.gif" />
+    <Content Include="Images\Images\b11.gif" />
+    <Content Include="Images\Images\b12.gif" />
+    <Content Include="Images\Images\b13-1.gif" />
+    <Content Include="Images\Images\b13-2.gif" />
+    <Content Include="Images\Images\b13.gif" />
+    <Content Include="Images\Images\b3.gif" />
+    <Content Include="Images\Images\b4.gif" />
+    <Content Include="Images\Images\b5.gif" />
+    <Content Include="Images\Images\bar_00.gif" />
+    <Content Include="Images\Images\bar_01.gif" />
+    <Content Include="Images\Images\bar_02.gif" />
+    <Content Include="Images\Images\bar_03.gif" />
+    <Content Include="Images\Images\bar_04.gif" />
+    <Content Include="Images\Images\bar_05.gif" />
+    <Content Include="Images\Images\bar_06.gif" />
+    <Content Include="Images\Images\bar_07.gif" />
+    <Content Include="Images\Images\bar_08.gif" />
+    <Content Include="Images\Images\bar_10.gif" />
+    <Content Include="Images\Images\bg.gif" />
+    <Content Include="Images\Images\bgx.GIF" />
+    <Content Include="Images\Images\bg_01.gif" />
+    <Content Include="Images\Images\bg_02.gif" />
+    <Content Include="Images\Images\bg_03.gif" />
+    <Content Include="Images\Images\blank.gif" />
+    <Content Include="Images\Images\bottom_01.gif" />
+    <Content Include="Images\Images\bottom_02.gif" />
+    <Content Include="Images\Images\bottom_03.gif" />
+    <Content Include="Images\Images\Briefcase16.gif" />
+    <Content Include="Images\Images\Briefcase32.gif" />
+    <Content Include="Images\Images\button_edit.gif" />
+    <Content Include="Images\Images\button_search.GIF" />
+    <Content Include="Images\Images\c6.gif" />
+    <Content Include="Images\Images\card16.gif" />
+    <Content Include="Images\Images\card32.gif" />
+    <Content Include="Images\Images\company16.gif" />
+    <Content Include="Images\Images\css.css" />
+    <Content Include="Images\Images\d2.gif" />
+    <Content Include="Images\Images\d3.gif" />
+    <Content Include="Images\Images\desktop16.gif" />
+    <Content Include="Images\Images\desktop32.gif" />
+    <Content Include="Images\Images\desktop_01.gif" />
+    <Content Include="Images\Images\desktop_02.gif" />
+    <Content Include="Images\Images\desktop_03.gif" />
+    <Content Include="Images\Images\dsj16.gif" />
+    <Content Include="Images\Images\dsj32.gif" />
+    <Content Include="Images\Images\f3.gif" />
+    <Content Include="Images\Images\f4.gif" />
+    <Content Include="Images\Images\find16.gif" />
+    <Content Include="Images\Images\find32.gif" />
+    <Content Include="Images\Images\folder16.gif" />
+    <Content Include="Images\Images\folder32.gif" />
+    <Content Include="Images\Images\foldergreen_16.gif" />
+    <Content Include="Images\Images\ger16.gif" />
+    <Content Include="Images\Images\ger32.gif" />
+    <Content Include="Images\Images\gongg16.gif" />
+    <Content Include="Images\Images\gongg32.gif" />
+    <Content Include="Images\Images\gongzkp16.gif" />
+    <Content Include="Images\Images\gongzkp32.gif" />
+    <Content Include="Images\Images\help16.gif" />
+    <Content Include="Images\Images\help32.gif" />
+    <Content Include="Images\Images\image.gif" />
+    <Content Include="Images\Images\in_bg.gif" />
+    <Content Include="Images\Images\left-1-1.gif" />
+    <Content Include="Images\Images\left-1-2.gif" />
+    <Content Include="Images\Images\left-1-3.gif" />
+    <Content Include="Images\Images\left-1.gif" />
+    <Content Include="Images\Images\left-2-1.gif" />
+    <Content Include="Images\Images\left-2-2.gif" />
+    <Content Include="Images\Images\left-2-3.gif" />
+    <Content Include="Images\Images\left-2.gif" />
+    <Content Include="Images\Images\left-3-1.gif" />
+    <Content Include="Images\Images\left-3-2.gif" />
+    <Content Include="Images\Images\left-3-3.gif" />
+    <Content Include="Images\Images\left-3.gif" />
+    <Content Include="Images\Images\left-bj-1.gif" />
+    <Content Include="Images\Images\left-bj-2.gif" />
+    <Content Include="Images\Images\left-bj-3.gif" />
+    <Content Include="Images\Images\left-bj.gif" />
+    <Content Include="Images\Images\Loading.gif" />
+    <Content Include="Images\Images\login.css" />
+    <Content Include="Images\Images\login_p_img02.gif" />
+    <Content Include="Images\Images\login_p_img03.gif" />
+    <Content Include="Images\Images\login_p_img04.gif" />
+    <Content Include="Images\Images\login_p_img05.gif" />
+    <Content Include="Images\Images\login_p_img11.gif" />
+    <Content Include="Images\Images\mag16.gif" />
+    <Content Include="Images\Images\mail16.gif" />
+    <Content Include="Images\Images\main_01.gif" />
+    <Content Include="Images\Images\main_04.gif" />
+    <Content Include="Images\Images\main_05.gif" />
+    <Content Include="Images\Images\main_06.gif" />
+    <Content Include="Images\Images\main_08.gif" />
+    <Content Include="Images\Images\main_09.gif" />
+    <Content Include="Images\Images\member_t04.png" />
+    <Content Include="Images\Images\MenuImg\288.GIF" />
+    <Content Include="Images\Images\MenuImg\about16.gif" />
+    <Content Include="Images\Images\MenuImg\bbs16.gif" />
+    <Content Include="Images\Images\MenuImg\find16.gif" />
+    <Content Include="Images\Images\MenuImg\folder16.gif" />
+    <Content Include="Images\Images\MenuImg\foldergreen_16.gif" />
+    <Content Include="Images\Images\MenuImg\ger16.gif" />
+    <Content Include="Images\Images\MenuImg\help16.gif" />
+    <Content Include="Images\Images\MenuImg\news16.gif" />
+    <Content Include="Images\Images\MenuImg\out16.gif" />
+    <Content Include="Images\Images\MenuImg\Programs16.gif" />
+    <Content Include="Images\Images\MenuImg\quanx16.gif" />
+    <Content Include="Images\Images\MenuImg\thumbnails.gif" />
+    <Content Include="Images\Images\MenuImg\times.gif" />
+    <Content Include="Images\Images\MenuImg\ts16.gif" />
+    <Content Include="Images\Images\MenuImg\user16.gif" />
+    <Content Include="Images\Images\MenuImg\xinx16.gif" />
+    <Content Include="Images\Images\MenuImg\zhut16.gif" />
+    <Content Include="Images\Images\MenuImg\zjsp16.gif" />
+    <Content Include="Images\Images\message16.gif" />
+    <Content Include="Images\Images\module16.gif" />
+    <Content Include="Images\Images\module32.gif" />
+    <Content Include="Images\Images\more1.gif" />
+    <Content Include="Images\Images\myfile16.gif" />
+    <Content Include="Images\Images\myfile32.gif" />
+    <Content Include="Images\Images\news16.gif" />
+    <Content Include="Images\Images\onecard16.gif" />
+    <Content Include="Images\Images\onecard32.gif" />
+    <Content Include="Images\Images\out16.gif" />
+    <Content Include="Images\Images\out32.gif" />
+    <Content Include="Images\Images\plan16.gif" />
+    <Content Include="Images\Images\plan32.gif" />
+    <Content Include="Images\Images\point07.gif" />
+    <Content Include="Images\Images\quanx16.gif" />
+    <Content Include="Images\Images\quanx32.gif" />
+    <Content Include="Images\Images\right-bj-1.gif" />
+    <Content Include="Images\Images\right-bj-2.gif" />
+    <Content Include="Images\Images\right-bj-3.gif" />
+    <Content Include="Images\Images\right-bj.gif" />
+    <Content Include="Images\Images\spacer.gif" />
+    <Content Include="Images\Images\style.css" />
+    <Content Include="Images\Images\top-1-1.gif" />
+    <Content Include="Images\Images\top-1-2.gif" />
+    <Content Include="Images\Images\top-1-3.gif" />
+    <Content Include="Images\Images\top-1.gif" />
+    <Content Include="Images\Images\top-2-1.gif" />
+    <Content Include="Images\Images\top-2-2.gif" />
+    <Content Include="Images\Images\top-2-3.gif" />
+    <Content Include="Images\Images\top-2.gif" />
+    <Content Include="Images\Images\top-3-1.gif" />
+    <Content Include="Images\Images\top-3-2.gif" />
+    <Content Include="Images\Images\top-3-3.gif" />
+    <Content Include="Images\Images\top-3.gif" />
+    <Content Include="Images\Images\top-4-1.gif" />
+    <Content Include="Images\Images\top-4-2.gif" />
+    <Content Include="Images\Images\top-4-3.gif" />
+    <Content Include="Images\Images\top-4.gif" />
+    <Content Include="Images\Images\top-5-1.gif" />
+    <Content Include="Images\Images\top-5-2.gif" />
+    <Content Include="Images\Images\top-5-3.gif" />
+    <Content Include="Images\Images\top-5.gif" />
+    <Content Include="Images\Images\top-bj-1.gif" />
+    <Content Include="Images\Images\top-bj-2.gif" />
+    <Content Include="Images\Images\top-bj-3.gif" />
+    <Content Include="Images\Images\top-bj.gif" />
+    <Content Include="Images\Images\topbar_01.jpg" />
+    <Content Include="Images\Images\topbar_02.jpg" />
+    <Content Include="Images\Images\topbar_03.jpg" />
+    <Content Include="Images\Images\tubiao_01.GIF" />
+    <Content Include="Images\Images\tubiao_02.gif" />
+    <Content Include="Images\Images\user16.gif" />
+    <Content Include="Images\Images\vote16.gif" />
+    <Content Include="Images\Images\x16.gif" />
+    <Content Include="Images\Images\xinx16.gif" />
+    <Content Include="Images\Images\xinx32.gif" />
+    <Content Include="Images\Images\yw16.gif" />
+    <Content Include="Images\Images\zhut16.gif" />
+    <Content Include="Images\Images\zjsp16.gif" />
     <Content Include="include\css\default.css" />
     <Content Include="include\jquery-easyui-1.4.2\easyloader.js" />
     <Content Include="include\jquery-easyui-1.4.2\jquery.easyui.min.js" />
@@ -883,6 +1062,8 @@
     <Content Include="include\js\InitialFpExtendPage.js" />
     <Content Include="include\js\page.js" />
     <Content Include="include\js\sy_func.js" />
+    <Content Include="Login.aspx" />
+    <Content Include="Logout.aspx" />
     <Content Include="TestData\Fpfunction.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -909,13 +1090,6 @@
     </Compile>
     <Compile Include="Fp_Ajax\GetData.aspx.designer.cs">
       <DependentUpon>GetData.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Fp_Ajax\Login.aspx.cs">
-      <DependentUpon>Login.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Fp_Ajax\Login.aspx.designer.cs">
-      <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
     <Compile Include="Fp_Ajax\PageConData.aspx.cs">
       <DependentUpon>PageConData.aspx</DependentUpon>
@@ -955,6 +1129,20 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Login.aspx.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Login.aspx.designer.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Logout.aspx.cs">
+      <DependentUpon>Logout.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Logout.aspx.designer.cs">
+      <DependentUpon>Logout.aspx</DependentUpon>
+    </Compile>
     <Compile Include="MasterPage.master.cs">
       <DependentUpon>MasterPage.master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -978,6 +1166,9 @@
     <EmbeddedResource Include="Global.asax.resx">
       <DependentUpon>Global.asax.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Logout.aspx.resx">
+      <DependentUpon>Logout.aspx.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -1003,7 +1194,14 @@
     <Content Include="ValidateCode.aspx" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Images\" />
+    <Folder Include="Error\AppError\" />
+    <Folder Include="Error\ExError\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Images\Images\MenuImg\Thumbs.db" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Images\Images\Thumbs.db" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

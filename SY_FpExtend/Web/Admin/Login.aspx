@@ -5,11 +5,9 @@
 <head>
     <title>系统登录</title>
     <link href="images/login.css" type="text/css" rel="stylesheet">
-
     <script language="javascript" type="text/javascript">
    function ChangeCode()
 	    {
-	   
 	        var date = new Date();
 	        var myImg = document.getElementById("ImageCheck"); 	     
 	        var GUID = document.getElementById("lblGUID");  
@@ -39,7 +37,6 @@
 	            password.focus();
 	            return false;
 	        }
-
 	        if (isEmptyStr(checkcode.value)) {
 	            alert("请输入验证码！");
 	            checkcode.focus();
@@ -47,8 +44,6 @@
 	        }
 	        return true;
 	    }
-
-
 
 	    function focusNext(nextName, evt, num, t, lastName) {
 	        evt = (evt) ? evt : event;

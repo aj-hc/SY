@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Collections.Generic;
-using Maticsoft.Common;
+
 using RuRo.Model;
 namespace RuRo.BLL
 {
@@ -60,7 +60,7 @@ namespace RuRo.BLL
 		/// </summary>
 		public bool DeleteList(string idlist )
 		{
-			return dal.DeleteList(Maticsoft.Common.PageValidate.SafeLongFilter(idlist,0) );
+			return dal.DeleteList(Common.PageValidate.SafeLongFilter(idlist,0) );
 		}
 
 		/// <summary>
@@ -79,7 +79,7 @@ namespace RuRo.BLL
 		{
 			
 			string CacheKey = "BasedInfoModel-" + id;
-			object objModel = Maticsoft.Common.DataCache.GetCache(CacheKey);
+			object objModel = Common.DataCache.GetCache(CacheKey);
 			if (objModel == null)
 			{
 				try
@@ -87,8 +87,8 @@ namespace RuRo.BLL
 					objModel = dal.GetModel(id);
 					if (objModel != null)
 					{
-						int ModelCache = Maticsoft.Common.ConfigHelper.GetConfigInt("ModelCache");
-						Maticsoft.Common.DataCache.SetCache(CacheKey, objModel, DateTime.Now.AddMinutes(ModelCache), TimeSpan.Zero);
+						int ModelCache = Common.ConfigHelper.GetConfigInt("ModelCache");
+						Common.DataCache.SetCache(CacheKey, objModel, DateTime.Now.AddMinutes(ModelCache), TimeSpan.Zero);
 					}
 				}
 				catch{}

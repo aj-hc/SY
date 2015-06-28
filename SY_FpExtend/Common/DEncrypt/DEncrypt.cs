@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Security.Cryptography;  
 using System.Text;
-namespace Maticsoft.Common.DEncrypt
+namespace RuRo.Common.DEncrypt
 {
-	/// <summary>
-	/// Encrypt 的摘要说明。
-    /// Copyright (C) Maticsoft
-	/// </summary>
 	public class DEncrypt
 	{
 		/// <summary>
@@ -15,7 +11,6 @@ namespace Maticsoft.Common.DEncrypt
 		public DEncrypt()  
 		{  
 		} 
-
 		#region 使用 缺省密钥字符串 加密/解密string
 
 		/// <summary>
@@ -151,9 +146,6 @@ namespace Maticsoft.Common.DEncrypt
 		}  
   
 		#endregion
-
-		
-
 		
 	}
 }

@@ -9,68 +9,75 @@ namespace RuRo.Web
 {
     public partial class Login : System.Web.UI.Page
     {
-        string username = "", password = "";
+        string username, password, type;
+
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Request.Params["type"] == "logout")
+            //登陆
+            //验证登陆
+            //跳转扩展页面
+            string SuccRediToUrl = "ExtendPage.aspx";
+            if (!IsPostBack)
             {
-                Response.Cookies["loginCookie"].Expires.AddDays(0);
-                Response.Write("<button style=\"width:50px;\" onclick=\"dologin()\">登录</button>使用FreezerPro协同助手");
-            }
-            else if (Request.Params["type"] == "login")
-            {
-                username = Request.Params["username"];
-                password = Request.Params["password"];
-                if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password))
-                {
-                    if (checkToken(Context))
-                    {
-                        string newPassowrd = FreezerProUtility.Fp_Common.EncodeAndDecodeString.Encode(password);
-                        HttpCookie loginCookie = new HttpCookie("loginCookie");
-                        loginCookie.Values.Add("Username", username);
-                        loginCookie.Values.Add("Password", newPassowrd);
-                        loginCookie.Expires = DateTime.Now.AddDays(1);
-                        Response.Cookies.Add(loginCookie);
-                        Context.Session.Add("Username", username);
-                        Context.Session.Add("Password", newPassowrd);
-                        Response.Write("{\"success\":true,\"msg\":\"恭喜你,登录成功,欢迎使用FreezerPro协同助手！\"}");
-                    }
-                }
-                else
-                {
-                    Response.Write("{\"success\":false,\"msg\":\"对不起,用户名或密码错误,请重新输入！\"}");
-                }
-            }
-        }
-        public string checklogin(HttpContext context)
-        {
-            Response.ContentType = "text/html";
-            if (Request.Cookies["loginCookie"] == null)
-            {
-                return ("<button id='dologin' style=\"width:40px;\" onclick=\"dologin()\">登录</button>FreezerPro协同助手");
+                //页面第一次加载
+                //判断是否有cookie
             }
             else
             {
-                return ("<button style=\"width:40px;\" onclick=\"doimport()\">导入</button><button style=\"width:40px;\" onclick=\"logout()\">注销</button>");
+                type = Context.Request.Params["type"];
+                if (type == "login")
+                {
+                    username = Context.Request.Params["txtUsername"];
+                    password = Context.Request.Params["txtPass"];
+                    if (checkToken(username, password))
+                    {
+                        Response.Redirect(SuccRediToUrl);
+                    }
+                }
+                else if (type == "logout")
+                {
+                    LoginOut(Context);
+                }
             }
         }
-        /// <summary>
-        /// 根据账号密码检查token
-        /// </summary>
-        /// <param name="context"></param>
-        /// <returns></returns>
-        public bool checkToken(HttpContext context)
+        public bool CheckLoginByCookie()
         {
-            //获取用户输入的账号密码验证数据是否正确
-            username = Request.Params["username"];
-            password = Request.Params["password"];
+            username = Common.CookieHelper.GetCookieValue("username");
+            string temPass = Common.CookieHelper.GetCookieValue("password");
             if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password))
             {
-                //通过api方法检查登陆，并将账号密码传入
-                FreezerProUtility.Fp_BLL.Token token = new FreezerProUtility.Fp_BLL.Token(username,password);
-                //return token.checkLogin();
+                password = Common.DEncrypt.DESEncrypt.Decrypt(temPass);
+                return checkToken(username, password);
             }
-            return false;
+            else
+            {
+                return false;
+            }
+        }
+        void LoginOut(HttpContext context)
+        {
+            Common.CookieHelper.ClearCookie("username");
+            Common.CookieHelper.ClearCookie("password");
+        }
+        private bool checkToken(string username, string password)
+        {
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+            {
+                return false;
+            }
+            else
+            {
+                FreezerProUtility.Fp_BLL.Token token = new FreezerProUtility.Fp_BLL.Token(username, password);
+                return token.checkAuth_Token();
+            }
+        }
+
+        //写入cookie
+        private void WriteCookie(string username, string password)
+        {
+            string DEnPassword = Common.DEncrypt.DESEncrypt.Encrypt(password);
+            Common.CookieHelper.SetCookie("username", username);
+            Common.CookieHelper.SetCookie("password", DEnPassword);
         }
     }
 }

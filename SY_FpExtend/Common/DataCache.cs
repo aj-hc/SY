@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Web;
 
-namespace Maticsoft.Common
+namespace RuRo.Common
 {
 	/// <summary>
 	/// 缓存相关的操作类

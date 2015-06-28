@@ -13,7 +13,10 @@
     <link href="../include/jquery-easyui-1.4.2/themes/default/easyui.css" rel="stylesheet" />
     <link href="../include/jquery-easyui-1.4.2/themes/icon.css" rel="stylesheet" />
     <link href="include/css/default.css" rel="stylesheet" />
+
     <title>样品录入</title>
+    <script type="text/javascript">
+    </script>
 </head>
 <body style="overflow: auto;">
     <div id="main" style="width: 900px; padding: 1px;">
@@ -35,7 +38,6 @@
                 <div id="BaseInfoDiv" runat="server" style="padding: 5px;">
                     <table>
                         <tr>
-
                             <td>姓名：</td>
                             <td>
                                 <input class="easyui-textbox" type="text" name="_80" id="_80" data-options="required:true" /></td>
@@ -124,7 +126,7 @@
                                 <input class="easyui-datebox" id="_103" name="_103" /></td>
                             <td>取材方式：</td>
                             <td>
-                                <input class="easyui-combobox"  id="_101" name="_101" style="width: 484px;"/></td>
+                                <input class="easyui-combobox" id="_101" name="_101" style="width: 484px;" /></td>
                         </tr>
                         <tr>
                             <td>取材时间：</td>
@@ -163,5 +165,21 @@
             <a href="javascript:void(0)" class="easyui-linkbutton" onclick="" style="width: auto">取消录入</a>
         </div>
     </div>
+
+            <!--登陆框-->
+        <div id="Login" class="easyui-dialog" style="width: 300px; padding: 30px 50px 20px 50px" title="请登录助手" data-options="closed:true">
+            <form id="frmLogin" runat="server" enableviewstate="false">
+                <div style="margin-bottom: 10px">
+                    <input class="easyui-textbox" id="username" name="username" style="width: 100%; height: 40px; padding: 12px" data-options="prompt:'username',iconCls:'icon-man',iconWidth:38" />
+                </div>
+                <div style="margin-bottom: 20px">
+                    <input class="easyui-textbox" id="password" name="password" style="width: 100%; height: 40px; padding: 12px" type="password" data-options="prompt:'password',iconCls:'icon-lock',iconWidth:38" />
+                </div>
+                <div style="text-align: center; padding: 5px">
+                    <a href="javascript:void(0)" style="margin: 0px 10px 0px 10px" class="easyui-linkbutton" onclick="login()">登陆</a>
+                    <a href="javascript:void(0)" style="margin: 0px 10px 0px 10px" class=" easyui-linkbutton" onclick="$('#Login').dialog('close')">取消</a>
+                </div>
+            </form>
+        </div>
 </body>
 </html>

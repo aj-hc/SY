@@ -9,7 +9,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.IO.Compression;
 using System.Net.Cache;
 
-namespace Maticsoft.Common
+namespace RuRo.Common
 {
     /// <summary>    
     /// 上传数据参数    
@@ -68,7 +68,6 @@ namespace Maticsoft.Common
             set { receivedData = value; }
         }
     }
-
     public class WebClient
     {
         Encoding encoding = Encoding.Default;
@@ -390,11 +389,6 @@ namespace Maticsoft.Common
             }
         }
     }
-
-
-
-
-
     /// <summary>    
     /// 对文件和文本数据进行Multipart形式的编码    
     /// </summary>    

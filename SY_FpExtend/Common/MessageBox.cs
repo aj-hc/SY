@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Text;
-namespace Maticsoft.Common
+namespace RuRo.Common
 {
 	/// <summary>
 	/// 显示消息提示对话框。
@@ -10,6 +10,7 @@ namespace Maticsoft.Common
 	{		
 		private  MessageBox()
 		{			
+
 		}
 
 		/// <summary>

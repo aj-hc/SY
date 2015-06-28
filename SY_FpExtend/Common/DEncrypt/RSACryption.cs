@@ -1,7 +1,7 @@
 ﻿using System; 
 using System.Text; 
-using System.Security.Cryptography; 
-namespace Maticsoft.Common.DEncrypt
+using System.Security.Cryptography;
+namespace RuRo.Common.DEncrypt
 { 
 	/// <summary> 
 	/// RSA加密解密及RSA签名和验证
@@ -12,7 +12,6 @@ namespace Maticsoft.Common.DEncrypt
 		{ 			
 		} 
 		
-
 		#region RSA 加密解密 
 
 		#region RSA 的密钥产生 

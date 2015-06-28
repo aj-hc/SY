@@ -24,9 +24,10 @@ namespace FreezerProUtility.Fp_BLL
             get { return password; }
             set { password = value; }
         }
-        public FpUrlMaker()
+        public string  CreatFpUrlMaker()
         {
-            ConnFpUrl = string.Format("{0}/api?username={1}&password={2}", url, username, username);
+            ConnFpUrl = string.Format("{0}/api?username={1}&password={2}", url, UserName, PassWord);
+            return ConnFpUrl;
         }
     }
 }

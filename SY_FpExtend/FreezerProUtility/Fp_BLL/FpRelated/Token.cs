@@ -27,7 +27,7 @@ namespace FreezerProUtility.Fp_BLL
             FpUrlMaker FpUrlMaker = new Fp_BLL.FpUrlMaker();
             FpUrlMaker.UserName = UserName;
             FpUrlMaker.PassWord = PassWord;
-            string connFpUrl = string.Format("{0}&method={1}", FpUrlMaker.ConnFpUrl, Fp_Common.FpMethod.gen_token);
+            string connFpUrl = string.Format("{0}&method={1}", FpUrlMaker.CreatFpUrlMaker(), Fp_Common.FpMethod.gen_token);
             string result = DataWithFP.getDateFromFp(connFpUrl);
             return result;
         }
@@ -37,13 +37,6 @@ namespace FreezerProUtility.Fp_BLL
         /// </summary>
         /// <returns>返回检查结果</returns>
         public bool checkAuth_Token()
-        {
-            string auth_TokenStr = Get_Auth_Token();
-            return ValidationData.checkAuth_Token(auth_TokenStr);
-        }
-
-
-        public bool checkLogin()
         {
             string auth_TokenStr = Get_Auth_Token();
             return ValidationData.checkAuth_Token(auth_TokenStr);

@@ -5,7 +5,6 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
-using Maticsoft.Common;
 
 namespace RuRo.DAL
 {
@@ -69,7 +68,6 @@ namespace RuRo.DAL
         {
             DataTable dt = new DataTable();
             DataSet ds = new DataSet();
-            DataRow dr;
             SqlParameter[] parameters = 
                 {
                      new SqlParameter("@In_CodeType", SqlDbType.Int),

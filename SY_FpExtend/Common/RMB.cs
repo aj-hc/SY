@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Maticsoft.Common
+namespace RuRo.Common
 {
     /// <summary> 
     /// Rmb 的摘要说明。 

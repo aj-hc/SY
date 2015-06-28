@@ -7,9 +7,9 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 
 [assembly: AssemblyTitle("RuRo.Web")]
-[assembly: AssemblyDescription("Maticsoft.Web 三层示例 By 动软卓越 ")]
+[assembly: AssemblyDescription("Maticsoft.Web 三层示例 By  ")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("动软卓越")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Maticsoft.Web 简单三层示例")]
 [assembly: AssemblyCopyright("Copyright (C) Maticsoft 2004-2012")]
 [assembly: AssemblyTrademark("")]
