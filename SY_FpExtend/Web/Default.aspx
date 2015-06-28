@@ -19,7 +19,7 @@
     <iframe runat="server" id="FreezerPro" name="FreezerPro" frameborder="0" style="width: 100%; height: 100%;"></iframe>
     <form action="/" method="post" runat="server" id="from">
         <%--菜单栏--%>
-        <div id="MenuBar" runat="server"> <a href="#" class="easyui-linkbutton" onclick="doimport()" >扩展</a></div>
+        <div id="MenuBar" runat="server"> <a href="#" id="btnextend" onclick="doimport()" >扩展</a></div>
     </form>
 </body>
 </html>
