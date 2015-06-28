@@ -1,1 +1,1 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="PageConData.aspx.cs" Inherits="RuRo.Web.Fp_Ajax.PageConData" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="PageConData.aspx.cs" Inherits="RuRo.Web.PageConData" %>

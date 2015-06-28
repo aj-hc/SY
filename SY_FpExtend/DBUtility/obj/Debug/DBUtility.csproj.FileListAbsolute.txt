@@ -7,3 +7,12 @@ C:\Users\danyun\Desktop\SY_FpExtend\DBUtility\bin\Debug\System.Data.SQLite.DLL
 C:\Users\danyun\Desktop\SY_FpExtend\DBUtility\obj\Debug\DBUtility.csprojResolveAssemblyReference.cache
 C:\Users\danyun\Desktop\SY_FpExtend\DBUtility\obj\Debug\RuRo.DBUtility.dll
 C:\Users\danyun\Desktop\SY_FpExtend\DBUtility\obj\Debug\RuRo.DBUtility.pdb
+F:\Repositories\SY\SY_FpExtend\DBUtility\bin\Debug\RuRo.DBUtility.dll
+F:\Repositories\SY\SY_FpExtend\DBUtility\bin\Debug\RuRo.DBUtility.pdb
+F:\Repositories\SY\SY_FpExtend\DBUtility\bin\Debug\IBatisNet.Common.dll
+F:\Repositories\SY\SY_FpExtend\DBUtility\bin\Debug\IBatisNet.DataMapper.dll
+F:\Repositories\SY\SY_FpExtend\DBUtility\bin\Debug\MySql.Data.dll
+F:\Repositories\SY\SY_FpExtend\DBUtility\bin\Debug\System.Data.SQLite.DLL
+F:\Repositories\SY\SY_FpExtend\DBUtility\obj\Debug\DBUtility.csprojResolveAssemblyReference.cache
+F:\Repositories\SY\SY_FpExtend\DBUtility\obj\Debug\RuRo.DBUtility.dll
+F:\Repositories\SY\SY_FpExtend\DBUtility\obj\Debug\RuRo.DBUtility.pdb

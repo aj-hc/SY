@@ -24,10 +24,8 @@ namespace FreezerProUtility.Fp_BLL
         #endregion
         private string Get_Auth_Token()
         {
-            FpUrlMaker FpUrlMaker = new Fp_BLL.FpUrlMaker();
-            FpUrlMaker.UserName = UserName;
-            FpUrlMaker.PassWord = PassWord;
-            string connFpUrl = string.Format("{0}&method={1}", FpUrlMaker.CreatFpUrlMaker(), Fp_Common.FpMethod.gen_token);
+            FpUrlMaker FpUrlMaker = new Fp_BLL.FpUrlMaker(UserName, PassWord);
+            string connFpUrl = string.Format("{0}&method={1}", FpUrlMaker.ConnFpUrl, Fp_Common.FpMethod.gen_token);
             string result = DataWithFP.getDateFromFp(connFpUrl);
             return result;
         }

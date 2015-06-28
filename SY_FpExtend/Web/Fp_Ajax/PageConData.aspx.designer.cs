@@ -7,7 +7,7 @@
 // </自动生成>
 //------------------------------------------------------------------------------
 
-namespace RuRo.Web.Fp_Ajax {
+namespace RuRo.Web {
     
     
     public partial class PageConData {

@@ -137,10 +137,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CreatFpUrl.cs" />
+    <Compile Include="HttpHelper.cs" />
     <Compile Include="JavaScriptPlus.cs" />
     <Compile Include="CookieHelper.cs" />
     <Compile Include="DataTableHelper.cs" />
-    <Compile Include="HttpProc.cs" />
+    <Compile Include="HttpProc.cs">
+      <SubType>
+      </SubType>
+    </Compile>
     <Compile Include="JsonHelper.cs" />
     <Compile Include="MailSender.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

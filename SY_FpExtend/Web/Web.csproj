@@ -1059,11 +1059,9 @@
     <Content Include="include\jquery-easyui-1.4.2\themes\ui-sunny\validatebox_warning.png" />
     <Content Include="include\jquery-easyui-1.4.2\themes\ui-sunny\window.css" />
     <Content Include="include\js\default.js" />
-    <Content Include="include\js\InitialFpExtendPage.js" />
     <Content Include="include\js\page.js" />
     <Content Include="include\js\sy_func.js" />
     <Content Include="Login.aspx" />
-    <Content Include="Logout.aspx" />
     <Content Include="TestData\Fpfunction.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -1136,13 +1134,6 @@
     <Compile Include="Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Logout.aspx.cs">
-      <DependentUpon>Logout.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Logout.aspx.designer.cs">
-      <DependentUpon>Logout.aspx</DependentUpon>
-    </Compile>
     <Compile Include="MasterPage.master.cs">
       <DependentUpon>MasterPage.master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1166,9 +1157,6 @@
     <EmbeddedResource Include="Global.asax.resx">
       <DependentUpon>Global.asax.cs</DependentUpon>
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Logout.aspx.resx">
-      <DependentUpon>Logout.aspx.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

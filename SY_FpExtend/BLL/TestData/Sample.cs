@@ -24,8 +24,22 @@ namespace RuRo.BLL.TestData
             //03.储存结构命名-->Tem-->username-->month-->bag
             //------>判断存储结构是否存在------>判断条件---冰箱--当前用户--月份。冰箱名指定（TEM）,用户名：当前用户全名，月份--当前日期
 
+
+
+
+
             //添加样品时需要查找指定盒子是否存在，不存在就添加，存在就检查数量是否合规
             return tem;
+        }
+
+        public string GetSampleTypeJson()
+        {
+           string url =  Common.CreatFpUrl.FpUrl;
+           Common.HttpHelper http = new Common.HttpHelper();
+           Common.HttpItem hitem = new Common.HttpItem();
+           Common.HttpResult hres = new Common.HttpResult();
+
+           return "";
         }
     }
 }

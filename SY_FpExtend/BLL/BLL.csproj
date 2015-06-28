@@ -132,6 +132,7 @@
     <Compile Include="FP_Users.cs" />
     <Compile Include="SurgeryInfo.cs" />
     <Compile Include="TestData\GetHtml.cs" />
+    <Compile Include="TestData\PostDataToHis.cs" />
     <Compile Include="TestData\Sample.cs" />
   </ItemGroup>
   <ItemGroup>

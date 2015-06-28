@@ -86,3 +86,11 @@ function removeSelections() {
         $('#sampleSourceDataGrid').datagrid('deleteRow', index);
     }
 }
+
+function isEmptyStr(str) {
+    if (str == '' || str == null) {
+        return true;
+    } else {
+        return false;
+    }
+}

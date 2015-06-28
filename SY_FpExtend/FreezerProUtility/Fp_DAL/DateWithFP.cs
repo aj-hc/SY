@@ -94,10 +94,12 @@ namespace FreezerProUtility.Fp_DAL
         {
             HttpItem item = new HttpItem();
             HttpHelper http = new HttpHelper();
+            HttpResult hres = new HttpResult();
             item.URL = url;
-            item.Method = "POSt";
+            item.Method = "POST";
             item.Postdata = data;
-            return http.GetHtml(item).Html;
+            hres = http.GetHtml(item);
+            return hres.Html;
         }
 
         #region 有参取数据方法 + public string getDateFromFp(FpMethod fpMethod, string parameters)

@@ -31,19 +31,7 @@ namespace FreezerProUtility.Fp_BLL
                 list = FpJsonHelper.JObjectToList<T>(datawith, str_Json);
             }
             return list;
-        } 
-        #endregion
-
-        #region 获取样品类型集合 +  public List<SampleTypes> GetSample_Types()
-        /// <summary>
-        /// 获取样品类型集合
-        /// </summary>
-        /// <returns>样品类型集合</returns>
-        public List<SampleTypes> GetSample_Types()
-        {
-            List<SampleTypes> sample_TypesList = getdata<SampleTypes>(FpMethod.sample_types, "", "SampleTypes");
-            return sample_TypesList;
-        } 
+        }
         #endregion
 
         #region 根据日期查询样本samples_by_date +  public List<Sample> GetSamples_By_Date(string date, string param)
@@ -58,7 +46,7 @@ namespace FreezerProUtility.Fp_BLL
         {
             List<Sample> sample_By_DateList = getdata<Sample>(FpMethod.samples_by_date, string.Format("&date={0}&limit={1}", date, param), "Samples");
             return sample_By_DateList;
-        } 
+        }
         #endregion
 
         #region 获取出库的样本 + public List<Sample_Out> GetSamples_Out(string param)
@@ -67,7 +55,7 @@ namespace FreezerProUtility.Fp_BLL
         {
             List<Sample_Out> sampleOutList = getdata<Sample_Out>(FpMethod.samples_out, string.Format("&limit={0}", param), "Samples");
             return sampleOutList;
-        } 
+        }
         #endregion
 
         #region 获取删除的样本samples in the trashbin + public List<Samples_Trashbin> GetSamples_Trashbin(string param)
@@ -82,7 +70,7 @@ namespace FreezerProUtility.Fp_BLL
             List<Samples_Trashbin> sampleLocationsList = getdata<Samples_Trashbin>(FpMethod.samples_trashbin, string.Format("&limit={0}", param), "Locations");
 
             return sampleLocationsList;
-        } 
+        }
         #endregion
 
         #region 根据样本源id获取样本 + public List<Sample> GetSampleSource_Samples(string samplesource_id)
@@ -91,7 +79,7 @@ namespace FreezerProUtility.Fp_BLL
         {
             List<Sample> sampleSource_Sampleslist = getdata<Sample>(FpMethod.samplesource_samples, string.Format("&id={0}", samplesource_id), "Samples");
             return sampleSource_Sampleslist;
-        } 
+        }
         #endregion
 
         #region 根据样本id获取样本的信息
@@ -102,7 +90,7 @@ namespace FreezerProUtility.Fp_BLL
             string strJson = dataWithFP.getDateFromFp(FpMethod.sample_info, string.Format("&id={0}", sample_id));
             sample_info = FpJsonHelper.JsonStrToObject<Sample_Info>(strJson);
             return sample_info;
-        } 
+        }
         #endregion
 
         public string Import_Sample(string url, string jsondata)
@@ -123,5 +111,66 @@ namespace FreezerProUtility.Fp_BLL
 
             return Fp_DAL.DataWithFP.postDateToFp(url, jsondata);
         }
+
+        #region 获取样品类型集合 +  public List<SampleTypes>  GetAllSample_Types(string url)
+        public List<SampleTypes> GetAllSample_Types(string url)
+        {
+            List<SampleTypes> sample_TypesList = getdata<SampleTypes>(url, FpMethod.sample_types, "", "SampleTypes");
+            return sample_TypesList;
+        }
+        #endregion
+
+        /// <summary>
+        /// 获取所有样品类型名称和id字典
+        /// </summary>
+        /// <param name="url">带有username和password的url</param>
+        /// <returns></returns>
+        public Dictionary<string, string> GetAllSample_TypesNames(string url)
+        {
+            Dictionary<string, string> dic = new Dictionary<string, string>();
+            List<SampleTypes> sample_TypesList = GetAllSample_Types(url);
+            foreach (var item in sample_TypesList)
+            {
+                dic.Add(item.id, item.name);
+            }
+            return dic;
+        }
+
+        #region 获取样品类型根据名称 +  public List<SampleTypes>  GetAllSample_Types(string url)
+        public SampleTypes GetSample_TypeByTypeName(string url,string name)
+        {
+            List<SampleTypes> sample_TypesList = GetAllSample_Types(url);
+            SampleTypes sample = sample_TypesList.Where(a => a.name == name).FirstOrDefault();
+            return sample;
+        }
+        #endregion
+
+        #region 泛型方法处理从Fp中获取到的数据 +  private List<T> getdata<T>(string url, FpMethod fpMethod, string param, string datawith)
+        /// <summary>
+        /// 泛型方法处理从Fp中获取到的数据
+        /// </summary>
+        /// <typeparam name="T">返回集合参数的类型</typeparam>
+        /// <param name="fpMethod">调用的api方法</param>
+        /// <param name="param">调用方法的参数</param>
+        /// <param name="datawith">从fp返回值中取什么数据</param>
+        /// <returns>返回集合</returns>
+        private List<T> getdata<T>(string url, FpMethod fpMethod, string param, string datawith)
+        {
+            List<T> list = new List<T>();
+            bool  check;
+            string connUrl = Fp_Common.UrlHelper.ConnectionUrlAndPar(url, fpMethod, "", out check);
+            if (check)
+            {
+                string str_Json = Fp_DAL.DataWithFP.getDateFromFp(connUrl);
+                if (ValidationData.checkTotal(str_Json))
+                {
+                    list = FpJsonHelper.JObjectToList<T>(datawith, str_Json);
+                }
+            }
+            return list;
+        }
+        #endregion
+
+
     }
 }

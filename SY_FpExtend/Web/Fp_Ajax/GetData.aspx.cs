@@ -26,22 +26,26 @@ namespace RuRo.Web.Fp_Ajax
                 if (string.IsNullOrEmpty(In_Code) || string.IsNullOrEmpty(In_CodeType) || In_Code == "" || In_CodeType == "") { }
                 else 
                 {
-                    Model.FP_SY_HIS_IP_PublicInterface model = new Model.FP_SY_HIS_IP_PublicInterface();
-                    model.In_Code = In_Code;
-                    model.In_CodeType = int.Parse(In_CodeType);
-                    Dictionary<string, string> dic = new Dictionary<string, string>();
+                    //Model.FP_SY_HIS_IP_PublicInterface model = new Model.FP_SY_HIS_IP_PublicInterface();
+                    //model.In_Code = In_Code;
+                    //model.In_CodeType = int.Parse(In_CodeType);
+                    //Dictionary<string, string> dic = new Dictionary<string, string>();
                     #region 将获取到的存储过程转化为JSON再存放到dic里面，然后dic序列化成json
-                    strPatientInfoJson = GetSY_HC_GetPatientInfoJson(model);
-                    if (!string.IsNullOrEmpty(strPatientInfoJson) || strPatientInfoJson != "")
-                    {
-                        strDiagnoseInfoJson = GetSY_HC_GetDiagnoseInfoJson(model);
-                        if (!string.IsNullOrEmpty(strDiagnoseInfoJson))
-                        {
-                            dic.Add("_BaseInfo", strPatientInfoJson);
-                            dic.Add("_ClinicalInfo", strDiagnoseInfoJson);
-                        }
-                    }
-                    Response.Write(FreezerProUtility.Fp_Common.FpJsonHelper.DictionaryToJsonString(dic));
+                    //strPatientInfoJson = GetSY_HC_GetPatientInfoJson(model);
+                    //if (!string.IsNullOrEmpty(strPatientInfoJson) || strPatientInfoJson != "")
+                    //{
+                    //    strDiagnoseInfoJson = GetSY_HC_GetDiagnoseInfoJson(model);
+                    //    if (!string.IsNullOrEmpty(strDiagnoseInfoJson))
+                    //    {
+                    //        dic.Add("_BaseInfo", strPatientInfoJson);
+                    //        dic.Add("_ClinicalInfo", strDiagnoseInfoJson);
+                    //    }
+                    //}
+                    //Response.Write(FreezerProUtility.Fp_Common.FpJsonHelper.DictionaryToJsonString(dic));
+
+                    string testRes ="{\"_BaseInfo\":{\"ds\":[{\"PatientID\":1000456613,\"PatientName\":\"黄燕娥                        \",\"SexFlag\":2,\"BirthDay\":\"1952-07-24T00:00:00\",\"PatientCardNo\":\"诊疗卡号\",\"BloodTypeFlag\":6,\"InPatientID\":1000435093,\"IPSeqNoText\":\"P114083\",\"IPTimes\":1,\"InDateTime\":\"2003-10-08T15:51:00\",\"OutDate\":\"1900-01-01T00:00:00\",\"Phone\":\"13610187509         \",\"ContactPhone\":\"110\",\"ContactPerson\":\"110\",\"NativePlace\":\"广州市              \",\"RegisterID\":-1,\"RegisterSeqNO\":\"\"}]},\"_ClinicalInfo\":{\"ds\":[{\"DiagnoseTypeFlag\":0,\"DiagnoseDateTime\":\"1900-01-01T00:00:00\",\"DiseaseName\":\"子宫平滑肌瘤\",\"ICDCode\":\"D25.902\",\"Description\":\"                                        \"},{\"DiagnoseTypeFlag\":2,\"DiagnoseDateTime\":\"2014-11-18T10:22:26.75\",\"DiseaseName\":\"子宫平滑肌瘤\",\"ICDCode\":\"D25.902\",\"Description\":\"\"}]}}";
+
+                    Response.Write(testRes);
                     #endregion
                 }
             }

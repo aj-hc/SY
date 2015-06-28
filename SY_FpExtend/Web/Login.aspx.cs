@@ -9,13 +9,9 @@ namespace RuRo.Web
     {
         protected void Page_Load(object sender, System.EventArgs e)
         {
-            if (!this.IsPostBack)
+            if (CheckLoginByCookie())
             {
-                this.ViewState["GUID"] = System.Guid.NewGuid().ToString();
-                if (CheckLoginByCookie())
-                {
-                    Response.Redirect("ExtendPage.aspx");
-                }
+                Response.Redirect("ExtendPage.aspx");
             }
 
             //登陆
@@ -30,7 +26,7 @@ namespace RuRo.Web
             // CODEGEN: 该调用是 ASP.NET Web 窗体设计器所必需的。
             //
             InitializeComponent();
-            base.OnInit(e);
+            //base.OnInit(e);
         }
 
         /// <summary>
@@ -68,7 +64,7 @@ namespace RuRo.Web
             string temPass = Common.CookieHelper.GetCookieValue("password");
             if (!string.IsNullOrEmpty(userName) && !string.IsNullOrEmpty(temPass))
             {
-              string   passWord = Common.DEncrypt.DESEncrypt.Decrypt(temPass);
+                string passWord = Common.DEncrypt.DESEncrypt.Decrypt(temPass);
                 return checkToken(userName, passWord);
             }
             else

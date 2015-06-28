@@ -25,8 +25,8 @@
                 <div><b>查找患者</b></div>
                 <div runat="server">
                     查找方式：
-                <input id="In_CodeType" class="easyui-combobox" name="querybycode" style="width: 200px;" />
-                    <input id="In_Code" class="easyui-textbox" />
+                <input id="In_CodeType" class="easyui-combobox" name="querybycode" style="width: 200px;"  data-options="required:true"/>
+                    <input id="In_Code" class="easyui-textbox"  data-options="required:true"/>
                     <a href="#" onclick="querybycode()" id="btnGet" class="easyui-linkbutton">查询患者信息</a>
                 </div>
             </div>
@@ -40,55 +40,55 @@
                         <tr>
                             <td>姓名：</td>
                             <td>
-                                <input class="easyui-textbox" type="text" name="_80" id="_80" data-options="required:true" /></td>
+                                <input class="easyui-textbox" name="PatientName" id="_80" data-options="required:true" /></td>
                             <td class="name">住院号：</td>
                             <td>
-                                <input class="easyui-textbox" type="text" name="_81" id="_81" data-options="required:false" /></td>
+                                <input class="easyui-textbox" name="IPSeqNoText" id="_81" data-options="required:false" /></td>
                             <td>就诊卡号：</td>
                             <td>
-                                <input class="easyui-textbox" type="text" name="_82" id="_82" data-options="required:false" /></td>
+                                <input class="easyui-textbox" name="PatientCardNo" id="_82" data-options="required:false" /></td>
                         </tr>
                         <tr>
                             <td>性别：</td>
                             <td>
-                                <input class="easyui-combobox" name="_115" id="_115" style="width: 204px" data-options=" required:false " />
+                                <input class="easyui-combobox" name="SexFlag" id="_115" style="width: 204px" data-options=" required:false" />
                             </td>
                             <td>出生日期：</td>
                             <td>
-                                <input class="easyui-datebox" type="text" name="_84" id="_84" data-options="required:false" style="z-index: 9999;" /></td>
+                                <input class="easyui-datebox" name="BirthDay" id="_84" data-options="required:false" /></td>
                             <td>血型：</td>
                             <td>
-                                <input class="easyui-combobox" type="text" name="_116" id="_116" data-options="required:false" /></td>
+                                <input class="easyui-combobox"  name="BloodTypeFlag" id="_116" data-options="required:false" /></td>
                         </tr>
                         <tr>
                             <td>联系人：</td>
                             <td>
-                                <input class="easyui-textbox" type="text" name="_88" id="_88" data-options="required:false" /></td>
+                                <input class="easyui-textbox"  name="ContactPerson" id="_88" data-options="required:false" /></td>
                             <td>联系人电话：</td>
                             <td>
-                                <input class="easyui-textbox" type="text" name="_87" id="_87" data-options="required:false" /></td>
+                                <input class="easyui-textbox"  name="ContactPhone" id="_87" data-options="required:false" /></td>
                             <td>联系电话：</td>
                             <td>
-                                <input class="easyui-textbox" type="text" name="_86" id="_86" data-options="required:false" /></td>
+                                <input class="easyui-textbox"  name="Phone" id="_86" data-options="required:false" /></td>
                         </tr>
                         <tr>
                             <td>籍贯：</td>
                             <td>
-                                <input class="easyui-textbox" type="text" name="_89" id="_89" data-options="required:false" /></td>
+                                <input class="easyui-textbox"  name="NativePlace" id="_89" data-options="required:false" /></td>
                             <td>门诊流水号：</td>
                             <td>
-                                <input class="easyui-textbox" type="text" name="_90" id="_90" data-options="required:false" /></td>
+                                <input class="easyui-textbox"  name="RegisterSeqNO" id="_90" data-options="required:false" /></td>
                             <td>患者ID：</td>
                             <td>
-                                <input class="easyui-textbox" type="text" name="_91" id="_91" data-options="required:false" /></td>
+                                <input class="easyui-textbox"  name="PatientID" id="_91" data-options="required:true" /></td>
                         </tr>
                         <tr>
                             <td>住院ID：</td>
                             <td>
-                                <input class="easyui-textbox" type="text" name="_93" id="_93" data-options="required:false" /></td>
+                                <input class="easyui-textbox"  name="InPatientID" id="_93" data-options="required:false" /></td>
                             <td>挂号ID：</td>
                             <td>
-                                <input class="easyui-textbox" type="text" name="_92" id="_92" data-options="required:false" /></td>
+                                <input class="easyui-textbox"  name="RegisterID" id="_92" data-options="required:false" /></td>
                         </tr>
                     </table>
                 </div>
