@@ -113,7 +113,7 @@ namespace FreezerProUtility.Fp_BLL
         }
 
         #region 获取样品类型集合 +  public List<SampleTypes>  GetAllSample_Types(string url)
-        public List<SampleTypes> GetAllSample_Types(string url)
+        public static List<SampleTypes> GetAllSample_Types(string url)
         {
             List<SampleTypes> sample_TypesList = getdata<SampleTypes>(url, FpMethod.sample_types, "", "SampleTypes");
             return sample_TypesList;
@@ -122,13 +122,12 @@ namespace FreezerProUtility.Fp_BLL
 
         #region 获取所有样品类型名称和id字典
         
-       
         /// <summary>
         /// 获取所有样品类型名称和id字典
         /// </summary>
         /// <param name="url">带有username和password的url</param>
         /// <returns></returns>
-        public Dictionary<string, string> GetAllSample_TypesNames(string url)
+        public static Dictionary<string, string> GetAllSample_TypesNames(string url)
         {
             Dictionary<string, string> dic = new Dictionary<string, string>();
             List<SampleTypes> sample_TypesList = GetAllSample_Types(url);
@@ -139,6 +138,7 @@ namespace FreezerProUtility.Fp_BLL
             return dic;
         }
         #endregion
+
         #region 获取样品类型根据名称 +  public List<SampleTypes>  GetAllSample_Types(string url)
         public SampleTypes GetSample_TypeByTypeName(string url,string name)
         {
@@ -157,7 +157,7 @@ namespace FreezerProUtility.Fp_BLL
         /// <param name="param">调用方法的参数</param>
         /// <param name="datawith">从fp返回值中取什么数据</param>
         /// <returns>返回集合</returns>
-        private List<T> getdata<T>(string url, FpMethod fpMethod, string param, string datawith)
+        private static List<T> getdata<T>(string url, FpMethod fpMethod, string param, string datawith)
         {
             List<T> list = new List<T>();
             bool  check;

@@ -34,60 +34,57 @@ $(function () {
         pagination: true,
         toolbar: [
             {
-                text: '添加', iconCls: 'icon-add', handler: function ()
-                {
-                    if (editRow != undefined)
-                    {
-                    $ClinicalInfoDg.datagrid('endEdit', editRow);
-                    }
-                    if (editRow == undefined)
-                    {
-                    $ClinicalInfoDg.datagrid('insertRow', {
-                        index: 0,
-                        row: {}
-    });
-                    $ClinicalInfoDg.datagrid('beginEdit', 0);
-                    editRow = 0;
-                    }
-                }
-            }, '-', {
-            text: '保存', iconCls: 'icon-save', handler: function () {
-                $ClinicalInfoDg.datagrid('endEdit', editRow);
-
-                //如果调用acceptChanges(),使用getChanges()则获取不到编辑和新增的数据。
-                //使用JSON序列化datarow对象，发送到后台。
-                var rows = $ClinicalInfoDg.datagrid('getChanges');
-                var rowstr = JSON.stringify(rows);
-                //$.post('/Home/Create', rowstr, function (data) {
-
-                //});
-            }
-        }, '-', {
-            text: '删除', iconCls: 'icon-remove', handler: function () {
-                var row = $ClinicalInfoDg.datagrid('getSelected');
-                if (row) {
-                    var rowIndex = $ClinicalInfoDg.datagrid('getRowIndex', row);
-                    $ClinicalInfoDg.datagrid('deleteRow', rowIndex);
-                }
-            }
-        }, '-', {
-            text: '修改', iconCls: 'icon-edit', handler: function () {
-                var row = $ClinicalInfoDg.datagrid('getSelected');
-                if (row != null) {
+                text: '添加', iconCls: 'icon-add', handler: function () {
                     if (editRow != undefined) {
                         $ClinicalInfoDg.datagrid('endEdit', editRow);
                     }
                     if (editRow == undefined) {
-                        var index = $ClinicalInfoDg.datagrid('getRowIndex', row);
-                        $ClinicalInfoDg.datagrid('beginEdit', index);
-                        editRow = index;
-                        $ClinicalInfoDg.datagrid('unselectAll');
+                        $ClinicalInfoDg.datagrid('insertRow', {
+                            index: 0,
+                            row: {}
+                        });
+                        $ClinicalInfoDg.datagrid('beginEdit', 0);
+                        editRow = 0;
                     }
-                } else {
-
                 }
-            }
-        }],
+            }, '-', {
+                text: '保存', iconCls: 'icon-save', handler: function () {
+                    $ClinicalInfoDg.datagrid('endEdit', editRow);
+
+                    //如果调用acceptChanges(),使用getChanges()则获取不到编辑和新增的数据。
+                    //使用JSON序列化datarow对象，发送到后台。
+                    var rows = $ClinicalInfoDg.datagrid('getChanges');
+                    var rowstr = JSON.stringify(rows);
+                    //$.post('/Home/Create', rowstr, function (data) {
+
+                    //});
+                }
+            }, '-', {
+                text: '删除', iconCls: 'icon-remove', handler: function () {
+                    var row = $ClinicalInfoDg.datagrid('getSelected');
+                    if (row) {
+                        var rowIndex = $ClinicalInfoDg.datagrid('getRowIndex', row);
+                        $ClinicalInfoDg.datagrid('deleteRow', rowIndex);
+                    }
+                }
+            }, '-', {
+                text: '修改', iconCls: 'icon-edit', handler: function () {
+                    var row = $ClinicalInfoDg.datagrid('getSelected');
+                    if (row != null) {
+                        if (editRow != undefined) {
+                            $ClinicalInfoDg.datagrid('endEdit', editRow);
+                        }
+                        if (editRow == undefined) {
+                            var index = $ClinicalInfoDg.datagrid('getRowIndex', row);
+                            $ClinicalInfoDg.datagrid('beginEdit', index);
+                            editRow = index;
+                            $ClinicalInfoDg.datagrid('unselectAll');
+                        }
+                    } else {
+
+                    }
+                }
+            }],
         onAfterEdit: function (rowIndex, rowData, changes) {
             editRow = undefined;
         },
@@ -105,9 +102,9 @@ $(function () {
                 $ClinicalInfoDg.datagrid('endEdit', editRow);
             }
         }
-   //加载模拟数据
-    //$('#ClinicalInfoDg').datagrid({ loadFilter: pagerFilter }).datagrid('loadData', getData());
-});
+        //加载模拟数据
+        //$('#ClinicalInfoDg').datagrid({ loadFilter: pagerFilter }).datagrid('loadData', getData());
+    });
 })
 
 
@@ -118,7 +115,23 @@ $(function () {
     $('#dg_SampleInfo').datagrid({
         title: '取样信息',
         columns: [[
-            { field: 'SampleType', title: '样品类型', width: '15%', align: 'center',editor: { type: 'validatebox', options: { required: false } } },
+            {
+                field: 'SampleType', title: '样品类型', width: '15%', align: 'center', editor: { type: 'validatebox', options: { required: false } },
+                formatter: function (value, row) {
+                    return row.value;
+                },
+                editor: {
+                    type: 'combobox',
+                    options: {
+                        method: 'get',
+                        valueField: 'value',
+                        textField: 'text',
+                        url: '../Fp_Ajax/PageConData.aspx?conMarc=SampleTypes',
+                        panelHeight: 'auto',
+                        required: true
+                    }
+                }
+            },
             { field: 'Scount', title: '管数', width: '10%', align: 'center', editor: { type: 'validatebox', options: { required: false } } },
             { field: 'Others', title: '其他信息', width: '10%', align: 'center', editor: { type: 'validatebox', options: { required: false } } },//动态列--根据样品类型展示不同的数据
         ]],
@@ -135,7 +148,7 @@ $(function () {
             handler: function () { removeit(); }
         }]
     });
-    
+
     //$('#dg_SampleInfo').datagrid({
     //    toolbar: [{
     //        text: '添加', iconCls: 'icon-add', handler: function () {
@@ -333,7 +346,17 @@ $(function () {
         panelHeight: 'auto',
     });
 })
-
+//给样本类型下拉框绑定值
+//$(function () {
+//    $('#_101').combobox({
+//        url: '../Fp_Ajax/PageConData.aspx?conMarc=SamplingMethod',
+//        multiple: true,
+//        method: 'get',
+//        valueField: 'samplingMethod',
+//        textField: 'text',
+//        panelHeight: 'auto',
+//    });
+//})
 
 //初始化win弹窗在显示器中央
 function doimport() {
