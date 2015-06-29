@@ -3,3 +3,15 @@ C:\Users\danyun\Desktop\SY_FpExtend\Model\bin\Debug\RuRo.Model.pdb
 C:\Users\danyun\Desktop\SY_FpExtend\Model\obj\Debug\Model.csprojResolveAssemblyReference.cache
 C:\Users\danyun\Desktop\SY_FpExtend\Model\obj\Debug\RuRo.Model.dll
 C:\Users\danyun\Desktop\SY_FpExtend\Model\obj\Debug\RuRo.Model.pdb
+<<<<<<< HEAD
+=======
+F:\Repositories\SY\SY_FpExtend\Model\bin\Debug\RuRo.Model.dll
+F:\Repositories\SY\SY_FpExtend\Model\bin\Debug\RuRo.Model.pdb
+F:\Repositories\SY\SY_FpExtend\Model\obj\Debug\RuRo.Model.dll
+F:\Repositories\SY\SY_FpExtend\Model\obj\Debug\RuRo.Model.pdb
+E:\Project\SY\SY_FpExtend\Model\bin\Debug\RuRo.Model.dll
+E:\Project\SY\SY_FpExtend\Model\bin\Debug\RuRo.Model.pdb
+E:\Project\SY\SY_FpExtend\Model\obj\Debug\RuRo.Model.dll
+E:\Project\SY\SY_FpExtend\Model\obj\Debug\RuRo.Model.pdb
+E:\Project\SY\SY_FpExtend\Model\obj\Debug\Model.csprojResolveAssemblyReference.cache
+>>>>>>> 71de281a1ef3fc1877e9e538e03719a11321586f

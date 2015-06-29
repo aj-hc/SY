@@ -4,3 +4,18 @@ C:\Users\danyun\Desktop\SY_FpExtend\FreezerProUtility\bin\Debug\Newtonsoft.Json.
 C:\Users\danyun\Desktop\SY_FpExtend\FreezerProUtility\obj\Debug\FreezerProUtility.csprojResolveAssemblyReference.cache
 C:\Users\danyun\Desktop\SY_FpExtend\FreezerProUtility\obj\Debug\FreezerProUtility.dll
 C:\Users\danyun\Desktop\SY_FpExtend\FreezerProUtility\obj\Debug\FreezerProUtility.pdb
+<<<<<<< HEAD
+=======
+F:\Repositories\SY\SY_FpExtend\FreezerProUtility\bin\Debug\FreezerProUtility.dll
+F:\Repositories\SY\SY_FpExtend\FreezerProUtility\bin\Debug\FreezerProUtility.pdb
+F:\Repositories\SY\SY_FpExtend\FreezerProUtility\bin\Debug\Newtonsoft.Json.dll
+F:\Repositories\SY\SY_FpExtend\FreezerProUtility\obj\Debug\FreezerProUtility.csprojResolveAssemblyReference.cache
+F:\Repositories\SY\SY_FpExtend\FreezerProUtility\obj\Debug\FreezerProUtility.dll
+F:\Repositories\SY\SY_FpExtend\FreezerProUtility\obj\Debug\FreezerProUtility.pdb
+E:\Project\SY\SY_FpExtend\FreezerProUtility\bin\Debug\FreezerProUtility.dll
+E:\Project\SY\SY_FpExtend\FreezerProUtility\bin\Debug\FreezerProUtility.pdb
+E:\Project\SY\SY_FpExtend\FreezerProUtility\bin\Debug\Newtonsoft.Json.dll
+E:\Project\SY\SY_FpExtend\FreezerProUtility\obj\Debug\FreezerProUtility.dll
+E:\Project\SY\SY_FpExtend\FreezerProUtility\obj\Debug\FreezerProUtility.pdb
+E:\Project\SY\SY_FpExtend\FreezerProUtility\obj\Debug\FreezerProUtility.csprojResolveAssemblyReference.cache
+>>>>>>> 71de281a1ef3fc1877e9e538e03719a11321586f
