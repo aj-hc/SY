@@ -16,3 +16,4 @@ F:\Repositories\SY\SY_FpExtend\Common\bin\Debug\OWC10Chart.dll
 F:\Repositories\SY\SY_FpExtend\Common\obj\Debug\Common.csprojResolveAssemblyReference.cache
 F:\Repositories\SY\SY_FpExtend\Common\obj\Debug\RuRo.Common.dll
 F:\Repositories\SY\SY_FpExtend\Common\obj\Debug\RuRo.Common.pdb
+E:\Project\SY\SY_FpExtend\Common\obj\Debug\Common.csprojResolveAssemblyReference.cache

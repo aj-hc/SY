@@ -60,3 +60,6 @@ F:\Repositories\SY\SY_FpExtend\Web\obj\Debug\RuRo.Web.Global.resources
 F:\Repositories\SY\SY_FpExtend\Web\obj\Debug\Web.csproj.GenerateResource.Cache
 F:\Repositories\SY\SY_FpExtend\Web\obj\Debug\RuRo.Web.dll
 F:\Repositories\SY\SY_FpExtend\Web\obj\Debug\RuRo.Web.pdb
+E:\Project\SY\SY_FpExtend\Web\obj\Debug\Web.csprojResolveAssemblyReference.cache
+E:\Project\SY\SY_FpExtend\Web\obj\Debug\RuRo.Web.Global.resources
+E:\Project\SY\SY_FpExtend\Web\obj\Debug\Web.csproj.GenerateResource.Cache

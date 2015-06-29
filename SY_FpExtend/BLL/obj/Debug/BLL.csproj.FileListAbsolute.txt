@@ -44,3 +44,4 @@ F:\Repositories\SY\SY_FpExtend\BLL\bin\Debug\RuRo.DBUtility.pdb
 F:\Repositories\SY\SY_FpExtend\BLL\obj\Debug\BLL.csprojResolveAssemblyReference.cache
 F:\Repositories\SY\SY_FpExtend\BLL\obj\Debug\RuRo.BLL.dll
 F:\Repositories\SY\SY_FpExtend\BLL\obj\Debug\RuRo.BLL.pdb
+E:\Project\SY\SY_FpExtend\BLL\obj\Debug\BLL.csprojResolveAssemblyReference.cache

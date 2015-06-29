@@ -34,3 +34,4 @@ F:\Repositories\SY\SY_FpExtend\DAL\bin\Debug\RuRo.Model.pdb
 F:\Repositories\SY\SY_FpExtend\DAL\obj\Debug\DAL.csprojResolveAssemblyReference.cache
 F:\Repositories\SY\SY_FpExtend\DAL\obj\Debug\RuRo.DAL.dll
 F:\Repositories\SY\SY_FpExtend\DAL\obj\Debug\RuRo.DAL.pdb
+E:\Project\SY\SY_FpExtend\DAL\obj\Debug\DAL.csprojResolveAssemblyReference.cache

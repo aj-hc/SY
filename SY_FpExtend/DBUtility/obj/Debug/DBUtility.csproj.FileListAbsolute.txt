@@ -16,3 +16,11 @@ F:\Repositories\SY\SY_FpExtend\DBUtility\bin\Debug\System.Data.SQLite.DLL
 F:\Repositories\SY\SY_FpExtend\DBUtility\obj\Debug\DBUtility.csprojResolveAssemblyReference.cache
 F:\Repositories\SY\SY_FpExtend\DBUtility\obj\Debug\RuRo.DBUtility.dll
 F:\Repositories\SY\SY_FpExtend\DBUtility\obj\Debug\RuRo.DBUtility.pdb
+E:\Project\SY\SY_FpExtend\DBUtility\bin\Debug\RuRo.DBUtility.dll
+E:\Project\SY\SY_FpExtend\DBUtility\bin\Debug\RuRo.DBUtility.pdb
+E:\Project\SY\SY_FpExtend\DBUtility\bin\Debug\IBatisNet.Common.dll
+E:\Project\SY\SY_FpExtend\DBUtility\bin\Debug\IBatisNet.DataMapper.dll
+E:\Project\SY\SY_FpExtend\DBUtility\bin\Debug\MySql.Data.dll
+E:\Project\SY\SY_FpExtend\DBUtility\bin\Debug\System.Data.SQLite.DLL
+E:\Project\SY\SY_FpExtend\DBUtility\obj\Debug\RuRo.DBUtility.dll
+E:\Project\SY\SY_FpExtend\DBUtility\obj\Debug\RuRo.DBUtility.pdb

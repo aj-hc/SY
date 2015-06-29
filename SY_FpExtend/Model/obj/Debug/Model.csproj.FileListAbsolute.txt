@@ -7,3 +7,7 @@ F:\Repositories\SY\SY_FpExtend\Model\bin\Debug\RuRo.Model.dll
 F:\Repositories\SY\SY_FpExtend\Model\bin\Debug\RuRo.Model.pdb
 F:\Repositories\SY\SY_FpExtend\Model\obj\Debug\RuRo.Model.dll
 F:\Repositories\SY\SY_FpExtend\Model\obj\Debug\RuRo.Model.pdb
+E:\Project\SY\SY_FpExtend\Model\bin\Debug\RuRo.Model.dll
+E:\Project\SY\SY_FpExtend\Model\bin\Debug\RuRo.Model.pdb
+E:\Project\SY\SY_FpExtend\Model\obj\Debug\RuRo.Model.dll
+E:\Project\SY\SY_FpExtend\Model\obj\Debug\RuRo.Model.pdb
