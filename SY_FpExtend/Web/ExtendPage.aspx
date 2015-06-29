@@ -161,7 +161,7 @@
             </div>
         </form>
         <div id="footer" style="padding: 5px; margin: 10px" data-options="region:'south',">
-            <a href="javascript:void(0)" class="easyui-linkbutton" onclick="postData();" style="width: auto">添加样本</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" onclick="postData();" id="submit"  style="width: auto">添加样本</a>
             <a href="javascript:void(0)" class="easyui-linkbutton" onclick="" style="width: auto">取消录入</a>
         </div>
     </div>
