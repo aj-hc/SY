@@ -24,3 +24,4 @@ E:\Project\SY\SY_FpExtend\DBUtility\bin\Debug\MySql.Data.dll
 E:\Project\SY\SY_FpExtend\DBUtility\bin\Debug\System.Data.SQLite.DLL
 E:\Project\SY\SY_FpExtend\DBUtility\obj\Debug\RuRo.DBUtility.dll
 E:\Project\SY\SY_FpExtend\DBUtility\obj\Debug\RuRo.DBUtility.pdb
+E:\Project\SY\SY_FpExtend\DBUtility\obj\Debug\DBUtility.csprojResolveAssemblyReference.cache

@@ -138,6 +138,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CreatFpUrl.cs" />
+    <Compile Include="HttpHelper.cs" />
     <Compile Include="JavaScriptPlus.cs" />
     <Compile Include="CookieHelper.cs" />
     <Compile Include="DataTableHelper.cs" />

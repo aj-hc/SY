@@ -15,3 +15,4 @@ E:\Project\SY\SY_FpExtend\FreezerProUtility\bin\Debug\FreezerProUtility.pdb
 E:\Project\SY\SY_FpExtend\FreezerProUtility\bin\Debug\Newtonsoft.Json.dll
 E:\Project\SY\SY_FpExtend\FreezerProUtility\obj\Debug\FreezerProUtility.dll
 E:\Project\SY\SY_FpExtend\FreezerProUtility\obj\Debug\FreezerProUtility.pdb
+E:\Project\SY\SY_FpExtend\FreezerProUtility\obj\Debug\FreezerProUtility.csprojResolveAssemblyReference.cache

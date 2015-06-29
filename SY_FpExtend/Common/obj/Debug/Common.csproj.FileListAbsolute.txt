@@ -24,3 +24,4 @@ E:\Project\SY\SY_FpExtend\Common\bin\Debug\OpenSmtp.dll
 E:\Project\SY\SY_FpExtend\Common\bin\Debug\OWC10Chart.dll
 E:\Project\SY\SY_FpExtend\Common\obj\Debug\RuRo.Common.dll
 E:\Project\SY\SY_FpExtend\Common\obj\Debug\RuRo.Common.pdb
+E:\Project\SY\SY_FpExtend\Common\obj\Debug\Common.csprojResolveAssemblyReference.cache
