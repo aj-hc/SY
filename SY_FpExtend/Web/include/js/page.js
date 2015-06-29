@@ -24,7 +24,7 @@ $(function () {
                 }
             },
             {
-                field: 'DiagnoseDateTime', title: '诊断日期', width: '20%', sortable: true, editor: { type: 'validatebox', options: { required: true } }
+                field: 'DiagnoseDateTime', title: '诊断日期', width: '20%', sortable: true, editor: { type: 'datebox', options: { required: true } }
             },
             { field: 'ICDCode', title: 'ICD码', width: '15%', align: 'center', sortable: true, editor: { type: 'validatebox', options: { required: false } } },
             { field: 'DiseaseName', title: '疾病名称', width: '20%', align: 'center', sortable: true, editor: { type: 'validatebox', options: { required: false } } },
@@ -36,55 +36,55 @@ $(function () {
             {
                 text: '添加', iconCls: 'icon-add', handler: function () {
                     if (editRow != undefined) {
+                    $ClinicalInfoDg.datagrid('endEdit', editRow);
+                    }
+                    if (editRow == undefined) {
+                    $ClinicalInfoDg.datagrid('insertRow', {
+                        index: 0,
+                        row: {}
+    });
+                    $ClinicalInfoDg.datagrid('beginEdit', 0);
+                    editRow = 0;
+                    }
+                }
+            }, '-', {
+            text: '保存', iconCls: 'icon-save', handler: function () {
+                $ClinicalInfoDg.datagrid('endEdit', editRow);
+
+                //如果调用acceptChanges(),使用getChanges()则获取不到编辑和新增的数据。
+                //使用JSON序列化datarow对象，发送到后台。
+                var rows = $ClinicalInfoDg.datagrid('getChanges');
+                var rowstr = JSON.stringify(rows);
+                //$.post('/Home/Create', rowstr, function (data) {
+
+                //});
+            }
+        }, '-', {
+            text: '删除', iconCls: 'icon-remove', handler: function () {
+                var row = $ClinicalInfoDg.datagrid('getSelected');
+                if (row) {
+                    var rowIndex = $ClinicalInfoDg.datagrid('getRowIndex', row);
+                    $ClinicalInfoDg.datagrid('deleteRow', rowIndex);
+                }
+            }
+        }, '-', {
+            text: '修改', iconCls: 'icon-edit', handler: function () {
+                var row = $ClinicalInfoDg.datagrid('getSelected');
+                if (row != null) {
+                    if (editRow != undefined) {
                         $ClinicalInfoDg.datagrid('endEdit', editRow);
                     }
                     if (editRow == undefined) {
-                        $ClinicalInfoDg.datagrid('insertRow', {
-                            index: 0,
-                            row: {}
-                        });
-                        $ClinicalInfoDg.datagrid('beginEdit', 0);
-                        editRow = 0;
+                        var index = $ClinicalInfoDg.datagrid('getRowIndex', row);
+                        $ClinicalInfoDg.datagrid('beginEdit', index);
+                        editRow = index;
+                        $ClinicalInfoDg.datagrid('unselectAll');
                     }
-                }
-            }, '-', {
-                text: '保存', iconCls: 'icon-save', handler: function () {
-                    $ClinicalInfoDg.datagrid('endEdit', editRow);
+                } else {
 
-                    //如果调用acceptChanges(),使用getChanges()则获取不到编辑和新增的数据。
-                    //使用JSON序列化datarow对象，发送到后台。
-                    var rows = $ClinicalInfoDg.datagrid('getChanges');
-                    var rowstr = JSON.stringify(rows);
-                    //$.post('/Home/Create', rowstr, function (data) {
-
-                    //});
                 }
-            }, '-', {
-                text: '删除', iconCls: 'icon-remove', handler: function () {
-                    var row = $ClinicalInfoDg.datagrid('getSelected');
-                    if (row) {
-                        var rowIndex = $ClinicalInfoDg.datagrid('getRowIndex', row);
-                        $ClinicalInfoDg.datagrid('deleteRow', rowIndex);
-                    }
-                }
-            }, '-', {
-                text: '修改', iconCls: 'icon-edit', handler: function () {
-                    var row = $ClinicalInfoDg.datagrid('getSelected');
-                    if (row != null) {
-                        if (editRow != undefined) {
-                            $ClinicalInfoDg.datagrid('endEdit', editRow);
-                        }
-                        if (editRow == undefined) {
-                            var index = $ClinicalInfoDg.datagrid('getRowIndex', row);
-                            $ClinicalInfoDg.datagrid('beginEdit', index);
-                            editRow = index;
-                            $ClinicalInfoDg.datagrid('unselectAll');
-                        }
-                    } else {
-
-                    }
-                }
-            }],
+            }
+        }],
         onAfterEdit: function (rowIndex, rowData, changes) {
             editRow = undefined;
         },
@@ -102,9 +102,9 @@ $(function () {
                 $ClinicalInfoDg.datagrid('endEdit', editRow);
             }
         }
-        //加载模拟数据
-        //$('#ClinicalInfoDg').datagrid({ loadFilter: pagerFilter }).datagrid('loadData', getData());
-    });
+   //加载模拟数据
+    //$('#ClinicalInfoDg').datagrid({ loadFilter: pagerFilter }).datagrid('loadData', getData());
+});
 })
 
 
@@ -148,7 +148,7 @@ $(function () {
             handler: function () { removeit(); }
         }]
     });
-
+    
     //$('#dg_SampleInfo').datagrid({
     //    toolbar: [{
     //        text: '添加', iconCls: 'icon-add', handler: function () {
@@ -387,17 +387,97 @@ function remove() {
 
 //POST数据
 function postData() {
-    alert('Hello');
-    $('#mainform').form({
-        type: 'POST',
-        url: "/Ajax/SubmitData.ashx",
-        onSubmit: function () {
-            // 做某些检查 
-            // 返回 false 来阻止提交 
-        },
-        success: function (data) {
-            alert(data)
-        }
-    });
-    $('#mainform').submit();
+    getpagedata();
+
+    //var _baseInfoForm = $('BaseInfoForm').s;
+   
+    //$('#mainform').form({
+    //    type: 'POST',
+    //    url: "/Ajax/SubmitData.aspx",
+    //    onSubmit: function () {
+    //        // 做某些检查 
+    //        // 返回 false 来阻止提交 
+    //    },
+    //    success: function (data) {
+    //        alert(data)
+    //    }
+    //});
+    //$('#mainform').submit();
 }
+
+//获取页面数据
+function getpagedata()
+{
+    //序列化字段为JSON for 基本数据
+    //querybycodeform
+    //传入方式、
+    var In_CodeType = $('#In_CodeType').textbox('getValue');
+    In_CodeType = tojson("In_CodeType", In_CodeType);
+    //传入号码
+    var In_Code = $('#In_Code').textbox('getValue');//获取数据源
+    In_Code = tojson("In_Code", In_Code);
+    //姓名
+    var _80 = $("#_80").textbox('getValue');
+    _80 = tojson("_80", _80);
+    //住院号
+    var _81 = $("#_81").textbox('getValue');
+    _81 = tojson("_81", _81);
+    //就诊卡号
+    var _82 = $("#_82").textbox('getValue');
+    _82 = tojson("_82", _82);
+    //性别
+    var _115 = $("#_115").textbox('getValue');
+    _115 = tojson("_115", _115);
+    //出生日期
+    var _84 = $("#_84").textbox('getValue');
+    _84 = tojson("_84", _84);
+    //血型
+    var _116 = $("#_116").textbox('getValue');
+    _116 = tojson("_116", _116);
+    //联系人
+    var _88 = $("#_88").textbox('getValue');
+    _88 = tojson("_88", _88);
+    //联系人电话
+    var _87 = $("#_87").textbox('getValue');
+    _87 = tojson("_87", _87);
+    //联系电话
+    var _86 = $("#_86").textbox('getValue');
+    _86 = tojson("_86", _86);
+    //籍贯
+    var _89 = $("#_89").textbox('getValue');
+    _89 = tojson("_89", _89);
+    //门诊流水号
+    var _90 = $("#_90").textbox('getValue');
+    _90 = tojson("_90", _90);
+    //患者ID
+    var _91 = $("#_91").textbox('getValue');
+    _91 = tojson("_91", _91);
+    //住院ID
+    var _93 = $("#_93").textbox('getValue');
+    _93 = tojson("_93", _93);
+    //挂号ID
+    var _92 = $("#_92").textbox('getValue');
+    _92 = tojson("_92", _92);
+    //序列化字段为JSON for 基本数据END
+
+    var _ClinicalInfoDg = $('#ClinicalInfoDg').datagrid('getChecked');
+    var rowClinicalInfoDg = JSON.stringify(_ClinicalInfoDg);
+    var p1 = rowClinicalInfoDg.substring(0,1);
+    alert(p1);
+    
+    
+    
+   
+    //var In_Code = $('#In_Code').textbox('getValue');//获取数据源
+    //alert($('querybycodeform').serialize());
+    //var _ClinicalInfoDg = $('#ClinicalInfoDg').datagrid('getChecked');
+    //var _dg_SampleInfo = $('dg_SampleInfo').datagrid('');
+        }
+function tojson(name,values)
+{
+    var str;
+    str = '{\"' + name + '\":' + values + '\"}';
+    return str;
+    
+}
+

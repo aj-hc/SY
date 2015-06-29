@@ -86,8 +86,6 @@ namespace FreezerProUtility.Fp_DAL
         {
             HttpItem item = new HttpItem();
             HttpHelper http = new HttpHelper();
-            //item.ContentType = "application/x-www-form-urlencoded";
-            item.Method = "GET";
             item.URL = url;
             return http.GetHtml(item).Html;
         }
