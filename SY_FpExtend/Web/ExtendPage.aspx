@@ -16,6 +16,7 @@
 
     <title>样品录入</title>
     <script type="text/javascript">
+
     </script>
 </head>
 <body style="overflow: auto;">

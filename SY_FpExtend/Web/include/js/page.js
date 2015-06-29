@@ -390,7 +390,7 @@ function getpagedata()
 {
     //序列化字段为JSON for 基本数据
     //querybycodeform
-    //传入方式
+    //传入方式、
     var In_CodeType = $('#In_CodeType').textbox('getValue');
     In_CodeType = tojson("In_CodeType", In_CodeType);
     //传入号码
