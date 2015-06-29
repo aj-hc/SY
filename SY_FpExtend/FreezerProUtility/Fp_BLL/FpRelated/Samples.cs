@@ -120,6 +120,9 @@ namespace FreezerProUtility.Fp_BLL
         }
         #endregion
 
+        #region 获取所有样品类型名称和id字典
+        
+       
         /// <summary>
         /// 获取所有样品类型名称和id字典
         /// </summary>
@@ -135,7 +138,7 @@ namespace FreezerProUtility.Fp_BLL
             }
             return dic;
         }
-
+        #endregion
         #region 获取样品类型根据名称 +  public List<SampleTypes>  GetAllSample_Types(string url)
         public SampleTypes GetSample_TypeByTypeName(string url,string name)
         {
