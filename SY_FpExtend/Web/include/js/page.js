@@ -55,14 +55,12 @@ $(function () {
                 $ClinicalInfoDg.datagrid('endEdit', editRow);
 
                 //如果调用acceptChanges(),使用getChanges()则获取不到编辑和新增的数据。
-
                 //使用JSON序列化datarow对象，发送到后台。
                 var rows = $ClinicalInfoDg.datagrid('getChanges');
-
                 var rowstr = JSON.stringify(rows);
-                $.post('/Home/Create', rowstr, function (data) {
+                //$.post('/Home/Create', rowstr, function (data) {
 
-                });
+                //});
             }
         }, '-', {
             text: '删除', iconCls: 'icon-remove', handler: function () {
@@ -97,7 +95,6 @@ $(function () {
             if (editRow != undefined) {
                 $ClinicalInfoDg.datagrid('endEdit', editRow);
             }
-
             if (editRow == undefined) {
                 $ClinicalInfoDg.datagrid('beginEdit', rowIndex);
                 editRow = rowIndex;
@@ -452,7 +449,7 @@ function getpagedata()
     //alert($('querybycodeform').serialize());
     //var _ClinicalInfoDg = $('#ClinicalInfoDg').datagrid('getChecked');
     //var _dg_SampleInfo = $('dg_SampleInfo').datagrid('');
-}
+        }
 function tojson(name,values)
 {
     var str;
