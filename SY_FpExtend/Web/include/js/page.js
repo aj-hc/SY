@@ -439,14 +439,14 @@ function getpagedata()
 
     var _ClinicalInfoDg = $('#ClinicalInfoDg').datagrid('getChecked');
     var rowClinicalInfoDg = JSON.stringify(_ClinicalInfoDg);
-    var p1 = rowClinicalInfoDg.substring(0,1);
-    alert(p1);
+    alert(tojson("ClinicalInfoDg", rowClinicalInfoDg));
     
     
     
    
     //var In_Code = $('#In_Code').textbox('getValue');//获取数据源
-    //alert($('querybycodeform').serialize());
+    //a
+    lert($('querybycodeform').serialize());
     //var _ClinicalInfoDg = $('#ClinicalInfoDg').datagrid('getChecked');
     //var _dg_SampleInfo = $('dg_SampleInfo').datagrid('');
         }
