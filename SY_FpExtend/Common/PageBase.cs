@@ -11,6 +11,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 using System.Reflection;
 using System.Text;
+using RuRo.Common;
 namespace Maticsoft.Common
 {
 	/// <summary>
@@ -19,7 +20,7 @@ namespace Maticsoft.Common
 	public class PageBase:System.Web.UI.Page
 	{
         public int PermissionID = -1;//默认-1为无限制，可以在不同页面继承里来控制不同页面的权限
-        string virtualPath = Maticsoft.Common.ConfigHelper.GetConfigString("VirtualPath");
+        string virtualPath = ConfigHelper.GetConfigString("VirtualPath");
         		
 		/// <summary>
 		/// 构造函数
