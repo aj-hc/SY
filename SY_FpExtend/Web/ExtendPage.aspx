@@ -101,7 +101,7 @@
             <%--2、临床信息详细信息展现--%>
             <%--3、单独导入临床信息操作--%>
             <div class="easyui-panel">
-                <div id="ClinicalInfoDg" style="height: 360px; width: 100%"></div>
+                <div id="ClinicalInfoDg" style="height: 400px; width: 100%"></div>
             </div>
         </form>
         <div class="h"></div>

@@ -31,7 +31,7 @@ $(function () {
             { field: 'Description', title: '疾病描述', width: '20%', align: 'center', editor: { type: 'validatebox', options: { required: false } } },
         ]],
         singleSelect: false,
-        pagination: true,
+        pagination:true,
         toolbar: [
             {
                 text: '添加', iconCls: 'icon-add', handler: function ()
@@ -50,13 +50,12 @@ $(function () {
             }, '-', {
             text: '保存', iconCls: 'icon-save', handler: function () {
                 $ClinicalInfoDg.datagrid('endEdit', editRow);
+                //$ClinicalInfoDg.datagrid('');
                 //如果调用acceptChanges(),使用getChanges()则获取不到编辑和新增的数据。
                 //使用JSON序列化datarow对象，发送到后台。
-                var rows = $ClinicalInfoDg.datagrid('getChanges');
+                var rows = $ClinicalInfoDg.datagrid('getRows');
+                $('#ClinicalInfoDg').datagrid({ loadFilter: pagerFilter }).datagrid('loadData', rows).datagrid('reload');
                 var rowstr = JSON.stringify(rows);
-                //$.post('/Home/Create', rowstr, function (data) {
-
-                //});
             }
         }, '-', {
             text: '删除', iconCls: 'icon-remove', handler: function () {
@@ -84,10 +83,11 @@ $(function () {
                 }
             }
         }],
+        
         onAfterEdit: function (rowIndex, rowData, changes) {
             editRow = undefined;
         },
-        onDblClickRow: function (rowIndex, rowData) {
+        onDblClickRow: function (rowIndex, rowData) { 
             if (editRow != undefined) {
                 $ClinicalInfoDg.datagrid('endEdit', editRow);
             }
@@ -99,6 +99,7 @@ $(function () {
         onClickRow: function (rowIndex, rowData) {
             if (editRow != undefined) {
                 $ClinicalInfoDg.datagrid('endEdit', editRow);
+
             }
         }
    //加载模拟数据
@@ -131,7 +132,9 @@ $(function () {
                 }
             }, '-',
             {text: '保存', iconCls: 'icon-save', handler: function () {
-                    $dg_SampleInfo.datagrid('endEdit', editRow);
+                $dg_SampleInfo.datagrid('endEdit', editRow);
+                var rows = $ClinicalInfoDg.datagrid('getRows');
+                $('#ClinicalInfoDg').datagrid({ loadFilter: pagerFilter }).datagrid('loadData', rows).datagrid('reload');
                     var rows = $dg_SampleInfo.datagrid('getChanges');
                     var rowstr = JSON.stringify(rows);
              }

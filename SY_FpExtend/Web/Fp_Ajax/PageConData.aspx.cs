@@ -9,15 +9,9 @@ namespace RuRo.Web
 {
     public partial class PageConData : System.Web.UI.Page
     {
-        string url = string.Empty;
         protected void Page_Load(object sender, EventArgs e)
         {
             Response.ContentType = "text/plain";
-            url = GetFpUrl();
-            if (string.IsNullOrEmpty(url))
-            {
-                Response.Redirect("Login.aspx");
-            }
             string mark = Request.Params["conMarc"];
             switch (mark)
             {
@@ -26,32 +20,17 @@ namespace RuRo.Web
                 case "BloodTypeFlag": Response.Write(ReturnBloodTypeFlag()); break;
                 case "SamplingMethod": Response.Write(ReturnSamplingMethodData()); break;
                 case "DiagnoseTypeFlag": Response.Write(ReturnDiagnoseTypeFlag()); break;
-                case "SampleTypes": Response.Write(ReturnSampleTypes()); break;
-                default: Response.Write("");
+                default:
                     break;
             }
-        }
-
-        private string GetFpUrl()
-        {
-            string username = Common.CookieHelper.GetCookieValue("username");
-            string tempwd = Common.CookieHelper.GetCookieValue("password");
-            if (string.IsNullOrEmpty(username)||string.IsNullOrEmpty(tempwd))
-            {
-                return "";
-            }
-            else
-            {
-                FreezerProUtility.Fp_BLL.FpUrlMaker FpUrlMaker = new FreezerProUtility.Fp_BLL.FpUrlMaker(username, Common.DEncrypt.DESEncrypt.Decrypt(tempwd));
-                return FpUrlMaker.ConnFpUrl;
-            }
-        }
+        }  
         //初始化唯一选择框
         private string ReturnIn_CodeType()
         {
             string res = "[{\"In_CodeType\": \"1\",\"text\": \"诊疗卡号码\" },{\"In_CodeType\": \"2\", \"text\": \"住院号\"}, { \"In_CodeType\": \"3\", \"text\": \"门诊流水号\"},{\"In_CodeType\": \"4\",\"text\": \"患者ID\" },{\"In_CodeType\": \"5\", \"text\": \"住院记录ID\"}, { \"In_CodeType\": \"6\", \"text\": \"检验标签条码\"} ]";
             return res;
         }
+
         //初始化性别
         private string ReturnGender()
         {
@@ -72,13 +51,6 @@ namespace RuRo.Web
         private string ReturnDiagnoseTypeFlag()
         {
             string res = "[{\"DiagnoseTypeFlag\": \"0\",\"text\": \"门诊诊断\" },{\"DiagnoseTypeFlag\": \"1\", \"text\": \"入院诊断\"}, { \"DiagnoseTypeFlag\": \"2\", \"text\": \"出院主要诊断\"} , { \"DiagnoseTypeFlag\": \"3\", \"text\": \"出院次要诊\"} ]";
-            return res;
-        }
-        private string ReturnSampleTypes()
-        {
-            Dictionary<string, string> sampleNameDic = FreezerProUtility.Fp_BLL.Samples.GetAllSample_TypesNames(url);
-            
-            string res = "[{\"value\": \"0\",\"text\": \"门诊诊断\" },{\"value\": \"1\", \"text\": \"入院诊断\"}, { \"value\": \"2\", \"text\": \"出院主要诊断\"} , { \"value\": \"3\", \"text\": \"出院次要诊\"} ]";
             return res;
         }
 

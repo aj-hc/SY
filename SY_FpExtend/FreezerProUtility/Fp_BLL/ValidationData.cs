@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace FreezerProUtility.Fp_Common
+namespace FreezerProUtility.Fp_BLL
 {
     /// <summary>
     /// 检查数据类
