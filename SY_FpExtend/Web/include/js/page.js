@@ -83,10 +83,11 @@ $(function () {
                 }
             }
         }],
+        
         onAfterEdit: function (rowIndex, rowData, changes) {
             editRow = undefined;
         },
-        onDblClickRow: function (rowIndex, rowData) {
+        onDblClickRow: function (rowIndex, rowData) { 
             if (editRow != undefined) {
                 $ClinicalInfoDg.datagrid('endEdit', editRow);
             }
@@ -98,6 +99,7 @@ $(function () {
         onClickRow: function (rowIndex, rowData) {
             if (editRow != undefined) {
                 $ClinicalInfoDg.datagrid('endEdit', editRow);
+
             }
         }
    //加载模拟数据
