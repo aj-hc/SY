@@ -104,7 +104,6 @@ function querybycode() {
 
                             for (var i = 0; i < obj._ClinicalInfo.ds.length-1; i++)
                             {
-                                //obj._ClinicalInfo.ds[i]DiagnoseTypeFlag.text=
                                 obj._ClinicalInfo.ds[i].DiagnoseDateTime.substring(0.10);
                             }
                             var ds = obj._ClinicalInfo.ds
