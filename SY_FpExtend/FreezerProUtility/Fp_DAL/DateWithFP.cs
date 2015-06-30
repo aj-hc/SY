@@ -1,5 +1,4 @@
 ﻿
-using FreezerProUtility.Fp_BLL;
 using FreezerProUtility.Fp_Common;
 using System;
 using System.Collections.Generic;
@@ -103,6 +102,7 @@ namespace FreezerProUtility.Fp_DAL
         }
         #endregion
 
+
         #region 泛型方法处理从Fp中获取到的数据 +  private List<T> getdata<T>(string url, FpMethod fpMethod, string param, string datawith)
         /// <summary>
         /// 泛型方法处理从Fp中获取到的数据
@@ -149,7 +149,7 @@ namespace FreezerProUtility.Fp_DAL
                 string str_Json = Fp_DAL.DataWithFP.getDateFromFp(connUrl);
                 if (ValidationData.checkTotal(str_Json))
                 {
-                    t = FpJsonHelper.JsonStrToObject<T>(str_Json);
+                    t = FpJsonHelper.DeserializeObject<T>(str_Json);
                 }
             }
             return t;
