@@ -83,7 +83,11 @@ namespace FreezerProUtility.Fp_BLL
         #endregion
 
         #region 根据样本id获取样本的信息
-        //根据样本id获取样本的信息
+        /// <summary>
+        /// 根据样本id获取样本的信息
+        /// </summary>
+        /// <param name="sample_id">样本id</param>
+        /// <returns>Sample_Info对象</returns>
         public Sample_Info GetSample_Info(string sample_id)
         {
             Sample_Info sample_info = new Sample_Info();
@@ -93,6 +97,25 @@ namespace FreezerProUtility.Fp_BLL
         }
         #endregion
 
+        #region 根据样本id获取样本的信息
+        //根据样本id获取样本的信息
+        public Sample_Info GetSample_Info(string url, string sample_id)
+        {
+            Sample_Info sample_info = new Sample_Info();
+            if (!string.IsNullOrEmpty(sample_id))
+            {
+                //sample_info = getdata<Sample_Info>(string.Format("{0}&id=", url, sample_id), FpMethod.sample_info, "");
+            }
+            return sample_info;
+        }
+        #endregion
+
+        /// <summary>
+        /// 导入样本数据到fp
+        /// </summary>
+        /// <param name="url">导入数据的url</param>
+        /// <param name="jsondata">要导入的数据</param>
+        /// <returns>导入之后的结果</returns>
         public string Import_Sample(string url, string jsondata)
         {
             string json = "";
@@ -103,11 +126,14 @@ namespace FreezerProUtility.Fp_BLL
             string create_storage = ""; //创建储存结构才有 box_type
             string box_type = "";
 
-            //01.先判断储存结构是否存在，存在就添加
+            //01.先判断储存结构是否存在，存在就添加--先获取冰箱，查看冰箱是否存在，不存在就添加样品时直接创建冰箱结构（Tem-->username-->month-->bag）
             //02.储存结构空间不足则再次添加储存结构
             //03.储存结构命名-->Tem-->username-->month-->bag
             //------>判断存储结构是否存在------>判断条件---冰箱--当前用户--月份。冰箱名指定（TEM）,用户名：当前用户全名，月份--当前日期
             //添加样品时需要查找指定盒子是否存在，不存在就添加，存在就检查数量是否合规
+
+
+
 
             return Fp_DAL.DataWithFP.postDateToFp(url, jsondata);
         }
@@ -115,13 +141,12 @@ namespace FreezerProUtility.Fp_BLL
         #region 获取样品类型集合 +  public List<SampleTypes>  GetAllSample_Types(string url)
         public static List<SampleTypes> GetAllSample_Types(string url)
         {
-            List<SampleTypes> sample_TypesList = getdata<SampleTypes>(url, FpMethod.sample_types, "", "SampleTypes");
+            List<SampleTypes> sample_TypesList = Fp_DAL.DataWithFP.getdata<SampleTypes>(url, FpMethod.sample_types, "", "SampleTypes");
             return sample_TypesList;
         }
         #endregion
 
         #region 获取所有样品类型名称和id字典
-        
         /// <summary>
         /// 获取所有样品类型名称和id字典
         /// </summary>
@@ -147,33 +172,6 @@ namespace FreezerProUtility.Fp_BLL
             return sample;
         }
         #endregion
-
-        #region 泛型方法处理从Fp中获取到的数据 +  private List<T> getdata<T>(string url, FpMethod fpMethod, string param, string datawith)
-        /// <summary>
-        /// 泛型方法处理从Fp中获取到的数据
-        /// </summary>
-        /// <typeparam name="T">返回集合参数的类型</typeparam>
-        /// <param name="fpMethod">调用的api方法</param>
-        /// <param name="param">调用方法的参数</param>
-        /// <param name="datawith">从fp返回值中取什么数据</param>
-        /// <returns>返回集合</returns>
-        private static List<T> getdata<T>(string url, FpMethod fpMethod, string param, string datawith)
-        {
-            List<T> list = new List<T>();
-            bool  check;
-            string connUrl = Fp_Common.UrlHelper.ConnectionUrlAndPar(url, fpMethod, "", out check);
-            if (check)
-            {
-                string str_Json = Fp_DAL.DataWithFP.getDateFromFp(connUrl);
-                if (ValidationData.checkTotal(str_Json))
-                {
-                    list = FpJsonHelper.JObjectToList<T>(datawith, str_Json);
-                }
-            }
-            return list;
-        }
-        #endregion
-
 
     }
 }

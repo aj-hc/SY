@@ -1063,6 +1063,7 @@
     <Content Include="include\js\sy_func.js" />
     <Content Include="Login.aspx" />
     <Content Include="TestData\Fpfunction.js" />
+    <Content Include="TestData\PostDataTest.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -1142,6 +1143,13 @@
       <DependentUpon>MasterPage.master</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestData\PostDataTest.aspx.cs">
+      <DependentUpon>PostDataTest.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TestData\PostDataTest.aspx.designer.cs">
+      <DependentUpon>PostDataTest.aspx</DependentUpon>
+    </Compile>
     <Compile Include="ValidateCode.aspx.cs">
       <DependentUpon>ValidateCode.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
