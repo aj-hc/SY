@@ -11,7 +11,9 @@ namespace RuRo.Web.Fp_Ajax
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            string action = Request.Params["action"].ToString();
+            string json = Request.Params["json"].ToString();
+            Response.Write("成功获取"+json);
         }
     }
 }
