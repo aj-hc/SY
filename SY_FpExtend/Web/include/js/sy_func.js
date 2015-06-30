@@ -101,9 +101,14 @@ function querybycode() {
                         }
                     } if (obj._ClinicalInfo) {
                         if (obj._ClinicalInfo.ds) {
+
+                            for (var i = 0; i < obj._ClinicalInfo.ds.length-1; i++)
+                            {
+                                //obj._ClinicalInfo.ds[i]DiagnoseTypeFlag.text=
+                                obj._ClinicalInfo.ds[i].DiagnoseDateTime.substring(0.10);
+                            }
                             var ds = obj._ClinicalInfo.ds
-                            $('#ClinicalInfoDg').datagrid({ loadFilter: pagerFilter }).datagrid('loadData', ds);
-                        }
+                            $('#ClinicalInfoDg').datagrid({ loadFilter: pagerFilter }).datagrid('loadData', ds).datagrid('reload');                        }
                     }
                 }
             }

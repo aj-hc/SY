@@ -34,11 +34,14 @@ $(function () {
         pagination: true,
         toolbar: [
             {
-                text: '添加', iconCls: 'icon-add', handler: function () {
-                    if (editRow != undefined) {
+                text: '添加', iconCls: 'icon-add', handler: function ()
+                {
+                    if (editRow != undefined)
+                    {
                     $ClinicalInfoDg.datagrid('endEdit', editRow);
                     }
-                    if (editRow == undefined) {
+                    if (editRow == undefined)
+                    {
                     $ClinicalInfoDg.datagrid('insertRow', {
                         index: 0,
                         row: {}
@@ -115,23 +118,7 @@ $(function () {
     $('#dg_SampleInfo').datagrid({
         title: '取样信息',
         columns: [[
-            {
-                field: 'SampleType', title: '样品类型', width: '15%', align: 'center', editor: { type: 'validatebox', options: { required: false } },
-                formatter: function (value, row) {
-                    return row.value;
-                },
-                editor: {
-                    type: 'combobox',
-                    options: {
-                        method: 'get',
-                        valueField: 'value',
-                        textField: 'text',
-                        url: '../Fp_Ajax/PageConData.aspx?conMarc=SampleTypes',
-                        panelHeight: 'auto',
-                        required: true
-                    }
-                }
-            },
+            { field: 'SampleType', title: '样品类型', width: '15%', align: 'center',editor: { type: 'validatebox', options: { required: false } } },
             { field: 'Scount', title: '管数', width: '10%', align: 'center', editor: { type: 'validatebox', options: { required: false } } },
             { field: 'Others', title: '其他信息', width: '10%', align: 'center', editor: { type: 'validatebox', options: { required: false } } },//动态列--根据样品类型展示不同的数据
         ]],
@@ -346,17 +333,7 @@ $(function () {
         panelHeight: 'auto',
     });
 })
-//给样本类型下拉框绑定值
-//$(function () {
-//    $('#_101').combobox({
-//        url: '../Fp_Ajax/PageConData.aspx?conMarc=SamplingMethod',
-//        multiple: true,
-//        method: 'get',
-//        valueField: 'samplingMethod',
-//        textField: 'text',
-//        panelHeight: 'auto',
-//    });
-//})
+
 
 //初始化win弹窗在显示器中央
 function doimport() {
@@ -462,14 +439,14 @@ function getpagedata()
 
     var _ClinicalInfoDg = $('#ClinicalInfoDg').datagrid('getChecked');
     var rowClinicalInfoDg = JSON.stringify(_ClinicalInfoDg);
-    var p1 = rowClinicalInfoDg.substring(0,1);
-    alert(p1);
+    alert(tojson("ClinicalInfoDg", rowClinicalInfoDg));
     
     
     
    
     //var In_Code = $('#In_Code').textbox('getValue');//获取数据源
-    //alert($('querybycodeform').serialize());
+    //a
+    lert($('querybycodeform').serialize());
     //var _ClinicalInfoDg = $('#ClinicalInfoDg').datagrid('getChecked');
     //var _dg_SampleInfo = $('dg_SampleInfo').datagrid('');
         }
