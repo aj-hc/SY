@@ -18,7 +18,7 @@ namespace FreezerProUtility.Fp_BLL
         public List<UserFields> UserFieldList()
         {
             List<UserFields> list_UserFields = new List<UserFields>() { };
-            string str_Json = dataWithFP.getDateFromFp(FpMethod.userfields, "");
+            string str_Json = "";
             try
             {
                 string total = FpJsonHelper.GetStrFromJsonStr("Total", str_Json);

@@ -12,7 +12,7 @@ namespace FreezerProUtility.Fp_Common
         /// </summary>
         /// <param name="url">带有ip，账号、密码的url字符串</param>
         /// <param name="fpMethod">方法</param>
-        /// <param name="param">方法参数</param>
+        /// <param name="param">方法参数需要带有&</param>
         /// <param name="check">链接是否成功</param>
         /// <returns></returns>
         public static string ConnectionUrlAndPar(string url, FpMethod fpMethod, string param,out  bool check)
@@ -32,7 +32,7 @@ namespace FreezerProUtility.Fp_Common
                 }
                 else
                 {
-                    rseUrl.AppendFormat("{0}&method={1}&{2}", url, fpMethod,param);
+                    rseUrl.AppendFormat("{0}&method={1}{2}", url, fpMethod,param);
                 }
                 return rseUrl.ToString();
             }
