@@ -14,7 +14,7 @@
         <asp:Label ID="Label2" runat="server" Text="密码" ></asp:Label><asp:TextBox ID="password" runat="server"></asp:TextBox>
         <asp:Label ID="Label3" runat="server" Text="方法" ></asp:Label><asp:TextBox ID="method" runat="server"></asp:TextBox>
         <asp:Button ID="Button1" runat="server" Text="Button"  OnClick="Button1_Click"/>
-        <asp:Label ID="Label4" runat="server" Text="result"></asp:Label>
+        <asp:Label ID="result" runat="server" Text="结果"></asp:Label>
     </div>
     </form>
 </body>

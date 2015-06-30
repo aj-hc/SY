@@ -26,9 +26,19 @@ namespace RuRo.Web.TestData
 
 
             item.Method = "POST";
-            item.PostEncoding = System.Text.Encoding.UTF8;
             item.URL = baseUrl + "/api";
-            item.Postdata = "";
+            string data = string.Format("username={0}&password={1}&method={2}", us, pwd, mth);
+            item.Postdata = data;
+            item.PostEncoding = System.Text.Encoding.UTF8;
+
+            res = http.GetHtml(item);
+
+            System.Text.StringBuilder str = new System.Text.StringBuilder();
+
+            Type t = res.GetType();
+
+
+            result.Text = "";
         }
     }
 }
