@@ -54,6 +54,8 @@
     <Compile Include="Fp_BLL\FpRelated\Users.cs" />
     <Compile Include="Fp_BLL\FpRelated\FpUrlMaker.cs" />
     <Compile Include="Fp_BLL\ValidationData.cs" />
+    <Compile Include="Fp_Common\AttributeHelper.cs" />
+    <Compile Include="Fp_Common\CookieHelper.cs" />
     <Compile Include="Fp_Common\EncodeAndDecodeString.cs" />
     <Compile Include="Fp_Common\FpHelper\Config.cs" />
     <Compile Include="Fp_Common\UrlHelper.cs" />
@@ -61,6 +63,7 @@
     <Compile Include="Fp_Common\FpHelper\FpJsonHelper.cs" />
     <Compile Include="Fp_Common\FpHelper\FpUnicodeHelper.cs" />
     <Compile Include="Fp_Common\Fp_Enum.cs" />
+    <Compile Include="Fp_Common\ValidationData.cs" />
     <Compile Include="Fp_Common\XmlHelper\DirFile.cs" />
     <Compile Include="Fp_Common\XmlHelper\SysHelper.cs" />
     <Compile Include="Fp_Common\XmlHelper\XmlHelper.cs" />
