@@ -440,7 +440,7 @@ function getpagedata()
     var _93 = $("#_93").textbox('getValue');
     _93 = tojson("_93", _93);
     querybycodeform = querybycodeform + _93 + ",";
-    //挂号ID
+    //挂号ID 
     var _92 = $("#_92").textbox('getValue');
     _92 = tojson("_92", _92);
     querybycodeform = querybycodeform + _92;
