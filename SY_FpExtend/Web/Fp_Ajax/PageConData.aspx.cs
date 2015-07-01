@@ -62,14 +62,17 @@ namespace RuRo.Web
         }
         private string Returnliandong2()
         {
-            string res = "[{\"key\": \"0\",\"text\": \"I\" },{\"key\": \"1\", \"text\": \"fuck\"}, { \"key\": \"2\", \"text\": \"your\"} , { \"key\": \"3\", \"text\": \"daddy\"} ]";
+            string mark = Request.Params["data"];
+            string res ="";
+            if (mark == "1")
+            {
+                res = "[{\"key\": \"0\",\"text\": \"I\" },{\"key\": \"1\", \"text\": \"fuck\"}, { \"key\": \"2\", \"text\": \"your\"} , { \"key\": \"3\", \"text\": \"daddy\"} ]";
+            }
+            else 
+            {
+                res = "[{\"key\": \"0\",\"text\": \"kiss\" },{\"key\": \"1\", \"text\": \"my\"}, { \"key\": \"2\", \"text\": \"Ass\"} ]";
+            }
             return res;
         }
-        private string Returnliandong3()
-        {
-            string res = "[{\"key\": \"0\",\"text\": \"kiss\" },{\"key\": \"1\", \"text\": \"my\"}, { \"key\": \"2\", \"text\": \"Ass\"} ]";
-            return res;
-        }
-
     }
 }
