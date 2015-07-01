@@ -148,7 +148,7 @@ $(function () {
                         required: true
                     }
                 }
-            },
+            }, 
             { field: 'Others', title: '其他信息', width: '10%', align: 'center', editor: { type: 'validatebox', options: { required: false } } },//动态列--根据样品类型展示不同的数据
 
         ]],
