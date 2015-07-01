@@ -20,6 +20,8 @@ namespace RuRo.Web
                 case "BloodTypeFlag": Response.Write(ReturnBloodTypeFlag()); break;
                 case "SamplingMethod": Response.Write(ReturnSamplingMethodData()); break;
                 case "DiagnoseTypeFlag": Response.Write(ReturnDiagnoseTypeFlag()); break;
+                case "liandong1": Response.Write(Returnliandong1()); break;
+                case "liandong2": Response.Write(Returnliandong2()); break;
                 default:
                     break;
             }
@@ -51,6 +53,21 @@ namespace RuRo.Web
         private string ReturnDiagnoseTypeFlag()
         {
             string res = "[{\"DiagnoseTypeFlag\": \"0\",\"text\": \"门诊诊断\" },{\"DiagnoseTypeFlag\": \"1\", \"text\": \"入院诊断\"}, { \"DiagnoseTypeFlag\": \"2\", \"text\": \"出院主要诊断\"} , { \"DiagnoseTypeFlag\": \"3\", \"text\": \"出院次要诊\"} ]";
+            return res;
+        }
+        private string Returnliandong1()
+        {
+            string res = "[{\"key\": \"0\",\"text\": \"what\" },{\"key\": \"1\", \"text\": \"the\"}, { \"key\": \"2\", \"text\": \"fuck\"} , { \"key\": \"3\", \"text\": \"you\"} ]";
+            return res;
+        }
+        private string Returnliandong2()
+        {
+            string res = "[{\"key\": \"0\",\"text\": \"I\" },{\"key\": \"1\", \"text\": \"fuck\"}, { \"key\": \"2\", \"text\": \"your\"} , { \"key\": \"3\", \"text\": \"daddy\"} ]";
+            return res;
+        }
+        private string Returnliandong3()
+        {
+            string res = "[{\"key\": \"0\",\"text\": \"kiss\" },{\"key\": \"1\", \"text\": \"my\"}, { \"key\": \"2\", \"text\": \"Ass\"} ]";
             return res;
         }
 

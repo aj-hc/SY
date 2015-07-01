@@ -13,10 +13,8 @@
     <link href="../include/jquery-easyui-1.4.2/themes/default/easyui.css" rel="stylesheet" />
     <link href="../include/jquery-easyui-1.4.2/themes/icon.css" rel="stylesheet" />
     <link href="include/css/default.css" rel="stylesheet" />
-
     <title>样品录入</title>
     <script type="text/javascript">
-
     </script>
 </head>
 <body style="overflow: auto;">

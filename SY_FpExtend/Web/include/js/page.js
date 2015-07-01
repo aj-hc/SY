@@ -48,14 +48,11 @@ $(function () {
                     }
                 }
             }, '-', {
-            text: '保存', iconCls: 'icon-save', handler: function () {
-                $ClinicalInfoDg.datagrid('endEdit', editRow);
-                //$ClinicalInfoDg.datagrid('');
-                //如果调用acceptChanges(),使用getChanges()则获取不到编辑和新增的数据。
-                //使用JSON序列化datarow对象，发送到后台。
-                var rows = $ClinicalInfoDg.datagrid('getRows');
-                $('#ClinicalInfoDg').datagrid({ loadFilter: pagerFilter }).datagrid('loadData', rows).datagrid('reload');
-                var rowstr = JSON.stringify(rows);
+                text: '保存', iconCls: 'icon-save', handler: function () {
+                        $ClinicalInfoDg.datagrid('endEdit', editRow);
+                        var rows = $ClinicalInfoDg.datagrid('getRows');
+                        $('#ClinicalInfoDg').datagrid({ loadFilter: pagerFilter }).datagrid('loadData', rows).datagrid('reload');
+                        var rowstr = JSON.stringify(rows);
             }
         }, '-', {
             text: '删除', iconCls: 'icon-remove', handler: function () {
@@ -116,7 +113,44 @@ $(function () {
         columns: [[
             { field: 'SampleType', title: '样品类型', width: '15%', align: 'center', editor: { type: 'validatebox', options: { required: false } } },
             { field: 'Scount', title: '管数', width: '10%', align: 'center', editor: { type: 'validatebox', options: { required: false } } },
+            {   field: 'combox1', title: '联动1', width: '20%',
+                formatter: function (value, row) { return row.key; },
+                editor: {
+                    type: 'combobox',
+                    options: {
+                        method: 'get',
+                        valueField: 'key',
+                        textField: 'text',
+                        url: '../Fp_Ajax/PageConData.aspx?conMarc=liandong1',
+                        panelHeight: 'auto',
+                        onSelect: function (data)
+                        {
+                            var row = $('#dg_SampleInfo').datagrid('getSelected');
+                            var rowIndex = $('#dg_SampleInfo').datagrid('getRowIndex', row);
+                            var target = $('#dg_SampleInfo').datagrid('getEditor', { 'index': rowIndex, 'field': 'combox2' }).target;
+                            target.combobox('clear');
+                            var url = '../Fp_Ajax/PageConData.aspx?conMarc=liandong2' + data.value;
+                            target.combobox('reload', url);
+                        },
+                        required: true
+                    }
+                }
+            },
+            {   field: 'combox2', title: '联动2', width: '20%',
+                formatter: function (value, row) { return row.key; },
+                editor: {
+                    type: 'combobox',
+                    options: {
+                        method: 'get',
+                        valueField: 'key',
+                        textField: 'text',
+                        panelHeight: 'auto',
+                        required: true
+                    }
+                }
+            },
             { field: 'Others', title: '其他信息', width: '10%', align: 'center', editor: { type: 'validatebox', options: { required: false } } },//动态列--根据样品类型展示不同的数据
+
         ]],
         singleSelect: false,
         pagination: true,
@@ -133,8 +167,8 @@ $(function () {
             }, '-',
             {text: '保存', iconCls: 'icon-save', handler: function () {
                 $dg_SampleInfo.datagrid('endEdit', editRow);
-                var rows = $ClinicalInfoDg.datagrid('getRows');
-                $('#ClinicalInfoDg').datagrid({ loadFilter: pagerFilter }).datagrid('loadData', rows).datagrid('reload');
+                var rows = $dg_SampleInfo.datagrid('getRows');
+                $('#dg_SampleInfo').datagrid({ loadFilter: pagerFilter }).datagrid('loadData', rows).datagrid('reload');
                     var rows = $dg_SampleInfo.datagrid('getChanges');
                     var rowstr = JSON.stringify(rows);
              }
@@ -218,10 +252,12 @@ function accept() {
         $('#dg_SampleInfo').datagrid('acceptChanges');
     }
 }
+
 function reject() {
     $('#dg_SampleInfo').datagrid('rejectChanges');
     editIndex = undefined;
 }
+
 function getChanges() {
     var rows = $('#dg_SampleInfo').datagrid('getChanges');
     alert(rows.length + ' rows are changed!');
