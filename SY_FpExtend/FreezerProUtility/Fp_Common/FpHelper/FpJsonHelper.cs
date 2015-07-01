@@ -36,6 +36,8 @@ namespace FreezerProUtility.Fp_Common
         {
             return JsonConvert.SerializeObject(str);
         }
+
+
         #region 将API返回的json格式的字符串中对象转换成list集合 + public static List<T> JObjectToList<T>(string str, string json)
         /// <summary>
         /// 将API返回的json格式的字符串中对象转换成list集合
@@ -150,8 +152,13 @@ namespace FreezerProUtility.Fp_Common
         /// <returns>对象</returns>
         public static T JsonStrToObject<T>(string jsonStr) where T:class
         {
-         T obj = JsonConvert.DeserializeObject(jsonStr, typeof(T)) as T;
+            T obj = JsonConvert.DeserializeObject(jsonStr, typeof(T)) as T;
             return obj;
+        }
+
+        public static T DeserializeObject<T>(string str) where T : class
+        {
+            return JsonConvert.DeserializeObject(str, typeof(T)) as T;
         }
 
         #region dataTable转换成Json格式 
