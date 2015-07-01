@@ -124,7 +124,7 @@ $(function () {
                         url: '../Fp_Ajax/PageConData.aspx?conMarc=liandong1',
                         panelHeight: 'auto',
                         onSelect: function (data)
-                        {
+                        { 
                             var row = $('#dg_SampleInfo').datagrid('getSelected');
                             var rowIndex = $('#dg_SampleInfo').datagrid('getRowIndex', row);
                             var target = $('#dg_SampleInfo').datagrid('getEditor', { 'index': rowIndex, 'field': 'combox2' }).target;
