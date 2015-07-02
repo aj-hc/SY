@@ -107,10 +107,10 @@ function querybycode() {
                         }
                     }
                     if (obj._ClinicalInfo)
-                    {
+                    { 
                         var _ClinicalInfo = $.parseJSON(obj._ClinicalInfo);
                         if (_ClinicalInfo.ds)
-                        {
+                        { 
                             var ds = _ClinicalInfo.ds
                             for (var i = 0; i < ds.length; i++)
                             {
