@@ -64,13 +64,13 @@ namespace RuRo.Web
         {
             string mark = Request.Params["data"];
             string res ="";
-            if (mark == "1")
+            if (mark == "0")
             {
-                res = "[{\"key\": \"0\",\"text\": \"I\" },{\"key\": \"1\", \"text\": \"fuck\"}, { \"key\": \"2\", \"text\": \"your\"} , { \"key\": \"3\", \"text\": \"daddy\"} ]";
+                res = "[{\"what\": \"0\",\"text\": \"I\" } ]";
             }
             else 
             {
-                res = "[{\"key\": \"0\",\"text\": \"kiss\" },{\"key\": \"1\", \"text\": \"my\"}, { \"key\": \"2\", \"text\": \"Ass\"} ]";
+                res = "[{\"the\": \"1\",\"text\": \"kiss\" }]";
             }
             return res;
         }
