@@ -10,9 +10,10 @@
 <body>
     <form id="form1" runat="server">
     <div>
-        <asp:Label ID="Label1" runat="server" Text="账号" ></asp:Label><asp:TextBox ID="username" runat="server"></asp:TextBox>
-        <asp:Label ID="Label2" runat="server" Text="密码" ></asp:Label><asp:TextBox ID="password" runat="server"></asp:TextBox>
+        <%--<asp:Label ID="Label1" runat="server" Text="账号" ></asp:Label><asp:TextBox ID="username" runat="server"></asp:TextBox>--%>
+<%--        <asp:Label ID="Label2" runat="server" Text="密码" ></asp:Label><asp:TextBox ID="password" runat="server"></asp:TextBox>--%>
         <asp:Label ID="Label3" runat="server" Text="方法" ></asp:Label><asp:TextBox ID="method" runat="server"></asp:TextBox>
+         <asp:Label ID="Label1" runat="server" Text="参数" ></asp:Label><asp:TextBox ID="par" runat="server"></asp:TextBox>
         <asp:Button ID="Button1" runat="server" Text="Button"  OnClick="Button1_Click"/>
         <asp:Label ID="result" runat="server" Text="结果"></asp:Label>
     </div>
