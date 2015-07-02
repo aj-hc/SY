@@ -13,10 +13,8 @@
     <link href="../include/jquery-easyui-1.4.2/themes/default/easyui.css" rel="stylesheet" />
     <link href="../include/jquery-easyui-1.4.2/themes/icon.css" rel="stylesheet" />
     <link href="include/css/default.css" rel="stylesheet" />
-
     <title>样品录入</title>
     <script type="text/javascript">
-
     </script>
 </head>
 <body style="overflow: auto;">
@@ -101,7 +99,7 @@
             <%--2、临床信息详细信息展现--%>
             <%--3、单独导入临床信息操作--%>
             <div class="easyui-panel">
-                <div id="ClinicalInfoDg" style="height: 360px; width: 100%"></div>
+                <div id="ClinicalInfoDg" style="height: 400px; width: 100%"></div>
             </div>
         </form>
         <div class="h"></div>

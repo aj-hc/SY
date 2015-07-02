@@ -137,7 +137,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AttributeHelper.cs" />
     <Compile Include="CreatFpUrl.cs" />
     <Compile Include="HttpHelper.cs" />
     <Compile Include="JavaScriptPlus.cs" />
