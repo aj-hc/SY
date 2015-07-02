@@ -99,7 +99,7 @@ function querybycode() {
                     {
                         if (obj._ClinicalInfo.ds)
                         {
-                            for (var i = 0; i < obj._ClinicalInfo.ds.length - 1; i++)
+                            for (var i = 0; i < obj._ClinicalInfo.ds.length ; i++)
                             {
                                 var text = obj._ClinicalInfo.ds[i].DiagnoseDateTime.substring(0,10);
                                 obj._ClinicalInfo.ds[i].DiagnoseDateTime = text

@@ -19,7 +19,7 @@ namespace RuRo.DAL
 		/// </summary>
 		public int GetMaxId()
 		{
-		return DbHelperSQL.GetMaxID("userID", "FP_Users"); 
+		return DbHelperSQL_SY.GetMaxIDSY("userID", "FP_Users"); 
 		}
 
 		/// <summary>
@@ -34,7 +34,7 @@ namespace RuRo.DAL
 					new SqlParameter("@userID", SqlDbType.Int,4)			};
 			parameters[0].Value = userID;
 
-			return DbHelperSQL.Exists(strSql.ToString(),parameters);
+			return DbHelperSQL_SY.ExistsSY(strSql.ToString(),parameters);
 		}
 
 
@@ -72,7 +72,7 @@ namespace RuRo.DAL
 			parameters[9].Value = model.role;
 			parameters[10].Value = model.samples;
 
-			int rows=DbHelperSQL.ExecuteSql(strSql.ToString(),parameters);
+			int rows=DbHelperSQL_SY.ExecuteSqlSY(strSql.ToString(),parameters);
 			if (rows > 0)
 			{
 				return true;
@@ -124,7 +124,7 @@ namespace RuRo.DAL
 			parameters[9].Value = model.samples;
 			parameters[10].Value = model.userID;
 
-			int rows=DbHelperSQL.ExecuteSql(strSql.ToString(),parameters);
+			int rows=DbHelperSQL_SY.ExecuteSqlSY(strSql.ToString(),parameters);
 			if (rows > 0)
 			{
 				return true;
@@ -148,7 +148,7 @@ namespace RuRo.DAL
 					new SqlParameter("@userID", SqlDbType.Int,4)			};
 			parameters[0].Value = userID;
 
-			int rows=DbHelperSQL.ExecuteSql(strSql.ToString(),parameters);
+			int rows=DbHelperSQL_SY.ExecuteSqlSY(strSql.ToString(),parameters);
 			if (rows > 0)
 			{
 				return true;
@@ -166,7 +166,7 @@ namespace RuRo.DAL
 			StringBuilder strSql=new StringBuilder();
 			strSql.Append("delete from FP_Users ");
 			strSql.Append(" where userID in ("+userIDlist + ")  ");
-			int rows=DbHelperSQL.ExecuteSql(strSql.ToString());
+			int rows=DbHelperSQL_SY.ExecuteSqlSY(strSql.ToString());
 			if (rows > 0)
 			{
 				return true;
@@ -192,7 +192,7 @@ namespace RuRo.DAL
 			parameters[0].Value = userID;
 
 			RuRo.Model.FP_Users model=new RuRo.Model.FP_Users();
-			DataSet ds=DbHelperSQL.Query(strSql.ToString(),parameters);
+			DataSet ds=DbHelperSQL_SY.QuerySY(strSql.ToString(),parameters);
 			if(ds.Tables[0].Rows.Count>0)
 			{
 				return DataRowToModel(ds.Tables[0].Rows[0]);
@@ -272,7 +272,7 @@ namespace RuRo.DAL
 			{
 				strSql.Append(" where "+strWhere);
 			}
-			return DbHelperSQL.Query(strSql.ToString());
+			return DbHelperSQL_SY.QuerySY(strSql.ToString());
 		}
 
 		/// <summary>
@@ -293,7 +293,7 @@ namespace RuRo.DAL
 				strSql.Append(" where "+strWhere);
 			}
 			strSql.Append(" order by " + filedOrder);
-			return DbHelperSQL.Query(strSql.ToString());
+			return DbHelperSQL_SY.QuerySY(strSql.ToString());
 		}
 
 		/// <summary>
@@ -307,7 +307,7 @@ namespace RuRo.DAL
 			{
 				strSql.Append(" where "+strWhere);
 			}
-			object obj = DbHelperSQL.GetSingle(strSql.ToString());
+			object obj = DbHelperSQL_SY.GetSingleSY(strSql.ToString());
 			if (obj == null)
 			{
 				return 0;
@@ -340,7 +340,7 @@ namespace RuRo.DAL
 			}
 			strSql.Append(" ) TT");
 			strSql.AppendFormat(" WHERE TT.Row between {0} and {1}", startIndex, endIndex);
-			return DbHelperSQL.Query(strSql.ToString());
+			return DbHelperSQL_SY.QuerySY(strSql.ToString());
 		}
 
 		/*
@@ -365,7 +365,7 @@ namespace RuRo.DAL
 			parameters[4].Value = 0;
 			parameters[5].Value = 0;
 			parameters[6].Value = strWhere;	
-			return DbHelperSQL.RunProcedure("UP_GetRecordByPage",parameters,"ds");
+			return DbHelperSQL_SY.RunProcedure("UP_GetRecordByPage",parameters,"ds");
 		}*/
 
 		#endregion  BasicMethod
