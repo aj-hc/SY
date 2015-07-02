@@ -9,6 +9,7 @@ namespace FreezerProUtility.Fp_BLL
 {
     public class SampleSocrce
     {
+        string username, password;
         //创建数据层对象
         DataWithFP dataWithFP = new DataWithFP();
 
