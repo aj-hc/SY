@@ -1,0 +1,294 @@
+
+Log Entry : 
+06/28/2015 00:12:41
+Ip【::1】
+Error in【http://localhost:3448/Login.aspx】
+Error Message【未能加载类型“Maticsoft.Web.Admin.Login”。】
+________________________________________________________
+
+Log Entry : 
+06/28/2015 00:23:36
+Ip【::1】
+Error in【http://localhost:3448/Login.aspx】
+Error Message【未将对象引用设置到对象的实例。】
+________________________________________________________
+
+Log Entry : 
+06/28/2015 11:25:03
+Ip【::1】
+Error in【http://localhost:3448/Fp_Ajax/PageConData.aspx?conMarc=In_CodeType】
+Error Message【“RuRo.Web.Fp_Ajax.PageConData”不扩展类“System.Web.UI.Page”，因此此处不允许。】
+________________________________________________________
+
+Log Entry : 
+06/28/2015 11:25:03
+Ip【::1】
+Error in【http://localhost:3448/Fp_Ajax/PageConData.aspx?conMarc=SamplingMethod】
+Error Message【“RuRo.Web.Fp_Ajax.PageConData”不扩展类“System.Web.UI.Page”，因此此处不允许。】
+________________________________________________________
+
+Log Entry : 
+06/28/2015 11:25:03
+Ip【::1】
+Error in【http://localhost:3448/Fp_Ajax/PageConData.aspx?conMarc=BloodTypeFlag】
+Error Message【“RuRo.Web.Fp_Ajax.PageConData”不扩展类“System.Web.UI.Page”，因此此处不允许。】
+________________________________________________________
+
+Log Entry : 
+06/28/2015 11:25:03
+Ip【::1】
+Error in【http://localhost:3448/Fp_Ajax/PageConData.aspx?conMarc=SexFlag】
+Error Message【“RuRo.Web.Fp_Ajax.PageConData”不扩展类“System.Web.UI.Page”，因此此处不允许。】
+________________________________________________________
+
+Log Entry : 
+06/28/2015 11:32:18
+Ip【::1】
+Error in【http://localhost:3448/Fp_Ajax/PageConData.aspx?conMarc=In_CodeType】
+Error Message【“RuRo.Web.Fp_Ajax.PageConData”不扩展类“System.Web.UI.Page”，因此此处不允许。】
+________________________________________________________
+
+Log Entry : 
+06/28/2015 11:32:18
+Ip【::1】
+Error in【http://localhost:3448/Fp_Ajax/PageConData.aspx?conMarc=SamplingMethod】
+Error Message【“RuRo.Web.Fp_Ajax.PageConData”不扩展类“System.Web.UI.Page”，因此此处不允许。】
+________________________________________________________
+
+Log Entry : 
+06/28/2015 11:32:18
+Ip【::1】
+Error in【http://localhost:3448/Fp_Ajax/PageConData.aspx?conMarc=SexFlag】
+Error Message【“RuRo.Web.Fp_Ajax.PageConData”不扩展类“System.Web.UI.Page”，因此此处不允许。】
+________________________________________________________
+
+Log Entry : 
+06/28/2015 11:32:18
+Ip【::1】
+Error in【http://localhost:3448/Fp_Ajax/PageConData.aspx?conMarc=BloodTypeFlag】
+Error Message【“RuRo.Web.Fp_Ajax.PageConData”不扩展类“System.Web.UI.Page”，因此此处不允许。】
+________________________________________________________
+
+Log Entry : 
+06/28/2015 11:32:40
+Ip【::1】
+Error in【http://localhost:3448/Fp_Ajax/PageConData.aspx?conMarc=In_CodeType】
+Error Message【“RuRo.Web.Fp_Ajax.PageConData”不扩展类“System.Web.UI.Page”，因此此处不允许。】
+________________________________________________________
+
+Log Entry : 
+06/28/2015 11:32:40
+Ip【::1】
+Error in【http://localhost:3448/Fp_Ajax/PageConData.aspx?conMarc=SexFlag】
+Error Message【“RuRo.Web.Fp_Ajax.PageConData”不扩展类“System.Web.UI.Page”，因此此处不允许。】
+________________________________________________________
+
+Log Entry : 
+06/28/2015 11:32:40
+Ip【::1】
+Error in【http://localhost:3448/Fp_Ajax/PageConData.aspx?conMarc=BloodTypeFlag】
+Error Message【“RuRo.Web.Fp_Ajax.PageConData”不扩展类“System.Web.UI.Page”，因此此处不允许。】
+________________________________________________________
+
+Log Entry : 
+06/28/2015 11:32:40
+Ip【::1】
+Error in【http://localhost:3448/Fp_Ajax/PageConData.aspx?conMarc=SamplingMethod】
+Error Message【“RuRo.Web.Fp_Ajax.PageConData”不扩展类“System.Web.UI.Page”，因此此处不允许。】
+________________________________________________________
+
+Log Entry : 
+06/28/2015 11:42:11
+Ip【::1】
+Error in【http://localhost:3448/Fp_Ajax/PageConData.aspx?conMarc=In_CodeType】
+Error Message【“RuRo.Web.Fp_Ajax.PageConData”不扩展类“System.Web.UI.Page”，因此此处不允许。】
+________________________________________________________
+
+Log Entry : 
+06/28/2015 11:42:11
+Ip【::1】
+Error in【http://localhost:3448/Fp_Ajax/PageConData.aspx?conMarc=BloodTypeFlag】
+Error Message【“RuRo.Web.Fp_Ajax.PageConData”不扩展类“System.Web.UI.Page”，因此此处不允许。】
+________________________________________________________
+
+Log Entry : 
+06/28/2015 11:42:11
+Ip【::1】
+Error in【http://localhost:3448/Fp_Ajax/PageConData.aspx?conMarc=SexFlag】
+Error Message【“RuRo.Web.Fp_Ajax.PageConData”不扩展类“System.Web.UI.Page”，因此此处不允许。】
+________________________________________________________
+
+Log Entry : 
+06/28/2015 11:42:11
+Ip【::1】
+Error in【http://localhost:3448/Fp_Ajax/PageConData.aspx?conMarc=SamplingMethod】
+Error Message【“RuRo.Web.Fp_Ajax.PageConData”不扩展类“System.Web.UI.Page”，因此此处不允许。】
+________________________________________________________
+
+Log Entry : 
+06/28/2015 11:42:21
+Ip【::1】
+Error in【http://localhost:3448/Fp_Ajax/PageConData.aspx?conMarc=In_CodeType】
+Error Message【“RuRo.Web.Fp_Ajax.PageConData”不扩展类“System.Web.UI.Page”，因此此处不允许。】
+________________________________________________________
+
+Log Entry : 
+06/28/2015 11:42:21
+Ip【::1】
+Error in【http://localhost:3448/Fp_Ajax/PageConData.aspx?conMarc=SexFlag】
+Error Message【“RuRo.Web.Fp_Ajax.PageConData”不扩展类“System.Web.UI.Page”，因此此处不允许。】
+________________________________________________________
+
+Log Entry : 
+06/28/2015 11:42:21
+Ip【::1】
+Error in【http://localhost:3448/Fp_Ajax/PageConData.aspx?conMarc=BloodTypeFlag】
+Error Message【“RuRo.Web.Fp_Ajax.PageConData”不扩展类“System.Web.UI.Page”，因此此处不允许。】
+________________________________________________________
+
+Log Entry : 
+06/28/2015 11:42:21
+Ip【::1】
+Error in【http://localhost:3448/Fp_Ajax/PageConData.aspx?conMarc=SamplingMethod】
+Error Message【“RuRo.Web.Fp_Ajax.PageConData”不扩展类“System.Web.UI.Page”，因此此处不允许。】
+________________________________________________________
+
+Log Entry : 
+06/28/2015 11:52:03
+Ip【::1】
+Error in【http://localhost:3448/Fp_Ajax/PageConData.aspx?conMarc=In_CodeType】
+Error Message【“RuRo.Web.Fp_Ajax.PageConData”不扩展类“System.Web.UI.Page”，因此此处不允许。】
+________________________________________________________
+
+Log Entry : 
+06/28/2015 11:52:03
+Ip【::1】
+Error in【http://localhost:3448/Fp_Ajax/PageConData.aspx?conMarc=SexFlag】
+Error Message【“RuRo.Web.Fp_Ajax.PageConData”不扩展类“System.Web.UI.Page”，因此此处不允许。】
+________________________________________________________
+
+Log Entry : 
+06/28/2015 11:52:03
+Ip【::1】
+Error in【http://localhost:3448/Fp_Ajax/PageConData.aspx?conMarc=BloodTypeFlag】
+Error Message【“RuRo.Web.Fp_Ajax.PageConData”不扩展类“System.Web.UI.Page”，因此此处不允许。】
+________________________________________________________
+
+Log Entry : 
+06/28/2015 11:52:03
+Ip【::1】
+Error in【http://localhost:3448/Fp_Ajax/PageConData.aspx?conMarc=SamplingMethod】
+Error Message【“RuRo.Web.Fp_Ajax.PageConData”不扩展类“System.Web.UI.Page”，因此此处不允许。】
+________________________________________________________
+
+Log Entry : 
+06/28/2015 11:53:36
+Ip【::1】
+Error in【http://localhost:3448/Fp_Ajax/PageConData.aspx?conMarc=In_CodeType】
+Error Message【“RuRo.Web.Fp_Ajax.PageConData”不扩展类“System.Web.UI.Page”，因此此处不允许。】
+________________________________________________________
+
+Log Entry : 
+06/28/2015 11:53:36
+Ip【::1】
+Error in【http://localhost:3448/Fp_Ajax/PageConData.aspx?conMarc=SexFlag】
+Error Message【“RuRo.Web.Fp_Ajax.PageConData”不扩展类“System.Web.UI.Page”，因此此处不允许。】
+________________________________________________________
+
+Log Entry : 
+06/28/2015 11:53:36
+Ip【::1】
+Error in【http://localhost:3448/Fp_Ajax/PageConData.aspx?conMarc=BloodTypeFlag】
+Error Message【“RuRo.Web.Fp_Ajax.PageConData”不扩展类“System.Web.UI.Page”，因此此处不允许。】
+________________________________________________________
+
+Log Entry : 
+06/28/2015 11:53:36
+Ip【::1】
+Error in【http://localhost:3448/Fp_Ajax/PageConData.aspx?conMarc=SamplingMethod】
+Error Message【“RuRo.Web.Fp_Ajax.PageConData”不扩展类“System.Web.UI.Page”，因此此处不允许。】
+________________________________________________________
+
+Log Entry : 
+06/28/2015 11:54:50
+Ip【::1】
+Error in【http://localhost:3448/Fp_Ajax/PageConData.aspx?conMarc=In_CodeType】
+Error Message【“RuRo.Web.Fp_Ajax.PageConData”不扩展类“System.Web.UI.Page”，因此此处不允许。】
+________________________________________________________
+
+Log Entry : 
+06/28/2015 11:54:50
+Ip【::1】
+Error in【http://localhost:3448/Fp_Ajax/PageConData.aspx?conMarc=SamplingMethod】
+Error Message【“RuRo.Web.Fp_Ajax.PageConData”不扩展类“System.Web.UI.Page”，因此此处不允许。】
+________________________________________________________
+
+Log Entry : 
+06/28/2015 11:54:50
+Ip【::1】
+Error in【http://localhost:3448/Fp_Ajax/PageConData.aspx?conMarc=SexFlag】
+Error Message【“RuRo.Web.Fp_Ajax.PageConData”不扩展类“System.Web.UI.Page”，因此此处不允许。】
+________________________________________________________
+
+Log Entry : 
+06/28/2015 11:54:50
+Ip【::1】
+Error in【http://localhost:3448/Fp_Ajax/PageConData.aspx?conMarc=BloodTypeFlag】
+Error Message【“RuRo.Web.Fp_Ajax.PageConData”不扩展类“System.Web.UI.Page”，因此此处不允许。】
+________________________________________________________
+
+Log Entry : 
+06/28/2015 11:55:05
+Ip【::1】
+Error in【http://localhost:3448/Fp_Ajax/PageConData.aspx?conMarc=In_CodeType】
+Error Message【“RuRo.Web.Fp_Ajax.PageConData”不扩展类“System.Web.UI.Page”，因此此处不允许。】
+________________________________________________________
+
+Log Entry : 
+06/28/2015 11:55:06
+Ip【::1】
+Error in【http://localhost:3448/Fp_Ajax/PageConData.aspx?conMarc=SamplingMethod】
+Error Message【“RuRo.Web.Fp_Ajax.PageConData”不扩展类“System.Web.UI.Page”，因此此处不允许。】
+________________________________________________________
+
+Log Entry : 
+06/28/2015 11:55:06
+Ip【::1】
+Error in【http://localhost:3448/Fp_Ajax/PageConData.aspx?conMarc=SexFlag】
+Error Message【“RuRo.Web.Fp_Ajax.PageConData”不扩展类“System.Web.UI.Page”，因此此处不允许。】
+________________________________________________________
+
+Log Entry : 
+06/28/2015 11:55:06
+Ip【::1】
+Error in【http://localhost:3448/Fp_Ajax/PageConData.aspx?conMarc=BloodTypeFlag】
+Error Message【“RuRo.Web.Fp_Ajax.PageConData”不扩展类“System.Web.UI.Page”，因此此处不允许。】
+________________________________________________________
+
+Log Entry : 
+06/28/2015 12:05:24
+Ip【::1】
+Error in【http://localhost:3448/Fp_Ajax/PageConData.aspx?conMarc=In_CodeType】
+Error Message【“RuRo.Web.Fp_Ajax.PageConData”不扩展类“System.Web.UI.Page”，因此此处不允许。】
+________________________________________________________
+
+Log Entry : 
+06/28/2015 12:05:24
+Ip【::1】
+Error in【http://localhost:3448/Fp_Ajax/PageConData.aspx?conMarc=SamplingMethod】
+Error Message【“RuRo.Web.Fp_Ajax.PageConData”不扩展类“System.Web.UI.Page”，因此此处不允许。】
+________________________________________________________
+
+Log Entry : 
+06/28/2015 12:05:24
+Ip【::1】
+Error in【http://localhost:3448/Fp_Ajax/PageConData.aspx?conMarc=SexFlag】
+Error Message【“RuRo.Web.Fp_Ajax.PageConData”不扩展类“System.Web.UI.Page”，因此此处不允许。】
+________________________________________________________
+
+Log Entry : 
+06/28/2015 12:05:24
+Ip【::1】
+Error in【http://localhost:3448/Fp_Ajax/PageConData.aspx?conMarc=BloodTypeFlag】
+Error Message【“RuRo.Web.Fp_Ajax.PageConData”不扩展类“System.Web.UI.Page”，因此此处不允许。】
+________________________________________________________
