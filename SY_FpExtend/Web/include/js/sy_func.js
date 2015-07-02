@@ -117,7 +117,6 @@ function querybycode() {
                                 var text = _ClinicalInfo.ds[i].DiagnoseDateTime.substring(0,10);
                                 _ClinicalInfo.ds[i].DiagnoseDateTime = text;
                             }
-                            
                             $('#ClinicalInfoDg').datagrid({ loadFilter: pagerFilter }).datagrid('loadData', ds).datagrid('reload');
                         }
                     }
