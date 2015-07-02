@@ -62,7 +62,7 @@ namespace RuRo.Web
         }
         private string Returnliandong2()
         {
-            string mark = Request.Params["data"];
+            string mark = Request.Params["id"];
             string res ="";
             if (mark == "0")
             {

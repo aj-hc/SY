@@ -12,8 +12,20 @@ namespace RuRo.Web.Fp_Ajax
         protected void Page_Load(object sender, EventArgs e)
         {
             string action = Request.Params["action"].ToString();
-            string json = Request.Params["json"].ToString();
-            Response.Write("成功获取"+json);
+            string codeform = Request.Params["codeform"].ToString();
+            string _ClinicalInfoDg = Request.Params["_ClinicalInfoDg"].ToString();
+            string strSampleInfoDiv = Request.Params["strSampleInfoDiv"].ToString();
+            string _dg_SampleInfo = Request.Params["_dg_SampleInfo"].ToString();
+            Dictionary<string, string> dic = new Dictionary<string, string>();
+            if (action == "gethisdata")
+            {
+                dic.Add("state", codeform + "-" + _ClinicalInfoDg + "-" + strSampleInfoDiv + "-" + _dg_SampleInfo);
+                Response.Write(FreezerProUtility.Fp_Common.FpJsonHelper.DictionaryToJsonString(dic));
+            }
+            else 
+            {
+                Response.Write("错误信息");
+            }
         }
     }
 }

@@ -12,11 +12,11 @@ namespace Maticsoft.DBUtility
     /// 数据访问抽象基础类
     /// Copyright (C) Maticsoft 
     /// </summary>
-    public abstract class DbHelperSQL
+    public abstract class DbHelperSQL_SY
     {
         //数据库连接字符串(web.config来配置)，多数据库可使用DbHelperSQLP来实现.
-        public static string connectionString = PubConstant.ConnectionString;
-        public DbHelperSQL()
+        public static string connectionString2 = PubConstant.ConnectionString2;
+        public DbHelperSQL_SY()
         {            
         }
 
@@ -27,20 +27,20 @@ namespace Maticsoft.DBUtility
         /// <param name="tableName">表名称</param>
         /// <param name="columnName">列名称</param>
         /// <returns>是否存在</returns>
-        public static bool ColumnExists(string tableName, string columnName)
+        public static bool ColumnExistsSY(string tableName, string columnName)
         {
             string sql = "select count(1) from syscolumns where [id]=object_id('" + tableName + "') and [name]='" + columnName + "'";
-            object res = GetSingle(sql);
+            object res = GetSingleSY(sql);
             if (res == null)
             {
                 return false;
             }
             return Convert.ToInt32(res) > 0;
         }
-        public static int GetMaxID(string FieldName, string TableName)
+        public static int GetMaxIDSY(string FieldName, string TableName)
         {
             string strsql = "select max(" + FieldName + ")+1 from " + TableName;
-            object obj = GetSingle(strsql);
+            object obj = GetSingleSY(strsql);
             if (obj == null)
             {
                 return 1;
@@ -50,9 +50,9 @@ namespace Maticsoft.DBUtility
                 return int.Parse(obj.ToString());
             }
         }
-        public static bool Exists(string strSql)
+        public static bool ExistsSY(string strSql)
         {
-            object obj = GetSingle(strSql);
+            object obj = GetSingleSY(strSql);
             int cmdresult;
             if ((Object.Equals(obj, null)) || (Object.Equals(obj, System.DBNull.Value)))
             {
@@ -76,11 +76,11 @@ namespace Maticsoft.DBUtility
         /// </summary>
         /// <param name="TableName"></param>
         /// <returns></returns>
-        public static bool TabExists(string TableName)
+        public static bool TabExistsSY(string TableName)
         {
             string strsql = "select count(*) from sysobjects where id = object_id(N'[" + TableName + "]') and OBJECTPROPERTY(id, N'IsUserTable') = 1";
             //string strsql = "SELECT count(*) FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[" + TableName + "]') AND type in (N'U')";
-            object obj = GetSingle(strsql);
+            object obj = GetSingleSY(strsql);
             int cmdresult;
             if ((Object.Equals(obj, null)) || (Object.Equals(obj, System.DBNull.Value)))
             {
@@ -99,9 +99,9 @@ namespace Maticsoft.DBUtility
                 return true;
             }
         }
-        public static bool Exists(string strSql, params SqlParameter[] cmdParms)
+        public static bool ExistsSY(string strSql, params SqlParameter[] cmdParms)
         {
-            object obj = GetSingle(strSql, cmdParms);
+            object obj = GetSingleSY(strSql, cmdParms);
             int cmdresult;
             if ((Object.Equals(obj, null)) || (Object.Equals(obj, System.DBNull.Value)))
             {
@@ -122,7 +122,7 @@ namespace Maticsoft.DBUtility
         }
         #endregion
 
-        #region
+        #region connectionString2
         #region  执行简单SQL语句
 
         /// <summary>
@@ -130,9 +130,9 @@ namespace Maticsoft.DBUtility
         /// </summary>
         /// <param name="SQLString">SQL语句</param>
         /// <returns>影响的记录数</returns>
-        public static int ExecuteSql(string SQLString)
+        public static int ExecuteSqlSY(string SQLString)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(connectionString2))
             {
                 using (SqlCommand cmd = new SqlCommand(SQLString, connection))
                 {
@@ -151,9 +151,9 @@ namespace Maticsoft.DBUtility
             }
         }
 
-        public static int ExecuteSqlByTime(string SQLString, int Times)
+        public static int ExecuteSqlByTimeSY(string SQLString, int Times)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(connectionString2))
             {
                 using (SqlCommand cmd = new SqlCommand(SQLString, connection))
                 {
@@ -172,16 +172,16 @@ namespace Maticsoft.DBUtility
                 }
             }
         }
-      
+
         /// <summary>
         /// 执行Sql和Oracle滴混合事务
         /// </summary>
         /// <param name="list">SQL命令行列表</param>
         /// <param name="oracleCmdSqlList">Oracle命令行列表</param>
         /// <returns>执行结果 0-由于SQL造成事务失败 -1 由于Oracle造成事务失败 1-整体事务执行成功</returns>
-        public static int ExecuteSqlTran(List<CommandInfo> list, List<CommandInfo> oracleCmdSqlList)
+        public static int ExecuteSqlTranSY(List<CommandInfo> list, List<CommandInfo> oracleCmdSqlList)
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(connectionString2))
             {
                 conn.Open();
                 SqlCommand cmd = new SqlCommand();
@@ -194,13 +194,13 @@ namespace Maticsoft.DBUtility
                     {
                         string cmdText = myDE.CommandText;
                         SqlParameter[] cmdParms = (SqlParameter[])myDE.Parameters;
-                        PrepareCommand(cmd, conn, tx, cmdText, cmdParms);
+                        PrepareCommandSY(cmd, conn, tx, cmdText, cmdParms);
                         if (myDE.EffentNextType == EffentNextType.SolicitationEvent)
                         {
                             if (myDE.CommandText.ToLower().IndexOf("count(") == -1)
                             {
                                 tx.Rollback();
-                                throw new Exception("违背要求"+myDE.CommandText+"必须符合select count(..的格式");
+                                throw new Exception("违背要求" + myDE.CommandText + "必须符合select count(..的格式");
                                 //return 0;
                             }
 
@@ -257,8 +257,8 @@ namespace Maticsoft.DBUtility
                         }
                         cmd.Parameters.Clear();
                     }
-                    string oraConnectionString = PubConstant.GetConnectionString("ConnectionStringPPC");
-                    bool res = OracleHelper.ExecuteSqlTran(oraConnectionString, oracleCmdSqlList);
+                    string oraconnectionString2 = PubConstant.GetConnectionString("connectionString2PPC");
+                    bool res = OracleHelper.ExecuteSqlTran(oraconnectionString2, oracleCmdSqlList);
                     if (!res)
                     {
                         tx.Rollback();
@@ -279,14 +279,14 @@ namespace Maticsoft.DBUtility
                     throw e;
                 }
             }
-        }        
+        }
         /// <summary>
         /// 执行多条SQL语句，实现数据库事务。
         /// </summary>
         /// <param name="SQLStringList">多条SQL语句</param>		
-        public static int ExecuteSqlTran(List<String> SQLStringList)
+        public static int ExecuteSqlTranSY(List<String> SQLStringList)
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(connectionString2))
             {
                 conn.Open();
                 SqlCommand cmd = new SqlCommand();
@@ -321,9 +321,9 @@ namespace Maticsoft.DBUtility
         /// <param name="SQLString">SQL语句</param>
         /// <param name="content">参数内容,比如一个字段是格式复杂的文章，有特殊符号，可以通过这个方式添加</param>
         /// <returns>影响的记录数</returns>
-        public static int ExecuteSql(string SQLString, string content)
+        public static int ExecuteSql2(string SQLString, string content)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(connectionString2))
             {
                 SqlCommand cmd = new SqlCommand(SQLString, connection);
                 System.Data.SqlClient.SqlParameter myParameter = new System.Data.SqlClient.SqlParameter("@content", SqlDbType.NText);
@@ -352,9 +352,9 @@ namespace Maticsoft.DBUtility
         /// <param name="SQLString">SQL语句</param>
         /// <param name="content">参数内容,比如一个字段是格式复杂的文章，有特殊符号，可以通过这个方式添加</param>
         /// <returns>影响的记录数</returns>
-        public static object ExecuteSqlGet(string SQLString, string content)
+        public static object ExecuteSqlGet2(string SQLString, string content)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(connectionString2))
             {
                 SqlCommand cmd = new SqlCommand(SQLString, connection);
                 System.Data.SqlClient.SqlParameter myParameter = new System.Data.SqlClient.SqlParameter("@content", SqlDbType.NText);
@@ -390,9 +390,9 @@ namespace Maticsoft.DBUtility
         /// <param name="strSQL">SQL语句</param>
         /// <param name="fs">图像字节,数据库的字段类型为image的情况</param>
         /// <returns>影响的记录数</returns>
-        public static int ExecuteSqlInsertImg(string strSQL, byte[] fs)
+        public static int ExecuteSqlInsertImg2(string strSQL, byte[] fs)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(connectionString2))
             {
                 SqlCommand cmd = new SqlCommand(strSQL, connection);
                 System.Data.SqlClient.SqlParameter myParameter = new System.Data.SqlClient.SqlParameter("@fs", SqlDbType.Image);
@@ -421,9 +421,9 @@ namespace Maticsoft.DBUtility
         /// </summary>
         /// <param name="SQLString">计算查询结果语句</param>
         /// <returns>查询结果（object）</returns>
-        public static object GetSingle(string SQLString)
+        public static object GetSingle2(string SQLString)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(connectionString2))
             {
                 using (SqlCommand cmd = new SqlCommand(SQLString, connection))
                 {
@@ -448,9 +448,9 @@ namespace Maticsoft.DBUtility
                 }
             }
         }
-        public static object GetSingle(string SQLString, int Times)
+        public static object GetSingle2(string SQLString, int Times)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(connectionString2))
             {
                 using (SqlCommand cmd = new SqlCommand(SQLString, connection))
                 {
@@ -481,9 +481,9 @@ namespace Maticsoft.DBUtility
         /// </summary>
         /// <param name="strSQL">查询语句</param>
         /// <returns>SqlDataReader</returns>
-        public static SqlDataReader ExecuteReader(string strSQL)
+        public static SqlDataReader ExecuteReader2(string strSQL)
         {
-            SqlConnection connection = new SqlConnection(connectionString);
+            SqlConnection connection = new SqlConnection(connectionString2);
             SqlCommand cmd = new SqlCommand(strSQL, connection);
             try
             {
@@ -494,7 +494,7 @@ namespace Maticsoft.DBUtility
             catch (System.Data.SqlClient.SqlException e)
             {
                 throw e;
-            }   
+            }
 
         }
         /// <summary>
@@ -502,9 +502,9 @@ namespace Maticsoft.DBUtility
         /// </summary>
         /// <param name="SQLString">查询语句</param>
         /// <returns>DataSet</returns>
-        public static DataSet Query(string SQLString)
+        public static DataSet QuerySY(string SQLString)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(connectionString2))
             {
                 DataSet ds = new DataSet();
                 try
@@ -520,9 +520,9 @@ namespace Maticsoft.DBUtility
                 return ds;
             }
         }
-        public static DataSet Query(string SQLString, int Times)
+        public static DataSet Query2(string SQLString, int Times)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(connectionString2))
             {
                 DataSet ds = new DataSet();
                 try
@@ -539,9 +539,6 @@ namespace Maticsoft.DBUtility
                 return ds;
             }
         }
-
-
-
         #endregion
 
         #region 执行带参数的SQL语句
@@ -551,15 +548,15 @@ namespace Maticsoft.DBUtility
         /// </summary>
         /// <param name="SQLString">SQL语句</param>
         /// <returns>影响的记录数</returns>
-        public static int ExecuteSql(string SQLString, params SqlParameter[] cmdParms)
+        public static int ExecuteSqlSY(string SQLString, params SqlParameter[] cmdParms)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(connectionString2))
             {
                 using (SqlCommand cmd = new SqlCommand())
                 {
                     try
                     {
-                        PrepareCommand(cmd, connection, null, SQLString, cmdParms);
+                        PrepareCommandSY(cmd, connection, null, SQLString, cmdParms);
                         int rows = cmd.ExecuteNonQuery();
                         cmd.Parameters.Clear();
                         return rows;
@@ -577,9 +574,9 @@ namespace Maticsoft.DBUtility
         /// 执行多条SQL语句，实现数据库事务。
         /// </summary>
         /// <param name="SQLStringList">SQL语句的哈希表（key为sql语句，value是该语句的SqlParameter[]）</param>
-        public static void ExecuteSqlTran(Hashtable SQLStringList)
+        public static void ExecuteSqlTranSY(Hashtable SQLStringList)
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(connectionString2))
             {
                 conn.Open();
                 using (SqlTransaction trans = conn.BeginTransaction())
@@ -592,7 +589,7 @@ namespace Maticsoft.DBUtility
                         {
                             string cmdText = myDE.Key.ToString();
                             SqlParameter[] cmdParms = (SqlParameter[])myDE.Value;
-                            PrepareCommand(cmd, conn, trans, cmdText, cmdParms);
+                            PrepareCommandSY(cmd, conn, trans, cmdText, cmdParms);
                             int val = cmd.ExecuteNonQuery();
                             cmd.Parameters.Clear();
                         }
@@ -610,23 +607,24 @@ namespace Maticsoft.DBUtility
         /// 执行多条SQL语句，实现数据库事务。
         /// </summary>
         /// <param name="SQLStringList">SQL语句的哈希表（key为sql语句，value是该语句的SqlParameter[]）</param>
-        public static int ExecuteSqlTran(System.Collections.Generic.List<CommandInfo> cmdList)
+        public static int ExecuteSqlTranSY(System.Collections.Generic.List<CommandInfo> cmdList)
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(connectionString2))
             {
                 conn.Open();
                 using (SqlTransaction trans = conn.BeginTransaction())
                 {
                     SqlCommand cmd = new SqlCommand();
                     try
-                    { int count = 0;
+                    {
+                        int count = 0;
                         //循环
                         foreach (CommandInfo myDE in cmdList)
                         {
                             string cmdText = myDE.CommandText;
                             SqlParameter[] cmdParms = (SqlParameter[])myDE.Parameters;
-                            PrepareCommand(cmd, conn, trans, cmdText, cmdParms);
-                           
+                            PrepareCommandSY(cmd, conn, trans, cmdText, cmdParms);
+
                             if (myDE.EffentNextType == EffentNextType.WhenHaveContine || myDE.EffentNextType == EffentNextType.WhenNoHaveContine)
                             {
                                 if (myDE.CommandText.ToLower().IndexOf("count(") == -1)
@@ -679,9 +677,9 @@ namespace Maticsoft.DBUtility
         /// 执行多条SQL语句，实现数据库事务。
         /// </summary>
         /// <param name="SQLStringList">SQL语句的哈希表（key为sql语句，value是该语句的SqlParameter[]）</param>
-        public static void ExecuteSqlTranWithIndentity(System.Collections.Generic.List<CommandInfo> SQLStringList)
+        public static void ExecuteSqlTranWithIndentitySY(System.Collections.Generic.List<CommandInfo> SQLStringList)
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(connectionString2))
             {
                 conn.Open();
                 using (SqlTransaction trans = conn.BeginTransaction())
@@ -702,7 +700,7 @@ namespace Maticsoft.DBUtility
                                     q.Value = indentity;
                                 }
                             }
-                            PrepareCommand(cmd, conn, trans, cmdText, cmdParms);
+                            PrepareCommandSY(cmd, conn, trans, cmdText, cmdParms);
                             int val = cmd.ExecuteNonQuery();
                             foreach (SqlParameter q in cmdParms)
                             {
@@ -727,9 +725,9 @@ namespace Maticsoft.DBUtility
         /// 执行多条SQL语句，实现数据库事务。
         /// </summary>
         /// <param name="SQLStringList">SQL语句的哈希表（key为sql语句，value是该语句的SqlParameter[]）</param>
-        public static void ExecuteSqlTranWithIndentity(Hashtable SQLStringList)
+        public static void ExecuteSqlTranWithIndentitySY(Hashtable SQLStringList)
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(connectionString2))
             {
                 conn.Open();
                 using (SqlTransaction trans = conn.BeginTransaction())
@@ -750,7 +748,7 @@ namespace Maticsoft.DBUtility
                                     q.Value = indentity;
                                 }
                             }
-                            PrepareCommand(cmd, conn, trans, cmdText, cmdParms);
+                            PrepareCommandSY(cmd, conn, trans, cmdText, cmdParms);
                             int val = cmd.ExecuteNonQuery();
                             foreach (SqlParameter q in cmdParms)
                             {
@@ -776,15 +774,15 @@ namespace Maticsoft.DBUtility
         /// </summary>
         /// <param name="SQLString">计算查询结果语句</param>
         /// <returns>查询结果（object）</returns>
-        public static object GetSingle(string SQLString, params SqlParameter[] cmdParms)
+        public static object GetSingleSY(string SQLString, params SqlParameter[] cmdParms)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(connectionString2))
             {
                 using (SqlCommand cmd = new SqlCommand())
                 {
                     try
                     {
-                        PrepareCommand(cmd, connection, null, SQLString, cmdParms);
+                        PrepareCommandSY(cmd, connection, null, SQLString, cmdParms);
                         object obj = cmd.ExecuteScalar();
                         cmd.Parameters.Clear();
                         if ((Object.Equals(obj, null)) || (Object.Equals(obj, System.DBNull.Value)))
@@ -809,13 +807,13 @@ namespace Maticsoft.DBUtility
         /// </summary>
         /// <param name="strSQL">查询语句</param>
         /// <returns>SqlDataReader</returns>
-        public static SqlDataReader ExecuteReader(string SQLString, params SqlParameter[] cmdParms)
+        public static SqlDataReader ExecuteReaderSY(string SQLString, params SqlParameter[] cmdParms)
         {
-            SqlConnection connection = new SqlConnection(connectionString);
+            SqlConnection connection = new SqlConnection(connectionString2);
             SqlCommand cmd = new SqlCommand();
             try
             {
-                PrepareCommand(cmd, connection, null, SQLString, cmdParms);
+                PrepareCommandSY(cmd, connection, null, SQLString, cmdParms);
                 SqlDataReader myReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
                 cmd.Parameters.Clear();
                 return myReader;
@@ -837,12 +835,12 @@ namespace Maticsoft.DBUtility
         /// </summary>
         /// <param name="SQLString">查询语句</param>
         /// <returns>DataSet</returns>
-        public static DataSet Query(string SQLString, params SqlParameter[] cmdParms)
+        public static DataSet QuerySY(string SQLString, params SqlParameter[] cmdParms)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(connectionString2))
             {
                 SqlCommand cmd = new SqlCommand();
-                PrepareCommand(cmd, connection, null, SQLString, cmdParms);
+                PrepareCommandSY(cmd, connection, null, SQLString, cmdParms);
                 using (SqlDataAdapter da = new SqlDataAdapter(cmd))
                 {
                     DataSet ds = new DataSet();
@@ -861,7 +859,7 @@ namespace Maticsoft.DBUtility
         }
 
 
-        private static void PrepareCommand(SqlCommand cmd, SqlConnection conn, SqlTransaction trans, string cmdText, SqlParameter[] cmdParms)
+        private static void PrepareCommandSY(SqlCommand cmd, SqlConnection conn, SqlTransaction trans, string cmdText, SqlParameter[] cmdParms)
         {
             if (conn.State != ConnectionState.Open)
                 conn.Open();
@@ -896,16 +894,16 @@ namespace Maticsoft.DBUtility
         /// <param name="storedProcName">存储过程名</param>
         /// <param name="parameters">存储过程参数</param>
         /// <returns>SqlDataReader</returns>
-        public static SqlDataReader RunProcedure(string storedProcName, IDataParameter[] parameters)
+        public static SqlDataReader RunProcedureSY(string storedProcName, IDataParameter[] parameters)
         {
-            SqlConnection connection = new SqlConnection(connectionString);
+            SqlConnection connection = new SqlConnection(connectionString2);
             SqlDataReader returnReader;
             connection.Open();
-            SqlCommand command = BuildQueryCommand(connection, storedProcName, parameters);
+            SqlCommand command = BuildQueryCommandSY(connection, storedProcName, parameters);
             command.CommandType = CommandType.StoredProcedure;
             returnReader = command.ExecuteReader(CommandBehavior.CloseConnection);
             return returnReader;
-            
+
         }
 
 
@@ -916,27 +914,27 @@ namespace Maticsoft.DBUtility
         /// <param name="parameters">存储过程参数</param>
         /// <param name="tableName">DataSet结果中的表名</param>
         /// <returns>DataSet</returns>
-        public static DataSet RunProcedure(string storedProcName, IDataParameter[] parameters, string tableName)
+        public static DataSet RunProcedureSY(string storedProcName, IDataParameter[] parameters, string tableName)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(connectionString2))
             {
                 DataSet dataSet = new DataSet();
                 connection.Open();
                 SqlDataAdapter sqlDA = new SqlDataAdapter();
-                sqlDA.SelectCommand = BuildQueryCommand(connection, storedProcName, parameters);
+                sqlDA.SelectCommand = BuildQueryCommandSY(connection, storedProcName, parameters);
                 sqlDA.Fill(dataSet, tableName);
                 connection.Close();
                 return dataSet;
             }
         }
-        public static DataSet RunProcedure(string storedProcName, IDataParameter[] parameters, string tableName, int Times)
+        public static DataSet RunProcedureSY(string storedProcName, IDataParameter[] parameters, string tableName, int Times)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(connectionString2))
             {
                 DataSet dataSet = new DataSet();
                 connection.Open();
                 SqlDataAdapter sqlDA = new SqlDataAdapter();
-                sqlDA.SelectCommand = BuildQueryCommand(connection, storedProcName, parameters);
+                sqlDA.SelectCommand = BuildQueryCommandSY(connection, storedProcName, parameters);
                 sqlDA.SelectCommand.CommandTimeout = Times;
                 sqlDA.Fill(dataSet, tableName);
                 connection.Close();
@@ -952,7 +950,7 @@ namespace Maticsoft.DBUtility
         /// <param name="storedProcName">存储过程名</param>
         /// <param name="parameters">存储过程参数</param>
         /// <returns>SqlCommand</returns>
-        private static SqlCommand BuildQueryCommand(SqlConnection connection, string storedProcName, IDataParameter[] parameters)
+        private static SqlCommand BuildQueryCommandSY(SqlConnection connection, string storedProcName, IDataParameter[] parameters)
         {
             SqlCommand command = new SqlCommand(storedProcName, connection);
             command.CommandType = CommandType.StoredProcedure;
@@ -980,13 +978,13 @@ namespace Maticsoft.DBUtility
         /// <param name="parameters">存储过程参数</param>
         /// <param name="rowsAffected">影响的行数</param>
         /// <returns></returns>
-        public static int RunProcedure(string storedProcName, IDataParameter[] parameters, out int rowsAffected)
+        public static int RunProcedureSY(string storedProcName, IDataParameter[] parameters, out int rowsAffected)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(connectionString2))
             {
                 int result;
                 connection.Open();
-                SqlCommand command = BuildIntCommand(connection, storedProcName, parameters);
+                SqlCommand command = BuildIntCommandSY(connection, storedProcName, parameters);
                 rowsAffected = command.ExecuteNonQuery();
                 result = (int)command.Parameters["ReturnValue"].Value;
                 //Connection.Close();
@@ -1000,9 +998,9 @@ namespace Maticsoft.DBUtility
         /// <param name="storedProcName">存储过程名</param>
         /// <param name="parameters">存储过程参数</param>
         /// <returns>SqlCommand 对象实例</returns>
-        private static SqlCommand BuildIntCommand(SqlConnection connection, string storedProcName, IDataParameter[] parameters)
+        private static SqlCommand BuildIntCommandSY(SqlConnection connection, string storedProcName, IDataParameter[] parameters)
         {
-            SqlCommand command = BuildQueryCommand(connection, storedProcName, parameters);
+            SqlCommand command = BuildQueryCommandSY(connection, storedProcName, parameters);
             command.Parameters.Add(new SqlParameter("ReturnValue",
                 SqlDbType.Int, 4, ParameterDirection.ReturnValue,
                 false, 0, 0, string.Empty, DataRowVersion.Default, null));

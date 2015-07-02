@@ -22,6 +22,20 @@ namespace Maticsoft.DBUtility
             }
         }
 
+        public static string ConnectionString2
+        {
+            get
+            {
+                string _connectionString = ConfigurationManager.AppSettings["ConnectionString2"];
+                string ConStringEncrypt = ConfigurationManager.AppSettings["ConStringEncrypt"];
+                if (ConStringEncrypt == "true")
+                {
+                    _connectionString = DESEncrypt.Decrypt(_connectionString);
+                }
+                return _connectionString;
+            }
+        }
+
         /// <summary>
         /// 得到web.config里配置项的数据库连接字符串。
         /// </summary>
