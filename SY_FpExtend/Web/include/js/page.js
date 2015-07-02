@@ -74,18 +74,7 @@ $(function () {
                     }
             },
             {
-                field: 'DiagnoseDateTime', title: '诊断日期', width: '20%', sortable: true, editor: {
-                    type: 'datebox', options:
-                        {
-                            required: true,
-                            formatter: function (data)
-                            {
-                                var y = data.DiagnoseDateTime;
-                                alert(y);
-                                //return m + '/' + d + '/' + y;
-                            }
-                        }
-                }
+                field: 'DiagnoseDateTime', title: '诊断日期', width: '20%', sortable: true, editor: {type: 'datebox', options: {required: false,}}
             },
             { field: 'ICDCode', title: 'ICD码', width: '15%', align: 'center', sortable: true, editor: { type: 'validatebox', options: { required: false } } },
             { field: 'DiseaseName', title: '疾病名称', width: '20%', align: 'center', sortable: true, editor: { type: 'validatebox', options: { required: false } } },

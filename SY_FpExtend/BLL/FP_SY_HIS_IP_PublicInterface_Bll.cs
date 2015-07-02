@@ -19,7 +19,16 @@ namespace RuRo.BLL
         /// <returns></returns>
         public string GetSY_HC_GetDiagnoseInfoJson(RuRo.Model.FP_SY_HIS_IP_PublicInterface model)
         {
-            return FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(dal.GetSY_HC_GetDiagnoseInfo(model));
+            DataSet ds = new DataSet();
+            DateTime dt = new DateTime();
+            ds = dal.GetSY_HC_GetDiagnoseInfo(model);
+            for (int i = 0; i < ds.Tables[0].Rows.Count - 1; i++)
+            {
+                dt = Convert.ToDateTime(ds.Tables[0].Rows[i]["DiagnoseDateTime"]);
+                string strdate = dt.ToString("yyyy-MM-dd");
+                ds.Tables[0].Rows[i]["DiagnoseDateTime"] = strdate;
+            }
+            return FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(ds);
         }
         #endregion
 
@@ -55,6 +64,7 @@ namespace RuRo.BLL
         public string GetSY_HC_GetPatientInfoJson(RuRo.Model.FP_SY_HIS_IP_PublicInterface model)
         {
            DataSet ds = dal.GetSY_HC_GetPatientInfo(model);
+           DateTime dt = new DateTime();
            if (ds.Tables[0].Rows.Count > 0)
            {
                for (int i = 0; i < ds.Tables[0].Rows.Count - 1; i++)
