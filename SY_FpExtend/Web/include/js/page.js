@@ -14,6 +14,8 @@ function getDiagnoseTypeFlagJsonurl(Diagnoseurl)
     });
     return temp;
 }
+
+
 var Diagnoseurl = '../Fp_Ajax/PageConData.aspx?conMarc=DiagnoseTypeFlag';
 //$.window.suit_id = getDiagnoseTypeFlagJsonurl(Diagnoseurl);
 var getData = getDiagnoseTypeFlagJsonurl(Diagnoseurl);

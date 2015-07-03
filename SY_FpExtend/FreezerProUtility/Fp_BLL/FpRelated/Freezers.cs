@@ -4,20 +4,20 @@ using System.Linq;
 using System.Text;
 using FreezerProUtility.Fp_Model;
 
-namespace FreezerProUtility.Fp_BLL.FpRelated
+namespace FreezerProUtility.Fp_BLL
 {
     public class Freezers
     {
 
         //{"Total":1,"Freezers":[{"id":1,"name":"001号冰箱","description":"001号冰箱","access":0,"subdivisions":4,"boxes":0,"barcode_tag":"7000000001","rfid_tag":"355AB1CBC000007000000001"}]}
         //获取冰箱结构
-        public List<Fp_Model.Freezer> GetAll(string url)
+        public static List<Fp_Model.Freezer> GetAll(string url)
         {
-            return Fp_DAL.DataWithFP.getdata<Freezer>(url, Fp_Common.FpMethod.freezers, "", "Freezers");
+            return Fp_DAL.DataWithFP.getdata<Fp_Model.Freezer>(url, Fp_Common.FpMethod.freezers, "", "Freezers");
         }
-        public Freezer GetFreezerBy(string url,string name) 
+        public static Freezer GetFreezerBy(string url, string name) 
         {
-            return GetAll(url).Where<Freezer>(a => a.name == name).FirstOrDefault();
+            return GetAll(url).Where<Fp_Model.Freezer>(a => a.name == name).FirstOrDefault();
         }
     }
 }
