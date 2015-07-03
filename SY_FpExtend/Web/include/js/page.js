@@ -124,8 +124,8 @@ $(function () {
                     options:
                      {
                         data: getDtaJsonSampleInfo,
-                        valueField: 'key',
-                        textField: 'text',
+                        valueField: 'ID',
+                        textField: 'NAME',
                         editable: false,
                         panelHeight: 'auto',
                         required: true,
@@ -135,20 +135,22 @@ $(function () {
                             var rowIndex = $dg_SampleInfo.datagrid('getRowIndex', row[0]);
                             var target = $('#dg_SampleInfo').datagrid('getEditor', { 'index': rowIndex, 'field': 'combox2' }).target;
                             target.combobox('clear');
-                            var url = '../Fp_Ajax/PageConData.aspx?conMarc=linkage&id=' + rec.key;
+                            var url = '../Fp_Ajax/PageConData.aspx?conMarc=linkagefrom&id=' + rec.ID;
                             liandongurl = url;
                             if (liandongurl == "") { return; }
                             var liandongdata = getliandongJsonurl(liandongurl);
                             var getDtaJsonliandong = JSON.parse(liandongdata);
-                            target.combobox('loadData', getDtaJsonliandong);
+                            var getDtaJsonliandong2 = getDtaJsonliandong.ds;
+                            target.combobox('loadData', getDtaJsonliandong2);
                         }
                       } 
                 }, formatter: function (value, rowData, rowIndex) {
                     var getData = getSampleInfourlJsonurl(SampleInfourl);
                     var getDtaJson = JSON.parse(getData);
-                    if (getDtaJson != "" || getDtaJson != null) {
-                        for (var i = 0; i < getDtaJson.length; i++) {
-                            if (getDtaJson[i].key == value) { return getDtaJson[i].text; }
+                    var getDtaJsonds = getDtaJson.ds;
+                    if (getDtaJsonds != "" || getDtaJsonds != null) {
+                        for (var i = 0; i < getDtaJsonds.length; i++) {
+                            if (getDtaJsonds[i].ID == value) { return getDtaJsonds[i].NAME; }
                         }
                     }
                     else { return value; }
@@ -157,18 +159,17 @@ $(function () {
             {
                 field: 'combox2', title: '联动2', width: '20%', editor: {
                     type: 'combobox', options: {
-                        valueField: 'key',
-                        textField: 'text',
+                        valueField: 'ID',
+                        textField: 'NAME',
                     },
                     formatter: function (value, rowData, rowIndex) {
                         if (liandongurl == "") { return;}
                         var getData = getliandongJsonurl(liandongurl);
                         var getDtaJson = JSON.parse(getData);
-                        if (getDtaJson != "" || getDtaJson != null)
-                        {
-                            for (var i = 0; i < getDtaJson.length; i++)
-                            {
-                                if (getDtaJson[i].key == value) { return getDtaJson[i].text; }
+                        var getDtaJsonds = getDtaJson.ds;
+                        if (getDtaJsonds != "" || getDtaJsonds != null) {
+                            for (var i = 0; i < getDtaJsonds.length; i++) {
+                                if (getDtaJsonds[i].ID == value) { return getDtaJsonds[i].NAME; }
                             }
                         }
                         else { return value; }
@@ -502,7 +503,8 @@ function getSampleInfourlJsonurl(SampleInfourl) {
 }
 var SampleInfourl = '../Fp_Ajax/PageConData.aspx?conMarc=linkage';
 var getSampleInfoData = getSampleInfourlJsonurl(SampleInfourl);
-var getDtaJsonSampleInfo = JSON.parse(getSampleInfoData);
+var getdtaSampleInfo = JSON.parse(getSampleInfoData);
+var getDtaJsonSampleInfo = getdtaSampleInfo.ds;
 
 //下级绑定值
 function getliandongJsonurl(liandongurl) {
