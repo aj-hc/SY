@@ -1,44 +1,4 @@
 ﻿//初始化临床信息面板
-function getDiagnoseTypeFlagJsonurl(Diagnoseurl)
-{
-    var temp;
-    $.ajax({
-        type: 'get',
-        url:Diagnoseurl,
-        async: false,
-        datatype:'json',
-        success: function (responseData)
-        {
-            temp = responseData;
-        }
-    });
-    return temp;
-}
-
-
-var Diagnoseurl = '../Fp_Ajax/PageConData.aspx?conMarc=DiagnoseTypeFlag';
-//$.window.suit_id = getDiagnoseTypeFlagJsonurl(Diagnoseurl);
-var getData = getDiagnoseTypeFlagJsonurl(Diagnoseurl);
-var getDtaJson = JSON.parse(getData);
-
-function getDiagnoseTypeFlagJson(value, row, index)
-{
-
-    getjson = $.parseJSON(DiagnoseTypeFlagJson);
-    if (value == 0) { return; }
-    for (var i = 0; i < getjson.length; i++) {
-        if (getjson[i].DiagnoseTypeFlag == value) { return getjson[i].text; }
-    }
-}
-
-function getJsonObjLength(jsonObj) {
-    var Length = 0;
-    for (var item in jsonObj) {
-        Length++;
-    }
-    return Length;
-}
-
 $(function () {
     var editRow = undefined;
     var $ClinicalInfoDg = $('#ClinicalInfoDg');
@@ -125,7 +85,7 @@ $(function () {
                         $ClinicalInfoDg.datagrid('unselectAll');
                     }
                 } else {}
-                }
+            }
         }],
         
         onAfterEdit: function (rowIndex, rowData, changes) {
@@ -181,7 +141,7 @@ $(function () {
                             var liandongdata = getliandongJsonurl(liandongurl);
                             var getDtaJsonliandong = JSON.parse(liandongdata);
                             target.combobox('loadData', getDtaJsonliandong);
-                    }
+                        }
                       } 
                 }, formatter: function (value, rowData, rowIndex) {
                     var getData = getSampleInfourlJsonurl(SampleInfourl);
@@ -189,11 +149,11 @@ $(function () {
                     if (getDtaJson != "" || getDtaJson != null) {
                         for (var i = 0; i < getDtaJson.length; i++) {
                             if (getDtaJson[i].key == value) { return getDtaJson[i].text; }
-                }
+                        }
                     }
                     else { return value; }
                 }
-            },
+                },
             {
                 field: 'combox2', title: '联动2', width: '20%', editor: {
                     type: 'combobox', options: {
@@ -233,12 +193,12 @@ $(function () {
             }, '-',
             {
                 text: '保存', iconCls: 'icon-save', handler: function () {
-                $dg_SampleInfo.datagrid('endEdit', editRow);
-                var rows = $dg_SampleInfo.datagrid('getRows');
+                    $dg_SampleInfo.datagrid('endEdit', editRow);
+                    var rows = $dg_SampleInfo.datagrid('getRows');
 
-                $('#dg_SampleInfo').datagrid({ loadFilter: pagerFilter }).datagrid('loadData', rows).datagrid('reload');
+                    $('#dg_SampleInfo').datagrid({ loadFilter: pagerFilter }).datagrid('loadData', rows).datagrid('reload');
                     var rowstr = JSON.stringify(rows);
-             }
+                }
             }, '-',
             {text: '删除', iconCls: 'icon-remove', handler: function () {
                     var row = $dg_SampleInfo.datagrid('getSelected');
@@ -267,7 +227,7 @@ $(function () {
         onAfterEdit: function (rowIndex, rowData, changes) {
             editRow = undefined;
         },
-            onDblClickRow: function (rowIndex, rowData) {
+        onDblClickRow: function (rowIndex, rowData) {
             if (editRow != undefined) {
                 $dg_SampleInfo.datagrid('endEdit', editRow);
             }
@@ -275,13 +235,13 @@ $(function () {
                 $dg_SampleInfo.datagrid('beginEdit', rowIndex);
                 editRow = rowIndex;
             }
-            },
-            onClickRow: function (rowIndex, rowData) {
+        },
+        onClickRow: function (rowIndex, rowData) {
             if (editRow != undefined) {
                 $dg_SampleInfo.datagrid('endEdit', editRow);
-    }
+            }
         }
-            });
+    });
 })
 
 //给In_CodeType下拉框绑定值
@@ -365,7 +325,7 @@ function postData() {
            if (getData.state)
            {
                alert(getData.state);
-        }
+           }
             else { alert("上传失败");}
         }
     });
