@@ -51,7 +51,7 @@ namespace FreezerProUtility.Fp_BLL
                 }
             }
             return sampleSourceType;
-        } 
+        }
         #endregion
 
         #region 获取样本源类型及描述字典 +  public Dictionary<string, string> GetSampleSourceTypeNameAndDecToDic()
@@ -119,7 +119,7 @@ namespace FreezerProUtility.Fp_BLL
             //03.调用数据层方法提交数据到Fp，并接受返回值
             string result = dataWithFP.postDateToFp(FpMethod.import_sources, "&sample_source_type=" + sampleSourceTypeName + "&json=" + sampleSourceFieldsJsonStr);
             return result;
-        } 
+        }
         #endregion
 
         #region 根据id获取样品源信息 +public Sample_Source Get_Sample_Source_Info(int sample_source_id)
@@ -134,8 +134,55 @@ namespace FreezerProUtility.Fp_BLL
             string jsonStr = dataWithFP.postDateToFp(FpMethod.sample_source_info, string.Format("&id={0}", sample_source_id));
             samplesource = FpJsonHelper.JsonStrToObject<Sample_Source>(jsonStr);
             return samplesource;
-        } 
+        }
         #endregion
+
+
+        public static string ImportSampleSource(string url, string sample_source_type, Dictionary<string, string> dataDic)
+        {
+            string username = Fp_Common.CookieHelper.GetCookieValue("username");
+            int kk = 0;
+            string result = string.Empty;
+            string jsondata = string.Empty;
+            jsondata = FpJsonHelper.DictionaryToJsonString(dataDic);
+            result = ImportSampleSourceToFp(url,jsondata);
+            return result;
+        }
+
+
+        private static string ImportSampleSourceToFp(string url, string jsonData)
+        {
+            bool ckeck;
+            string connFpUrl = UrlHelper.ConnectionUrlAndPar(url, FpMethod.import_sources, "", out  ckeck);
+            if (ckeck)
+            {
+                //转换成功
+                return Fp_DAL.DataWithFP.postDateToFp(url, jsonData);
+            }
+            else
+            {
+                //url转换失败
+                return "";
+            }
+        }
+
+
+        private static string CheckImportRes(string jsonResStr)
+        {
+            //检测是否导入成功
+            if (string.IsNullOrEmpty(jsonResStr))
+            {
+                return "url或方法错误";
+            }
+            else if (jsonResStr == "1")
+            {
+                return "";
+            }
+            else
+            {
+                return "";
+            }
+        }
 
     }
 }
