@@ -23,6 +23,7 @@ namespace RuRo.Web
                 case "linkage": Response.Write(ReturnGet_Linkage()); break;
                 case "linkagefrom": Response.Write(ReturnGet_Linkage2()); break;
                 case "Employee": Response.Write(ReturnGet_Employee()); break;
+                case "SampleType": Response.Write(ReturnSampleType()); break;
                 default:
                     break;
             }
@@ -55,6 +56,16 @@ namespace RuRo.Web
             string res = "[{\"DiagnoseTypeFlag\": \"0\",\"text\": \"门诊诊断\" },{\"DiagnoseTypeFlag\": \"1\", \"text\": \"入院诊断\"}, { \"DiagnoseTypeFlag\": \"2\", \"text\": \"出院主要诊断\"} , { \"DiagnoseTypeFlag\": \"3\", \"text\": \"出院次要诊\"} ]";
             return res;
         }
+        /// <summary>
+        /// 样品类型数据
+        /// </summary>
+        /// <returns></returns>
+        private string ReturnSampleType()
+        {
+            string res = "[{\"value\": \"0\",\"text\": \"正常组织-心研所\" },{\"value\": \"1\", \"text\": \"正常组织-肺癌所\"}, { \"value\": \"2\", \"text\": \"组织-心研所\"} , { \"value\": \"3\", \"text\": \"组织-肺癌所\"} ]";
+            return res;
+        }
+
         private string ReturnGet_Linkage()
         {
             BLL.FP_LINKAGE_Bll Fp_Linkage = new BLL.FP_LINKAGE_Bll();

@@ -30,14 +30,25 @@ $(function () {
                 }
             },
             {
-                field: 'DiagnoseDateTime', title: '诊断日期', width: '20%', sortable: true, editor: { type: 'datebox', options: { required: false, } }
+                field: 'DiagnoseDateTime', title: '诊断日期', width: '20%', sortable: true, editor: { type: 'datebox', options: { required: false } }
             },
             { field: 'ICDCode', title: 'ICD码', width: '15%', align: 'center', sortable: true, editor: { type: 'validatebox', options: { required: false } } },
             { field: 'DiseaseName', title: '疾病名称', width: '20%', align: 'center', sortable: true, editor: { type: 'validatebox', options: { required: false } } },
-            { field: 'Description', title: '疾病描述', width: '22%', align: 'center', editor: { type: 'validatebox', options: { required: false } } },
+            { field: 'Description', title: '疾病描述', width: '20%', align: 'center', editor: { type: 'validatebox', options: { required: false } } },
         ]],
         singleSelect: false,
-        pagination: true,
+        fitColumns: true,
+        rownumbers: true,//行号 
+        pagination: {
+            pageSize: 10,//每页显示的记录条数，默认为10 
+            pageList: [5, 10, 15],//可以设置每页记录条数的列表 
+            beforePageText: '第',//页数文本框前显示的汉字 
+            afterPageText: '页    共 {pages} 页',
+            displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录',
+            onRefresh: function (pageNumber, pageSize) {
+                alert(pageNumber, pageSize);
+            }
+        },
         toolbar: [
             {
                 text: '添加', iconCls: 'icon-add', handler: function () {
@@ -52,13 +63,24 @@ $(function () {
                 }
             }, '-', {
                 text: '保存', iconCls: 'icon-save', handler: function () {
-                    $ClinicalInfoDg.datagrid('endEdit', editRow);
-                    var rows = $ClinicalInfoDg.datagrid('getRows');
-                    //for (var i = 0; i < rows.length; i++) {
-                    //$('#ClinicalInfoDg').datagrid({ loadFilter: pagerFilter }).datagrid('loadData', rows).datagrid('reload');
                     $('#ClinicalInfoDg').datagrid('acceptChanges');
-                    //}
-                    var rowstr = JSON.stringify(rows);
+                    var rows = $ClinicalInfoDg.datagrid('getRows');
+                    var bool = true;
+                    for (var i = 0; i < rows.length; i++)
+                    {
+                        if (rows[i].DiagnoseDateTime == undefined || rows[i].DiagnoseDateTime == "")
+                        {
+                            $ClinicalInfoDg.datagrid('beginEdit', i);
+                            bool = false;
+                        }
+                    }
+                    if (bool == true) {
+                        $ClinicalInfoDg.datagrid('endEdit', editRow);
+                        var rowstr = JSON.stringify(rows);
+                    }
+                    else {
+                        $.messager.alert('提示', '日期不能为空', 'error');
+                    }
                 }
             }, '-', {
                 text: '删除', iconCls: 'icon-remove', handler: function () {
@@ -67,7 +89,7 @@ $(function () {
                         var rowIndex = $ClinicalInfoDg.datagrid('getRowIndex', row[i]);
                         $ClinicalInfoDg.datagrid('deleteRow', rowIndex);
                     }
-                    $("#tbList").datagrid("clearSelections");
+                    $("#ClinicalInfoDg").datagrid("clearSelections");
                     //if (row) {
                     //    var rowIndex = $ClinicalInfoDg.datagrid('getRowIndex', row);
                     //    $ClinicalInfoDg.datagrid('deleteRow', rowIndex);
@@ -110,6 +132,7 @@ $(function () {
         }
     });
 })
+//诊断类型JSON
 var SampleInfotarget;
 //初始化样本信息面板
 $(function () {
@@ -118,7 +141,27 @@ $(function () {
     $dg_SampleInfo.datagrid({
         title: '样本信息',
         columns: [[
-            { field: 'SampleType', title: '样品类型', width: '15%', align: 'center', editor: { type: 'validatebox', options: { required: false } } },
+            {
+                field: 'SampleType', title: '样品类型', width: '15%', align: 'center', editor: {
+                    type: 'combobox', options: {
+                        data: getDtaJsonSampleType,
+                        valueField: 'value',
+                        textField: 'text',
+                        editable: false,
+                        panelHeight: 'auto',
+                        required: true
+                    }
+                }, formatter: function (value, rowData, rowIndex) {
+                    var getData = getSampleTypeJson(SampleTypeurl);
+                    var getDtaJson = JSON.parse(getData);
+                    if (getDtaJson != "" || getDtaJson != null) {
+                        for (var i = 0; i < getDtaJson.length; i++) {
+                            if (getDtaJson[i].value == value) { return getDtaJson[i].text; }
+                        }
+                    }
+                    else { return value; }
+                }
+            },
             { field: 'Scount', title: '管数', width: '10%', align: 'center', editor: { type: 'numberbox', options: { required: false } } },
             //{
             //    field: 'SystemOrgan', title: '器官系统', width: '20%',
@@ -210,30 +253,48 @@ $(function () {
         toolbar: [
             {
                 text: '添加', iconCls: 'icon-add', handler: function () {
-                    if (editRow != undefined) { $dg_SampleInfo.datagrid('endEdit', editRow); }
+                    if (editRow != undefined) {
+                        $dg_SampleInfo.datagrid('endEdit', editRow);
+                    }
                     if (editRow == undefined) {
                         $dg_SampleInfo.datagrid('insertRow', { index: 0, row: {} });
                         $dg_SampleInfo.datagrid('beginEdit', 0);
-                        editRow = 0;
+                        editRow = undefined;
                     }
                 }
             }, '-',
             {
                 text: '保存', iconCls: 'icon-save', handler: function () {
-
-                    $dg_SampleInfo.datagrid('endEdit', editRow);
+                    $('#dg_SampleInfo').datagrid('acceptChanges');
                     var rows = $dg_SampleInfo.datagrid('getRows');
-                    $('#dg_SampleInfo').datagrid({ loadFilter: pagerFilter }).datagrid('loadData', rows).datagrid('reload');
-                    var rowstr = JSON.stringify(rows);
+                    var bool = true;
+                    for (var i = 0; i < rows.length; i++)
+                    {
+                        if (rows[i].Scount <= 0 || rows[i].Scount == "")
+                        {
+                            $dg_SampleInfo.datagrid('beginEdit', i);
+                            bool = false;
+                        }
+                    }
+                    if (bool == true) {
+                        $dg_SampleInfo.datagrid('endEdit', editRow);
+                        var rowstr = JSON.stringify(rows);
+                    }
+                    else
+                    {
+                        $.messager.alert('提示', '试管数量必须大于0', 'error');
+                    }
                 }
             }, '-',
             {
                 text: '删除', iconCls: 'icon-remove', handler: function () {
-                    var row = $dg_SampleInfo.datagrid('getSelected');
-                    if (row) {
-                        var rowIndex = $dg_SampleInfo.datagrid('getRowIndex', row);
+                    var row = $dg_SampleInfo.datagrid('getChecked');
+                    for (var i = 0; i < row.length; i++) {
+                        var rowIndex = $dg_SampleInfo.datagrid('getRowIndex', row[i]);
                         $dg_SampleInfo.datagrid('deleteRow', rowIndex);
                     }
+                    $("#dg_SampleInfo").datagrid("clearSelections");
+                    editRow == undefined;
                 }
             }, '-',
             {
@@ -293,7 +354,7 @@ $(function () {
         valueField: 'SexFlag',
         textField: 'text',
         url: '../Fp_Ajax/PageConData.aspx?conMarc=SexFlag',
-        panelHeight: 'auto',
+        panelHeight: 'auto'
     });
 })
 
@@ -305,7 +366,7 @@ $(function () {
         valueField: 'BloodTypeFlag',
         textField: 'text',
         url: '../Fp_Ajax/PageConData.aspx?conMarc=BloodTypeFlag',
-        panelHeight: 'auto',
+        panelHeight: 'auto'
     });
 })
 
@@ -317,7 +378,7 @@ $(function () {
         method: 'get',
         valueField: 'samplingMethod',
         textField: 'text',
-        panelHeight: 'auto',
+        panelHeight: 'auto'
     });
 })
 
@@ -332,27 +393,43 @@ function doimport() {
 
 //POST数据
 function postData() {
-    var strcodeform = querybycodeform();
-    //ClinicalInfoDg 
-    var _ClinicalInfoDg = $('#ClinicalInfoDg').datagrid('getChecked');
-    var rowClinicalInfoDg = JSON.stringify(_ClinicalInfoDg);
-    var strSampleInfoDiv = querySampleInfoDiv();
-    //_dg_SampleInfo
-    var _dg_SampleInfo = $('#dg_SampleInfo').datagrid('getChecked');
-    var rowdg_SampleInfo = JSON.stringify(_dg_SampleInfo);
-    $.ajax({
-        type: 'post',
-        url: '/Fp_Ajax/SubmitData.aspx?action=gethisdata&codeform=' + strcodeform + '&_ClinicalInfoDg=' + rowClinicalInfoDg + '&strSampleInfoDiv='
-            + strSampleInfoDiv + '&_dg_SampleInfo=' + rowdg_SampleInfo,
-        onSubmit: function () { },
-        success: function (data) {
-            var getData = $.parseJSON(data);
-            if (getData.state) {
-                alert(getData.state);
+    var name = $('#_80').textbox('getText');
+    if (name == "") { $.messager.alert('提示', '请输入姓名', 'error'); return; }
+    else
+    {
+        var strcodeform = querybycodeform();
+        //ClinicalInfoDg 
+        var _ClinicalInfoDg = $('#ClinicalInfoDg').datagrid('getChecked');
+        for (var i = 0; i < _ClinicalInfoDg.length - 1; i++) {
+            if (_ClinicalInfoDg[i].DiagnoseDateTime == "") {
+                $.messager.alert('提示', '诊断日期存在未输入字段，请重新输入', 'error'); return;
             }
-            else { alert("上传失败"); }
         }
-    });
+        var rowClinicalInfoDg = JSON.stringify(_ClinicalInfoDg);
+        var strSampleInfoDiv = querySampleInfoDiv();
+        //_dg_SampleInfo
+        var _dg_SampleInfo = $('#dg_SampleInfo').datagrid('getRows');
+        for (var i = 0; i < _dg_SampleInfo.length - 1; i++) {
+            if (_dg_SampleInfo[i].Scount == "" || _dg_SampleInfo[i].Scount == 0 || _dg_SampleInfo[i].Scount < 0) {
+                $.messager.alert('提示', '试管数必须大于1', 'error'); return;
+            }
+        }
+        var rowdg_SampleInfo = JSON.stringify(_dg_SampleInfo);
+        $.ajax({
+            type: 'post',
+            url: '/Fp_Ajax/SubmitData.aspx?action=gethisdata&codeform=' + strcodeform + '&_ClinicalInfoDg=' + rowClinicalInfoDg + '&strSampleInfoDiv='
+                + strSampleInfoDiv + '&_dg_SampleInfo=' + rowdg_SampleInfo,
+            onSubmit: function () { },
+            success: function (data) {
+                var getData = $.parseJSON(data);
+                if (getData.state) {
+                    alert(getData.state);
+                }
+                else { alert("上传失败"); }
+            }
+        });
+    }
+
 }
 
 //获取页面数据
@@ -506,6 +583,24 @@ var Diagnoseurl = '../Fp_Ajax/PageConData.aspx?conMarc=DiagnoseTypeFlag';
 var getDiagnoseTypeFlagData = getDiagnoseTypeFlagJsonurl(Diagnoseurl);
 var getDtaJsonDiagnoseTypeFlag = JSON.parse(getDiagnoseTypeFlagData);
 
+//初始化面板SampleType
+function getSampleTypeJson(SampleTypeurl) {
+    var temp;
+    $.ajax({
+        type: 'get',
+        url: SampleTypeurl,
+        async: false,
+        datatype: 'json',
+        success: function (responseData) {
+            temp = responseData;
+        }
+    });
+    return temp;
+}
+var SampleTypeurl = '../Fp_Ajax/PageConData.aspx?conMarc=SampleType';
+var getSampleTypeData = getSampleTypeJson(SampleTypeurl);
+var getDtaJsonSampleType = JSON.parse(getSampleTypeData);
+
 //联动数据绑定值
 function getSampleInfourlJsonurl(SampleInfourl) {
     var temp;
@@ -542,6 +637,5 @@ function getliandongJsonurl(liandongurl) {
 var liandongurl;
 var getliandongData = getliandongJsonurl(liandongurl);
 var getDtaJsonliandong;
-
 
 
