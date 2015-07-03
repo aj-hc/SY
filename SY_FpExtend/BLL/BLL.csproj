@@ -117,8 +117,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FP_LINKAGE_Bll.cs" />
     <Compile Include="FP_SY_HIS_IP_PublicInterface_Bll.cs" />
-    <Compile Include="FP_Test_Bll.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

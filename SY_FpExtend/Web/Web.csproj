@@ -83,6 +83,7 @@
     <Content Include="Fp_Ajax\PageConData.aspx" />
     <Content Include="Fp_Ajax\SubmitData.aspx" />
     <Content Include="Fp_ExtendPage\00.Fp_ExtendPage备注.txt" />
+    <Content Include="Fp_ExtendPage\BasedInfoTest.aspx" />
     <Content Include="Fp_ExtendPage\BaseInfo.aspx" />
     <Content Include="Fp_ExtendPage\ClinicalInfo.aspx" />
     <Content Include="Fp_ExtendPage\SampleInfo.aspx" />
@@ -1103,6 +1104,13 @@
     </Compile>
     <Compile Include="Fp_Ajax\SubmitData.aspx.designer.cs">
       <DependentUpon>SubmitData.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Fp_ExtendPage\BasedInfoTest.aspx.cs">
+      <DependentUpon>BasedInfoTest.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Fp_ExtendPage\BasedInfoTest.aspx.designer.cs">
+      <DependentUpon>BasedInfoTest.aspx</DependentUpon>
     </Compile>
     <Compile Include="Fp_ExtendPage\BaseInfo.aspx.cs">
       <DependentUpon>BaseInfo.aspx</DependentUpon>

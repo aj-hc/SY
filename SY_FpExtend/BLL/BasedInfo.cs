@@ -52,7 +52,6 @@ namespace RuRo.BLL
 		/// </summary>
 		public bool Delete(int id)
 		{
-			
 			return dal.Delete(id);
 		}
 		/// <summary>
@@ -172,6 +171,11 @@ namespace RuRo.BLL
 
 		#endregion  BasicMethod
 		#region  ExtensionMethod
+        public bool GetBasedInfoPatientName(int PatientName) 
+        {
+            RuRo.DAL.BasedInfo baseinfo=new DAL.BasedInfo();
+            return baseinfo.Exists(PatientName);
+        }
 
 		#endregion  ExtensionMethod
 	}

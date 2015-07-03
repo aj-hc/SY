@@ -25,7 +25,7 @@ namespace RuRo.DAL
 					};
             parameters[0].Value = model.In_RegisterID;
             parameters[1].Value = model.In_InPatientID;
-            return DbHelperSQL.RunProcedure("SY_HC_GetDiagnoseInfo", parameters, "ds");
+            return DbHelperSQL.RunProcedure("SY_HC_GetDiagnoseInfo", parameters, "ds",200);
         }
         #endregion
 
@@ -37,7 +37,7 @@ namespace RuRo.DAL
         public DataSet GetSY_HC_GetEmployeeInfo()
         {
             SqlParameter[] parameters = null;
-            return DbHelperSQL.RunProcedure("SY_HC_GetEmployeeInfo", parameters, "ds");
+            return DbHelperSQL.RunProcedure("SY_HC_GetEmployeeInfo", parameters, "ds", 200);
         }
         #endregion
 
@@ -55,7 +55,7 @@ namespace RuRo.DAL
 					};
             parameters[0].Value = model.In_RegisterID;
             parameters[1].Value = model.In_InPatientID;
-            return DbHelperSQL.RunProcedure("SY_HC_GetExamineRequest", parameters, "ds");
+            return DbHelperSQL.RunProcedure("SY_HC_GetExamineRequest", parameters, "ds", 200);
         }
         #endregion
 
@@ -75,7 +75,7 @@ namespace RuRo.DAL
                 };
             parameters[0].Value = model.In_CodeType;
             parameters[1].Value = model.In_Code;
-            ds = DbHelperSQL.RunProcedure("SY_HC_GetPatientInfo", parameters, "ds");
+            ds = DbHelperSQL.RunProcedure("SY_HC_GetPatientInfo", parameters, "ds", 200);
             return ds;
 
         }
@@ -95,7 +95,7 @@ namespace RuRo.DAL
 					};
             parameters[0].Value = model.In_RegisterID;
             parameters[1].Value = model.In_InPatientID;
-            return DbHelperSQL.RunProcedure("SY_HC_GetSurgeryRequest", parameters, "ds");
+            return DbHelperSQL.RunProcedure("SY_HC_GetSurgeryRequest", parameters, "ds", 200);
         }
         #endregion
 
