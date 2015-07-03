@@ -9,6 +9,7 @@ namespace RuRo.Web.Fp_Ajax
 {
     public partial class SubmitData : System.Web.UI.Page
     {
+        string url = Common.CreatFpUrl.FpUrl;
         protected void Page_Load(object sender, EventArgs e)
         {
             string action = Request.Params["action"].ToString();
@@ -22,10 +23,24 @@ namespace RuRo.Web.Fp_Ajax
                 dic.Add("state", codeform + "-" + _ClinicalInfoDg + "-" + strSampleInfoDiv + "-" + _dg_SampleInfo);
                 Response.Write(FreezerProUtility.Fp_Common.FpJsonHelper.DictionaryToJsonString(dic));
             }
-            else 
+            else
             {
                 Response.Write("错误信息");
             }
+        }
+
+        private string ImportSamples()
+        {
+            
+            return "";
+        }
+        private string ImportSampleSource()
+        {
+            return "";
+        }
+        private string ImportTestData()
+        {
+            return "";
         }
     }
 }

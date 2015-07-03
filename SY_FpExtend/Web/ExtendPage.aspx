@@ -24,8 +24,8 @@
                 <div><b>查找患者</b></div>
                 <div runat="server">
                     查找方式：
-                <input id="In_CodeType" class="easyui-combobox" name="querybycode" style="width: 200px;"  data-options="required:true"/>
-                    <input id="In_Code" class="easyui-textbox"  data-options="required:true"/>
+                <input id="In_CodeType" class="easyui-combobox" name="querybycode" style="width: 200px;" data-options="required:true" />
+                    <input id="In_Code" class="easyui-textbox" data-options="required:true" />
                     <a href="#" onclick="querybycode()" id="btnGet" class="easyui-linkbutton">查询患者信息</a>
                 </div>
             </div>
@@ -57,37 +57,37 @@
                                 <input class="easyui-datebox" name="BirthDay" id="_84" data-options="required:false" /></td>
                             <td>血型：</td>
                             <td>
-                                <input class="easyui-combobox"  name="BloodTypeFlag" id="_116" data-options="required:false" /></td>
+                                <input class="easyui-combobox" name="BloodTypeFlag" id="_116" data-options="required:false" /></td>
                         </tr>
                         <tr>
                             <td>联系人：</td>
                             <td>
-                                <input class="easyui-textbox"  name="ContactPerson" id="_88" data-options="required:false" /></td>
+                                <input class="easyui-textbox" name="ContactPerson" id="_88" data-options="required:false" /></td>
                             <td>联系人电话：</td>
                             <td>
-                                <input class="easyui-textbox"  name="ContactPhone" id="_87" data-options="required:false" /></td>
+                                <input class="easyui-textbox" name="ContactPhone" id="_87" data-options="required:false" /></td>
                             <td>联系电话：</td>
                             <td>
-                                <input class="easyui-textbox"  name="Phone" id="_86" data-options="required:false" /></td>
+                                <input class="easyui-textbox" name="Phone" id="_86" data-options="required:false" /></td>
                         </tr>
                         <tr>
                             <td>籍贯：</td>
                             <td>
-                                <input class="easyui-textbox"  name="NativePlace" id="_89" data-options="required:false" /></td>
+                                <input class="easyui-textbox" name="NativePlace" id="_89" data-options="required:false" /></td>
                             <td>门诊流水号：</td>
                             <td>
-                                <input class="easyui-textbox"  name="RegisterSeqNO" id="_90" data-options="required:false" /></td>
+                                <input class="easyui-textbox" name="RegisterSeqNO" id="_90" data-options="required:false" /></td>
                             <td>患者ID：</td>
                             <td>
-                                <input class="easyui-textbox"  name="PatientID" id="_91" data-options="required:true" /></td>
+                                <input class="easyui-textbox" name="PatientID" id="_91" data-options="required:true" /></td>
                         </tr>
                         <tr>
                             <td>住院ID：</td>
                             <td>
-                                <input class="easyui-textbox"  name="InPatientID" id="_93" data-options="required:false" /></td>
+                                <input class="easyui-textbox" name="InPatientID" id="_93" data-options="required:false" /></td>
                             <td>挂号ID：</td>
                             <td>
-                                <input class="easyui-textbox"  name="RegisterID" id="_92" data-options="required:false" /></td>
+                                <input class="easyui-textbox" name="RegisterID" id="_92" data-options="required:false" /></td>
                         </tr>
                     </table>
                 </div>
@@ -107,7 +107,6 @@
             <%--1、共有字段信息展现--字段标识--%>
             <%--2、样本特有字段、管数、位置信息展现--%>
             <div class="easyui-panel">
-
                 <div style="padding: 2px"><b>标本信息 </b></div>
                 <div id="SampleInfoDiv" runat="server">
                     <table>
@@ -154,31 +153,33 @@
                     </table>
                 </div>
             </div>
-            <div class="h"></div>
+        </form>
+        <div class="h"></div>
+        <form id="dg_SampleInfoForm">
             <div class="easyui-panel">
                 <div id="dg_SampleInfo" class="easyui-datagrid" style="height: auto" data-options="rownumbers:true,singleSelect:false,pagination: true"></div>
             </div>
         </form>
         <div id="footer" style="padding: 5px; margin: 10px" data-options="region:'south',">
-            <a href="javascript:void(0)" class="easyui-linkbutton" onclick="postData();" id="submit"  style="width: auto">添加样本</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" onclick="postData();" id="submit" style="width: auto">添加样本</a>
             <a href="javascript:void(0)" class="easyui-linkbutton" onclick="" style="width: auto">取消录入</a>
         </div>
     </div>
 
-            <!--登陆框-->
-        <div id="Login" class="easyui-dialog" style="width: 300px; padding: 30px 50px 20px 50px" title="请登录助手" data-options="closed:true">
-            <form id="frmLogin" runat="server" enableviewstate="false">
-                <div style="margin-bottom: 10px">
-                    <input class="easyui-textbox" id="username" name="username" style="width: 100%; height: 40px; padding: 12px" data-options="prompt:'username',iconCls:'icon-man',iconWidth:38" />
-                </div>
-                <div style="margin-bottom: 20px">
-                    <input class="easyui-textbox" id="password" name="password" style="width: 100%; height: 40px; padding: 12px" type="password" data-options="prompt:'password',iconCls:'icon-lock',iconWidth:38" />
-                </div>
-                <div style="text-align: center; padding: 5px">
-                    <a href="javascript:void(0)" style="margin: 0px 10px 0px 10px" class="easyui-linkbutton" onclick="login()">登陆</a>
-                    <a href="javascript:void(0)" style="margin: 0px 10px 0px 10px" class=" easyui-linkbutton" onclick="$('#Login').dialog('close')">取消</a>
-                </div>
-            </form>
-        </div>
+    <!--登陆框-->
+    <div id="Login" class="easyui-dialog" style="width: 300px; padding: 30px 50px 20px 50px" title="请登录助手" data-options="closed:true">
+        <form id="frmLogin" runat="server" enableviewstate="false">
+            <div style="margin-bottom: 10px">
+                <input class="easyui-textbox" id="username" name="username" style="width: 100%; height: 40px; padding: 12px" data-options="prompt:'username',iconCls:'icon-man',iconWidth:38" />
+            </div>
+            <div style="margin-bottom: 20px">
+                <input class="easyui-textbox" id="password" name="password" style="width: 100%; height: 40px; padding: 12px" type="password" data-options="prompt:'password',iconCls:'icon-lock',iconWidth:38" />
+            </div>
+            <div style="text-align: center; padding: 5px">
+                <a href="javascript:void(0)" style="margin: 0px 10px 0px 10px" class="easyui-linkbutton" onclick="login()">登陆</a>
+                <a href="javascript:void(0)" style="margin: 0px 10px 0px 10px" class=" easyui-linkbutton" onclick="$('#Login').dialog('close')">取消</a>
+            </div>
+        </form>
+    </div>
 </body>
 </html>

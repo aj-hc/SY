@@ -225,17 +225,15 @@ namespace FreezerProUtility.Fp_BLL
         private static string ImportSampleToFp(string url, string jsonData)
         {
             bool ckeck;
+
+            string result = string.Empty;
             string connFpUrl = UrlHelper.ConnectionUrlAndPar(url, FpMethod.import_samples, "", out  ckeck);
             if (ckeck)
             {
                 //转换成功
-                return Fp_DAL.DataWithFP.postDateToFp(url, jsonData);
+                result =Fp_DAL.DataWithFP.postDateToFp(connFpUrl, jsonData);
             }
-            else
-            {
-                //url转换失败
-                return "";
-            }
+            return result;
         } 
         #endregion
 

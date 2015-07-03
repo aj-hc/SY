@@ -15,6 +15,7 @@ namespace FreezerProUtility.Fp_BLL
             {
                 string jsonData = string.Format("&test_data_type={0}&json={1}", test_data_type, jsonDic);
                 result = ImportTestDataToFp(url, jsonData);
+
             }
             return "";
         }
@@ -23,12 +24,18 @@ namespace FreezerProUtility.Fp_BLL
         private static string ImportTestDataToFp(string url, string jsonData)
         {
             bool check;
+            string result = string.Empty;
             string connFpUrl = Fp_Common.UrlHelper.ConnectionUrlAndPar(url, Fp_Common.FpMethod.import_tests, "", out check);
-
-            return "";
+            if (check)
+            {   
+                //转换成功
+                result = Fp_DAL.DataWithFP.postDateToFp(connFpUrl, jsonData);
+            }
+            return result;
         }
         private static string CheckRes(string jsonResStr)
         {
+
             return "";
         }
     }

@@ -145,7 +145,7 @@ namespace FreezerProUtility.Fp_BLL
             string result = string.Empty;
             string jsondata = string.Empty;
             jsondata = FpJsonHelper.DictionaryToJsonString(dataDic);
-            result = ImportSampleSourceToFp(url,jsondata);
+            result = ImportSampleSourceToFp(url, jsondata);
             return result;
         }
 
@@ -153,17 +153,14 @@ namespace FreezerProUtility.Fp_BLL
         private static string ImportSampleSourceToFp(string url, string jsonData)
         {
             bool ckeck;
+            string result = string.Empty;
             string connFpUrl = UrlHelper.ConnectionUrlAndPar(url, FpMethod.import_sources, "", out  ckeck);
             if (ckeck)
             {
                 //转换成功
-                return Fp_DAL.DataWithFP.postDateToFp(url, jsonData);
+                result = Fp_DAL.DataWithFP.postDateToFp(connFpUrl, jsonData);
             }
-            else
-            {
-                //url转换失败
-                return "";
-            }
+            return result;
         }
 
 
