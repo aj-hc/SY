@@ -107,7 +107,7 @@ $(function () {
         }
 });
 })
-
+var SampleInfotarget;
 //初始化样本信息面板
 $(function () {
     var editRow = undefined;
@@ -134,6 +134,7 @@ $(function () {
                             var row = $dg_SampleInfo.datagrid("getSelections");
                             var rowIndex = $dg_SampleInfo.datagrid('getRowIndex', row[0]);
                             var target = $('#dg_SampleInfo').datagrid('getEditor', { 'index': rowIndex, 'field': 'combox2' }).target;
+                            SampleInfotarget = target;
                             target.combobox('clear');
                             var url = '../Fp_Ajax/PageConData.aspx?conMarc=linkagefrom&id=' + rec.ID;
                             liandongurl = url;
@@ -144,13 +145,35 @@ $(function () {
                             target.combobox('loadData', getDtaJsonliandong2);
                         }
                       } 
-                }, formatter: function (value, rowData, rowIndex) {
+                }, formatter: function (value, rowData, rowIndex)
+                {
                     var getData = getSampleInfourlJsonurl(SampleInfourl);
                     var getDtaJson = JSON.parse(getData);
                     var getDtaJsonds = getDtaJson.ds;
-                    if (getDtaJsonds != "" || getDtaJsonds != null) {
-                        for (var i = 0; i < getDtaJsonds.length; i++) {
-                            if (getDtaJsonds[i].ID == value) { return getDtaJsonds[i].NAME; }
+                    if (getDtaJsonds != "" || getDtaJsonds != null)
+                    {
+                        for (var i = 0; i < getDtaJsonds.length; i++)
+                        {
+                            if (getDtaJsonds[i].ID == value)
+                            {
+                                if (liandongurl == "") { return; }
+                                else
+                                {
+                                    var com2value = SampleInfotarget.combobox("getValue");
+                                    var liandongdata = getliandongJsonurl(liandongurl);
+                                    var getDtaJsonliandong = JSON.parse(liandongdata);
+                                    var getDtaJsonliandong2 = getDtaJsonliandong.ds;
+                                    for (var j = 0; j < getDtaJsonliandong2.length; j++) {
+                                        if (com2value == getDtaJsonliandong2[j].ID)
+                                        {
+                                            getDtaJsonliandong2[j].NAME;
+                                            SampleInfotarget.combobox("setText", getDtaJsonliandong2[j].NAME);
+                                        }
+                                    }
+                                    //target.combobox('loadData', getDtaJsonliandong2);
+                                }
+                                return getDtaJsonds[i].NAME;
+                            }
                         }
                     }
                     else { return value; }
@@ -522,6 +545,12 @@ function getliandongJsonurl(liandongurl) {
 }
 var liandongurl;
 var getliandongData = getliandongJsonurl(liandongurl);
-//var getDtaJsonliandong = JSON.parse(getliandongData);
+var getDtaJsonliandong;
+//if (liandongurl!=""||liandongurl!=undefined)
+//{
+//    var a = JSON.parse(getliandongData);
+//    getDtaJsonliandong = a.ds;
+//}
+
 
 
