@@ -107,19 +107,19 @@ namespace RuRo.Web.Fp_Ajax
         }
         #endregion
 
-        #region 员工信息
-        /// <summary>
-        /// 员工信息
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        public string GetSY_HC_GetEmployeeInfoJson()
-        {
-            FP_SY_HIS_IP_PublicInterface_Bll fp = new FP_SY_HIS_IP_PublicInterface_Bll();
-            return fp.GetSY_HC_GetEmployeeInfoJson();
-        }
+        //#region 员工信息
+        ///// <summary>
+        ///// 员工信息
+        ///// </summary>
+        ///// <param name="model"></param>
+        ///// <returns></returns>
+        //public string GetSY_HC_GetEmployeeInfoJson()
+        //{
+        //    FP_SY_HIS_IP_PublicInterface_Bll fp = new FP_SY_HIS_IP_PublicInterface_Bll();
+        //    return fp.GetSY_HC_GetEmployeeInfoJson();
+        //}
 
-        #endregion
+        //#endregion
 
     }
 }

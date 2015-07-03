@@ -279,7 +279,7 @@ namespace RuRo.DAL
         /// <returns></returns>
         public DataSet GetFP_LINKAGE()
         {
-            string strSql = "SELECT NAME FROM FP_LINKAGE WHERE FROMID=0";
+            string strSql = "SELECT ID,NAME FROM FP_LINKAGE WHERE FROMID=0";
             DataSet ds = new DataSet();
             ds= DbHelperSQL_SY.QuerySY(strSql);
             return ds;
@@ -290,7 +290,7 @@ namespace RuRo.DAL
         /// <returns></returns>
         public DataSet GetFP_LINKAGE(int index)
         {
-            string strSql = "SELECT NAME FROM FP_LINKAGE WHERE FROMID="+index;
+            string strSql = "SELECT ID,NAME FROM FP_LINKAGE WHERE FROMID="+index;
             DataSet ds = new DataSet();
             ds = DbHelperSQL_SY.QuerySY(strSql);
             return ds;

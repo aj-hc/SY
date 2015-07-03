@@ -30,11 +30,11 @@ $(function () {
                 }
             },
             {
-                field: 'DiagnoseDateTime', title: '诊断日期', width: '20%', sortable: true, editor: { type: 'datebox', options: { required: false } }
+                field: 'DiagnoseDateTime', title: '诊断日期', width: '20%', sortable: true, editor: { type: 'datebox', options: { required: false, } }
             },
             { field: 'ICDCode', title: 'ICD码', width: '15%', align: 'center', sortable: true, editor: { type: 'validatebox', options: { required: false } } },
             { field: 'DiseaseName', title: '疾病名称', width: '20%', align: 'center', sortable: true, editor: { type: 'validatebox', options: { required: false } } },
-            { field: 'Description', title: '疾病描述', width: '20%', align: 'center', editor: { type: 'validatebox', options: { required: false } } },
+            { field: 'Description', title: '疾病描述', width: '22%', align: 'center', editor: { type: 'validatebox', options: { required: false } } },
         ]],
         singleSelect: false,
         pagination: true,
@@ -47,22 +47,31 @@ $(function () {
                     if (editRow == undefined) {
                         $ClinicalInfoDg.datagrid('insertRow', { index: 0, row: {} });
                         $ClinicalInfoDg.datagrid('beginEdit', 0);
-                        editRow = 0;
+                        editRow = undefined;
                     }
                 }
             }, '-', {
                 text: '保存', iconCls: 'icon-save', handler: function () {
                     $ClinicalInfoDg.datagrid('endEdit', editRow);
                     var rows = $ClinicalInfoDg.datagrid('getRows');
-                    $('#ClinicalInfoDg').datagrid({ loadFilter: pagerFilter }).datagrid('loadData', rows).datagrid('reload');
+                    //for (var i = 0; i < rows.length; i++) {
+                    //$('#ClinicalInfoDg').datagrid({ loadFilter: pagerFilter }).datagrid('loadData', rows).datagrid('reload');
+                    $('#ClinicalInfoDg').datagrid('acceptChanges');
+                    //}
                 }
             }, '-', {
                 text: '删除', iconCls: 'icon-remove', handler: function () {
-                    var row = $ClinicalInfoDg.datagrid('getSelected');
-                    if (row) {
-                        var rowIndex = $ClinicalInfoDg.datagrid('getRowIndex', row);
+                    var row = $ClinicalInfoDg.datagrid('getChecked');
+                    for (var i = 0; i < row.length; i++) {
+                        var rowIndex = $ClinicalInfoDg.datagrid('getRowIndex', row[i]);
                         $ClinicalInfoDg.datagrid('deleteRow', rowIndex);
                     }
+                    $("#tbList").datagrid("clearSelections");
+                    //if (row) {
+                    //    var rowIndex = $ClinicalInfoDg.datagrid('getRowIndex', row);
+                    //    $ClinicalInfoDg.datagrid('deleteRow', rowIndex);
+                    editRow == undefined;
+                    //}
                 }
             }, '-', {
                 text: '修改', iconCls: 'icon-edit', handler: function () {
@@ -80,17 +89,10 @@ $(function () {
                     } else { }
                 }
             }],
-        //在用户完成编辑一行的时候触发
+
         onAfterEdit: function (rowIndex, rowData, changes) {
             editRow = undefined;
         },
-        //在完成编辑但编辑器还没有销毁之前触发
-        onEndEdit: function (rowIndex, rowData, changes) {
-            //验证
-            var row = $ClinicalInfoDg.datagrid('selectRecord', editRow);
-            editRow = undefined;
-        },
-        //
         onDblClickRow: function (rowIndex, rowData) {
             if (editRow != undefined) {
                 $ClinicalInfoDg.datagrid('endEdit', editRow);
@@ -100,11 +102,7 @@ $(function () {
                 editRow = rowIndex;
             }
         }
-        //onClickRow: function (rowIndex, rowData) {
-        //    if (editRow != undefined) {
-        //        $ClinicalInfoDg.datagrid('endEdit', editRow);
-        //    }
-        //}
+        }
     });
 })
 var SampleInfotarget;
@@ -123,34 +121,39 @@ $(function () {
             //        type: 'combobox',
             //        options:
             //         {
-            //             data: getDtaJsonSampleInfo,
-            //             valueField: 'ID',
-            //             textField: 'NAME',
-            //             editable: false,
-            //             panelHeight: 'auto',
-            //             required: true,
-            //             onSelect: function (rec) {
-            //                 var row = $dg_SampleInfo.datagrid("getSelections");
-            //                 var rowIndex = $dg_SampleInfo.datagrid('getRowIndex', row[0]);
-            //                 var target = $('#dg_SampleInfo').datagrid('getEditor', { 'index': rowIndex, 'field': 'combox2' }).target;
-            //                 SampleInfotarget = target;
-            //                 target.combobox('clear');
-            //                 var url = '../Fp_Ajax/PageConData.aspx?conMarc=linkagefrom&id=' + rec.ID;
-            //                 liandongurl = url;
-            //                 if (liandongurl == "") { return; }
-            //                 var liandongdata = getliandongJsonurl(liandongurl);
-            //                 var getDtaJsonliandong = JSON.parse(liandongdata);
-            //                 var getDtaJsonliandong2 = getDtaJsonliandong.ds;
-            //                 target.combobox('loadData', getDtaJsonliandong2);
-            //             }
-            //         }
-            //    }, formatter: function (value, rowData, rowIndex) {
+            //            data: getDtaJsonSampleInfo,
+            //            valueField: 'ID',
+            //            textField: 'NAME',
+            //            editable: false,
+            //            panelHeight: 'auto',
+            //            required: true,
+            //            onSelect: function (rec)
+            //            {
+            //                var row = $dg_SampleInfo.datagrid("getSelections");
+            //                var rowIndex = $dg_SampleInfo.datagrid('getRowIndex', row[0]);
+            //                var target = $('#dg_SampleInfo').datagrid('getEditor', { 'index': rowIndex, 'field': 'combox2' }).target;
+            //                SampleInfotarget = target;
+            //                target.combobox('clear');
+            //                var url = '../Fp_Ajax/PageConData.aspx?conMarc=linkagefrom&id=' + rec.ID;
+            //                liandongurl = url;
+            //                if (liandongurl == "") { return; }
+            //                var liandongdata = getliandongJsonurl(liandongurl);
+            //                var getDtaJsonliandong = JSON.parse(liandongdata);
+            //                var getDtaJsonliandong2 = getDtaJsonliandong.ds;
+            //                target.combobox('loadData', getDtaJsonliandong2);
+            //            }
+            //          } 
+            //    }, formatter: function (value, rowData, rowIndex)
+            //    {
             //        var getData = getSampleInfourlJsonurl(SampleInfourl);
             //        var getDtaJson = JSON.parse(getData);
             //        var getDtaJsonds = getDtaJson.ds;
-            //        if (getDtaJsonds != "" || getDtaJsonds != null) {
-            //            for (var i = 0; i < getDtaJsonds.length; i++) {
-            //                if (getDtaJsonds[i].ID == value) {
+            //        if (getDtaJsonds != "" || getDtaJsonds != null)
+            //        {
+            //            for (var i = 0; i < getDtaJsonds.length; i++)
+            //            {
+            //                if (getDtaJsonds[i].ID == value)
+            //                {
             //                    if (liandongurl == "") { return; }
             //                    else
             //                    {
@@ -159,7 +162,8 @@ $(function () {
             //                        var getDtaJsonliandong = JSON.parse(liandongdata);
             //                        var getDtaJsonliandong2 = getDtaJsonliandong.ds;
             //                        for (var j = 0; j < getDtaJsonliandong2.length; j++) {
-            //                            if (com2value == getDtaJsonliandong2[j].ID) {
+            //                            if (com2value == getDtaJsonliandong2[j].ID)
+            //                            {
             //                                getDtaJsonliandong2[j].NAME;
             //                                SampleInfotarget.combobox("setText", getDtaJsonliandong2[j].NAME);
             //                            }
@@ -172,15 +176,15 @@ $(function () {
             //        }
             //        else { return value; }
             //    }
-            //},
+            //    },
             //{
             //    field: 'combox2', title: '联动2', width: '20%', editor: {
             //        type: 'combobox', options: {
             //            valueField: 'ID',
-            //            textField: 'NAME'
+            //            textField: 'NAME',
             //        },
             //        formatter: function (value, rowData, rowIndex) {
-            //            if (liandongurl == "") { return; }
+            //            if (liandongurl == "") { return;}
             //            var getData = getliandongJsonurl(liandongurl);
             //            var getDtaJson = JSON.parse(getData);
             //            var getDtaJsonds = getDtaJson.ds;
@@ -211,9 +215,9 @@ $(function () {
             }, '-',
             {
                 text: '保存', iconCls: 'icon-save', handler: function () {
+
                     $dg_SampleInfo.datagrid('endEdit', editRow);
                     var rows = $dg_SampleInfo.datagrid('getRows');
-
                     $('#dg_SampleInfo').datagrid({ loadFilter: pagerFilter }).datagrid('loadData', rows).datagrid('reload');
                     var rowstr = JSON.stringify(rows);
                 }
@@ -346,7 +350,6 @@ function postData() {
 
     $.ajax({
         type: 'post',
-        dataType: 'json',
         url: '/Fp_Ajax/SubmitData.aspx?action=gethisdata&codeform=' + strcodeform + '&_ClinicalInfoDg=' + rowClinicalInfoDg + '&strSampleInfoDiv='
             + strSampleInfoDiv + '&_dg_SampleInfo=' + rowdg_SampleInfo,
         onSubmit: function () { },
@@ -546,11 +549,6 @@ function getliandongJsonurl(liandongurl) {
 var liandongurl;
 var getliandongData = getliandongJsonurl(liandongurl);
 var getDtaJsonliandong;
-//if (liandongurl!=""||liandongurl!=undefined)
-//{
-//    var a = JSON.parse(getliandongData);
-//    getDtaJsonliandong = a.ds;
-//}
 
 
 

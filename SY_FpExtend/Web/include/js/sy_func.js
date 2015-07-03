@@ -231,3 +231,34 @@ function getdatabybarcode() {
     var code = $('#barcodebox').textbox('clear');
 }
 
+//绑定采集人
+//$(function () {
+//    $('#_99').combobox({
+//        editable: false,
+//        valueField: 'EmployeeNo',
+//        textField: 'EmployeeName',
+//        data: getJsonEmployee,
+//        panelHeight: 'auto'
+//    });
+//})
+
+//function getEmployee(Employeeurl) {
+//    alert("11");
+//    var temp;
+//    var text= $('#_99').combobox('getValue');
+//    alert(text);
+//    $.ajax({
+//        type: 'get',
+//        url: Employeeurl+text,
+//        async: false,
+//        datatype: 'json',
+//        success: function (responseData) {
+//            temp = responseData;
+//        }
+//    });
+//    return temp;
+//}
+//var Employeeurl = '../Fp_Ajax/PageConData.aspx?conMarc=Employee&com=';
+//var getEmployeeData = getEmployee(Employeeurl);
+//var getDtaJsonEmployee = JSON.parse(getEmployeeData);
+//var getJsonEmployee = getDtaJsonEmployee.ds;
