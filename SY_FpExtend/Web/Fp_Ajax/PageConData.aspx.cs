@@ -22,6 +22,7 @@ namespace RuRo.Web
                 case "DiagnoseTypeFlag": Response.Write(ReturnDiagnoseTypeFlag()); break;
                 case "linkage": Response.Write(ReturnGet_Linkage()); break;
                 case "linkagefrom": Response.Write(ReturnGet_Linkage2()); break;
+                case "Employee": Response.Write(ReturnGet_Employee()); break;
                 default:
                     break;
             }
@@ -32,7 +33,6 @@ namespace RuRo.Web
             string res = "[{\"In_CodeType\": \"1\",\"text\": \"诊疗卡号码\" },{\"In_CodeType\": \"2\", \"text\": \"住院号\"}, { \"In_CodeType\": \"3\", \"text\": \"门诊流水号\"},{\"In_CodeType\": \"4\",\"text\": \"患者ID\" },{\"In_CodeType\": \"5\", \"text\": \"住院记录ID\"}, { \"In_CodeType\": \"6\", \"text\": \"检验标签条码\"} ]";
             return res;
         }
-
         //初始化性别
         private string ReturnGender()
         {
@@ -85,6 +85,14 @@ namespace RuRo.Web
             //    res = "[{\"key\": \"0\",\"text\": \"恩恩\" },{\"key\": \"1\", \"text\": \"哦哦\"}, { \"key\": \"2\", \"text\": \"哈哈\"} , { \"key\": \"3\", \"text\": \"呵呵\"} ]";
             //}
             return res;
+        }
+
+        private string ReturnGet_Employee() 
+        {
+            string mark = Request.Params["com"];
+            RuRo.BLL.FP_SY_HIS_IP_PublicInterface_Bll fp_sy = new BLL.FP_SY_HIS_IP_PublicInterface_Bll();
+            string JSON = fp_sy.GetSY_HC_GetEmployeeInfoJson(mark);
+            return JSON;
         }
     }
 }

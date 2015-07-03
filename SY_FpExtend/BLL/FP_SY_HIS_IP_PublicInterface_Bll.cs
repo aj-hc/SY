@@ -37,9 +37,26 @@ namespace RuRo.BLL
         /// 员工信息
         /// </summary>
         /// <returns></returns>
-        public string GetSY_HC_GetEmployeeInfoJson() 
+        public string GetSY_HC_GetEmployeeInfoJson(string par)
         {
-            return FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(dal.GetSY_HC_GetEmployeeInfo()); 
+            string strdv = "";
+            DataSet ds = new DataSet();
+            DataView dv = new DataView();
+            ds = dal.GetSY_HC_GetEmployeeInfo();
+            dv = ds.Tables[0].DefaultView;
+            if (string.IsNullOrEmpty(par))
+            {
+                 strdv = dv.RowFilter = "EmployeeNo=" + par;
+                if (string.IsNullOrEmpty(strdv))
+                {
+                   strdv = dv.RowFilter = "EmployeeName=" + par;
+                }
+            }
+            else
+            {
+               
+            }
+            return FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(dal.GetSY_HC_GetEmployeeInfo());
         }
         #endregion
 
@@ -51,7 +68,7 @@ namespace RuRo.BLL
         /// <returns></returns>
         public string GetSY_HC_GetExamineRequestJson(RuRo.Model.FP_SY_HIS_IP_PublicInterface model)
         {
-            return FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(dal.GetSY_HC_GetExamineRequest(model)); 
+            return FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(dal.GetSY_HC_GetExamineRequest(model));
         }
         #endregion
 
@@ -63,28 +80,28 @@ namespace RuRo.BLL
         /// <returns></returns>
         public string GetSY_HC_GetPatientInfoJson(RuRo.Model.FP_SY_HIS_IP_PublicInterface model)
         {
-           DataSet ds = dal.GetSY_HC_GetPatientInfo(model);
-           DateTime dt = new DateTime();
-           if (ds.Tables[0].Rows.Count > 0)
-           {
-               for (int i = 0; i < ds.Tables[0].Rows.Count - 1; i++)
-               {
-                   if (i == ds.Tables[0].Rows.Count - 1)
-                   {
-                       break;
-                   }
-                   ds.Tables[0].Rows[i].Delete();
-               }
-               ds.AcceptChanges();
-               model.In_InPatientID = Convert.ToInt32(ds.Tables[0].Rows[0]["InPatientID"]);
-               model.In_CodeType = Convert.ToInt32(ds.Tables[0].Rows[0]["InPatientID"]);
-               string res =  FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(ds);
-               return res;
-           }
-           else 
-           {
-               return FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(dal.GetSY_HC_GetPatientInfo(model));
-           }
+            DataSet ds = dal.GetSY_HC_GetPatientInfo(model);
+            DateTime dt = new DateTime();
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                for (int i = 0; i < ds.Tables[0].Rows.Count - 1; i++)
+                {
+                    if (i == ds.Tables[0].Rows.Count - 1)
+                    {
+                        break;
+                    }
+                    ds.Tables[0].Rows[i].Delete();
+                }
+                ds.AcceptChanges();
+                model.In_InPatientID = Convert.ToInt32(ds.Tables[0].Rows[0]["InPatientID"]);
+                model.In_CodeType = Convert.ToInt32(ds.Tables[0].Rows[0]["InPatientID"]);
+                string res = FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(ds);
+                return res;
+            }
+            else
+            {
+                return FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(dal.GetSY_HC_GetPatientInfo(model));
+            }
         }
         #endregion
 
@@ -99,6 +116,12 @@ namespace RuRo.BLL
             return FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(dal.GetSY_HC_GetSurgeryRequest(model));
         }
         #endregion
+
+        public DataSet GetSY_HC()
+        {
+            DataTable dt = new DataTable();
+            return dal.GetSY_HC_GetEmployeeInfo();
+        }
 
 
 

@@ -114,7 +114,7 @@
                         <tr>
                             <td>采集人：</td>
                             <td>
-                                <input class="easyui-textbox" id="_99" name="_99" /></td>
+                                <input class="easyui-combobox" id="_99" name="_99" /></td>
                             <td>采集目的：</td>
                             <td>
                                 <input class="easyui-textbox" id="_100" name="_100" style="width: 484px;" /></td>
@@ -138,7 +138,7 @@
                         <tr>
                             <td>取材医护：</td>
                             <td>
-                                <input class="easyui-textbox" id="_109" name="_109" /></td>
+                                <input class="easyui-combobox" id="_109" name="_109" /></td>
                             <td>研究方案：</td>
                             <td>
                                 <input class="easyui-textbox" id="_102" name="_102" style="width: 484px;" /></td>

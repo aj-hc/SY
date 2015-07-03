@@ -116,89 +116,89 @@ $(function () {
         title: '样本信息',
         columns: [[
             { field: 'SampleType', title: '样品类型', width: '15%', align: 'center', editor: { type: 'validatebox', options: { required: false } } },
-            { field: 'Scount', title: '管数', width: '10%', align: 'center', editor: { type: 'validatebox', options: { required: false } } },
-            {
-                field: 'SystemOrgan', title: '器官系统', width: '20%',
-                editor: {
-                    type: 'combobox',
-                    options:
-                     {
-                        data: getDtaJsonSampleInfo,
-                        valueField: 'ID',
-                        textField: 'NAME',
-                        editable: false,
-                        panelHeight: 'auto',
-                        required: true,
-                        onSelect: function (rec)
-                        {
-                            var row = $dg_SampleInfo.datagrid("getSelections");
-                            var rowIndex = $dg_SampleInfo.datagrid('getRowIndex', row[0]);
-                            var target = $('#dg_SampleInfo').datagrid('getEditor', { 'index': rowIndex, 'field': 'combox2' }).target;
-                            SampleInfotarget = target;
-                            target.combobox('clear');
-                            var url = '../Fp_Ajax/PageConData.aspx?conMarc=linkagefrom&id=' + rec.ID;
-                            liandongurl = url;
-                            if (liandongurl == "") { return; }
-                            var liandongdata = getliandongJsonurl(liandongurl);
-                            var getDtaJsonliandong = JSON.parse(liandongdata);
-                            var getDtaJsonliandong2 = getDtaJsonliandong.ds;
-                            target.combobox('loadData', getDtaJsonliandong2);
-                        }
-                      } 
-                }, formatter: function (value, rowData, rowIndex)
-                {
-                    var getData = getSampleInfourlJsonurl(SampleInfourl);
-                    var getDtaJson = JSON.parse(getData);
-                    var getDtaJsonds = getDtaJson.ds;
-                    if (getDtaJsonds != "" || getDtaJsonds != null)
-                    {
-                        for (var i = 0; i < getDtaJsonds.length; i++)
-                        {
-                            if (getDtaJsonds[i].ID == value)
-                            {
-                                if (liandongurl == "") { return; }
-                                else
-                                {
-                                    var com2value = SampleInfotarget.combobox("getValue");
-                                    var liandongdata = getliandongJsonurl(liandongurl);
-                                    var getDtaJsonliandong = JSON.parse(liandongdata);
-                                    var getDtaJsonliandong2 = getDtaJsonliandong.ds;
-                                    for (var j = 0; j < getDtaJsonliandong2.length; j++) {
-                                        if (com2value == getDtaJsonliandong2[j].ID)
-                                        {
-                                            getDtaJsonliandong2[j].NAME;
-                                            SampleInfotarget.combobox("setText", getDtaJsonliandong2[j].NAME);
-                                        }
-                                    }
-                                    //target.combobox('loadData', getDtaJsonliandong2);
-                                }
-                                return getDtaJsonds[i].NAME;
-                            }
-                        }
-                    }
-                    else { return value; }
-                }
-                },
-            {
-                field: 'combox2', title: '联动2', width: '20%', editor: {
-                    type: 'combobox', options: {
-                        valueField: 'ID',
-                        textField: 'NAME',
-                    },
-                    formatter: function (value, rowData, rowIndex) {
-                        if (liandongurl == "") { return;}
-                        var getData = getliandongJsonurl(liandongurl);
-                        var getDtaJson = JSON.parse(getData);
-                        var getDtaJsonds = getDtaJson.ds;
-                        if (getDtaJsonds != "" || getDtaJsonds != null) {
-                            for (var i = 0; i < getDtaJsonds.length; i++) {
-                                if (getDtaJsonds[i].ID == value) { return getDtaJsonds[i].NAME; }
-                            }
-                        }
-                        else { return value; }
-                    }
-                }
-            },
+            { field: 'Scount', title: '管数', width: '10%', align: 'center', editor: { type: 'numberbox', options: { required: false } } },
+            //{
+            //    field: 'SystemOrgan', title: '器官系统', width: '20%',
+            //    editor: {
+            //        type: 'combobox',
+            //        options:
+            //         {
+            //            data: getDtaJsonSampleInfo,
+            //            valueField: 'ID',
+            //            textField: 'NAME',
+            //            editable: false,
+            //            panelHeight: 'auto',
+            //            required: true,
+            //            onSelect: function (rec)
+            //            {
+            //                var row = $dg_SampleInfo.datagrid("getSelections");
+            //                var rowIndex = $dg_SampleInfo.datagrid('getRowIndex', row[0]);
+            //                var target = $('#dg_SampleInfo').datagrid('getEditor', { 'index': rowIndex, 'field': 'combox2' }).target;
+            //                SampleInfotarget = target;
+            //                target.combobox('clear');
+            //                var url = '../Fp_Ajax/PageConData.aspx?conMarc=linkagefrom&id=' + rec.ID;
+            //                liandongurl = url;
+            //                if (liandongurl == "") { return; }
+            //                var liandongdata = getliandongJsonurl(liandongurl);
+            //                var getDtaJsonliandong = JSON.parse(liandongdata);
+            //                var getDtaJsonliandong2 = getDtaJsonliandong.ds;
+            //                target.combobox('loadData', getDtaJsonliandong2);
+            //            }
+            //          } 
+            //    }, formatter: function (value, rowData, rowIndex)
+            //    {
+            //        var getData = getSampleInfourlJsonurl(SampleInfourl);
+            //        var getDtaJson = JSON.parse(getData);
+            //        var getDtaJsonds = getDtaJson.ds;
+            //        if (getDtaJsonds != "" || getDtaJsonds != null)
+            //        {
+            //            for (var i = 0; i < getDtaJsonds.length; i++)
+            //            {
+            //                if (getDtaJsonds[i].ID == value)
+            //                {
+            //                    if (liandongurl == "") { return; }
+            //                    else
+            //                    {
+            //                        var com2value = SampleInfotarget.combobox("getValue");
+            //                        var liandongdata = getliandongJsonurl(liandongurl);
+            //                        var getDtaJsonliandong = JSON.parse(liandongdata);
+            //                        var getDtaJsonliandong2 = getDtaJsonliandong.ds;
+            //                        for (var j = 0; j < getDtaJsonliandong2.length; j++) {
+            //                            if (com2value == getDtaJsonliandong2[j].ID)
+            //                            {
+            //                                getDtaJsonliandong2[j].NAME;
+            //                                SampleInfotarget.combobox("setText", getDtaJsonliandong2[j].NAME);
+            //                            }
+            //                        }
+            //                        //target.combobox('loadData', getDtaJsonliandong2);
+            //                    }
+            //                    return getDtaJsonds[i].NAME;
+            //                }
+            //            }
+            //        }
+            //        else { return value; }
+            //    }
+            //    },
+            //{
+            //    field: 'combox2', title: '联动2', width: '20%', editor: {
+            //        type: 'combobox', options: {
+            //            valueField: 'ID',
+            //            textField: 'NAME',
+            //        },
+            //        formatter: function (value, rowData, rowIndex) {
+            //            if (liandongurl == "") { return;}
+            //            var getData = getliandongJsonurl(liandongurl);
+            //            var getDtaJson = JSON.parse(getData);
+            //            var getDtaJsonds = getDtaJson.ds;
+            //            if (getDtaJsonds != "" || getDtaJsonds != null) {
+            //                for (var i = 0; i < getDtaJsonds.length; i++) {
+            //                    if (getDtaJsonds[i].ID == value) { return getDtaJsonds[i].NAME; }
+            //                }
+            //            }
+            //            else { return value; }
+            //        }
+            //    }
+            //},
             { field: 'Others', title: '其他信息', width: '10%', align: 'center', editor: { type: 'validatebox', options: { required: false } } },//动态列--根据样品类型展示不同的数据
 
         ]],
@@ -217,9 +217,9 @@ $(function () {
             }, '-',
             {
                 text: '保存', iconCls: 'icon-save', handler: function () {
+
                     $dg_SampleInfo.datagrid('endEdit', editRow);
                     var rows = $dg_SampleInfo.datagrid('getRows');
-
                     $('#dg_SampleInfo').datagrid({ loadFilter: pagerFilter }).datagrid('loadData', rows).datagrid('reload');
                     var rowstr = JSON.stringify(rows);
                 }
@@ -546,11 +546,6 @@ function getliandongJsonurl(liandongurl) {
 var liandongurl;
 var getliandongData = getliandongJsonurl(liandongurl);
 var getDtaJsonliandong;
-//if (liandongurl!=""||liandongurl!=undefined)
-//{
-//    var a = JSON.parse(getliandongData);
-//    getDtaJsonliandong = a.ds;
-//}
 
 
 
