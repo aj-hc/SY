@@ -118,7 +118,7 @@ $(function () {
             { field: 'SampleType', title: '样品类型', width: '15%', align: 'center', editor: { type: 'validatebox', options: { required: false } } },
             { field: 'Scount', title: '管数', width: '10%', align: 'center', editor: { type: 'validatebox', options: { required: false } } },
             {
-                field: 'liandong', title: '联动', width: '20%',
+                field: 'SystemOrgan', title: '器官系统', width: '20%',
                 editor: {
                     type: 'combobox',
                     options:
@@ -135,8 +135,12 @@ $(function () {
                             var rowIndex = $dg_SampleInfo.datagrid('getRowIndex', row[0]);
                             var target = $('#dg_SampleInfo').datagrid('getEditor', { 'index': rowIndex, 'field': 'combox2' }).target;
                             target.combobox('clear');
-                            var url = '../Fp_Ajax/PageConData.aspx?conMarc=liandong2&id='+rec.key;
-                            target.combobox('reload', url);
+                            var url = '../Fp_Ajax/PageConData.aspx?conMarc=linkage&id=' + rec.key;
+                            liandongurl = url;
+                            if (liandongurl == "") { return; }
+                            var liandongdata = getliandongJsonurl(liandongurl);
+                            var getDtaJsonliandong = JSON.parse(liandongdata);
+                            target.combobox('loadData', getDtaJsonliandong);
                         }
                       } 
                 }, formatter: function (value, rowData, rowIndex) {
@@ -155,6 +159,19 @@ $(function () {
                     type: 'combobox', options: {
                         valueField: 'key',
                         textField: 'text',
+                    },
+                    formatter: function (value, rowData, rowIndex) {
+                        if (liandongurl == "") { return;}
+                        var getData = getliandongJsonurl(liandongurl);
+                        var getDtaJson = JSON.parse(getData);
+                        if (getDtaJson != "" || getDtaJson != null)
+                        {
+                            for (var i = 0; i < getDtaJson.length; i++)
+                            {
+                                if (getDtaJson[i].key == value) { return getDtaJson[i].text; }
+                            }
+                        }
+                        else { return value; }
                     }
                 }
             },
@@ -483,7 +500,26 @@ function getSampleInfourlJsonurl(SampleInfourl) {
     });
     return temp;
 }
-var SampleInfourl = '../Fp_Ajax/PageConData.aspx?conMarc=liandong1';
+var SampleInfourl = '../Fp_Ajax/PageConData.aspx?conMarc=linkage';
 var getSampleInfoData = getSampleInfourlJsonurl(SampleInfourl);
 var getDtaJsonSampleInfo = JSON.parse(getSampleInfoData);
+
+//下级绑定值
+function getliandongJsonurl(liandongurl) {
+    var temp;
+    $.ajax({
+        type: 'get',
+        url: liandongurl,
+        async: false,
+        datatype: 'json',
+        success: function (responseData) {
+            temp = responseData;
+        }
+    });
+    return temp;
+}
+var liandongurl;
+var getliandongData = getliandongJsonurl(liandongurl);
+//var getDtaJsonliandong = JSON.parse(getliandongData);
+
 

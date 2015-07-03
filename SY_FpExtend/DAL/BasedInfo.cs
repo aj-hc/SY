@@ -343,7 +343,7 @@ namespace RuRo.DAL
 			{
 				strSql.Append(" where "+strWhere);
 			}
-			object obj = DbHelperSQL_SY.GetSingle2(strSql.ToString());
+			object obj = DbHelperSQL_SY.GetSingleSY(strSql.ToString());
 			if (obj == null)
 			{
 				return 0;

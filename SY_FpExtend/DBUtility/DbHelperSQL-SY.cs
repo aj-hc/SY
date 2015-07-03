@@ -321,7 +321,7 @@ namespace Maticsoft.DBUtility
         /// <param name="SQLString">SQL语句</param>
         /// <param name="content">参数内容,比如一个字段是格式复杂的文章，有特殊符号，可以通过这个方式添加</param>
         /// <returns>影响的记录数</returns>
-        public static int ExecuteSql2(string SQLString, string content)
+        public static int ExecuteSqlSY(string SQLString, string content)
         {
             using (SqlConnection connection = new SqlConnection(connectionString2))
             {
@@ -352,7 +352,7 @@ namespace Maticsoft.DBUtility
         /// <param name="SQLString">SQL语句</param>
         /// <param name="content">参数内容,比如一个字段是格式复杂的文章，有特殊符号，可以通过这个方式添加</param>
         /// <returns>影响的记录数</returns>
-        public static object ExecuteSqlGet2(string SQLString, string content)
+        public static object ExecuteSqlGetSY(string SQLString, string content)
         {
             using (SqlConnection connection = new SqlConnection(connectionString2))
             {
@@ -390,7 +390,7 @@ namespace Maticsoft.DBUtility
         /// <param name="strSQL">SQL语句</param>
         /// <param name="fs">图像字节,数据库的字段类型为image的情况</param>
         /// <returns>影响的记录数</returns>
-        public static int ExecuteSqlInsertImg2(string strSQL, byte[] fs)
+        public static int ExecuteSqlInsertImgSY(string strSQL, byte[] fs)
         {
             using (SqlConnection connection = new SqlConnection(connectionString2))
             {
@@ -421,7 +421,7 @@ namespace Maticsoft.DBUtility
         /// </summary>
         /// <param name="SQLString">计算查询结果语句</param>
         /// <returns>查询结果（object）</returns>
-        public static object GetSingle2(string SQLString)
+        public static object GetSingleSY(string SQLString)
         {
             using (SqlConnection connection = new SqlConnection(connectionString2))
             {
@@ -448,7 +448,7 @@ namespace Maticsoft.DBUtility
                 }
             }
         }
-        public static object GetSingle2(string SQLString, int Times)
+        public static object GetSingleSY(string SQLString, int Times)
         {
             using (SqlConnection connection = new SqlConnection(connectionString2))
             {
@@ -481,7 +481,7 @@ namespace Maticsoft.DBUtility
         /// </summary>
         /// <param name="strSQL">查询语句</param>
         /// <returns>SqlDataReader</returns>
-        public static SqlDataReader ExecuteReader2(string strSQL)
+        public static SqlDataReader ExecuteReaderSY(string strSQL)
         {
             SqlConnection connection = new SqlConnection(connectionString2);
             SqlCommand cmd = new SqlCommand(strSQL, connection);
@@ -520,7 +520,7 @@ namespace Maticsoft.DBUtility
                 return ds;
             }
         }
-        public static DataSet Query2(string SQLString, int Times)
+        public static DataSet QuerySY(string SQLString, int Times)
         {
             using (SqlConnection connection = new SqlConnection(connectionString2))
             {

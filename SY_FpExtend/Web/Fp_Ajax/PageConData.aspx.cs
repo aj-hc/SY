@@ -20,8 +20,8 @@ namespace RuRo.Web
                 case "BloodTypeFlag": Response.Write(ReturnBloodTypeFlag()); break;
                 case "SamplingMethod": Response.Write(ReturnSamplingMethodData()); break;
                 case "DiagnoseTypeFlag": Response.Write(ReturnDiagnoseTypeFlag()); break;
-                case "liandong1": Response.Write(Returnliandong1()); break;
-                case "liandong2": Response.Write(Returnliandong2()); break;
+                case "linkage": Response.Write(ReturnGet_Linkage()); break;
+                case "linkagefrom": Response.Write(ReturnGet_Linkage2()); break;
                 default:
                     break;
             }
@@ -55,23 +55,35 @@ namespace RuRo.Web
             string res = "[{\"DiagnoseTypeFlag\": \"0\",\"text\": \"门诊诊断\" },{\"DiagnoseTypeFlag\": \"1\", \"text\": \"入院诊断\"}, { \"DiagnoseTypeFlag\": \"2\", \"text\": \"出院主要诊断\"} , { \"DiagnoseTypeFlag\": \"3\", \"text\": \"出院次要诊\"} ]";
             return res;
         }
-        private string Returnliandong1()
+        private string ReturnGet_Linkage()
         {
-            string res = "[{\"key\": \"0\",\"text\": \"what\" },{\"key\": \"1\", \"text\": \"the\"}, { \"key\": \"2\", \"text\": \"fuck\"} , { \"key\": \"3\", \"text\": \"you\"} ]";
+            BLL.FP_LINKAGE_Bll Fp_Linkage = new BLL.FP_LINKAGE_Bll();
+            string res = Fp_Linkage.Get_LINKAGEstr();
             return res;
         }
-        private string Returnliandong2()
+        private string ReturnGet_Linkage2()
         {
-            string mark = Request.Params["id"];
-            string res ="";
-            if (mark == "0")
-            {
-                res = "[{\"what\": \"0\",\"text\": \"I\" } ]";
-            }
-            else 
-            {
-                res = "[{\"the\": \"1\",\"text\": \"kiss\" }]";
-            }
+            BLL.FP_LINKAGE_Bll Fp_Linkage = new BLL.FP_LINKAGE_Bll();
+            Model.FP_LINKAGE fp_linkage = new Model.FP_LINKAGE();
+            int mark = int.Parse(Request.Params["id"]);
+            string res = Fp_Linkage.Get_LINKAGEstr(mark);
+
+            //if (mark == "0")
+            //{
+            //    res = "[{\"key\": \"0\",\"text\": \"血清\" },{\"key\": \"1\", \"text\": \"血浆\"}, { \"key\": \"2\", \"text\": \"血小板\"} , { \"key\": \"3\", \"text\": \"血细胞\"} ]";
+            //}
+            //else if(mark=="1")
+            //{
+            //    res = "[{\"key\": \"0\",\"text\": \"心脏\" },{\"key\": \"1\", \"text\": \"肺部\"}, { \"key\": \"2\", \"text\": \"肝部\"} , { \"key\": \"3\", \"text\": \"肾\"} ]";
+            //}
+            //else if (mark == "2")
+            //{
+            //    res = "[{\"key\": \"0\",\"text\": \"淋巴\" },{\"key\": \"1\", \"text\": \"皮肤\"}, { \"key\": \"2\", \"text\": \"还有啥组织\"} , { \"key\": \"3\", \"text\": \"随便写写\"} ]";
+            //}
+            //else if (mark == "3")
+            //{
+            //    res = "[{\"key\": \"0\",\"text\": \"恩恩\" },{\"key\": \"1\", \"text\": \"哦哦\"}, { \"key\": \"2\", \"text\": \"哈哈\"} , { \"key\": \"3\", \"text\": \"呵呵\"} ]";
+            //}
             return res;
         }
     }
