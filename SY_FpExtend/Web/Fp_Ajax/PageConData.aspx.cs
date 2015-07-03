@@ -67,7 +67,7 @@ namespace RuRo.Web
             Model.FP_LINKAGE fp_linkage = new Model.FP_LINKAGE();
             int mark = int.Parse(Request.Params["id"]);
             string res = Fp_Linkage.Get_LINKAGEstr(mark);
-
+            string oo = "[{\"state\": \"0\",\"text\": \"血清\" },{\"key\": \"1\", \"text\": \"血浆\"}]";
             //if (mark == "0")
             //{
             //    res = "[{\"key\": \"0\",\"text\": \"血清\" },{\"key\": \"1\", \"text\": \"血浆\"}, { \"key\": \"2\", \"text\": \"血小板\"} , { \"key\": \"3\", \"text\": \"血细胞\"} ]";
