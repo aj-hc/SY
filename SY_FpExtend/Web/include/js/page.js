@@ -393,345 +393,343 @@ $(function () {
         panelHeight: 'auto'
     });
 })
-
 //绑定采集人
 //$(function () {
 //    $('#_99').combobox({
 //        editable: true,
+//        //data: getEmployeeData,
 //        url: '../Fp_Ajax/PageConData.aspx?conMarc=Employee&com=',
 //        valueField: 'EmployeeNo',
 //        textField: 'EmployeeName',
-//        panelHeight: '200px',
-//        onChange: function (newVal, oldVal)
-//        {
-//            var temp = getEmployee('../Fp_Ajax/PageConData.aspx?conMarc=Employee&com=');
-//            newVal = temp.EmployeeName;
-//        }
-
+//        panelHeight: '200px'
+//        //onChange: function (newVal, oldVal) {
+//        //    //var temp = getEmployee('../Fp_Ajax/PageConData.aspx?conMarc=Employee&com=' + newVal);
+//        //    //newVal = temp.EmployeeName;
+//        //}
 //    });
 //})
+//var EmployeeJson=$.getJSON('../include/JSON/Employee.json', function (data) { return data });
+    //function getEmployee(Employeeurl) {
+    //    var temp;
+    //    $.ajax({
+    //        type: 'get',
+    //        url: Employeeurl,
+    //        async: false,
+    //        datatype: 'json',
+    //        success: function (responseData) {
+    //            temp = responseData;
+    //        }
+    //    });
+    //    return temp;
+    //}
+    //var Employeeurl = '../include/JSON/Employee.json';
+    //var getEmployeeData = getEmployee(Employeeurl);
+    //var getDtaJsonEmployee = JSON.parse(getEmployeeData);
+    //var getJsonEmployee = getDtaJsonEmployee.ds;
 
-function getEmployee(Employeeurl) {
-    var temp;
-    $.ajax({
-        type: 'get',
-        url: Employeeurl,
-        async: false,
-        datatype: 'json',
-        success: function (responseData) {
-            temp = responseData;
-        }
-    });
-    return temp;
-}
-//var Employeeurl = '../Fp_Ajax/PageConData.aspx?conMarc=Employee';
-//var getEmployeeData = getEmployee(Employeeurl);
-//var getDtaJsonEmployee = JSON.parse(getEmployeeData);
-//var getJsonEmployee = getDtaJsonEmployee.ds;
 
-
-//POST数据
-function postData() {
-    var name = $('#_80').textbox('getText');
-    var hzid = $('#_91').textbox('getText');
-    if (name == "" || hzid == "") { $.messager.alert('提示', '必须输入姓名以及患者ID', 'error'); return; }
-    else
-    {
-        var strcodeform = querybycodeform();
-        //ClinicalInfoDg 
-        var _ClinicalInfoDg = $('#ClinicalInfoDg').datagrid('getChecked');
-        for (var i = 0; i < _ClinicalInfoDg.length - 1; i++) {
-            if (_ClinicalInfoDg[i].DiagnoseDateTime == "") {
-                $.messager.alert('提示', '诊断日期存在未输入字段，请重新输入', 'error'); return;
+    //POST数据
+    function postData() {
+        var name = $('#_80').textbox('getText');
+        var hzid = $('#_91').textbox('getText');
+        if (name == "" || hzid == "") { $.messager.alert('提示', '必须输入姓名以及患者ID', 'error'); return; }
+        else
+        {
+            var strcodeform = querybycodeform();
+            //ClinicalInfoDg 
+            var _ClinicalInfoDg = $('#ClinicalInfoDg').datagrid('getChecked');
+            for (var i = 0; i < _ClinicalInfoDg.length - 1; i++) {
+                if (_ClinicalInfoDg[i].DiagnoseDateTime == "") {
+                    $.messager.alert('提示', '诊断日期存在未输入字段，请重新输入', 'error'); return;
+                }
             }
-        }
-        var rowClinicalInfoDg = JSON.stringify(_ClinicalInfoDg);
-        var strSampleInfoDiv = querySampleInfoDiv();
-        //_dg_SampleInfo
-        var _dg_SampleInfo = $('#dg_SampleInfo').datagrid('getRows');
-        for (var i = 0; i < _dg_SampleInfo.length - 1; i++) {
-            if (_dg_SampleInfo[i].Scount == "" || _dg_SampleInfo[i].Scount == 0 || _dg_SampleInfo[i].Scount < 0) {
-                $.messager.alert('提示', '试管数必须大于1', 'error'); return;
+            var rowClinicalInfoDg = JSON.stringify(_ClinicalInfoDg);
+            var strSampleInfoDiv = querySampleInfoDiv();
+            //_dg_SampleInfo
+            var _dg_SampleInfo = $('#dg_SampleInfo').datagrid('getRows');
+            for (var i = 0; i < _dg_SampleInfo.length - 1; i++) {
+                if (_dg_SampleInfo[i].Scount == "" || _dg_SampleInfo[i].Scount == 0 || _dg_SampleInfo[i].Scount < 0) {
+                    $.messager.alert('提示', '试管数必须大于1', 'error'); return;
+                }
             }
-        }
-        var rowdg_SampleInfo = JSON.stringify(_dg_SampleInfo);
+            var rowdg_SampleInfo = JSON.stringify(_dg_SampleInfo);
 
-        $.ajax({
-            type: 'post',
-            url: '/Fp_Ajax/SubmitData.aspx?action=gethisdata&codeform=' + strcodeform + '&_ClinicalInfoDg=' + rowClinicalInfoDg + '&strSampleInfoDiv='
-                + strSampleInfoDiv + '&_dg_SampleInfo=' + rowdg_SampleInfo,
-            onSubmit: function () { },
-            success: function (data) {
-                if (data == "") { $.messager.alert('提示', '服务器未响应', 'error'); return; }
-                else
-                {
-                    var getData = $.parseJSON(data);
-                    if (getData.status) {
-                        alert(getData.status);
+            $.ajax({
+                type: 'post',
+                url: '/Fp_Ajax/SubmitData.aspx?action=gethisdata&codeform=' + strcodeform + '&_ClinicalInfoDg=' + rowClinicalInfoDg + '&strSampleInfoDiv='
+                    + strSampleInfoDiv + '&_dg_SampleInfo=' + rowdg_SampleInfo,
+                onSubmit: function () { },
+                success: function (data) {
+                    if (data == "") { $.messager.alert('提示', '服务器未响应', 'error'); return; }
+                    else
+                    {
+                        var getData = $.parseJSON(data);
+                        if (getData.status) {
+                            alert(getData.status);
+                        }
+
                     }
 
                 }
+            });
+        }
 
-            }
-        });
     }
 
-}
+    //获取页面数据
+    function querybycodeform() {
+        //序列化字段为JSON for 基本数据
+        var querybycodeform = "";
+        //传入方式、
+        var In_CodeType = $('#In_CodeType').textbox('getValue');
+        In_CodeType = tojson("In_CodeType", In_CodeType);
+        querybycodeform = In_CodeType + ",";
+        //传入号码
+        var In_Code = $('#In_Code').textbox('getValue');//获取数据源
+        In_Code = tojson("In_Code", In_Code);
+        querybycodeform = querybycodeform + In_Code + ",";
+        //姓名
+        var _80 = $("#_80").textbox('getValue');
+        _80 = tojson("_80", _80);
+        querybycodeform = querybycodeform + _80 + ",";
+        //住院号
+        var _81 = $("#_81").textbox('getValue');
+        _81 = tojson("_81", _81);
+        querybycodeform = querybycodeform + _81 + ",";
+        //就诊卡号
+        var _82 = $("#_82").textbox('getValue');
+        _82 = tojson("_82", _82);
+        querybycodeform = querybycodeform + _82 + ",";
+        //性别
+        var _115 = $("#_115").textbox('getValue');
+        _115 = tojson("_115", _115);
+        querybycodeform = querybycodeform + _115 + ",";
+        //出生日期
+        var _84 = $("#_84").textbox('getValue');
+        _84 = tojson("_84", _84);
+        querybycodeform = querybycodeform + _84 + ",";
+        //血型
+        var _116 = $("#_116").textbox('getValue');
+        _116 = tojson("_116", _116);
+        querybycodeform = querybycodeform + _116 + ",";
+        //联系人
+        var _88 = $("#_88").textbox('getValue');
+        _88 = tojson("_88", _88);
+        querybycodeform = querybycodeform + _88 + ",";
+        //联系人电话
+        var _87 = $("#_87").textbox('getValue');
+        _87 = tojson("_87", _87);
+        querybycodeform = querybycodeform + _87 + ",";
+        //联系电话
+        var _86 = $("#_86").textbox('getValue');
+        _86 = tojson("_86", _86);
+        querybycodeform = querybycodeform + _86 + ",";
+        //籍贯
+        var _89 = $("#_89").textbox('getValue');
+        _89 = tojson("_89", _89);
+        querybycodeform = querybycodeform + _89 + ",";
+        //门诊流水号
+        var _90 = $("#_90").textbox('getValue');
+        _90 = tojson("_90", _90);
+        querybycodeform = querybycodeform + _90 + ",";
+        //患者ID
+        var _91 = $("#_91").textbox('getValue');
+        _91 = tojson("_91", _91);
+        querybycodeform = querybycodeform + _91 + ",";
+        //住院ID
+        var _93 = $("#_93").textbox('getValue');
+        _93 = tojson("_93", _93);
+        querybycodeform = querybycodeform + _93 + ",";
+        //挂号ID 
+        var _92 = $("#_92").textbox('getValue');
+        _92 = tojson("_92", _92);
+        querybycodeform = querybycodeform + _92;
+        //序列化字段为JSON for 基本数据END
+        return querybycodeform;
+    }
 
-//获取页面数据
-function querybycodeform() {
-    //序列化字段为JSON for 基本数据
-    var querybycodeform = "";
-    //传入方式、
-    var In_CodeType = $('#In_CodeType').textbox('getValue');
-    In_CodeType = tojson("In_CodeType", In_CodeType);
-    querybycodeform = In_CodeType + ",";
-    //传入号码
-    var In_Code = $('#In_Code').textbox('getValue');//获取数据源
-    In_Code = tojson("In_Code", In_Code);
-    querybycodeform = querybycodeform + In_Code + ",";
-    //姓名
-    var _80 = $("#_80").textbox('getValue');
-    _80 = tojson("_80", _80);
-    querybycodeform = querybycodeform + _80 + ",";
-    //住院号
-    var _81 = $("#_81").textbox('getValue');
-    _81 = tojson("_81", _81);
-    querybycodeform = querybycodeform + _81 + ",";
-    //就诊卡号
-    var _82 = $("#_82").textbox('getValue');
-    _82 = tojson("_82", _82);
-    querybycodeform = querybycodeform + _82 + ",";
-    //性别
-    var _115 = $("#_115").textbox('getValue');
-    _115 = tojson("_115", _115);
-    querybycodeform = querybycodeform + _115 + ",";
-    //出生日期
-    var _84 = $("#_84").textbox('getValue');
-    _84 = tojson("_84", _84);
-    querybycodeform = querybycodeform + _84 + ",";
-    //血型
-    var _116 = $("#_116").textbox('getValue');
-    _116 = tojson("_116", _116);
-    querybycodeform = querybycodeform + _116 + ",";
-    //联系人
-    var _88 = $("#_88").textbox('getValue');
-    _88 = tojson("_88", _88);
-    querybycodeform = querybycodeform + _88 + ",";
-    //联系人电话
-    var _87 = $("#_87").textbox('getValue');
-    _87 = tojson("_87", _87);
-    querybycodeform = querybycodeform + _87 + ",";
-    //联系电话
-    var _86 = $("#_86").textbox('getValue');
-    _86 = tojson("_86", _86);
-    querybycodeform = querybycodeform + _86 + ",";
-    //籍贯
-    var _89 = $("#_89").textbox('getValue');
-    _89 = tojson("_89", _89);
-    querybycodeform = querybycodeform + _89 + ",";
-    //门诊流水号
-    var _90 = $("#_90").textbox('getValue');
-    _90 = tojson("_90", _90);
-    querybycodeform = querybycodeform + _90 + ",";
-    //患者ID
-    var _91 = $("#_91").textbox('getValue');
-    _91 = tojson("_91", _91);
-    querybycodeform = querybycodeform + _91 + ",";
-    //住院ID
-    var _93 = $("#_93").textbox('getValue');
-    _93 = tojson("_93", _93);
-    querybycodeform = querybycodeform + _93 + ",";
-    //挂号ID 
-    var _92 = $("#_92").textbox('getValue');
-    _92 = tojson("_92", _92);
-    querybycodeform = querybycodeform + _92;
-    //序列化字段为JSON for 基本数据END
-    return querybycodeform;
-}
+    //SampleInfoDiv 数据获取
+    function querySampleInfoDiv() {
+        var sampleInfoDiv = "";
+        //采集人
+        var _99 = $("#_99").textbox('getValue');
+        _99 = tojson("_99", _99);
+        sampleInfoDiv = _99 + ",";
+        //采集目的
+        var _100 = $("#_100").textbox('getValue');
+        _100 = tojson("_100", _100);
+        sampleInfoDiv = sampleInfoDiv + _100 + ",";
+        //取材日期
+        var _103 = $("#_103").textbox('getValue');
+        _103 = tojson("_103", _103);
+        sampleInfoDiv = sampleInfoDiv + _103 + ",";
+        //取材方式
+        var _101 = $("#_101").combobox('getValues');
+        _101 = tojson("_101", _101);
+        sampleInfoDiv = sampleInfoDiv + _101 + ",";
+        //取材时间
+        var _104 = $("#_104").textbox('getValue');
+        _104 = tojson("_104", _104);
+        sampleInfoDiv = sampleInfoDiv + _104 + ",";
+        //取材描述
+        var _110 = $("#_110").textbox('getValue');
+        _110 = tojson("_110", _110);
+        sampleInfoDiv = sampleInfoDiv + _110 + ",";
+        //取材医护
+        var _109 = $("#_109").textbox('getValue');
+        _109 = tojson("_109", _109);
+        sampleInfoDiv = sampleInfoDiv + _109 + ",";
+        //研究方案
+        var _102 = $("#_102").textbox('getValue');
+        _102 = tojson("_102", _102);
+        sampleInfoDiv = sampleInfoDiv + _102 + ",";
+        //过期日期
+        var _107 = $("#_107").textbox('getValue');
+        _107 = tojson("_107", _107);
+        sampleInfoDiv = sampleInfoDiv + _107 + ",";
+        //备注
+        var _112 = $("#_112").textbox('getValue');
+        _112 = tojson("_112", _112);
+        sampleInfoDiv = sampleInfoDiv + _112 + "";
+        return sampleInfoDiv;
+    }
 
-//SampleInfoDiv 数据获取
-function querySampleInfoDiv() {
-    var sampleInfoDiv = "";
-    //采集人
-    var _99 = $("#_99").textbox('getValue');
-    _99 = tojson("_99", _99);
-    sampleInfoDiv = _99 + ",";
-    //采集目的
-    var _100 = $("#_100").textbox('getValue');
-    _100 = tojson("_100", _100);
-    sampleInfoDiv = sampleInfoDiv + _100 + ",";
-    //取材日期
-    var _103 = $("#_103").textbox('getValue');
-    _103 = tojson("_103", _103);
-    sampleInfoDiv = sampleInfoDiv + _103 + ",";
-    //取材方式
-    var _101 = $("#_101").combobox('getValues');
-    _101 = tojson("_101", _101);
-    sampleInfoDiv = sampleInfoDiv + _101 + ",";
-    //取材时间
-    var _104 = $("#_104").textbox('getValue');
-    _104 = tojson("_104", _104);
-    sampleInfoDiv = sampleInfoDiv + _104 + ",";
-    //取材描述
-    var _110 = $("#_110").textbox('getValue');
-    _110 = tojson("_110", _110);
-    sampleInfoDiv = sampleInfoDiv + _110 + ",";
-    //取材医护
-    var _109 = $("#_109").textbox('getValue');
-    _109 = tojson("_109", _109);
-    sampleInfoDiv = sampleInfoDiv + _109 + ",";
-    //研究方案
-    var _102 = $("#_102").textbox('getValue');
-    _102 = tojson("_102", _102);
-    sampleInfoDiv = sampleInfoDiv + _102 + ",";
-    //过期日期
-    var _107 = $("#_107").textbox('getValue');
-    _107 = tojson("_107", _107);
-    sampleInfoDiv = sampleInfoDiv + _107 + ",";
-    //备注
-    var _112 = $("#_112").textbox('getValue');
-    _112 = tojson("_112", _112);
-    sampleInfoDiv = sampleInfoDiv + _112 + "";
-    return sampleInfoDiv;
-}
+    //转化为JSON数据
+    function tojson(name, values) {
+        var str;
+        str = '{\"' + name + '\":' + values + '\"}';
+        return str;
+    }
 
-//转化为JSON数据
-function tojson(name, values) {
-    var str;
-    str = '{\"' + name + '\":' + values + '\"}';
-    return str;
-}
+    //显示COMBOXvalue
+    var comboboxData;
+    var depOrProId;
+    $(function option() {
+        var url = "";
 
-//显示COMBOXvalue
-var comboboxData;
-var depOrProId;
-$(function option() {
-    var url = "";
+    })
 
-})
+    //初始化面板DiagnoseTypeFlagCOMBOBOX
+    function getDiagnoseTypeFlagJsonurl(Diagnoseurl) {
+        var temp;
+        $.ajax({
+            type: 'get',
+            url: Diagnoseurl,
+            async: false,
+            datatype: 'json',
+            success: function (responseData) {
+                temp = responseData;
+            }
+        });
+        return temp;
+    }
+    var Diagnoseurl = '../Fp_Ajax/PageConData.aspx?conMarc=DiagnoseTypeFlag';
+    var getDiagnoseTypeFlagData = getDiagnoseTypeFlagJsonurl(Diagnoseurl);
+    var getDtaJsonDiagnoseTypeFlag = JSON.parse(getDiagnoseTypeFlagData);
 
-//初始化面板DiagnoseTypeFlagCOMBOBOX
-function getDiagnoseTypeFlagJsonurl(Diagnoseurl) {
-    var temp;
-    $.ajax({
-        type: 'get',
-        url: Diagnoseurl,
-        async: false,
-        datatype: 'json',
-        success: function (responseData) {
-            temp = responseData;
-        }
-    });
-    return temp;
-}
-var Diagnoseurl = '../Fp_Ajax/PageConData.aspx?conMarc=DiagnoseTypeFlag';
-var getDiagnoseTypeFlagData = getDiagnoseTypeFlagJsonurl(Diagnoseurl);
-var getDtaJsonDiagnoseTypeFlag = JSON.parse(getDiagnoseTypeFlagData);
+    //初始化面板SampleType
+    function getSampleTypeJson(SampleTypeurl) {
+        var temp;
+        $.ajax({
+            type: 'get',
+            url: SampleTypeurl,
+            async: false,
+            //datatype: 'json',
+            success: function (responseData) {
+                temp = responseData;
+            }
+        });
+        return temp;
+    }
+    var SampleTypeurl = '../Fp_Ajax/PageConData.aspx?conMarc=SampleType';
+    var getSampleTypeData = getSampleTypeJson(SampleTypeurl);
+    var getDtaJsonSampleType;
+    if (getSampleTypeData) {
+        getDtaJsonSampleType = JSON.parse(getSampleTypeData);
+    }
 
-//初始化面板SampleType
-function getSampleTypeJson(SampleTypeurl) {
-    var temp;
-    $.ajax({
-        type: 'get',
-        url: SampleTypeurl,
-        async: false,
-        //datatype: 'json',
-        success: function (responseData) {
-            temp = responseData;
-        }
-    });
-    return temp;
-}
-var SampleTypeurl = '../Fp_Ajax/PageConData.aspx?conMarc=SampleType';
-var getSampleTypeData = getSampleTypeJson(SampleTypeurl);
-var getDtaJsonSampleType;
-if (getSampleTypeData) {
-    getDtaJsonSampleType = JSON.parse(getSampleTypeData);
-}
-
-//联动数据绑定值
-function getSampleInfourlJsonurl(SampleInfourl) {
-    var temp;
-    $.ajax({
-        type: 'get',
-        url: SampleInfourl,
-        async: false,
-        datatype: 'json',
-        success: function (responseData) {
-            temp = responseData;
-        }
-    });
-    return temp;
-}
-var SampleInfourl = '../Fp_Ajax/PageConData.aspx?conMarc=linkage';
-var getSampleInfoData = getSampleInfourlJsonurl(SampleInfourl);
-var getdtaSampleInfo;
-var getDtaJsonSampleInfo;
-//if (getdtaSampleInfo) {
+    //联动数据绑定值
+    function getSampleInfourlJsonurl(SampleInfourl) {
+        var temp;
+        $.ajax({
+            type: 'get',
+            url: SampleInfourl,
+            async: false,
+            datatype: 'json',
+            success: function (responseData) {
+                temp = responseData;
+            }
+        });
+        return temp;
+    }
+    var SampleInfourl = '../Fp_Ajax/PageConData.aspx?conMarc=linkage';
+    var getSampleInfoData = getSampleInfourlJsonurl(SampleInfourl);
+    var getdtaSampleInfo;
+    var getDtaJsonSampleInfo;
+    //if (getdtaSampleInfo) {
     getdtaSampleInfo = JSON.parse(getSampleInfoData);
     getDtaJsonSampleInfo = getdtaSampleInfo.ds;
-////}
+    ////}
 
-//下级绑定值
-function getliandongJsonurl(liandongurl) {
-    var temp;
-    $.ajax({
-        type: 'get',
-        url: liandongurl,
-        async: false,
-        datatype: 'json',
-        success: function (responseData) {
-            temp = responseData;
-        }
-    });
-    return temp;
-}
-var liandongurl;
-var getliandongData = getliandongJsonurl(liandongurl);
-var getDtaJsonliandong;
-
-//POST数据
-function postData1() {
-    var name = $('#_80').textbox('getText'); 
-    var hzid = $('#_91').textbox('getText');
-    if (name == ""|| hzid=="") { $.messager.alert('提示', '必须输入姓名以及患者ID', 'error'); return; }
-    else
-    {
-        var _baseinfo = $("#BaseInfoForm").serialize();
-        //var _baseinfo=querySampleInfoDiv();
-        //ClinicalInfoDg 
-        var _ClinicalInfoDg = $('#ClinicalInfoDg').datagrid('getChecked');
-        for (var i = 0; i < _ClinicalInfoDg.length - 1; i++) {
-            if (_ClinicalInfoDg[i].DiagnoseDateTime == "") {
-                $.messager.alert('提示', '诊断日期存在未输入字段，请重新输入', 'error'); return;
-            }
-        }
-        var rowClinicalInfoDg = JSON.stringify(_ClinicalInfoDg);
-        //获取sampleinfo 数据
-        var strSampleInfoDiv = $("#SampleInfoForm").serialize();
-        //_dg_SampleInfo
-        var _dg_SampleInfo = $('#dg_SampleInfo').datagrid('getRows');
-        for (var i = 0; i < _dg_SampleInfo.length - 1; i++) {
-            if (_dg_SampleInfo[i].Scount == "" || _dg_SampleInfo[i].Scount == 0 || _dg_SampleInfo[i].Scount < 0) {
-                $.messager.alert('提示', '试管数必须大于1', 'error'); return;
-            }
-        }
-        var rowdg_SampleInfo = JSON.stringify(_dg_SampleInfo);
-
+    //下级绑定值
+    function getliandongJsonurl(liandongurl) {
+        var temp;
         $.ajax({
-            type: 'post',
-            url: '/Fp_Ajax/SubmitData.aspx?action=gethisdata&codeform=' + strcodeform + '&_ClinicalInfoDg=' + rowClinicalInfoDg + '&strSampleInfoDiv='
-                + strSampleInfoDiv + '&_dg_SampleInfo=' + rowdg_SampleInfo,
-            onSubmit: function () { },
-            success: function (data) {
-                var getData = $.parseJSON(data);
-                if (getData.state) {
-                    alert(getData.state);
-                }
-                else { alert("上传失败"); }
+            type: 'get',
+            url: liandongurl,
+            async: false,
+            datatype: 'json',
+            success: function (responseData) {
+                temp = responseData;
             }
         });
+        return temp;
     }
+    var liandongurl;
+    var getliandongData = getliandongJsonurl(liandongurl);
+    var getDtaJsonliandong;
 
-}
+    //POST数据
+    function postData1() {
+        var name = $('#_80').textbox('getText'); 
+        var hzid = $('#_91').textbox('getText');
+        if (name == ""|| hzid=="") { $.messager.alert('提示', '必须输入姓名以及患者ID', 'error'); return; }
+        else
+        {
+            var _baseinfo = $("#BaseInfoForm").serialize();
+            //var _baseinfo=querySampleInfoDiv();
+            //ClinicalInfoDg 
+            var _ClinicalInfoDg = $('#ClinicalInfoDg').datagrid('getChecked');
+            for (var i = 0; i < _ClinicalInfoDg.length - 1; i++) {
+                if (_ClinicalInfoDg[i].DiagnoseDateTime == "") {
+                    $.messager.alert('提示', '诊断日期存在未输入字段，请重新输入', 'error'); return;
+                }
+            }
+            var rowClinicalInfoDg = JSON.stringify(_ClinicalInfoDg);
+            //获取sampleinfo 数据
+            var strSampleInfoDiv = $("#SampleInfoForm").serialize();
+            //_dg_SampleInfo
+            var _dg_SampleInfo = $('#dg_SampleInfo').datagrid('getRows');
+            for (var i = 0; i < _dg_SampleInfo.length - 1; i++) {
+                if (_dg_SampleInfo[i].Scount == "" || _dg_SampleInfo[i].Scount == 0 || _dg_SampleInfo[i].Scount < 0) {
+                    $.messager.alert('提示', '试管数必须大于1', 'error'); return;
+                }
+            }
+            var rowdg_SampleInfo = JSON.stringify(_dg_SampleInfo);
+
+            $.ajax({
+                type: 'post',
+                url: '/Fp_Ajax/SubmitData.aspx?action=gethisdata&codeform=' + strcodeform + '&_ClinicalInfoDg=' + rowClinicalInfoDg + '&strSampleInfoDiv='
+                    + strSampleInfoDiv + '&_dg_SampleInfo=' + rowdg_SampleInfo,
+                onSubmit: function () { },
+                success: function (data) {
+                    var getData = $.parseJSON(data);
+                    if (getData.state) {
+                        alert(getData.state);
+                    }
+                    else { alert("上传失败"); }
+                }
+            });
+        }
+
+    }
