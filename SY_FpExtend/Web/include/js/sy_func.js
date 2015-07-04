@@ -92,7 +92,8 @@ function querybycode() {
                         if (obj._BaseInfo.ds)
                         {
                             var ds = obj._BaseInfo.ds;
-                            AddBaseInfoToForm(ds[0]);
+                            $("#BaseInfoForm").form("load", ds[0]);
+                            //AddBaseInfoToForm(ds[0]);
                         }
                     }
                     if (obj._ClinicalInfo)
@@ -147,7 +148,6 @@ function clearForm() {
 }
 //绑定数据到基本信息数据框
 function AddBaseInfoToForm(_BaseInfo) {
-
     if (_BaseInfo['PatientName']) {
         $("#_80").textbox('setValue', $.trim(_BaseInfo['PatientName']));
     }
@@ -209,14 +209,9 @@ function AddBaseInfoToForm(_BaseInfo) {
 
 //条码框按钮回车事件
 $(function () {
-    $("input", $("#barcodebox").next("span")).keydown(function (e) {
+    $("input", $("#In_Code").next("span")).keydown(function (e) {
         if (e.keyCode == 13) {
-            var code = $('#barcodebox').textbox('getValue');
-            if ($.trim(code)) {
-                barcode(code);
-                var code = $('#barcodebox').textbox('clear');
-            }
-            var code = $('#barcodebox').textbox('clear');
+            querybycode();
         }
     });
 })
@@ -262,3 +257,5 @@ function getdatabybarcode() {
 //var getEmployeeData = getEmployee(Employeeurl);
 //var getDtaJsonEmployee = JSON.parse(getEmployeeData);
 //var getJsonEmployee = getDtaJsonEmployee.ds;
+
+

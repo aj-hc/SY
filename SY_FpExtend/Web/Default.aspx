@@ -10,9 +10,19 @@
     <link href="include/jquery-easyui-1.4.2/themes/default/easyui.css" rel="stylesheet" />
     <link href="include/css/default.css" rel="stylesheet" />
     <link href="include/jquery-easyui-1.4.2/themes/icon.css" rel="stylesheet" />
-    <script src="include/js/page.js"></script>
-    <script src="include/js/sy_func.js"></script>
+    <%--<script src="include/js/page.js"></script>--%>
+    <%--<script src="include/js/sy_func.js"></script>--%>
     <title>FreezerPro</title>
+    <script type="text/javascript">
+        //初始化win弹窗在显示器中央
+        function doimport() {
+            var width = 940;
+            var height = 600;
+            var l = Math.round((window.screen.width - width) / 2);
+            var t = Math.round((window.screen.height - height) / 2);
+            window.open('Login.aspx', 'newwindow', 'height=' + height + ', width=' + width + ', top=' + t + ',left=' + l + ',toolbar=no, menubar=no, scrollbars=yes, resizable=no,location=no, status=no')
+        }
+    </script>
 </head>
 <body style="width: 100%; height: 100%">
     <%--嵌套页--%>

@@ -27,7 +27,7 @@ namespace RuRo.Web
                 default:
                     break;
             }
-        }  
+        }
         //初始化唯一选择框
         private string ReturnIn_CodeType()
         {
@@ -63,7 +63,22 @@ namespace RuRo.Web
         private string ReturnSampleType()
         {
             string res = "[{\"value\": \"0\",\"text\": \"正常组织-心研所\" },{\"value\": \"1\", \"text\": \"正常组织-肺癌所\"}, { \"value\": \"2\", \"text\": \"组织-心研所\"} , { \"value\": \"3\", \"text\": \"组织-肺癌所\"} ]";
-            return res;
+            string url = Common.CreatFpUrl.FpUrl;
+            Dictionary<string, string> dic = FreezerProUtility.Fp_BLL.Samples.GetAllSample_TypesNames(url);
+            List<Dictionary<string, string>> list = new List<Dictionary<string, string>>();
+            if (dic.Count > 0)
+            {
+                foreach (KeyValuePair<string, string> dd in dic)
+                {
+                    Dictionary<string, string> temdic = new Dictionary<string, string>();
+                    temdic.Add("value", dd.Key);
+                    temdic.Add("text", dd.Value);
+                    list.Add(temdic);
+
+                }
+            }
+            string json = FreezerProUtility.Fp_Common.FpJsonHelper.DictionaryListToJsonString(list);
+            return json;
         }
 
         private string ReturnGet_Linkage()
@@ -97,7 +112,7 @@ namespace RuRo.Web
             //}
             return res;
         }
-        private string ReturnGet_Employee() 
+        private string ReturnGet_Employee()
         {
             string mark = Request.Params["com"];
             RuRo.BLL.FP_SY_HIS_IP_PublicInterface_Bll fp_sy = new BLL.FP_SY_HIS_IP_PublicInterface_Bll();
@@ -105,13 +120,13 @@ namespace RuRo.Web
             return JSON;
         }
 
-        private string ReturnSampleType()
-        {
-            string url = Common.CreatFpUrl.FpUrl;
-            Dictionary<string, string> dic = FreezerProUtility.Fp_BLL.Samples.GetAllSample_TypesNames(url);
-            string json = FreezerProUtility.Fp_Common.FpJsonHelper.DictionaryToJsonString(dic);
+        //private string ReturnSampleType()
+        //{
+        //    string url = Common.CreatFpUrl.FpUrl;
+        //    Dictionary<string, string> dic = FreezerProUtility.Fp_BLL.Samples.GetAllSample_TypesNames(url);
+        //    string json = FreezerProUtility.Fp_Common.FpJsonHelper.DictionaryToJsonString(dic);
 
-            return json;
-        }
+        //    return json;
+        //}
     }
 }

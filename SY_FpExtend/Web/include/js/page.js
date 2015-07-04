@@ -142,7 +142,7 @@ $(function () {
         title: '样本信息',
         columns: [[
             {
-                field: 'SampleType', title: '样品类型', width: '15%', align: 'center', editor: {
+                field: 'SampleType', title: '样品类型', width: '25%', align: 'center', editor: {
                     type: 'combobox', options: {
                         data: getDtaJsonSampleType,
                         valueField: 'value',
@@ -153,8 +153,8 @@ $(function () {
                     }
                 }, formatter: function (value, rowData, rowIndex) {
                     var getData = getSampleTypeJson(SampleTypeurl);
-                    var getDtaJson = JSON.parse(getData);
-                    if (getDtaJson != "" || getDtaJson != null) {
+                    if (getData) {
+                        var getDtaJson = JSON.parse(getData);
                         for (var i = 0; i < getDtaJson.length; i++) {
                             if (getDtaJson[i].value == value) { return getDtaJson[i].text; }
                         }
@@ -162,7 +162,7 @@ $(function () {
                     else { return value; }
                 }
             },
-            { field: 'Scount', title: '管数', width: '10%', align: 'center', editor: { type: 'numberbox', options: { required: false } } },
+            { field: 'Scount', title: '管数', width: '5%', align: 'center', editor: { type: 'numberbox', options: { required: false } } },
             //{
             //    field: 'SystemOrgan', title: '器官系统', width: '20%',
             //    editor: {
@@ -245,7 +245,7 @@ $(function () {
             //        }
             //    }
             //},
-            { field: 'Others', title: '其他信息', width: '10%', align: 'center', editor: { type: 'validatebox', options: { required: false } } },//动态列--根据样品类型展示不同的数据
+            { field: 'Remark', title: '备注', width: '70%', align: 'center', editor: { type: 'validatebox', options: { required: false } } },//动态列--根据样品类型展示不同的数据
 
         ]],
         singleSelect: false,
@@ -382,14 +382,6 @@ $(function () {
     });
 })
 
-//初始化win弹窗在显示器中央
-function doimport() {
-    var width = 940;
-    var height = 600;
-    var l = Math.round((window.screen.width - width) / 2);
-    var t = Math.round((window.screen.height - height) / 2);
-    window.open('Login.aspx', 'newwindow', 'height=' + height + ', width=' + width + ', top=' + t + ',left=' + l + ',toolbar=no, menubar=no, scrollbars=yes, resizable=no,location=no, status=no')
-}
 
 //POST数据
 function postData() {
@@ -415,6 +407,7 @@ function postData() {
             }
         }
         var rowdg_SampleInfo = JSON.stringify(_dg_SampleInfo);
+
         $.ajax({
             type: 'post',
             url: '/Fp_Ajax/SubmitData.aspx?action=gethisdata&codeform=' + strcodeform + '&_ClinicalInfoDg=' + rowClinicalInfoDg + '&strSampleInfoDiv='
@@ -590,7 +583,7 @@ function getSampleTypeJson(SampleTypeurl) {
         type: 'get',
         url: SampleTypeurl,
         async: false,
-        datatype: 'json',
+        //datatype: 'json',
         success: function (responseData) {
             temp = responseData;
         }
@@ -599,7 +592,10 @@ function getSampleTypeJson(SampleTypeurl) {
 }
 var SampleTypeurl = '../Fp_Ajax/PageConData.aspx?conMarc=SampleType';
 var getSampleTypeData = getSampleTypeJson(SampleTypeurl);
-var getDtaJsonSampleType = JSON.parse(getSampleTypeData);
+var getDtaJsonSampleType;
+if (getSampleTypeData) {
+    getDtaJsonSampleType = JSON.parse(getSampleTypeData);
+}
 
 //联动数据绑定值
 function getSampleInfourlJsonurl(SampleInfourl) {
@@ -617,8 +613,12 @@ function getSampleInfourlJsonurl(SampleInfourl) {
 }
 var SampleInfourl = '../Fp_Ajax/PageConData.aspx?conMarc=linkage';
 var getSampleInfoData = getSampleInfourlJsonurl(SampleInfourl);
-var getdtaSampleInfo = JSON.parse(getSampleInfoData);
-var getDtaJsonSampleInfo = getdtaSampleInfo.ds;
+var getdtaSampleInfo;
+var getDtaJsonSampleInfo;
+if (getdtaSampleInfo) {
+    getdtaSampleInfo = JSON.parse(getSampleInfoData);
+    getDtaJsonSampleInfo = getdtaSampleInfo.ds;
+}
 
 //下级绑定值
 function getliandongJsonurl(liandongurl) {
@@ -638,4 +638,45 @@ var liandongurl;
 var getliandongData = getliandongJsonurl(liandongurl);
 var getDtaJsonliandong;
 
+//POST数据
+function postData1() {
+    var name = $('#_80').textbox('getText');
+    if (name == "") { $.messager.alert('提示', '请输入姓名', 'error'); return; }
+    else
+    {
+        var _baseinfo = $("#BaseInfoForm").serialize();
+        //ClinicalInfoDg 
+        var _ClinicalInfoDg = $('#ClinicalInfoDg').datagrid('getChecked');
+        for (var i = 0; i < _ClinicalInfoDg.length - 1; i++) {
+            if (_ClinicalInfoDg[i].DiagnoseDateTime == "") {
+                $.messager.alert('提示', '诊断日期存在未输入字段，请重新输入', 'error'); return;
+            }
+        }
+        var rowClinicalInfoDg = JSON.stringify(_ClinicalInfoDg);
+        //获取sampleinfo 数据
+        var strSampleInfoDiv = $("#SampleInfoForm").serialize();
+        //_dg_SampleInfo
+        var _dg_SampleInfo = $('#dg_SampleInfo').datagrid('getRows');
+        for (var i = 0; i < _dg_SampleInfo.length - 1; i++) {
+            if (_dg_SampleInfo[i].Scount == "" || _dg_SampleInfo[i].Scount == 0 || _dg_SampleInfo[i].Scount < 0) {
+                $.messager.alert('提示', '试管数必须大于1', 'error'); return;
+            }
+        }
+        var rowdg_SampleInfo = JSON.stringify(_dg_SampleInfo);
 
+        $.ajax({
+            type: 'post',
+            url: '/Fp_Ajax/SubmitData.aspx?action=gethisdata&codeform=' + strcodeform + '&_ClinicalInfoDg=' + rowClinicalInfoDg + '&strSampleInfoDiv='
+                + strSampleInfoDiv + '&_dg_SampleInfo=' + rowdg_SampleInfo,
+            onSubmit: function () { },
+            success: function (data) {
+                var getData = $.parseJSON(data);
+                if (getData.state) {
+                    alert(getData.state);
+                }
+                else { alert("上传失败"); }
+            }
+        });
+    }
+
+}
