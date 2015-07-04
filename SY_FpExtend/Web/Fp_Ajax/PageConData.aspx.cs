@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Data;
+using System.Data.SqlClient;
 
 namespace RuRo.Web
 {
@@ -74,7 +76,6 @@ namespace RuRo.Web
                     temdic.Add("value", dd.Key);
                     temdic.Add("text", dd.Value);
                     list.Add(temdic);
-
                 }
             }
             string json = FreezerProUtility.Fp_Common.FpJsonHelper.DictionaryListToJsonString(list);
@@ -93,33 +94,18 @@ namespace RuRo.Web
             Model.FP_LINKAGE fp_linkage = new Model.FP_LINKAGE();
             int mark = int.Parse(Request.Params["id"]);
             string res = Fp_Linkage.Get_LINKAGEstr(mark);
-            string oo = "[{\"state\": \"0\",\"text\": \"血清\" },{\"key\": \"1\", \"text\": \"血浆\"}]";
-            //if (mark == "0")
-            //{
-            //    res = "[{\"key\": \"0\",\"text\": \"血清\" },{\"key\": \"1\", \"text\": \"血浆\"}, { \"key\": \"2\", \"text\": \"血小板\"} , { \"key\": \"3\", \"text\": \"血细胞\"} ]";
-            //}
-            //else if(mark=="1")
-            //{
-            //    res = "[{\"key\": \"0\",\"text\": \"心脏\" },{\"key\": \"1\", \"text\": \"肺部\"}, { \"key\": \"2\", \"text\": \"肝部\"} , { \"key\": \"3\", \"text\": \"肾\"} ]";
-            //}
-            //else if (mark == "2")
-            //{
-            //    res = "[{\"key\": \"0\",\"text\": \"淋巴\" },{\"key\": \"1\", \"text\": \"皮肤\"}, { \"key\": \"2\", \"text\": \"还有啥组织\"} , { \"key\": \"3\", \"text\": \"随便写写\"} ]";
-            //}
-            //else if (mark == "3")
-            //{
-            //    res = "[{\"key\": \"0\",\"text\": \"恩恩\" },{\"key\": \"1\", \"text\": \"哦哦\"}, { \"key\": \"2\", \"text\": \"哈哈\"} , { \"key\": \"3\", \"text\": \"呵呵\"} ]";
-            //}
             return res;
         }
         private string ReturnGet_Employee()
         {
-            string mark = Request.Params["com"];
+            string mark = Request.Params["com"];    
             RuRo.BLL.FP_SY_HIS_IP_PublicInterface_Bll fp_sy = new BLL.FP_SY_HIS_IP_PublicInterface_Bll();
+            DataSet ds = new DataSet();
             string JSON = fp_sy.GetSY_HC_GetEmployeeInfoJson(mark);
+            //dic.Add(FreezerProUtility.Fp_Common.FpJsonHelper.JsonStrToDictionary<string,string>(JSON));
             return JSON;
         }
-
+        
         //private string ReturnSampleType()
         //{
         //    string url = Common.CreatFpUrl.FpUrl;

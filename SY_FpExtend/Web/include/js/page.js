@@ -281,7 +281,7 @@ $(function () {
                     var bool = true;
                     for (var i = 0; i < rows.length; i++)
                     {
-                        if (rows[i].Scount <= 0 || rows[i].Scount == "") {
+                        if (rows[i].Scount <= 0 || rows[i].Scount == "" || rows[i].SampleType == "" || rows[i].SampleType ==undefined) {
                             $dg_SampleInfo.datagrid('beginEdit', i);
                             bool = false;
                         }
@@ -294,7 +294,7 @@ $(function () {
                     else
                     {
                         SampleInfoadd = false;
-                        $.messager.alert('提示', '试管数量必须大于0', 'error');
+                        $.messager.alert('提示', '试管数量必须大于0,且样本类型不能为空', 'error');
                     }
                 }
             }, '-',
@@ -394,11 +394,47 @@ $(function () {
     });
 })
 
+//绑定采集人
+//$(function () {
+//    $('#_99').combobox({
+//        editable: true,
+//        url: '../Fp_Ajax/PageConData.aspx?conMarc=Employee&com=',
+//        valueField: 'EmployeeNo',
+//        textField: 'EmployeeName',
+//        panelHeight: '200px',
+//        onChange: function (newVal, oldVal)
+//        {
+//            var temp = getEmployee('../Fp_Ajax/PageConData.aspx?conMarc=Employee&com=');
+//            newVal = temp.EmployeeName;
+//        }
+
+//    });
+//})
+
+function getEmployee(Employeeurl) {
+    var temp;
+    $.ajax({
+        type: 'get',
+        url: Employeeurl,
+        async: false,
+        datatype: 'json',
+        success: function (responseData) {
+            temp = responseData;
+        }
+    });
+    return temp;
+}
+//var Employeeurl = '../Fp_Ajax/PageConData.aspx?conMarc=Employee';
+//var getEmployeeData = getEmployee(Employeeurl);
+//var getDtaJsonEmployee = JSON.parse(getEmployeeData);
+//var getJsonEmployee = getDtaJsonEmployee.ds;
+
 
 //POST数据
 function postData() {
     var name = $('#_80').textbox('getText');
-    if (name == "") { $.messager.alert('提示', '请输入姓名', 'error'); return; }
+    var hzid = $('#_91').textbox('getText');
+    if (name == "" || hzid == "") { $.messager.alert('提示', '必须输入姓名以及患者ID', 'error'); return; }
     else
     {
         var strcodeform = querybycodeform();
@@ -426,11 +462,16 @@ function postData() {
                 + strSampleInfoDiv + '&_dg_SampleInfo=' + rowdg_SampleInfo,
             onSubmit: function () { },
             success: function (data) {
-                var getData = $.parseJSON(data);
-                if (getData.state) {
-                    alert(getData.state);
+                if (data == "") { $.messager.alert('提示', '服务器未响应', 'error'); return; }
+                else
+                {
+                    var getData = $.parseJSON(data);
+                    if (getData.status) {
+                        alert(getData.status);
+                    }
+
                 }
-                else { alert("上传失败"); }
+
             }
         });
     }
@@ -654,10 +695,11 @@ var getDtaJsonliandong;
 function postData1() {
     var name = $('#_80').textbox('getText'); 
     var hzid = $('#_91').textbox('getText');
-    if (name == "" || hzid=="") { $.messager.alert('提示', '必须输入姓名以及患者ID', 'error'); return; }
+    if (name == ""|| hzid=="") { $.messager.alert('提示', '必须输入姓名以及患者ID', 'error'); return; }
     else
     {
         var _baseinfo = $("#BaseInfoForm").serialize();
+        //var _baseinfo=querySampleInfoDiv();
         //ClinicalInfoDg 
         var _ClinicalInfoDg = $('#ClinicalInfoDg').datagrid('getChecked');
         for (var i = 0; i < _ClinicalInfoDg.length - 1; i++) {

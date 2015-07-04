@@ -20,8 +20,10 @@ namespace RuRo.Web.Fp_Ajax
             Dictionary<string, string> dic = new Dictionary<string, string>();
             if (action == "gethisdata")
             {
-                dic.Add("state", codeform + "-" + _ClinicalInfoDg + "-" + strSampleInfoDiv + "-" + _dg_SampleInfo);
-                Response.Write(FreezerProUtility.Fp_Common.FpJsonHelper.DictionaryToJsonString(dic));
+                dic.Add("codeform", codeform);
+                dic.Add("_ClinicalInfoDg", _ClinicalInfoDg);
+                dic.Add("strSampleInfoDiv", strSampleInfoDiv);
+                dic.Add("_dg_SampleInfo", _dg_SampleInfo);
             }
             else
             {
