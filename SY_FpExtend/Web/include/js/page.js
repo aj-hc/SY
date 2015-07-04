@@ -389,7 +389,7 @@ function postData() {
     if (name == "") { $.messager.alert('提示', '请输入姓名', 'error'); return; }
     else
     {
-        var strcodeform = querybycodeform();
+        var _baseinfo = querybycodeform();
         //ClinicalInfoDg 
         var _ClinicalInfoDg = $('#ClinicalInfoDg').datagrid('getChecked');
         for (var i = 0; i < _ClinicalInfoDg.length - 1; i++) {
@@ -410,8 +410,13 @@ function postData() {
 
         $.ajax({
             type: 'post',
-            url: '/Fp_Ajax/SubmitData.aspx?action=gethisdata&codeform=' + strcodeform + '&_ClinicalInfoDg=' + rowClinicalInfoDg + '&strSampleInfoDiv='
-                + strSampleInfoDiv + '&_dg_SampleInfo=' + rowdg_SampleInfo,
+            url: '/Fp_Ajax/SubmitData.aspx?action=postData',
+            data: {
+                baseinfo: _baseinfo,
+                clinicalInfoDg: rowClinicalInfoDg,
+                sampleInfo: strSampleInfoDiv,
+                sampleInfoDg: rowdg_SampleInfo
+            },
             onSubmit: function () { },
             success: function (data) {
                 var getData = $.parseJSON(data);
@@ -497,7 +502,7 @@ function querybycodeform() {
     return querybycodeform;
 }
 
-//SampleInfoDiv 数据获取
+//SampleInfoForm 数据获取
 function querySampleInfoDiv() {
     var sampleInfoDiv = "";
     //采集人
@@ -541,6 +546,26 @@ function querySampleInfoDiv() {
     _112 = tojson("_112", _112);
     sampleInfoDiv = sampleInfoDiv + _112 + "";
     return sampleInfoDiv;
+}
+
+//SampleInfoForm 数据获取
+function getSampleInfoFormData() {
+    var sampleinfo = $("#SampleInfoForm").serializeArray();
+    var s;
+    if (sampleinfo) {
+      s=  JSON.stringify(sampleinfo);
+    }
+    return s;
+}
+
+//SampleInfoForm 数据获取
+function getBaseInfoFormData() {
+    var sampleinfo = $("#BaseInfoForm").serializeArray();
+    var s;
+    if (sampleinfo) {
+        s = JSON.stringify(sampleinfo);
+    }
+    return s;
 }
 
 //转化为JSON数据
@@ -644,7 +669,8 @@ function postData1() {
     if (name == "") { $.messager.alert('提示', '请输入姓名', 'error'); return; }
     else
     {
-        var _baseinfo = $("#BaseInfoForm").serialize();
+        var _baseinfo = getBaseInfoFormData();
+
         //ClinicalInfoDg 
         var _ClinicalInfoDg = $('#ClinicalInfoDg').datagrid('getChecked');
         for (var i = 0; i < _ClinicalInfoDg.length - 1; i++) {
@@ -654,7 +680,7 @@ function postData1() {
         }
         var rowClinicalInfoDg = JSON.stringify(_ClinicalInfoDg);
         //获取sampleinfo 数据
-        var strSampleInfoDiv = $("#SampleInfoForm").serialize();
+        var strSampleInfoDiv = getSampleInfoFormData();
         //_dg_SampleInfo
         var _dg_SampleInfo = $('#dg_SampleInfo').datagrid('getRows');
         for (var i = 0; i < _dg_SampleInfo.length - 1; i++) {
@@ -663,12 +689,19 @@ function postData1() {
             }
         }
         var rowdg_SampleInfo = JSON.stringify(_dg_SampleInfo);
-
         $.ajax({
             type: 'post',
-            url: '/Fp_Ajax/SubmitData.aspx?action=gethisdata&codeform=' + strcodeform + '&_ClinicalInfoDg=' + rowClinicalInfoDg + '&strSampleInfoDiv='
-                + strSampleInfoDiv + '&_dg_SampleInfo=' + rowdg_SampleInfo,
-            onSubmit: function () { },
+            dataType: "json",
+            url: '/Fp_Ajax/SubmitData.aspx?action=postData',
+            data: {
+                baseinfo: _baseinfo,
+                clinicalInfoDg: rowClinicalInfoDg,
+                sampleInfo: strSampleInfoDiv,
+                sampleInfoDg: rowdg_SampleInfo
+            },
+            onSubmit: function () {
+               
+            },
             success: function (data) {
                 var getData = $.parseJSON(data);
                 if (getData.state) {

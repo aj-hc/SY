@@ -180,6 +180,7 @@
     <Compile Include="PageValidate.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ReflectHelper.cs" />
     <Compile Include="RMB.cs" />
     <Compile Include="SessionHelper.cs" />
     <Compile Include="StringPlus.cs" />

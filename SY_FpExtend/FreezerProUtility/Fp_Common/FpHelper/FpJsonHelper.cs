@@ -227,5 +227,11 @@ namespace FreezerProUtility.Fp_Common
             result = JsonConvert.SerializeObject(obj);
             return result;
         }
+
+        public string SerializeObject(object obj)
+        {
+            return JsonConvert.SerializeObject(obj);
+        }
+
     }
 }
