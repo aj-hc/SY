@@ -132,7 +132,7 @@
                                 <input class="easyui-textbox" id="_104" name="_104" /></td>
                             <td>取材描述：</td>
                             <td>
-                                <input class="easyui-textbox" id="_110" name="_102" style="width: 484px;" /></td>
+                                <input class="easyui-textbox" id="_110" name="_110" style="width: 484px;" /></td>
                         </tr>
                         <tr>
                             <td>取材医护：</td>
@@ -161,7 +161,7 @@
             </div>
         </form>
         <div id="footer" style="padding: 5px; margin: 10px" data-options="region:'south',">
-            <a href="javascript:void(0)" class="easyui-linkbutton" onclick="postData();" id="submit" style="width: auto">添加样本</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" onclick="postData1();" id="submit" style="width: auto">添加样本</a>
             <a href="javascript:void(0)" class="easyui-linkbutton" onclick="" style="width: auto">取消录入</a>
         </div>
     </div>

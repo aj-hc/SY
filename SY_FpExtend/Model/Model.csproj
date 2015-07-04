@@ -121,6 +121,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FP_LINKAGE.cs" />
+    <Compile Include="PageInfoModel\PageBaseInfo.cs" />
+    <Compile Include="PageInfoModel\PageClinicalInfo.cs" />
+    <Compile Include="PageInfoModel\PageSampleDg.cs" />
+    <Compile Include="PageInfoModel\PageSampleInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
