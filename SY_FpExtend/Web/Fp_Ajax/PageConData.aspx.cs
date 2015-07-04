@@ -23,6 +23,7 @@ namespace RuRo.Web
                 case "linkage": Response.Write(ReturnGet_Linkage()); break;
                 case "linkagefrom": Response.Write(ReturnGet_Linkage2()); break;
                 case "Employee": Response.Write(ReturnGet_Employee()); break;
+                case "SampleType": Response.Write(ReturnSampleType()); break;
                 default:
                     break;
             }
@@ -86,13 +87,21 @@ namespace RuRo.Web
             //}
             return res;
         }
-
         private string ReturnGet_Employee() 
         {
             string mark = Request.Params["com"];
             RuRo.BLL.FP_SY_HIS_IP_PublicInterface_Bll fp_sy = new BLL.FP_SY_HIS_IP_PublicInterface_Bll();
             string JSON = fp_sy.GetSY_HC_GetEmployeeInfoJson(mark);
             return JSON;
+        }
+
+        private string ReturnSampleType()
+        {
+            string url = Common.CreatFpUrl.FpUrl;
+            Dictionary<string, string> dic = FreezerProUtility.Fp_BLL.Samples.GetAllSample_TypesNames(url);
+            string json = FreezerProUtility.Fp_Common.FpJsonHelper.DictionaryToJsonString(dic);
+
+            return json;
         }
     }
 }

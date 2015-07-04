@@ -30,7 +30,7 @@ $(function () {
                 }
             },
             {
-                field: 'DiagnoseDateTime', title: '诊断日期', width: '20%', sortable: true, editor: { type: 'datebox', options: { required: false, } }
+                field: 'DiagnoseDateTime', title: '诊断日期', width: '20%', sortable: true, editor: { type: 'datebox', options: { required: false } }
             },
             { field: 'ICDCode', title: 'ICD码', width: '15%', align: 'center', sortable: true, editor: { type: 'validatebox', options: { required: false } } },
             { field: 'DiseaseName', title: '疾病名称', width: '20%', align: 'center', sortable: true, editor: { type: 'validatebox', options: { required: false } } },
@@ -102,8 +102,7 @@ $(function () {
                 editRow = rowIndex;
             }
         }
-        }
-    });
+        })
 })
 var SampleInfotarget;
 //初始化样本信息面板
@@ -327,16 +326,17 @@ function doimport() {
 
 //POST数据
 function postData() {
+
     alert("开始提交");
     //表单验证
     return $("#BaseInfoForm").form('validate');
-    var data1 = $("#BaseInfoForm").serializeArray();  //ok
+    var _baseInfo = $("#BaseInfoForm").serialize();  //ok
 
     //ClinicalInfoDg 
     var _ClinicalInfoDg = $('#ClinicalInfoDg').datagrid('getChecked');
-    var rowClinicalInfoDg;
+    var _clinicalInfoDg;
     if (_ClinicalInfoDg) {
-        rowClinicalInfoDg = JSON.stringify(_ClinicalInfoDg);
+        _clinicalInfoDg = JSON.stringify(_ClinicalInfoDg);
     }
     //_dg_SampleInfo
     var SampleInfoForm = $("#SampleInfoForm").serialize(); //ok
@@ -350,8 +350,13 @@ function postData() {
 
     $.ajax({
         type: 'post',
-        url: '/Fp_Ajax/SubmitData.aspx?action=gethisdata&codeform=' + strcodeform + '&_ClinicalInfoDg=' + rowClinicalInfoDg + '&strSampleInfoDiv='
-            + strSampleInfoDiv + '&_dg_SampleInfo=' + rowdg_SampleInfo,
+        url: '/Fp_Ajax/SubmitData.aspx?action=gethisdata&codeform',
+        data:{
+            _baseInfo: _baseInfo,
+            _clinicalInfoDg: _clinicalInfoDg,
+            SampleInfoForm:SampleInfoForm,
+            rowdg_SampleInfo: rowdg_SampleInfo
+        },
         onSubmit: function () { },
         success: function (data) {
             var getData = $.parseJSON(data);
