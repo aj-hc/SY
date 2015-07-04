@@ -38,6 +38,11 @@ namespace RuRo.DAL
         {
             return DbHelperSQL.Query("SY_HC_GetEmployeeInfo");
         }
+
+        public DataSet GetSY_HC_GetEmployeeInfoTest()
+        {
+            return DbHelperSQL_SY.QuerySY("SELECT EmployeeID,EmployeeNo,EmployeeName FROM EmployeeInfo ORDER BY EmployeeID ASC");
+        }
         #endregion
 
         #region 检验申请单信息

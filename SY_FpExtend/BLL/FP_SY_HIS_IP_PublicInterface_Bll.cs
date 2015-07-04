@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace RuRo.BLL
 {
@@ -42,21 +44,33 @@ namespace RuRo.BLL
             string strdv = "";
             DataSet ds = new DataSet();
             DataView dv = new DataView();
-            ds = dal.GetSY_HC_GetEmployeeInfo();
+            //ds = dal.GetSY_HC_GetEmployeeInfo();//获取正式
+            ds = dal.GetSY_HC_GetEmployeeInfoTest();//获取测试
             dv = ds.Tables[0].DefaultView;
-            if (string.IsNullOrEmpty(par))
+            for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
             {
-                 strdv = dv.RowFilter = "EmployeeNo=" + par;
-                if (string.IsNullOrEmpty(strdv))
+
+                if (ds.Tables[0].Rows[i]["EmployeeNo"].ToString() == "" || ds.Tables[0].Rows[i]["EmployeeNo"].ToString() == "pppp")
                 {
-                   strdv = dv.RowFilter = "EmployeeName=" + par;
+                    ds.Tables[0].Rows[i].Delete();
                 }
+
             }
+            ds.AcceptChanges();
+            if (par == ""){}
             else
             {
-               
+                dv.RowFilter = "EmployeeName like %" + par + "%";
+                DataTable dt = new DataTable();
+                dt = dv.ToTable();
+                ds.Tables[0].Clear();
+                ds.AcceptChanges();
+                ds.Tables.Add(dt);
             }
-            return FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(dal.GetSY_HC_GetEmployeeInfo());
+            string strobj = FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(ds);
+            JObject obj = JObject.Parse(strobj);
+            string strjson = obj["ds"].ToString();
+            return strjson;
         }
         #endregion
 
