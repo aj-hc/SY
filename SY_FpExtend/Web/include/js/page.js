@@ -38,17 +38,12 @@ $(function () {
         ]],
         singleSelect: false,
         fitColumns: true,
-        rownumbers: true,//行号 
-        pagination: {
-            pageSize: 10,//每页显示的记录条数，默认为10 
-            pageList: [5, 10, 15],//可以设置每页记录条数的列表 
-            beforePageText: '第',//页数文本框前显示的汉字 
-            afterPageText: '页    共 {pages} 页',
-            displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录',
-            onRefresh: function (pageNumber, pageSize) {
-                alert(pageNumber, pageSize);
-            }
-        },
+        rownumbers: true,//行号
+        pagination: true,
+        pagePosition: 'bottom',
+        pageNumber: 1,
+        pageSize: 5,
+        pageList:[5,10,15,20],
         toolbar: [
             {
                 text: '添加', iconCls: 'icon-add', handler: function () {
@@ -131,7 +126,54 @@ $(function () {
             }
         }
     });
+    var pager = $("#ClinicalInfoDg").datagrid("getPager");
+    pager.pagination({
+        onSelectPage: function (pageNo, pageSize) {
+            var data = $("#ClinicalInfoDg").datagrid("getData");
+            var arr = [];
+            for (var i = 0; i < data.rows.length - 1; i++) {
+                arr.push
+                    ({
+                        "Description": data.rows[i].Description,
+                        "DiagnoseDateTime": data.rows[i].DiagnoseDateTime,
+                        "DiagnoseTypeFlag": data.rows[i].DiagnoseTypeFlag,
+                        "DiseaseName": data.rows[i].DiseaseName,
+                        "ICDCode": data.rows[i].ICDCode
+                    });
+            }
+            var start = (pageNo - 1) * pageSize;
+            var end = start + pageSize;
+            $("#ClinicalInfoDg").datagrid("loadData", arr.slice(start, end));
+            pager.pagination('refresh', {
+                total: data.rows.length,
+                pageNumber: pageNo
+            });
+        }
+    });
 })
+function pagerFilter(data) {
+    var dg = $('#ClinicalInfoDg').datagrid();
+    var opts = dg.datagrid('options');
+    var pager = dg.datagrid('getPager');
+    pager.pagination({
+        onSelectPage: function (pageNum, pageSize) {
+            opts.pageNumber = pageNum;
+            opts.pageSize = pageSize;
+            pager.pagination('refresh', {
+                pageNumber: pageNum,
+                pageSize: pageSize
+            });
+            dg.datagrid('loadData', data);
+        }
+    });
+    //if (!data.originalRows) {
+    //    data.originalRows = (data.rows);
+    //}
+    var start = (opts.pageNumber - 1) * parseInt(opts.pageSize);
+    var end = start + parseInt(opts.pageSize);
+    data.rows = (data.Rows.slice(start, end));
+    return data;
+}
 //诊断类型JSON
 var SampleInfotarget;
 var SampleInfobool = true;
