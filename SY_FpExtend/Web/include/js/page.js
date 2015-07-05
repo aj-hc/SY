@@ -398,27 +398,20 @@ $(function () {
     $('#_99').combobox({
         editable: true,
         panelHeight: '200px',
-        //data: getEmployeeData,
-        //url: '../Fp_Ajax/PageConData.aspx?conMarc=Employee&com=',
+        delay:'600',
         valueField: 'EmployeeNo',
         textField: 'EmployeeName',
-        //panelHeight: '200px'
         onChange: function (newVal, oldVal) {
-            if (newVal == "") {
+            var faultAddr = encodeURI(newVal);
+            //faultAddr = encodeURI(faultAddr);  //需要通过两次编码
+            if (newVal == "" || newVal == oldVal) {
+                $('#_99').combobox('clear');
                 return;
             }
-            else {
-
-                var temp = getEmployee('../Fp_Ajax/PageConData.aspx?conMarc=Employee&com=' + newVal);//AJAX获取
-                var JsonData = JSON.parse(temp);//转化为JSON
-
-                var arrayEmployeeName = JsonData[0].EmployeeName;
-                var arrayEmployeeNo = JsonData[0].EmployeeNo;
-                $('#_99').combobox('clear');
-                $('#_99').combobox('setValue', arrayEmployeeName);
-                //for (var i = 0; i < JsonData.length; i++) {
-                //    $('#_99').combobox('setValues', JsonData[i]);
-                //}
+            else
+            {
+                var url = '../Fp_Ajax/PageConData.aspx?conMarc=Employee&com=' + faultAddr;
+                $('#_99').combobox('reload', url);
             }
         }
     });

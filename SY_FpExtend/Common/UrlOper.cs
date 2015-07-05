@@ -192,5 +192,46 @@ namespace RuRo.Common
         }
 
         #endregion
+        /// <summary>
+        /// 判断是否为中文
+        /// </summary>
+        /// <param name="CString"></param>
+        /// <returns></returns>
+        public static bool IsChinaString(string CString)
+        {
+            bool BoolValue = false;
+            for (int i = 0; i < CString.Length; i++)
+            {
+                if (Convert.ToInt32(Convert.ToChar(CString.Substring(i, 1))) < Convert.ToInt32(Convert.ToChar(128)))
+                {
+                    BoolValue = false;
+                }
+                else
+                {
+
+                    return BoolValue = true;
+                }
+            }
+
+            return BoolValue;
+        }
+
+
+        public static string MyUrlDeCode(string str, Encoding encoding)
+        {
+            if (encoding == null)
+            {
+                Encoding utf8 = Encoding.UTF8;
+                //首先用utf-8进行解码                    
+                string code = HttpUtility.UrlDecode(str.ToUpper(), utf8);
+                //将已经解码的字符再次进行编码.
+                string encode = HttpUtility.UrlEncode(code, utf8).ToUpper();
+                if (str == encode)
+                    encoding = Encoding.UTF8;
+                else
+                    encoding = Encoding.GetEncoding("gb2312");
+            }
+            return HttpUtility.UrlDecode(str, encoding);
+        }
     }
 }
