@@ -691,12 +691,13 @@ $(function () {
 
     //POST数据
     function postData1() {
-        var name = $('#_80').textbox('getText'); 
+        var name = $('#_80').textbox('getText');
         var hzid = $('#_91').textbox('getText');
-        if (name == ""|| hzid=="") { $.messager.alert('提示', '必须输入姓名以及患者ID', 'error'); return; }
+        if (name == "" || hzid == "") { $.messager.alert('提示', '必须输入姓名以及患者ID', 'error'); return; }
         else
         {
-            var _baseinfo = $("#BaseInfoForm").serialize();
+            var _baseinfo = getBaseInfoFormData();
+
             //var _baseinfo=querySampleInfoDiv();
             //ClinicalInfoDg 
             var _ClinicalInfoDg = $('#ClinicalInfoDg').datagrid('getChecked');
@@ -707,7 +708,7 @@ $(function () {
             }
             var rowClinicalInfoDg = JSON.stringify(_ClinicalInfoDg);
             //获取sampleinfo 数据
-            var strSampleInfoDiv = $("#SampleInfoForm").serialize();
+            var strSampleInfoDiv = getSampleInfoFormData();
             //_dg_SampleInfo
             var _dg_SampleInfo = $('#dg_SampleInfo').datagrid('getRows');
             for (var i = 0; i < _dg_SampleInfo.length - 1; i++) {
@@ -716,12 +717,19 @@ $(function () {
                 }
             }
             var rowdg_SampleInfo = JSON.stringify(_dg_SampleInfo);
-
             $.ajax({
                 type: 'post',
-                url: '/Fp_Ajax/SubmitData.aspx?action=gethisdata&codeform=' + strcodeform + '&_ClinicalInfoDg=' + rowClinicalInfoDg + '&strSampleInfoDiv='
-                    + strSampleInfoDiv + '&_dg_SampleInfo=' + rowdg_SampleInfo,
-                onSubmit: function () { },
+                dataType: "json",
+                url: '/Fp_Ajax/SubmitData.aspx?action=postData',
+                data: {
+                    baseinfo: _baseinfo,
+                    clinicalInfoDg: rowClinicalInfoDg,
+                    sampleInfo: strSampleInfoDiv,
+                    sampleInfoDg: rowdg_SampleInfo
+                },
+                onSubmit: function () {
+
+                },
                 success: function (data) {
                     var getData = $.parseJSON(data);
                     if (getData.state) {
@@ -732,4 +740,23 @@ $(function () {
             });
         }
 
+    }
+
+    
+    function getBaseInfoFormData() {
+        var sampleinfo = $("#BaseInfoForm").serializeArray();
+        var s;
+        if (sampleinfo) {
+            s = JSON.stringify(sampleinfo);
+        }
+        return s;
+    }
+
+    function getSampleInfoFormData() {
+        var sampleinfo = $("#SampleInfoForm").serializeArray();
+        var s;
+        if (sampleinfo) {
+            s = JSON.stringify(sampleinfo);
+        }
+        return s;
     }

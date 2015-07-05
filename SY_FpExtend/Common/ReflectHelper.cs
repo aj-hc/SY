@@ -88,5 +88,44 @@ namespace RuRo.Common
 
             return IsType(type.BaseType, typeName);
         }
+
+
+        public static string GetValue(object entity, string fieldName)
+        {
+            Type entityType = entity.GetType();
+            PropertyInfo propertyInfo = entityType.GetProperty(fieldName);
+            string value = string.Empty;
+            if (IsType(propertyInfo.PropertyType, "System.String"))
+            {
+                value = propertyInfo.GetValue(entity, null).ToString();
+
+            }
+
+            if (IsType(propertyInfo.PropertyType, "System.Boolean"))
+            {
+                value = propertyInfo.GetValue(entity, null).ToString();
+
+            }
+
+            if (IsType(propertyInfo.PropertyType, "System.Int32"))
+            {
+                value = propertyInfo.GetValue(entity, null).ToString();
+
+            }
+
+            if (IsType(propertyInfo.PropertyType, "System.Decimal"))
+            {
+                value = propertyInfo.GetValue(entity, null).ToString();
+
+            }
+
+            if (IsType(propertyInfo.PropertyType, "System.Nullable`1[System.DateTime]"))
+            {
+                value = propertyInfo.GetValue(entity, null).ToString();
+            }
+            return value;
+
+        }
+
     }
 }
