@@ -413,6 +413,20 @@ $(function () {
                 var url = '../Fp_Ajax/PageConData.aspx?conMarc=Employee&com=' + faultAddr;
                 $('#_99').combobox('reload', url);
             }
+        },
+        onHidePanel: function ()
+        {
+            var o = $('#_99').combobox('getValue');//获取采集人的EmployeeNo
+            var url = '../Fp_Ajax/PageConData.aspx?conMarc=Employee&com='+ o;
+            var temp = getEmployee(url);
+            var tempjson = JSON.parse(temp);
+            $('#_109').combobox({
+                editable: true,
+                data: tempjson,
+                valueField: 'EmployeeNo',
+                textField: 'EmployeeName'
+            });
+            $('#_109').combobox('setValue', tempjson.EmployeeName);
         }
     });
 })
