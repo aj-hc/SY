@@ -55,14 +55,15 @@ namespace RuRo.BLL
                     ds.Tables[0].Rows[i].Delete();
                 }
             }
+            ds.Tables[0].Columns.Remove("EmployeeID");
             ds.AcceptChanges();
             if (par == ""){}
             else
             {
-                dv.RowFilter = "EmployeeNo like '%" + par + "%'";
+                dv.RowFilter = "EmployeeNo like '" + par + "%'";
                 ds1.Tables.Add(dv.ToTable());
             }
-            string strobj = FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(ds);
+            string strobj = FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(ds1);
             JObject obj = JObject.Parse(strobj);
             string strjson = obj["ds"].ToString();
             return strjson;

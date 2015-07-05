@@ -394,38 +394,48 @@ $(function () {
     });
 })
 //绑定采集人
-//$(function () {
-//    $('#_99').combobox({
-//        editable: true,
-//        //data: getEmployeeData,
-//        url: '../Fp_Ajax/PageConData.aspx?conMarc=Employee&com=',
-//        valueField: 'EmployeeNo',
-//        textField: 'EmployeeName',
-//        panelHeight: '200px'
-//        //onChange: function (newVal, oldVal) {
-//        //    //var temp = getEmployee('../Fp_Ajax/PageConData.aspx?conMarc=Employee&com=' + newVal);
-//        //    //newVal = temp.EmployeeName;
-//        //}
-//    });
-//})
-//var EmployeeJson=$.getJSON('../include/JSON/Employee.json', function (data) { return data });
-    //function getEmployee(Employeeurl) {
-    //    var temp;
-    //    $.ajax({
-    //        type: 'get',
-    //        url: Employeeurl,
-    //        async: false,
-    //        datatype: 'json',
-    //        success: function (responseData) {
-    //            temp = responseData;
-    //        }
-    //    });
-    //    return temp;
-    //}
-    //var Employeeurl = '../include/JSON/Employee.json';
-    //var getEmployeeData = getEmployee(Employeeurl);
-    //var getDtaJsonEmployee = JSON.parse(getEmployeeData);
-    //var getJsonEmployee = getDtaJsonEmployee.ds;
+$(function () {
+    $('#_99').combobox({
+        editable: true,
+        panelHeight: '200px',
+        //data: getEmployeeData,
+        //url: '../Fp_Ajax/PageConData.aspx?conMarc=Employee&com=',
+        valueField: 'EmployeeNo',
+        textField: 'EmployeeName',
+        //panelHeight: '200px'
+        onChange: function (newVal, oldVal) {
+            if (newVal == "") {
+                return;
+            }
+            else {
+
+                var temp = getEmployee('../Fp_Ajax/PageConData.aspx?conMarc=Employee&com=' + newVal);//AJAX获取
+                var JsonData = JSON.parse(temp);//转化为JSON
+
+                var arrayEmployeeName = JsonData[0].EmployeeName;
+                var arrayEmployeeNo = JsonData[0].EmployeeNo;
+                $('#_99').combobox('clear');
+                $('#_99').combobox('setValue', arrayEmployeeName);
+                //for (var i = 0; i < JsonData.length; i++) {
+                //    $('#_99').combobox('setValues', JsonData[i]);
+                //}
+            }
+        }
+    });
+})
+function getEmployee(Employeeurl) {
+    var temp;
+    $.ajax({
+        type: 'get',
+        url: Employeeurl,
+        async: false,
+        datatype: 'json',
+        success: function (responseData) {
+            temp = responseData;
+        }
+    });
+    return temp;
+}
 
 
     //POST数据
