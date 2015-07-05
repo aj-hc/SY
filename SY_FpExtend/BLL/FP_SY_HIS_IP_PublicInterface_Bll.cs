@@ -50,19 +50,29 @@ namespace RuRo.BLL
             dv = ds.Tables[0].DefaultView;
             for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
             {
-                if (ds.Tables[0].Rows[i]["EmployeeNo"].ToString().Trim() == "" || ds.Tables[0].Rows[i]["EmployeeID"].ToString().Trim() == "0" || ds.Tables[0].Rows[i]["EmployeeNO"].ToString().Trim() == "t1" || ds.Tables[0].Rows[i]["EmployeeNO"].ToString().Trim() == "t2" || ds.Tables[0].Rows[i]["EmployeeNO"].ToString().Trim().Length < 4 || ds.Tables[0].Rows[i]["EmployeeNO"].ToString().Trim().Length >8)
+                if (ds.Tables[0].Rows[i]["EmployeeNo"].ToString().Trim() == "" || ds.Tables[0].Rows[i]["EmployeeID"].ToString().Trim() == "0" || ds.Tables[0].Rows[i]["EmployeeNO"].ToString().Trim() == "t1" || ds.Tables[0].Rows[i]["EmployeeNO"].ToString().Trim() == "t2")
                 {
                     ds.Tables[0].Rows[i].Delete();
                 }
             }
+            ds.Tables[0].Columns.Remove("EmployeeID");
             ds.AcceptChanges();
             if (par == ""){}
             else
             {
-                dv.RowFilter = "EmployeeNo like '%" + par + "%'";
-                ds1.Tables.Add(dv.ToTable());
+                if (RuRo.Common.UrlOper.IsChinaString(par) == true)
+                {
+                    dv.RowFilter = "EmployeeName LIKE '" + par + "%'";
+                    ds1.Tables.Add(dv.ToTable());
+                }
+                else 
+                {
+                    dv.RowFilter = "EmployeeNo like '" + par + "%'";
+                    ds1.Tables.Add(dv.ToTable());
+                }
+               
             }
-            string strobj = FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(ds);
+            string strobj = FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(ds1);
             JObject obj = JObject.Parse(strobj);
             string strjson = obj["ds"].ToString();
             return strjson;

@@ -394,38 +394,55 @@ $(function () {
     });
 })
 //绑定采集人
-//$(function () {
-//    $('#_99').combobox({
-//        editable: true,
-//        //data: getEmployeeData,
-//        url: '../Fp_Ajax/PageConData.aspx?conMarc=Employee&com=',
-//        valueField: 'EmployeeNo',
-//        textField: 'EmployeeName',
-//        panelHeight: '200px'
-//        //onChange: function (newVal, oldVal) {
-//        //    //var temp = getEmployee('../Fp_Ajax/PageConData.aspx?conMarc=Employee&com=' + newVal);
-//        //    //newVal = temp.EmployeeName;
-//        //}
-//    });
-//})
-//var EmployeeJson=$.getJSON('../include/JSON/Employee.json', function (data) { return data });
-    //function getEmployee(Employeeurl) {
-    //    var temp;
-    //    $.ajax({
-    //        type: 'get',
-    //        url: Employeeurl,
-    //        async: false,
-    //        datatype: 'json',
-    //        success: function (responseData) {
-    //            temp = responseData;
-    //        }
-    //    });
-    //    return temp;
-    //}
-    //var Employeeurl = '../include/JSON/Employee.json';
-    //var getEmployeeData = getEmployee(Employeeurl);
-    //var getDtaJsonEmployee = JSON.parse(getEmployeeData);
-    //var getJsonEmployee = getDtaJsonEmployee.ds;
+$(function () {
+    $('#_99').combobox({
+        editable: true,
+        panelHeight: '200px',
+        delay:'600',
+        valueField: 'EmployeeNo',
+        textField: 'EmployeeName',
+        onChange: function (newVal, oldVal) {
+            var faultAddr = encodeURI(newVal);
+            //faultAddr = encodeURI(faultAddr);  //需要通过两次编码
+            if (newVal == "" || newVal == oldVal) {
+                $('#_99').combobox('clear');
+                return;
+            }
+            else
+            {
+                var url = '../Fp_Ajax/PageConData.aspx?conMarc=Employee&com=' + faultAddr;
+                $('#_99').combobox('reload', url);
+            }
+        },
+        onHidePanel: function ()
+        {
+            var o = $('#_99').combobox('getValue');//获取采集人的EmployeeNo
+            var url = '../Fp_Ajax/PageConData.aspx?conMarc=Employee&com='+ o;
+            var temp = getEmployee(url);
+            var tempjson = JSON.parse(temp);
+            $('#_109').combobox({
+                editable: true,
+                data: tempjson,
+                valueField: 'EmployeeNo',
+                textField: 'EmployeeName'
+            });
+            $('#_109').combobox('setValue', tempjson.EmployeeName);
+        }
+    });
+})
+function getEmployee(Employeeurl) {
+    var temp;
+    $.ajax({
+        type: 'get',
+        url: Employeeurl,
+        async: false,
+        datatype: 'json',
+        success: function (responseData) {
+            temp = responseData;
+        }
+    });
+    return temp;
+}
 
 
     //POST数据
