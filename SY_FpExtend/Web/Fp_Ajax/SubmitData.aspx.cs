@@ -17,39 +17,7 @@ namespace RuRo.Web.Fp_Ajax
             string action = Request.Params["action"].ToString();
             if (action == "postData")
             {
-                string baseinfo = Request.Params["baseinfo"];//form
-                string clinicalInfoDg = Request.Params["clinicalInfoDg"];//dg
-                string sampleInfo = Request.Params["sampleInfo"];//form
-                string sampleInfoDg = Request.Params["sampleInfoDg"];//dg
-
-
-                PageBaseInfo pageBaseInfo = new PageBaseInfo();
-                List<PageClinicalInfo> pageClinicalInfoList = new List<PageClinicalInfo>();
-                PageSampleInfo pageSampleInfo = new PageSampleInfo();
-                List<PageSampleDg> pageSampleDgList = new List<PageSampleDg>();
-
-                if (!string.IsNullOrEmpty(baseinfo) && baseinfo != "[]")
-                {
-                    //转换页面上的baseinfo为对象
-                    List<Dictionary<string, string>> dicList = new List<Dictionary<string, string>>();
-                    dicList = FreezerProUtility.Fp_Common.FpJsonHelper.JsonStrToObject<List<Dictionary<string, string>>>(baseinfo);
-                    pageBaseInfo = GetFromInfo<PageBaseInfo>(dicList);
-                }
-                if (!string.IsNullOrEmpty(clinicalInfoDg) && clinicalInfoDg != "[]")
-                {
-                    //转换页面上的clinicalInfoDg为对象集合
-                    pageClinicalInfoList = FreezerProUtility.Fp_Common.FpJsonHelper.JsonStrToObject<List<PageClinicalInfo>>(clinicalInfoDg);//转换ok
-                }
-                if (!string.IsNullOrEmpty(sampleInfo) && sampleInfo != "[]")
-                {
-                    List<Dictionary<string, string>> dicList = new List<Dictionary<string, string>>();
-                    dicList = FreezerProUtility.Fp_Common.FpJsonHelper.JsonStrToObject<List<Dictionary<string, string>>>(sampleInfo);
-                    pageSampleInfo = GetFromInfo<PageSampleInfo>(dicList);
-                }
-                if (!string.IsNullOrEmpty(sampleInfoDg) && sampleInfoDg != "[]")
-                {
-                    pageSampleDgList = FreezerProUtility.Fp_Common.FpJsonHelper.JsonStrToObject<List<PageSampleDg>>(sampleInfoDg);//转换ok
-                }
+                ImportDataToFp();
             }
         }
         private T GetFromInfo<T>(List<Dictionary<string, string>> dicList) where T : class,new()
@@ -72,10 +40,30 @@ namespace RuRo.Web.Fp_Ajax
                 }
                 try
                 {
+                    
+                    if (name == "_113")
+                    {
+                        //多选下拉框
+                        Type type = t.GetType();
+                        try
+                        {
+                            PropertyInfo property = type.GetProperty(name);
+                            string str = property.GetValue(t, null).ToString();
+                            if (!string.IsNullOrEmpty(str))
+                            {
+                                value += ";" + str;
+                            }
+                        }
+                        catch (Exception ex )
+                        {
+                            Common.LogHelper.WriteExcError(ex);
+                        }
+                    }
                     Common.ReflectHelper.SetValue(t, name, value);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    Common.LogHelper.WriteExcError(ex);
                     continue;
                 }
 
@@ -85,8 +73,66 @@ namespace RuRo.Web.Fp_Ajax
 
         private void ImportDataToFp()
         {
+            //获取页面上的数据
+            string baseinfo = Request.Params["baseinfo"];//form
+            string clinicalInfoDg = Request.Params["clinicalInfoDg"];//dg
+            string sampleInfo = Request.Params["sampleInfo"];//form
+            string sampleInfoDg = Request.Params["sampleInfoDg"];//dg
 
+            //将页面上的数据转换成对象
+            #region 将页面上的数据转换成对象
+            PageBaseInfo pageBaseInfo = new PageBaseInfo();
+            List<PageClinicalInfo> pageClinicalInfoList = new List<PageClinicalInfo>();
+            PageSampleInfo pageSampleInfo = new PageSampleInfo();
+            List<PageSampleDg> pageSampleDgList = new List<PageSampleDg>();
+
+            if (!string.IsNullOrEmpty(baseinfo) && baseinfo != "[]")
+            {
+                //转换页面上的baseinfo为对象
+                List<Dictionary<string, string>> dicList = new List<Dictionary<string, string>>();
+                dicList = FreezerProUtility.Fp_Common.FpJsonHelper.JsonStrToObject<List<Dictionary<string, string>>>(baseinfo);
+                pageBaseInfo = GetFromInfo<PageBaseInfo>(dicList);
+            }
+            if (!string.IsNullOrEmpty(clinicalInfoDg) && clinicalInfoDg != "[]")
+            {
+                //转换页面上的clinicalInfoDg为对象集合
+                pageClinicalInfoList = FreezerProUtility.Fp_Common.FpJsonHelper.JsonStrToObject<List<PageClinicalInfo>>(clinicalInfoDg);//转换ok
+            }
+            if (!string.IsNullOrEmpty(sampleInfo) && sampleInfo != "[]")
+            {
+                //sampleinfo对象
+                List<Dictionary<string, string>> dicList = new List<Dictionary<string, string>>();
+                dicList = FreezerProUtility.Fp_Common.FpJsonHelper.JsonStrToObject<List<Dictionary<string, string>>>(sampleInfo);
+                pageSampleInfo = GetFromInfo<PageSampleInfo>(dicList);
+            }
+            if (!string.IsNullOrEmpty(sampleInfoDg) && sampleInfoDg != "[]")
+            {
+                //sampleInfoDg对象
+                pageSampleDgList = FreezerProUtility.Fp_Common.FpJsonHelper.JsonStrToObject<List<PageSampleDg>>(sampleInfoDg);//转换ok
+            }
+            #endregion
+
+            //给对象拼接--临床数据中需要添加基本信息中的RegisterID,InPatientID
+            if (pageBaseInfo != null && pageClinicalInfoList.Count > 0)
+            {
+                foreach (PageClinicalInfo item in pageClinicalInfoList)
+                {
+                    if (string.IsNullOrEmpty(pageBaseInfo.InPatientID))
+                    {
+                        item.InPatientID = pageBaseInfo.InPatientID;
+                    }
+                    if (string.IsNullOrEmpty(pageBaseInfo.RegisterID))
+                    {
+                        item.RegisterID = pageBaseInfo.RegisterID;
+                    }
+                }
+            }
         }
+
+        //导入数据存在的情况
+        //1、只导入样品源，手动添加样本
+        //2、导入样本源和临床信息、手动添加样本
+        //3、导入样本源、样本
         private string ImportSamples()
         {
 

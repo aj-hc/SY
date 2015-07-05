@@ -73,8 +73,6 @@ namespace RuRo.Common
         }
 
 
-
-
         /// <summary>
         /// 类型匹配
         /// </summary>

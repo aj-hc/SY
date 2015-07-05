@@ -34,6 +34,7 @@ namespace FreezerProUtility.Fp_BLL
         /// <returns></returns>
         public static string Import_Sample(string url, string sample_type, string count, Dictionary<string, string> dataDic)
         {
+            #region 思路分析
             //string json = "";
             //string background_job = "false";//boolean (true or false)
             //string next_box = "";   //boolean (true or false)
@@ -48,7 +49,9 @@ namespace FreezerProUtility.Fp_BLL
             //------>判断存储结构是否存在------>判断条件---冰箱--当前用户--月份。冰箱名指定（TEM）,用户名：当前用户全名，月份--当前日期
             //添加样品时需要查找指定盒子是否存在，不存在就添加，存在就检查数量是否合规
             //判断储存结果是否存在（指定位置）--需要用到用户名Users,检查位置Get_Perfect_Box,
-            //先判断日期分支下是有有满足条件的盒子，有就直接添加样本，没有就获取该分支下的所有盒子----然后创建分支并添加样本
+            //先判断日期分支下是有有满足条件的盒子，有就直接添加样本，没有就获取该分支下的所有盒子----然后创建分支并添加样本 
+            #endregion
+
             string username = Fp_Common.CookieHelper.GetCookieValue("username");
             int kk = 0;
             string result = string.Empty;
@@ -62,7 +65,8 @@ namespace FreezerProUtility.Fp_BLL
                     {
                         jsonDicList.Add(dataDic);
                     }
-                    jsondata = FpJsonHelper.DictionaryListToJsonString(jsonDicList);//多条数据
+                    //多条数据
+                    jsondata = FpJsonHelper.DictionaryListToJsonString(jsonDicList);
                 }
                 else
                 {

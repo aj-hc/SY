@@ -8,7 +8,6 @@ using System.Data;
 using System.IO;
 using System.Web.Security;
 using LTP.Accounts.Bus;
-using System.Globalization;
 namespace RuRo.Web 
 {
 	/// <summary>
@@ -88,7 +87,7 @@ namespace RuRo.Web
             string err = "Ip【" + strIP + "】" + Environment.NewLine + "Error in【" + Request.Url.ToString() +
                                "】" + Environment.NewLine + "Error Message【" + objErr.Message.ToString() + "】" + "Error InnerException【" + objErr.InnerException.ToString() + "】" + "Error TargetSite【" + objErr.TargetSite.ToString() + "】" + "Error Source【" + objErr.Source.ToString() + "】";
             //记录错误
-            WriteError(err);
+            RuRo.Common.LogHelper.WriteError(err);
 			
 		}
 		protected void Session_End(Object sender, EventArgs e)
@@ -109,31 +108,7 @@ namespace RuRo.Web
 		}
 		#endregion
 
-        //记录错误日志
-        public static void WriteError(string errorMessage)
-        {
-            try
-            {
-                string path = "~/Error/AppError/" + DateTime.Today.ToString("yyMMdd") + ".txt";
-                if (!File.Exists(System.Web.HttpContext.Current.Server.MapPath(path)))
-                {
-                    File.Create(System.Web.HttpContext.Current.Server.MapPath(path)).Close();
-                }
-                using (StreamWriter w = File.AppendText(System.Web.HttpContext.Current.Server.MapPath(path)))
-                {
-                    w.WriteLine("\r\nLog Entry : ");
-                    w.WriteLine("{0}", DateTime.Now.ToString(CultureInfo.InvariantCulture));
-                    w.WriteLine(errorMessage);
-                    w.WriteLine("________________________________________________________");
-                    w.Flush();
-                    w.Close();
-                }
-            }
-            catch (Exception ex)
-            {
-                WriteError(ex.Message);
-            }
-        }
+
 	}
 }
 
