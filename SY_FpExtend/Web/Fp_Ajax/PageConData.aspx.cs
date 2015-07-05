@@ -58,6 +58,16 @@ namespace RuRo.Web
             string res = "[{\"DiagnoseTypeFlag\": \"0\",\"text\": \"门诊诊断\" },{\"DiagnoseTypeFlag\": \"1\", \"text\": \"入院诊断\"}, { \"DiagnoseTypeFlag\": \"2\", \"text\": \"出院主要诊断\"} , { \"DiagnoseTypeFlag\": \"3\", \"text\": \"出院次要诊\"} ]";
             return res;
         }
+        public static Dictionary<string, string> DiagnoseTypeFlagDic()
+        {
+            Dictionary<string, string> dic = new Dictionary<string, string>();
+            dic.Add("0", "门诊诊断");
+            dic.Add("1", "入院诊断");
+            dic.Add("2", "出院主要诊断");
+            dic.Add("3", "出院次要诊");
+            return dic;
+        }
+
         /// <summary>
         /// 样品类型数据
         /// </summary>

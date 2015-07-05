@@ -190,6 +190,18 @@ namespace RuRo.BLL
             ds = dal.GetFP_LINKAGE(id);
             return FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(ds);
         }
+
+        public Dictionary<string, string> GetOrganDic()
+        {
+            Dictionary<string, string> dic = new Dictionary<string, string>();
+            string strWhere = "fromid=0";
+            List<RuRo.Model.FP_LINKAGE> FP_LINKAGEList = GetModelList(strWhere);
+            foreach (RuRo.Model.FP_LINKAGE item in FP_LINKAGEList)
+            {
+                dic.Add(item.id.ToString(), item.name);
+            }
+            return dic;
+        }
         #endregion  ExtensionMethod
 
     }

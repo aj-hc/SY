@@ -38,8 +38,7 @@ namespace RuRo.Common
         public static void WriteExcError(Exception ex)
         {
             // 在出现未处理的错误时运行的代码
-            Exception objErr = ex.GetBaseException();
-            string errorMessage = Environment.NewLine + "Error Data【" + objErr.Data.ToString() + "】" + Environment.NewLine + "Error HelpLink【" + objErr.HelpLink.ToString() + "】" + Environment.NewLine + "Error InnerException【" + objErr.InnerException.ToString() + "】" + "Error Message【" + objErr.Message.ToString() + "】" + Environment.NewLine + "Error Source【" + objErr.Source.ToString() + "】" + Environment.NewLine + "Error StackTrace【" + objErr.StackTrace.ToString() + "】" + "Error TargetSite【" + objErr.TargetSite.ToString() + "】";
+            string errorMessage = Environment.NewLine + "Error Data【" + ex.Data.ToString() + "】" + Environment.NewLine + "Error HelpLink【" + ex.HelpLink.ToString() + "】" + Environment.NewLine + "Error InnerException【" + ex.InnerException.ToString() + "】" + "Error Message【" + ex.Message.ToString() + "】" + Environment.NewLine + "Error Source【" + ex.Source.ToString() + "】";
             //记录错误
             try
             {

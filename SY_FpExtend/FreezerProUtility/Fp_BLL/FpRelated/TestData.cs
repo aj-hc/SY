@@ -7,6 +7,13 @@ namespace FreezerProUtility.Fp_BLL
 {
     public class TestData
     {
+        /// <summary>
+        /// 导入临床数据
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="test_data_type"></param>
+        /// <param name="dataDic">需指定Sample Source</param>
+        /// <returns></returns>
         public static string ImportTestData(string url, string test_data_type, Dictionary<string, string> dataDic)
         {
             string result = string.Empty;
@@ -19,7 +26,24 @@ namespace FreezerProUtility.Fp_BLL
             }
             return "";
         }
-
+        /// <summary>
+        /// 导入多条临床数据
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="test_data_type"></param>
+        /// <param name="dataDicList">需指定Sample Source</param>
+        /// <returns></returns>
+        public static string ImportTestData(string url, string test_data_type, List<Dictionary<string, string>> dataDicList)
+        {
+            string result = string.Empty;
+            string jsonDicList = Fp_Common.FpJsonHelper.DictionaryListToJsonString(dataDicList);
+            if (!string.IsNullOrEmpty(jsonDicList))
+            {
+                string jsonData = string.Format("&test_data_type={0}&json={1}", test_data_type, jsonDicList);
+                result = ImportTestDataToFp(url, jsonData);
+            }
+            return "";
+        }
 
         private static string ImportTestDataToFp(string url, string jsonData)
         {
