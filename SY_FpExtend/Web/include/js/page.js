@@ -802,7 +802,7 @@ function postData1() {
                     if (getData.success == true) {
                         $.messager.alert('提示', '导入成功：' + data.message); return;
                     }
-                    else { $.messager.alert('提示', '导入失败：' + data.message); return; }
+                    else { $.messager.alert('提示', '导入失败：' + data.message); return; } 
                 }
             }
         });
