@@ -26,7 +26,7 @@ namespace RuRo.BLL
             dic.Add("RegisterID", "门诊ID");
             return dic;
         }
-        public static Dictionary<string, string> BaseInfoMatchDic()
+        public static Dictionary<string, string> SampleInfoMatchDic()
         {
             Dictionary<string, string> dic = new Dictionary<string, string>();
             dic.Add("_109", "取材医护");
