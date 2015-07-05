@@ -44,28 +44,23 @@ namespace RuRo.BLL
             string strdv = "";
             DataSet ds = new DataSet();
             DataView dv = new DataView();
+            DataSet ds1 = new DataSet();
             //ds = dal.GetSY_HC_GetEmployeeInfo();//获取正式
             ds = dal.GetSY_HC_GetEmployeeInfoTest();//获取测试
             dv = ds.Tables[0].DefaultView;
             for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
             {
-
-                if (ds.Tables[0].Rows[i]["EmployeeNo"].ToString() == "" || ds.Tables[0].Rows[i]["EmployeeNo"].ToString() == "pppp")
+                if (ds.Tables[0].Rows[i]["EmployeeNo"].ToString().Trim() == "" || ds.Tables[0].Rows[i]["EmployeeID"].ToString().Trim() == "0" || ds.Tables[0].Rows[i]["EmployeeNO"].ToString().Trim() == "t1" || ds.Tables[0].Rows[i]["EmployeeNO"].ToString().Trim() == "t2" || ds.Tables[0].Rows[i]["EmployeeNO"].ToString().Trim().Length < 4 || ds.Tables[0].Rows[i]["EmployeeNO"].ToString().Trim().Length >8)
                 {
                     ds.Tables[0].Rows[i].Delete();
                 }
-
             }
             ds.AcceptChanges();
             if (par == ""){}
             else
             {
-                dv.RowFilter = "EmployeeName like %" + par + "%";
-                DataTable dt = new DataTable();
-                dt = dv.ToTable();
-                ds.Tables[0].Clear();
-                ds.AcceptChanges();
-                ds.Tables.Add(dt);
+                dv.RowFilter = "EmployeeNo like '%" + par + "%'";
+                ds1.Tables.Add(dv.ToTable());
             }
             string strobj = FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(ds);
             JObject obj = JObject.Parse(strobj);

@@ -80,6 +80,7 @@
     <Content Include="ExtendPage.aspx" />
     <Content Include="Fp_Ajax\Fp_Ajax.txt" />
     <Content Include="Fp_Ajax\GetData.aspx" />
+    <Content Include="Fp_Ajax\getjson.aspx" />
     <Content Include="Fp_Ajax\PageConData.aspx" />
     <Content Include="Fp_Ajax\SubmitData.aspx" />
     <Content Include="Fp_ExtendPage\00.Fp_ExtendPage备注.txt" />
@@ -1091,6 +1092,13 @@
     <Compile Include="Fp_Ajax\GetData.aspx.designer.cs">
       <DependentUpon>GetData.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Fp_Ajax\getjson.aspx.cs">
+      <DependentUpon>getjson.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Fp_Ajax\getjson.aspx.designer.cs">
+      <DependentUpon>getjson.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Fp_Ajax\PageConData.aspx.cs">
       <DependentUpon>PageConData.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1206,6 +1214,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Images\Images\Thumbs.db" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="include\JSON\Employee.json" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
