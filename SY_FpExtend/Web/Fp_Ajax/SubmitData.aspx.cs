@@ -83,10 +83,6 @@ namespace RuRo.Web.Fp_Ajax
             return t;
         }
 
-
-
-
-
         private void ImportDataToFp()
         {
 

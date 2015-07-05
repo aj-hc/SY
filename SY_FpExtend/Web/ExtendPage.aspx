@@ -122,9 +122,9 @@
                             <td>取材日期：</td>
                             <td>
                                 <input class="easyui-datebox" id="_103" name="_103" /></td>
-                            <td>取材方式：</td>
+                            <td>取材时段：</td>
                             <td>
-                                <input class="easyui-combobox" id="_101" name="_101" style="width: 484px;" /></td>
+                                <input class="easyui-combobox" id="_113" name="_113" style="width: 484px;" /></td>
                         </tr>
                         <tr>
                             <td>取材时间：</td>

@@ -144,7 +144,7 @@ $(function () {
         title: '样本信息',
         columns: [[
             {
-                field: 'SampleType', title: '样品类型', width: '20%', align: 'center', editor: {
+                field: 'SampleType', title: '样品类型', width: '25%', align: 'center', editor: {
                     type: 'combobox', options: {
                         data: getDtaJsonSampleType,
                         valueField: 'value',
@@ -166,7 +166,7 @@ $(function () {
             },
             { field: 'Scount', title: '管数', width: '5%', align: 'center', editor: { type: 'numberbox', options: { required: false } } },
             {
-                field: 'Organ', title: '器官系统', width: '15%',
+                field: 'Organ', title: '器官系统', width: '30%', align: 'center',
                 editor: {
                     type: 'combobox',
                     options:
@@ -228,7 +228,7 @@ $(function () {
                 }
                 },
             {
-                field: 'Classification', title: '二级下拉', width: '15%', editor: {
+                field: 'Classification', title: '二级下拉', width: '30%', align: 'center', editor: {
                     type: 'combobox', options: {
                         valueField: 'NAME',
                         textField: 'NAME'
@@ -246,8 +246,8 @@ $(function () {
                         else { return value; }
                     }
                 }
-            },
-            { field: 'Remark', title: '备注', width: '40%', align: 'center', editor: { type: 'validatebox', options: { required: false } } },//动态列--根据样品类型展示不同的数据
+            }
+            //{ field: 'Remark', title: '备注', width: '40%', align: 'center', editor: { type: 'validatebox', options: { required: false } } },//动态列--根据样品类型展示不同的数据
 
         ]],
         singleSelect: false,
@@ -382,9 +382,9 @@ $(function () {
     });
 })
 
-//给取材方式下拉框绑定值
+//给取材时段下拉框绑定值
 $(function () {
-    $('#_101').combobox({
+    $('#_113').combobox({
         url: '../Fp_Ajax/PageConData.aspx?conMarc=SamplingMethod',
         multiple: true,
         method: 'get',

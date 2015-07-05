@@ -7,6 +7,9 @@ namespace RuRo.Model.PageInfoModel
 {
     public class PageSampleDg
     {
-        public string  MyProperty { get; set; }
+        public string SampleType { get; set; }
+        public int Scount { get; set; }
+        public string Organ { get; set; }
+        public string Classification { get; set; }
     }
 }
