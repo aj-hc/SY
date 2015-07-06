@@ -16,6 +16,7 @@ namespace RuRo.Web.TestData
             Common.HttpItem item = new Common.HttpItem();
             Common.HttpResult res = new Common.HttpResult();
 
+            
 
             // item.URL = "http://192.168.183.130/api?username=admin&password=123456&method=get_perfect_box";
 
@@ -38,25 +39,25 @@ namespace RuRo.Web.TestData
             //    Response.Write("html：" + res.Html + "<br/><br/>" + "Header：" + res.Header);
             //}
 
-            string url = "http://192.168.183.130/api?username=admin&password=123456";
-            Dictionary<string, string> dic = FreezerProUtility.Fp_BLL.Samples.GetAllSample_TypesNames(url);
-            List<Dictionary<string, string>> list = new List<Dictionary<string, string>>();
-            if (dic.Count>0)
-            {
-                foreach (KeyValuePair<string,string> dd in dic)
-                {
-                    Dictionary<string, string> temdic = new Dictionary<string, string>();
-                    temdic.Add("value", dd.Key);
-                    temdic.Add("text", dd.Value);
-                    list.Add(temdic);
+            //string url = "http://192.168.183.130/api?username=admin&password=123456";
+            //Dictionary<string, string> dic = FreezerProUtility.Fp_BLL.Samples.GetAllSample_TypesNames(url);
+            //List<Dictionary<string, string>> list = new List<Dictionary<string, string>>();
+            //if (dic.Count>0)
+            //{
+            //    foreach (KeyValuePair<string,string> dd in dic)
+            //    {
+            //        Dictionary<string, string> temdic = new Dictionary<string, string>();
+            //        temdic.Add("value", dd.Key);
+            //        temdic.Add("text", dd.Value);
+            //        list.Add(temdic);
                    
-                }
-            }
-            string jsonList = FreezerProUtility.Fp_Common.FpJsonHelper.DictionaryListToJsonString(list);
-            string jsonDic = FreezerProUtility.Fp_Common.FpJsonHelper.DictionaryToJsonString(dic);
-            Response.Write(jsonDic);
-            Response.Write("<br />");
-            Response.Write(jsonList);
+            //    }
+            //}
+            //string jsonList = FreezerProUtility.Fp_Common.FpJsonHelper.DictionaryListToJsonString(list);
+            //string jsonDic = FreezerProUtility.Fp_Common.FpJsonHelper.DictionaryToJsonString(dic);
+            //Response.Write(jsonDic);
+            //Response.Write("<br />");
+            //Response.Write(jsonList);
         }
     }
 }

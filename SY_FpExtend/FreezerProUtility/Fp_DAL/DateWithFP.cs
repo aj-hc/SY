@@ -44,7 +44,7 @@ namespace FreezerProUtility.Fp_DAL
             HttpHelper http = new HttpHelper();
             item.URL = url;
             return http.GetHtml(item).Html;
-        } 
+        }
         #endregion
 
         #region 提交数据到fp方法 + private static string postDateToFp(string url, string data)
@@ -56,17 +56,25 @@ namespace FreezerProUtility.Fp_DAL
         /// <returns></returns>
         public static string postDateToFp(string url, string data)
         {
-            HttpItem item = new HttpItem();
-            HttpHelper http = new HttpHelper();
-            HttpResult hres = new HttpResult();
-            item.URL = url;
-            item.Method = "POST";
-            item.Postdata = data;
-            hres = http.GetHtml(item);
-            return hres.Html;
-        } 
+            //HttpHelper http = new HttpHelper();
+            //HttpItem item = new HttpItem();
+            //HttpResult hres = new HttpResult();
+            //item.URL = url;
+            //item.Method = "POST";
+            //item.Postdata = data;
+            //item.PostDataType = PostDataType.String;
+            //item.PostEncoding = Encoding.UTF8;
+            //hres = http.GetHtml(item);
+            //return hres.Html;
+
+            WebClient web = new WebClient();
+            web.Encoding = Encoding.UTF8;
+            
+            return web.Post(url, data);
+
+        }
         #endregion
-        
+
         #region 有参取数据方法 + public string getDateFromFp(FpMethod fpMethod, string parameters)
         /// <summary>
         /// 有参取数据方法

@@ -10,6 +10,8 @@ namespace RuRo.BLL
         public static Dictionary<string, string> BaseInfoMatchDic()
         {
             Dictionary<string, string> dic = new Dictionary<string, string>();
+            dic.Add("Name", "Name");
+            dic.Add("Description", "Description");
             dic.Add("PatientName", "姓名");
             dic.Add("IPSeqNoText", "住院号");
             dic.Add("PatientCardNo", "就诊卡号");
@@ -26,9 +28,11 @@ namespace RuRo.BLL
             dic.Add("RegisterID", "门诊ID");
             return dic;
         }
-        public static Dictionary<string, string> SampleInfoMatchDic()
+        public static Dictionary<string, string> SampleFiledsMatchDic()
         {
             Dictionary<string, string> dic = new Dictionary<string, string>();
+            dic.Add("Name", "Name");
+            dic.Add("Description", "Description");
             dic.Add("_109", "取材医护");
             dic.Add("_105", "取材名称");
             dic.Add("_110", "取材描述");
@@ -39,13 +43,26 @@ namespace RuRo.BLL
             dic.Add("_108", "取材部位");
             dic.Add("_106", "处理时间");
             dic.Add("_112", "备注");
-            dic.Add("_114", "树形数据选择");
             dic.Add("_97", "疾病名称");
             dic.Add("_102", "研究方案");
             dic.Add("_107", "过期日期");
             dic.Add("_99", "采集人");
             dic.Add("_100", "采集目的");
+            dic.Add("_117", "脏器");
 
+            return dic;
+        }
+        public static Dictionary<string, string> ClinicalFiledsMatchDic()
+        {
+            Dictionary<string, string> dic = new Dictionary<string, string>();
+            dic.Add("Sample Source", "Sample Source");
+            dic.Add("DiagnoseTypeFlag", "诊断类型");
+            dic.Add("DiagnoseDateTime", "诊断日期");
+            dic.Add("ICDCode", "ICD码");
+            dic.Add("DiseaseName", "疾病名称");
+            dic.Add("Description", "疾病描述");
+            dic.Add("InPatientID", "住院ID");
+            dic.Add("RegisterID", "挂号ID");
             return dic;
         }
     }

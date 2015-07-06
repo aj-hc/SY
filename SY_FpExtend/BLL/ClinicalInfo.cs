@@ -176,6 +176,7 @@ namespace RuRo.BLL
         {
             return dal.Get_ClinicalInfoCount(strInPatientID,strRegisterID,DiagnoseDateTime);
         }
+
 		#endregion  ExtensionMethod
 	}
 }

@@ -42,7 +42,7 @@ namespace FreezerProUtility.Fp_BLL
                 string jsonData = string.Format("&test_data_type={0}&json={1}", test_data_type, jsonDicList);
                 result = ImportTestDataToFp(url, jsonData);
             }
-            return "";
+            return result;
         }
 
         private static string ImportTestDataToFp(string url, string jsonData)
