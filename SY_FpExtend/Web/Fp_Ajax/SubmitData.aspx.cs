@@ -246,10 +246,9 @@ namespace RuRo.Web.Fp_Ajax
                         item.RegisterID = baseInfoDic["RegisterID"];
                     }
                 }
-                string strWhere = "InPatientID=" + item.InPatientID + " and RegisterID=" + item.RegisterID + " and DiagnoseDateTime=" + item.DiagnoseDateTime;
                 try
                 {
-                    if (cl.GetModelList(strWhere).Count > 0)
+                    if (cl.Get_ClinicalInfoCount_Bll(item.InPatientID,item.RegisterID,item.DiagnoseDateTime))
                     {
                         //数据库中有该条数据
                         continue;
@@ -730,8 +729,10 @@ namespace RuRo.Web.Fp_Ajax
             foreach (var item in clinicalInfoDgDicList)
             {
                 Model.ClinicalInfo clinical = new Model.ClinicalInfo();
+                item.Remove("Sample Source");
                 foreach (KeyValuePair<string,string> dic in item)
                 {
+
                     try
                     {
                         Common.ReflectHelper.SetValue(clinical, dic.Key, dic.Value);

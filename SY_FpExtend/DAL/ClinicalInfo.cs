@@ -355,8 +355,19 @@ namespace RuRo.DAL
             {
                 int InPatientID = Convert.ToInt32(strInPatientID);
                 int RegisterID = Convert.ToInt32(strRegisterID);
-                string strsql = "	SELECT COUNTU(*) FROM ClinicalInfo WHERE DiagnoseDateTime='" + DiagnoseDateTime + "' OR RegisterID=" + RegisterID + " OR InPatientID="+InPatientID;
-                return DbHelperSQL_SY.ExistsSY(strsql);
+                StringBuilder strSql = new StringBuilder();
+                strSql.Append("select count(1) from ClinicalInfo");
+                strSql.Append(" where InPatientID=@InPatientID and RegisterID=@RegisterID and DiagnoseDateTime=@DiagnoseDateTime");
+                SqlParameter[] parameters = 
+                    {
+					new SqlParameter("@InPatientID", SqlDbType.Int),
+                   new SqlParameter("@RegisterID", SqlDbType.Int),
+                   new SqlParameter("@DiagnoseDateTime", SqlDbType.DateTime)
+                };
+                parameters[0].Value = InPatientID;
+                parameters[1].Value = RegisterID;
+                parameters[2].Value = DiagnoseDateTime;
+                return DbHelperSQL_SY.ExistsSY(strSql.ToString(), parameters);
             }
             catch (Exception e)
             {
