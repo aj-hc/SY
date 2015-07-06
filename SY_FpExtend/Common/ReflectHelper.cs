@@ -35,7 +35,7 @@ namespace RuRo.Common
             if (IsType(propertyInfo.PropertyType, "System.Int32"))
             {
                 if (fieldValue != "")
-                    propertyInfo.SetValue(entity, int.Parse(fieldValue), null);
+                    propertyInfo.SetValue(entity,Convert.ToInt32(fieldValue), null);
                 else
                     propertyInfo.SetValue(entity, 0, null);
 

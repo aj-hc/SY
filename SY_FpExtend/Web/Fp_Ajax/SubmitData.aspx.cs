@@ -172,7 +172,6 @@ namespace RuRo.Web.Fp_Ajax
                     string msg = FreezerProUtility.Fp_Common.FpJsonHelper.GetStrFromJsonStr("msg", improtBaseInfoResult);
                     Dictionary<string, string> dic = new Dictionary<string, string>(); dic.Add("success", success); dic.Add("msg", msg);
                     Response.Write(FreezerProUtility.Fp_Common.FpJsonHelper.DictionaryToJsonString(dic));
-                    Response.Write(improtBaseInfoResult);
                 }
 
             }
@@ -180,7 +179,7 @@ namespace RuRo.Web.Fp_Ajax
             {
                 string success = FreezerProUtility.Fp_Common.FpJsonHelper.GetStrFromJsonStr("success", improtBaseInfoResult);
                 string msg = FreezerProUtility.Fp_Common.FpJsonHelper.GetStrFromJsonStr("msg", improtBaseInfoResult);
-                Dictionary<string, string> dic = new Dictionary<string, string>(); dic.Add("success", success); dic.Add("msg", msg);
+                Dictionary<string, string> dic = new Dictionary<string, string>(); dic.Add("success", success); dic.Add("msg", msg+"   临床数据已存在");
                 Response.Write(FreezerProUtility.Fp_Common.FpJsonHelper.DictionaryToJsonString(dic));
                 Response.Write(improtBaseInfoResult);
             }
@@ -732,15 +731,38 @@ namespace RuRo.Web.Fp_Ajax
                 item.Remove("Sample Source");
                 foreach (KeyValuePair<string,string> dic in item)
                 {
-
                     try
                     {
-                        Common.ReflectHelper.SetValue(clinical, dic.Key, dic.Value);
+                        if (dic.Key == "DiagnoseDateTime")
+                        {
+                            clinical.DiagnoseDateTime = DateTime.ParseExact(dic.Value, "yyyy-MM-dd", null);
+                        }
+                        if (dic.Key == "DiagnoseTypeFlag")
+                        {
+                            clinical.DiagnoseTypeFlag = dic.Value;
+                        }
+                        if (dic.Key == "DiseaseName")
+                        {
+                            clinical.DiseaseName = dic.Value;
+                        }
+                        if (dic.Key == "ICDCode")
+                        {
+                            clinical.ICDCode = dic.Value;
+                        }
+                        if (dic.Key == "InPatientID")
+                        {
+                            clinical.InPatientID = int.Parse(dic.Value);
+                        }
+                        if (dic.Key == "RegisterID")
+                        {
+                            clinical.RegisterID = int.Parse(dic.Value);
+                        }
                     }
                     catch (Exception)
                     {
                         continue;
                     }
+                    
                 }
                 clinicalBll.Add(clinical);
             }
