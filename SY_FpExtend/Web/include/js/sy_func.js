@@ -80,61 +80,60 @@ function querybycode() {
             },
             success: function (data) {
                 clearForm();
-                alert(data);
                 if (data == "" || data == null) {
                     $.messager.alert('提示', '查询不到数据,请检查数据是否存在！', 'error');
                 }
                 else {
                     //测试代码
-                    var obj = $.parseJSON(data);
-                    if (obj._BaseInfo)
-                    {
-                        if (obj._BaseInfo.ds)
-                        {
-                            var ds = obj._BaseInfo.ds;
-                            $("#BaseInfoForm").form("load", ds[0]);
-                            //AddBaseInfoToForm(ds[0]);
-                        }
-                    }
-                    if (obj._ClinicalInfo)
-                    {
-                        if (obj._ClinicalInfo.ds)
-                        {
-                            for (var i = 0; i < obj._ClinicalInfo.ds.length ; i++)
-                            {
-                                var text = obj._ClinicalInfo.ds[i].DiagnoseDateTime.substring(0,10);
-                                obj._ClinicalInfo.ds[i].DiagnoseDateTime = text
-                            }
-                            var ds = obj._ClinicalInfo.ds
-                            $('#ClinicalInfoDg').datagrid({ loadFilter: pagerFilter }).datagrid('loadData', ds).datagrid('reload');
-                        }
-                    }
-                    //测试end
-                    ////将数据转换成json对象 正式
                     //var obj = $.parseJSON(data);
                     //if (obj._BaseInfo)
                     //{
-                    //    var _BaseInfo = $.parseJSON(obj._BaseInfo);
-                    //    if (_BaseInfo.ds)
+                    //    if (obj._BaseInfo.ds)
                     //    {
-                    //        var ds = _BaseInfo.ds;
-                    //        AddBaseInfoToForm(ds[0]);
+                    //        var ds = obj._BaseInfo.ds;
+                    //        $("#BaseInfoForm").form("load", ds[0]);
+                    //        //AddBaseInfoToForm(ds[0]);
                     //    }
                     //}
                     //if (obj._ClinicalInfo)
-                    //{ 
-                    //    var _ClinicalInfo = $.parseJSON(obj._ClinicalInfo);
-                    //    if (_ClinicalInfo.ds)
-                    //    { 
-                    //        var ds = _ClinicalInfo.ds
-                    //        for (var i = 0; i < ds.length; i++)
+                    //{
+                    //    if (obj._ClinicalInfo.ds)
+                    //    {
+                    //        for (var i = 0; i < obj._ClinicalInfo.ds.length ; i++)
                     //        {
-                    //            var text = _ClinicalInfo.ds[i].DiagnoseDateTime.substring(0,10);
-                    //            _ClinicalInfo.ds[i].DiagnoseDateTime = text;
+                    //            var text = obj._ClinicalInfo.ds[i].DiagnoseDateTime.substring(0,10);
+                    //            obj._ClinicalInfo.ds[i].DiagnoseDateTime = text
                     //        }
+                    //        var ds = obj._ClinicalInfo.ds
                     //        $('#ClinicalInfoDg').datagrid({ loadFilter: pagerFilter }).datagrid('loadData', ds).datagrid('reload');
                     //    }
                     //}
+                    //测试end
+                    ////将数据转换成json对象 正式
+                    var obj = $.parseJSON(data);
+                    if (obj._BaseInfo)
+                    {
+                        var _BaseInfo = $.parseJSON(obj._BaseInfo);
+                        if (_BaseInfo.ds)
+                        {
+                            var ds = _BaseInfo.ds;
+                            AddBaseInfoToForm(ds[0]);
+                        }
+                    }
+                    if (obj._ClinicalInfo)
+                    { 
+                        var _ClinicalInfo = $.parseJSON(obj._ClinicalInfo);
+                        if (_ClinicalInfo.ds)
+                        { 
+                            var ds = _ClinicalInfo.ds
+                            for (var i = 0; i < ds.length; i++)
+                            {
+                                var text = _ClinicalInfo.ds[i].DiagnoseDateTime.substring(0,10);
+                                _ClinicalInfo.ds[i].DiagnoseDateTime = text;
+                            }
+                            $('#ClinicalInfoDg').datagrid({ loadFilter: pagerFilter }).datagrid('loadData', ds).datagrid('reload');
+                        }
+                    }
                     //正式END
                 }
             }
@@ -148,62 +147,68 @@ function clearForm() {
 }
 //绑定数据到基本信息数据框
 function AddBaseInfoToForm(_BaseInfo) {
-    if (_BaseInfo['PatientName']) {
-        $("#_80").textbox('setValue', $.trim(_BaseInfo['PatientName']));
-    }
-    if (_BaseInfo['IPSeqNoText']) {
-        $("#_81").textbox('setValue', $.trim(_BaseInfo['IPSeqNoText']));
-    }
-    if (_BaseInfo['PatientCardNo']) {
-        $("#_82").textbox('setValue', $.trim(_BaseInfo['PatientCardNo']));
-    }
-    if (_BaseInfo['SexFlag']) {
-        var data = $('#_115').combobox('getData')
-        var SexFlag = _BaseInfo['SexFlag'];
-        if (data.length > 0) {
-            for (var tem in data) {
-                if (data[tem].SexFlag == SexFlag);
-                $("#_115").combobox('select', data[tem].text);
+    if (_BaseInfo) {
+        if (_BaseInfo['PatientName']) {
+            $("#_80").textbox('setValue', $.trim(_BaseInfo['PatientName']));
+        }
+        if (_BaseInfo['IPSeqNoText']) {
+            $("#_81").textbox('setValue', $.trim(_BaseInfo['IPSeqNoText']));
+        }
+        if (_BaseInfo['PatientCardNo']) {
+            $("#_82").textbox('setValue', $.trim(_BaseInfo['PatientCardNo']));
+        }
+        if (_BaseInfo['SexFlag']) {
+            var data = $('#_115').combobox('getData')
+            var SexFlag = _BaseInfo['SexFlag'];
+            if (data.length > 0) {
+                for (var tem in data) {
+                    if (data[tem].SexFlag == SexFlag);
+                    $("#_115").combobox('select', data[tem].text);
+                }
             }
         }
-    }
-    if (_BaseInfo['BirthDay']) {
-        var Birthday = _BaseInfo['BirthDay'].substring(0, 10);
-        $("#_84").datebox('setValue', Birthday);
-    }
-    if (_BaseInfo['BloodTypeFlag']) {
-        var BloodTypeFlag = _BaseInfo['BloodTypeFlag']
-        var data = $('#_116').combobox('getData')
-        if (data.length > 0) {
-            for (var tem in data) {
-                if (data[tem].BloodTypeFlag == BloodTypeFlag);
-                $("#_116").combobox('select', data[tem].text);
+        if (_BaseInfo['BirthDay']) {
+            var Birthday = _BaseInfo['BirthDay'].substring(0, 10);
+            $("#_84").datebox('setValue', Birthday);
+        }
+        if (_BaseInfo['BloodTypeFlag']) {
+            var BloodTypeFlag = _BaseInfo['BloodTypeFlag']
+            var data = $('#_116').combobox('getData')
+            if (data.length > 0) {
+                for (var tem in data) {
+                    if (data[tem].BloodTypeFlag == BloodTypeFlag);
+                    $("#_116").combobox('select', data[tem].text);
+                }
             }
         }
+        if (_BaseInfo['Phone']) {
+            $("#_86").textbox('setValue', $.trim(_BaseInfo['Phone']));
+        }
+        if (_BaseInfo['ContactPhone']) {
+            $("#_87").textbox('setValue', $.trim(_BaseInfo['ContactPhone']));
+        }
+        if (_BaseInfo['ContactPerson']) {
+            $("#_88").textbox('setValue', $.trim(_BaseInfo['ContactPerson']));
+        }
+        if (_BaseInfo['NativePlace']) {
+            $("#_89").textbox('setValue', $.trim(_BaseInfo['NativePlace']));
+        }
+        if (_BaseInfo['RegisterSeqNO']) {
+            $("#_90").textbox('setValue', $.trim(_BaseInfo['RegisterSeqNO']));
+        }
+        if (_BaseInfo['PatientID']) {
+            $("#_91").textbox('setValue', $.trim(_BaseInfo['PatientID']));
+        }
+        if (_BaseInfo['RegisterID']) {
+            $("#_92").textbox('setValue', $.trim(_BaseInfo['RegisterID']));
+        }
+        if (_BaseInfo['InPatientID']) {
+            $("#_93").textbox('setValue', $.trim(_BaseInfo['InPatientID']));
+        }
     }
-    if (_BaseInfo['Phone']) {
-        $("#_86").textbox('setValue', $.trim(_BaseInfo['Phone']));
-    }
-    if (_BaseInfo['ContactPhone']) {
-        $("#_87").textbox('setValue', $.trim(_BaseInfo['ContactPhone']));
-    }
-    if (_BaseInfo['ContactPerson']) {
-        $("#_88").textbox('setValue', $.trim(_BaseInfo['ContactPerson']));
-    }
-    if (_BaseInfo['NativePlace']) {
-        $("#_89").textbox('setValue', $.trim(_BaseInfo['NativePlace']));
-    }
-    if (_BaseInfo['RegisterSeqNO']) {
-        $("#_90").textbox('setValue', $.trim(_BaseInfo['RegisterSeqNO']));
-    }
-    if (_BaseInfo['PatientID']) {
-        $("#_91").textbox('setValue', $.trim(_BaseInfo['PatientID']));
-    }
-    if (_BaseInfo['RegisterID']) {
-        $("#_92").textbox('setValue', $.trim(_BaseInfo['RegisterID']));
-    }
-    if (_BaseInfo['InPatientID']) {
-        $("#_93").textbox('setValue', $.trim(_BaseInfo['InPatientID']));
+    else
+    {
+        $.messager.alert('提示', '这个编号没有数据', 'error');
     }
 }
 
@@ -225,5 +230,6 @@ function getdatabybarcode() {
     }
     var code = $('#barcodebox').textbox('clear');
 }
+
 
 
