@@ -268,6 +268,7 @@
     <Content Include="Images\Images\yw16.gif" />
     <Content Include="Images\Images\zhut16.gif" />
     <Content Include="Images\Images\zjsp16.gif" />
+    <Content Include="ImportSample.aspx" />
     <Content Include="include\css\default.css" />
     <Content Include="include\jquery-easyui-1.4.2\easyloader.js" />
     <Content Include="include\jquery-easyui-1.4.2\jquery.easyui.min.js" />
@@ -442,6 +443,7 @@
     <Content Include="include\jquery-easyui-1.4.2\themes\mobile.css" />
     <Content Include="include\js\default.js" />
     <Content Include="include\js\page.js" />
+    <Content Include="include\js\samplepage.js" />
     <Content Include="include\js\sy_func.js" />
     <Content Include="Login.aspx" />
     <Content Include="TestData\Fpfunction.js" />
@@ -523,6 +525,13 @@
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="ImportSample.aspx.cs">
+      <DependentUpon>ImportSample.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ImportSample.aspx.designer.cs">
+      <DependentUpon>ImportSample.aspx</DependentUpon>
     </Compile>
     <Compile Include="Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>

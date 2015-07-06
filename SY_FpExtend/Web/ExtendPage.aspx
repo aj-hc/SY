@@ -105,7 +105,7 @@
         </form>
         </div>
         <div class="h"></div>
-        <div hidden="hidden" id="sample">
+        <div hidden="hidden" id="sample" >
             <form id="SampleInfoForm">
                 <%--1、共有字段信息展现--字段标识--%>
                 <%--2、样本特有字段、管数、位置信息展现--%>
