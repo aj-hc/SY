@@ -81,7 +81,9 @@ input {
     width:484px;
 }
 #btnextend {
-    font-size:12px;
+     color:white;
+     z-index:99;
+    /*font-size:14px;
     font-family:Verdana;
     font:bold;
     position:relative;
@@ -89,5 +91,13 @@ input {
     width:50px;
     height:20px;
     color:white;
-    text-decoration:none;
+    text-decoration:none;*/
 }
+*{margin:0;padding:0;list-style-type:none;}
+a,img{border:0;}
+.side{position:fixed;width:54px;height:20px;right:0;top:45px;z-index:100;}
+.side ul li{width:54px;height:20px;float:left;position:relative;}
+.side ul li .sidebox{position:absolute;width:54px;height:20px;top:0;right:0;transition:all 0.3s;background:#192237;opacity:0.8;filter:Alpha(opacity=80);color:#fff;font:12px "微软雅黑";overflow:hidden;}
+.side ul li .sidetop{width:54px;height:54px;line-height:20px;display:inline-block;background:#000;opacity:0.8;filter:Alpha(opacity=80);transition:all 0.3s;}
+.side ul li .sidetop:hover{background:#192237;opacity:1;filter:Alpha(opacity=100);}
+.side ul li img{float:left;}
