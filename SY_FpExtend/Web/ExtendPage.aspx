@@ -31,6 +31,7 @@
             </div>
         </form>
         <div class="h"></div>
+        <div id="patient">
         <form id="BaseInfoForm">
             <div class="easyui-panel">
                 <div style="padding: 2px"><b>患者基本资料</b></div>
@@ -99,69 +100,72 @@
             <%--2、临床信息详细信息展现--%>
             <%--3、单独导入临床信息操作--%>
             <div class="easyui-panel">
-                <div id="ClinicalInfoDg" style="height: 400px; width: 100%"></div>
+                <div id="ClinicalInfoDg" style="height: 260px; width: 100%"></div>
             </div>
         </form>
+        </div>
         <div class="h"></div>
-        <form id="SampleInfoForm">
-            <%--1、共有字段信息展现--字段标识--%>
-            <%--2、样本特有字段、管数、位置信息展现--%>
-            <div class="easyui-panel">
-                <div style="padding: 2px"><b>标本信息 </b></div>
-                <div id="SampleInfoDiv" runat="server">
-                    <table>
-                        <tr>
-                            <td>采集人：</td>
-                            <td>
-                                <input class="easyui-combobox" id="_99" name="_99" /></td>
-                            <td>采集目的：</td>
-                            <td>
-                                <input class="easyui-textbox" id="_100" name="_100" style="width: 484px;" /></td>
-                        </tr>
-                        <tr>
-                            <td>取材日期：</td>
-                            <td>
-                                <input class="easyui-datebox" id="_103" name="_103" /></td>
-                            <td>取材时段：</td>
-                            <td>
-                                <input class="easyui-combobox" id="_113" name="_113" style="width: 484px;" /></td>
-                        </tr>
-                        <tr>
-                            <td>取材时间：</td>
-                            <td>
-                                <input class="easyui-textbox" id="_104" name="_104" /></td>
-                            <td>取材描述：</td>
-                            <td>
-                                <input class="easyui-textbox" id="_110" name="_110" style="width: 484px;" /></td>
-                        </tr>
-                        <tr>
-                            <td>取材医护：</td>
-                            <td>
-                                <input class="easyui-combobox" id="_109" name="_109" /></td>
-                            <td>研究方案：</td>
-                            <td>
-                                <input class="easyui-textbox" id="_102" name="_102" style="width: 484px;" /></td>
-                        </tr>
-                        <tr>
-                            <td>过期日期：</td>
-                            <td>
-                                <input class="easyui-datebox" id="_107" name="_107" /></td>
-                            <td>备注：</td>
-                            <td>
-                                <input class="easyui-textbox" id="_112" name="_112" style="width: 484px" /></td>
-                        </tr>
-                    </table>
+        <div hidden="hidden" id="sample">
+            <form id="SampleInfoForm">
+                <%--1、共有字段信息展现--字段标识--%>
+                <%--2、样本特有字段、管数、位置信息展现--%>
+                <div class="easyui-panel">
+                    <div style="padding: 2px"><b>标本信息 </b></div>
+                    <div id="SampleInfoDiv" runat="server">
+                        <table>
+                            <tr>
+                                <td>采集人：</td>
+                                <td>
+                                    <input class="easyui-combobox" id="_99" name="_99" /></td>
+                                <td>采集目的：</td>
+                                <td>
+                                    <input class="easyui-textbox" id="_100" name="_100" style="width: 484px;" /></td>
+                            </tr>
+                            <tr>
+                                <td>取材日期：</td>
+                                <td>
+                                    <input class="easyui-datebox" id="_103" name="_103" /></td>
+                                <td>取材时段：</td>
+                                <td>
+                                    <input class="easyui-combobox" id="_113" name="_113" style="width: 484px;" /></td>
+                            </tr>
+                            <tr>
+                                <td>取材时间：</td>
+                                <td>
+                                    <input class="easyui-textbox" id="_104" name="_104" /></td>
+                                <td>取材描述：</td>
+                                <td>
+                                    <input class="easyui-textbox" id="_110" name="_110" style="width: 484px;" /></td>
+                            </tr>
+                            <tr>
+                                <td>取材医护：</td>
+                                <td>
+                                    <input class="easyui-combobox" id="_109" name="_109" /></td>
+                                <td>研究方案：</td>
+                                <td>
+                                    <input class="easyui-textbox" id="_102" name="_102" style="width: 484px;" /></td>
+                            </tr>
+                            <tr>
+                                <td>过期日期：</td>
+                                <td>
+                                    <input class="easyui-datebox" id="_107" name="_107" /></td>
+                                <td>备注：</td>
+                                <td>
+                                    <input class="easyui-textbox" id="_112" name="_112" style="width: 484px" /></td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
-            </div>
-        </form>
-        <div class="h"></div>
-        <form id="dg_SampleInfoForm">
-            <div class="easyui-panel">
-                <div id="dg_SampleInfo" class="easyui-datagrid" style="height: auto" data-options="rownumbers:true,singleSelect:false,pagination: true"></div>
-            </div>
-        </form>
+            </form>
+            <div class="h"></div>
+            <form id="dg_SampleInfoForm">
+                <div class="easyui-panel">
+                    <div id="dg_SampleInfo" class="easyui-datagrid" style="height: auto" data-options="rownumbers:true,singleSelect:false,pagination: true"></div>
+                </div>
+            </form>
+        </div>
         <div id="footer" style="padding: 5px; margin: 10px" data-options="region:'south',">
-            <a href="javascript:void(0)" class="easyui-linkbutton" onclick="postData1();" id="submit" style="width: auto">添加样本</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" onclick="postPatientInfo();" id="submit" style="width: auto">添加样本</a>
             <a href="javascript:void(0)" class="easyui-linkbutton" onclick="" style="width: auto">取消录入</a>
         </div>
     </div>

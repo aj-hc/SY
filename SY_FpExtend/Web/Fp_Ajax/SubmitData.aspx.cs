@@ -27,9 +27,13 @@ namespace RuRo.Web.Fp_Ajax
 
             }
             string action = Request.Params["action"].ToString();
-            if (action == "postData")
+            if (action == "postPatientinfo")
             {
-                ImportDataToFp();
+                ImportPatientInfo();
+            }
+            if (action == "postSampleInfo")
+            {
+
             }
         }
 
@@ -69,7 +73,7 @@ namespace RuRo.Web.Fp_Ajax
             //导入样本源数据
             string resultImpSS = ImportSampleSource(MatchBaseInfoDic(baseInfoDic));
 
-            
+
             if (FreezerProUtility.Fp_Common.FpJsonHelper.GetStrFromJsonStr("success", resultImpSS) == "True" || resultImpSS.Contains("should be unique."))
             {
                 //导入成功
@@ -91,12 +95,87 @@ namespace RuRo.Web.Fp_Ajax
                     //需要将字典转换为对象
 
                 }
-                if (sampleInfoDgDicList.Count>0)//类型列表中有数据
+                if (sampleInfoDgDicList.Count > 0)//类型列表中有数据
                 {
                     //取出一条数据，然后将此数据和样本信息数据合并
                     //将整个集合的数据都传至业务层
-                    ImportSamples();
+                    foreach (var item in sampleInfoDgDicList)
+                    {
+                        //样本信息需要单独提交，存在多个样品中导入失败情况
+
+                    }
                 }
+            }
+
+
+            //导入样本数据
+
+
+        }
+        private void ImportPatientInfo()
+        {
+            //导入数据
+            //第一步：导入样本源
+            //01.创建样本源信息字典
+            //02.指定样本源类型----根据什么获取？
+            //第二部：导入临床数据
+            //01.创建临床数据字典
+            //02.指定临床数据类型
+            //03.指定临床数据对应的样本源
+
+            Dictionary<string, string> baseInfoDic = GetBaseInfoDic();
+            List<Dictionary<string, string>> clinicalInfoDgDicList = GetClinicalInfoDgDicList(baseInfoDic);
+
+            string PatientID = string.Empty;
+            if (baseInfoDic.ContainsKey("PatientID"))
+            {
+                PatientID = baseInfoDic["PatientID"];
+            }
+            string PatientName = string.Empty;
+            if (baseInfoDic.ContainsKey("PatientName"))
+            {
+                PatientName = baseInfoDic["PatientName"];
+            }
+            baseInfoDic.Add("Name", PatientID);
+            baseInfoDic.Add("Description", PatientName);
+
+            //导入样本源数据
+            string improtBaseInfoResult = ImportSampleSource(MatchBaseInfoDic(baseInfoDic));
+
+            if (FreezerProUtility.Fp_Common.FpJsonHelper.GetStrFromJsonStr("success", improtBaseInfoResult) == "True" || improtBaseInfoResult.Contains("should be unique."))
+            {
+                //导入成功
+                //导入临床数据
+                if (clinicalInfoDgDicList.Count > 0)
+                {
+                    //添加额外字段
+                    foreach (var item in clinicalInfoDgDicList)
+                    {
+                        item.Add("Sample Source", PatientID);
+                    }
+                }
+                //导入临床数据
+                string improtTestDataResult = ImportTestData(MatchClinicalDic(clinicalInfoDgDicList));
+                if (improtTestDataResult.Contains("\"status\":\"DONE\""))
+                {
+                    //导入成功--保存数据到本地数据库
+                    //需要将字典转换为对象
+                    SaveClinicalDicToLocalBase(clinicalInfoDgDicList);
+                    string success = FreezerProUtility.Fp_Common.FpJsonHelper.GetStrFromJsonStr("success", improtTestDataResult);
+                    string msg = FreezerProUtility.Fp_Common.FpJsonHelper.GetStrFromJsonStr("msg", improtTestDataResult);
+                    Dictionary<string, string> dic = new Dictionary<string, string>(); dic.Add("sucess", success); dic.Add("msg", msg);
+
+                    Response.Write(FreezerProUtility.Fp_Common.FpJsonHelper.DictionaryToJsonString(dic));
+                }
+                else
+                {
+                    string success = FreezerProUtility.Fp_Common.FpJsonHelper.GetStrFromJsonStr("success", improtBaseInfoResult);
+                    string msg = FreezerProUtility.Fp_Common.FpJsonHelper.GetStrFromJsonStr("msg", improtBaseInfoResult);
+                    Dictionary<string, string> dic = new Dictionary<string, string>(); dic.Add("sucess", success); dic.Add("msg", msg);
+                    Response.Write(FreezerProUtility.Fp_Common.FpJsonHelper.DictionaryToJsonString(dic));
+                    Response.Write(improtBaseInfoResult);
+                }
+
             }
 
 
@@ -124,7 +203,13 @@ namespace RuRo.Web.Fp_Ajax
             return dic;
         }
         #endregion
-        private List<Dictionary<string, string>> GetClinicalInfoDgDicList(Dictionary<string, string> clinicalInfoDic)
+        #region 获取临床数据字典 + private List<Dictionary<string, string>> GetClinicalInfoDgDicList(Dictionary<string, string> baseInfoDic)
+        /// <summary>
+        /// 获取临床数据字典 会直接剔除本地数据有的
+        /// </summary>
+        /// <param name="baseInfoDic">基本信息</param>
+        /// <returns></returns>
+        private List<Dictionary<string, string>> GetClinicalInfoDgDicList(Dictionary<string, string> baseInfoDic)
         {
             string clinicalInfoDg = Request.Params["clinicalInfoDg"];//dg
             //页面上临床数据对象集合
@@ -141,29 +226,38 @@ namespace RuRo.Web.Fp_Ajax
 
             foreach (PageClinicalInfo item in pageClinicalInfoList)
             {
-                string strWhere = "RegisterID=" + item.RegisterID + "and" + "DiagnoseDateTime=" + item.DiagnoseDateTime;
-                if (cl.GetModelList(strWhere).Count > 0)
-                {
-                    //数据库中有该条数据
-                    continue;
-                }
                 //给对象拼接--临床数据中需要添加基本信息中的RegisterID,InPatientID
-                if (clinicalInfoDic != null && pageClinicalInfoList.Count > 0)
+                if (baseInfoDic != null && pageClinicalInfoList.Count > 0)
                 {
                     //拼接好了临床数据list--需要将数据转换成字典。
-                    if (clinicalInfoDic.ContainsKey("InPatientID"))
+                    if (baseInfoDic.ContainsKey("InPatientID"))
                     {
-                        item.InPatientID = clinicalInfoDic["InPatientID"];
+                        item.InPatientID = baseInfoDic["InPatientID"];
                     }
-                    if (clinicalInfoDic.ContainsKey("InPatientID"))
+                    if (baseInfoDic.ContainsKey("InPatientID"))
                     {
-                        item.RegisterID = clinicalInfoDic["RegisterID"];
+                        item.RegisterID = baseInfoDic["RegisterID"];
                     }
                 }
+                string strWhere = "InPatientID=" + item.InPatientID + " and RegisterID=" + item.RegisterID + " and DiagnoseDateTime=" + item.DiagnoseDateTime;
+                try
+                {
+                    if (cl.GetModelList(strWhere).Count > 0)
+                    {
+                        //数据库中有该条数据
+                        continue;
+                    }
+                }
+                catch (Exception)
+                {
+
+                }
+
                 ClinicalInfoDgDicList.Add(ConvertClinicalDgObjToDic(item));
             }
             return ClinicalInfoDgDicList;
-        }
+        } 
+        #endregion
         private Dictionary<string, string> GetSampleInfoDic()
         {
             string sampleInfo = Request.Params["sampleInfo"];//form
@@ -471,7 +565,6 @@ namespace RuRo.Web.Fp_Ajax
         }
         #endregion
 
-
         //匹配字段，并添加额外字段
         private Dictionary<string, string> MatchBaseInfoDic(Dictionary<string, string> baseinfoDic)
         {
@@ -622,5 +715,27 @@ namespace RuRo.Web.Fp_Ajax
             return result;
         }
         #endregion
+
+        private void SaveClinicalDicToLocalBase(List<Dictionary<string, string>> clinicalInfoDgDicList)
+        {
+            BLL.ClinicalInfo clinicalBll = new BLL.ClinicalInfo();
+
+            foreach (var item in clinicalInfoDgDicList)
+            {
+                Model.ClinicalInfo clinical = new Model.ClinicalInfo();
+                foreach (KeyValuePair<string,string> dic in item)
+                {
+                    try
+                    {
+                        Common.ReflectHelper.SetValue(clinical, dic.Key, dic.Value);
+                    }
+                    catch (Exception)
+                    {
+                        continue;
+                    }
+                }
+                clinicalBll.Add(clinical);
+            }
+        }
     }
 }
