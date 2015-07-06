@@ -138,6 +138,30 @@ namespace FreezerProUtility.Fp_BLL
         #endregion
 
 
+        #region 获取样品源类型集合 +  public List<SampleTypes>  GetAllSample_Source_Types(string url)
+        public static List<SampleSourceTypes> GetAllSample_Source_Types(string url)
+        {
+            List<SampleSourceTypes> sample_TypesList = Fp_DAL.DataWithFP.getdata<SampleSourceTypes>(url, FpMethod.sample_source_types, "", "SampleSourceTypes");
+            return sample_TypesList;
+        }
+        #endregion
+        #region 获取所有样品源类型名称和id字典
+        /// <summary>
+        /// 获取所有样品源类型名称和id字典
+        /// </summary>
+        /// <param name="url">带有username和password的url</param>
+        /// <returns></returns>
+        public static Dictionary<string, string> GetAllSample_TypesNames(string url)
+        {
+            Dictionary<string, string> dic = new Dictionary<string, string>();
+            List<SampleSourceTypes> sample_TypesList = GetAllSample_Source_Types(url);
+            foreach (var item in sample_TypesList)
+            {
+                dic.Add(item.id, item.name);
+            }
+            return dic;
+        }
+        #endregion
         public static string ImportSampleSource(string url, string sample_source_type, Dictionary<string, string> dataDic)
         {
             string result = string.Empty;

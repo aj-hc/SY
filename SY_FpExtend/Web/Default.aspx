@@ -23,6 +23,7 @@
             window.open('Login.aspx', 'newwindow', 'height=' + height + ', width=' + width + ', top=' + t + ',left=' + l + ',toolbar=no, menubar=no, scrollbars=yes, resizable=no,location=no, status=no')
         }
         $(function () {
+            $(".side").css({ 'width': '15px', 'padding-right': '5px' });
             $(".side ul li").hover(function () {
                 $(this).find(".sidebox").stop().animate({ "width": "124px" }, 200).css({ "opacity": "1", "filter": "Alpha(opacity=100)", "background": "192237" })
             }, function () {
@@ -36,12 +37,14 @@
     <iframe runat="server" id="FreezerPro" name="FreezerPro" frameborder="0" style="width: 100%; height: 100%;"></iframe>
     <form action="/" method="post" runat="server" id="from">
         <%--菜单栏--%>
-            <div class="side">
-	            <ul>
-		            <li><a href="#" id="btnextend" onclick="doimport()" ><div class="sidebox">＜＜点击打开扩展</div></a></li>
-                </ul>
-            </div>
-            <%--<div id="MenuBar" runat="server"><a href="#" id="btnextend" onclick="doimport()" >扩展</a></div>--%>
+        <div class="side">
+            <ul>
+                <li><a href="#" id="btnextend" onclick="doimport()">
+                    <div class="sidebox">＜＜打开扩展</div>
+                </a></li>
+            </ul>
+        </div>
+        <%--<div id="MenuBar" runat="server"><a href="#" id="btnextend" onclick="doimport()" >扩展</a></div>--%>
     </form>
 </body>
 </html>

@@ -19,98 +19,100 @@
 </head>
 <body style="overflow: auto;">
     <div id="main" style="width: 900px; padding: 1px;">
-        <form id="querybycodeform">
-            <div class="easyui-panel">
+
+        <div class="easyui-panel">
                 <div><b>查找患者</b></div>
+            <form id="querybycodeform">
                 <div runat="server">
                     查找方式：
                 <input id="In_CodeType" class="easyui-combobox" name="querybycode" style="width: 200px;" data-options="required:true" />
                     <input id="In_Code" class="easyui-textbox" data-options="required:true" />
                     <a href="#" onclick="querybycode()" id="btnGet" class="easyui-linkbutton">查询患者信息</a>
                 </div>
-            </div>
-        </form>
-        <div class="h"></div>
-        <div id="patient">
-        <form id="BaseInfoForm">
-            <div class="easyui-panel">
-                <div style="padding: 2px"><b>患者基本资料</b></div>
-                <div id="BaseInfoDiv" runat="server" style="padding: 5px;">
-                    <table>
-                        <tr>
-                            <td>姓名：</td>
-                            <td>
-                                <input class="easyui-textbox" name="PatientName" id="_80" data-options="required:true" /></td>
-                            <td class="name">住院号：</td>
-                            <td>
-                                <input class="easyui-textbox" name="IPSeqNoText" id="_81" data-options="required:false" /></td>
-                            <td>就诊卡号：</td>
-                            <td>
-                                <input class="easyui-textbox" name="PatientCardNo" id="_82" data-options="required:false" /></td>
-                        </tr>
-                        <tr>
-                            <td>性别：</td>
-                            <td>
-                                <input class="easyui-combobox" name="SexFlag" id="_115" style="width: 204px" data-options=" required:false" />
-                            </td>
-                            <td>出生日期：</td>
-                            <td>
-                                <input class="easyui-datebox" name="BirthDay" id="_84" data-options="required:false" /></td>
-                            <td>血型：</td>
-                            <td>
-                                <input class="easyui-combobox" name="BloodTypeFlag" id="_116" data-options="required:false" /></td>
-                        </tr>
-                        <tr>
-                            <td>联系人：</td>
-                            <td>
-                                <input class="easyui-textbox" name="ContactPerson" id="_88" data-options="required:false" /></td>
-                            <td>联系人电话：</td>
-                            <td>
-                                <input class="easyui-textbox" name="ContactPhone" id="_87" data-options="required:false" /></td>
-                            <td>联系电话：</td>
-                            <td>
-                                <input class="easyui-textbox" name="Phone" id="_86" data-options="required:false" /></td>
-                        </tr>
-                        <tr>
-                            <td>籍贯：</td>
-                            <td>
-                                <input class="easyui-textbox" name="NativePlace" id="_89" data-options="required:false" /></td>
-                            <td>门诊流水号：</td>
-                            <td>
-                                <input class="easyui-textbox" name="RegisterSeqNO" id="_90" data-options="required:false" /></td>
-                            <td>患者ID：</td>
-                            <td>
-                                <input class="easyui-textbox" name="PatientID" id="_91" data-options="required:true" /></td>
-                        </tr>
-                        <tr>
-                            <td>住院ID：</td>
-                            <td>
-                                <input class="easyui-textbox" name="InPatientID" id="_93" data-options="required:false" /></td>
-                            <td>挂号ID：</td>
-                            <td>
-                                <input class="easyui-textbox" name="RegisterID" id="_92" data-options="required:false" /></td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        </form>
-        <div class="h"></div>
-        <form id="ClinicalInfoForm">
-            <%--1、临床信息列表展现--%>
-            <%--2、临床信息详细信息展现--%>
-            <%--3、单独导入临床信息操作--%>
-            <div class="easyui-panel">
-                <div id="ClinicalInfoDg" style="height: 260px; width: 100%"></div>
-            </div>
-        </form>
+            </form>
         </div>
         <div class="h"></div>
-        <div hidden="hidden" id="sample" style="display:none">
-            <form id="SampleInfoForm">
-                <%--1、共有字段信息展现--字段标识--%>
-                <%--2、样本特有字段、管数、位置信息展现--%>
+        <div id="patient">
+            <div class="easyui-panel">
+                <div style="padding: 2px"><b>基本资料：</b>
+                <input id="sample_source_typecmb" class="easyui-combobox" name="sample_source_type" style="width: 200px;" data-options="required:true" /></div>
+                <form id="BaseInfoForm">
+                    <div id="BaseInfoDiv" runat="server" style="padding: 5px;">
+                        <table>
+                            <tr>
+                                <td>姓名：</td>
+                                <td>
+                                    <input class="easyui-textbox" name="PatientName" id="_80" data-options="required:true" /></td>
+                                <td class="name">住院号：</td>
+                                <td>
+                                    <input class="easyui-textbox" name="IPSeqNoText" id="_81" data-options="required:false" /></td>
+                                <td>就诊卡号：</td>
+                                <td>
+                                    <input class="easyui-textbox" name="PatientCardNo" id="_82" data-options="required:false" /></td>
+                            </tr>
+                            <tr>
+                                <td>性别：</td>
+                                <td>
+                                    <input class="easyui-combobox" name="SexFlag" id="_115" style="width: 204px" data-options=" required:false" />
+                                </td>
+                                <td>出生日期：</td>
+                                <td>
+                                    <input class="easyui-datebox" name="BirthDay" id="_84" data-options="required:false" /></td>
+                                <td>血型：</td>
+                                <td>
+                                    <input class="easyui-combobox" name="BloodTypeFlag" id="_116" data-options="required:false" /></td>
+                            </tr>
+                            <tr>
+                                <td>联系人：</td>
+                                <td>
+                                    <input class="easyui-textbox" name="ContactPerson" id="_88" data-options="required:false" /></td>
+                                <td>联系人电话：</td>
+                                <td>
+                                    <input class="easyui-textbox" name="ContactPhone" id="_87" data-options="required:false" /></td>
+                                <td>联系电话：</td>
+                                <td>
+                                    <input class="easyui-textbox" name="Phone" id="_86" data-options="required:false" /></td>
+                            </tr>
+                            <tr>
+                                <td>籍贯：</td>
+                                <td>
+                                    <input class="easyui-textbox" name="NativePlace" id="_89" data-options="required:false" /></td>
+                                <td>门诊流水号：</td>
+                                <td>
+                                    <input class="easyui-textbox" name="RegisterSeqNO" id="_90" data-options="required:false" /></td>
+                                <td>患者ID：</td>
+                                <td>
+                                    <input class="easyui-textbox" name="PatientID" id="_91" data-options="required:true" /></td>
+                            </tr>
+                            <tr>
+                                <td>住院ID：</td>
+                                <td>
+                                    <input class="easyui-textbox" name="InPatientID" id="_93" data-options="required:false" /></td>
+                                <td>挂号ID：</td>
+                                <td>
+                                    <input class="easyui-textbox" name="RegisterID" id="_92" data-options="required:false" /></td>
+                            </tr>
+                        </table>
+                    </div>
+                </form>
+            </div>
+            <div class="h"></div>
+            <form id="ClinicalInfoForm">
+                <%--1、临床信息列表展现--%>
+                <%--2、临床信息详细信息展现--%>
+                <%--3、单独导入临床信息操作--%>
                 <div class="easyui-panel">
+                    <div id="ClinicalInfoDg" style="height: 260px; width: 100%"></div>
+                </div>
+            </form>
+        </div>
+        <div class="h"></div>
+        <div hidden="hidden" id="sample" style="display: none">
+            <div class="easyui-panel">
                     <div style="padding: 2px"><b>标本信息 </b></div>
+                <form id="SampleInfoForm">
+                    <%--1、共有字段信息展现--字段标识--%>
+                    <%--2、样本特有字段、管数、位置信息展现--%>
                     <div id="SampleInfoDiv" runat="server">
                         <table>
                             <tr>
@@ -155,8 +157,8 @@
                             </tr>
                         </table>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
             <div class="h"></div>
             <form id="dg_SampleInfoForm">
                 <div class="easyui-panel">
@@ -166,7 +168,7 @@
         </div>
         <div id="footer" style="padding: 5px; margin: 10px" data-options="region:'south',">
             <a href="javascript:void(0)" class="easyui-linkbutton" onclick="postPatientInfo()" id="submit" style="width: auto">导入信息</a>
-            <a href="javascript:window.opener=null;window.close();" class="easyui-linkbutton" onclick="" style="width: auto">取消导入</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" onclick="CloseWebPage()" style="width: auto">取消导入</a>
         </div>
     </div>
 

@@ -31,7 +31,6 @@ namespace FreezerProUtility.Fp_BLL
         public static User GetUsersBy(string url, string name)
         {
             List<User> Users = GetUsers(url);
-
             return Users.Where(a => a.uesrname == name).FirstOrDefault();
         }
 

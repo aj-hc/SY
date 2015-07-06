@@ -26,6 +26,7 @@ namespace RuRo.Web
                 case "linkagefrom": Response.Write(ReturnGet_Linkage2()); break;
                 case "Employee": Response.Write(ReturnGet_Employee()); break;
                 case "SampleType": Response.Write(ReturnSampleType()); break;
+                case "SampleSocrceType": Response.Write(ReturnSampleSocrceType()); break;
                 default:
                     break;
             }
@@ -77,6 +78,30 @@ namespace RuRo.Web
             //string res = "[{\"value\": \"0\",\"text\": \"正常组织-心研所\" },{\"value\": \"1\", \"text\": \"正常组织-肺癌所\"}, { \"value\": \"2\", \"text\": \"组织-心研所\"} , { \"value\": \"3\", \"text\": \"组织-肺癌所\"} ]";
             string url = Common.CreatFpUrl.FpUrl;
             Dictionary<string, string> dic = FreezerProUtility.Fp_BLL.Samples.GetAllSample_TypesNames(url);
+            List<Dictionary<string, string>> list = new List<Dictionary<string, string>>();
+            if (dic.Count > 0)
+            {
+                foreach (KeyValuePair<string, string> dd in dic)
+                {
+                    Dictionary<string, string> temdic = new Dictionary<string, string>();
+                    temdic.Add("value", dd.Key);
+                    temdic.Add("text", dd.Value);
+                    list.Add(temdic);
+                }
+            }
+            string json = FreezerProUtility.Fp_Common.FpJsonHelper.DictionaryListToJsonString(list);
+            return json;
+        }
+
+        /// <summary>
+        /// 样品类型数据
+        /// </summary>
+        /// <returns></returns>
+        private string ReturnSampleSocrceType()
+        {
+            //string res = "[{\"value\": \"0\",\"text\": \"基本信息-心研所\" },{\"value\": \"1\", \"text\": \"基本信息-肺癌所\"}]";
+            string url = Common.CreatFpUrl.FpUrl;
+            Dictionary<string, string> dic = FreezerProUtility.Fp_BLL.SampleSocrce.GetAllSample_TypesNames(url);
             List<Dictionary<string, string>> list = new List<Dictionary<string, string>>();
             if (dic.Count > 0)
             {

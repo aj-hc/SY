@@ -383,6 +383,22 @@ $(function () {
         textField: 'text',
         url: '../Fp_Ajax/PageConData.aspx?conMarc=In_CodeType',
         panelHeight: 'auto',
+        //selectOnNavigation:$(this).is(':checked'),
+        onLoadSuccess: function () { //数据加载完毕事件
+            //$("#In_CodeType").combobox('setValue', '住院号');
+        }
+    })
+})
+
+//给sample_source_typecmb下拉框绑定值
+$(function () {
+    $('#sample_source_typecmb').combobox({
+        editable: false,
+        method: 'get',
+        valueField: 'value',
+        textField: 'text',
+        url: '../Fp_Ajax/PageConData.aspx?conMarc=SampleSocrceType',
+        panelHeight: 'auto',
         onLoadSuccess: function () { //数据加载完毕事件
             //$("#In_CodeType").combobox('setValue', '住院号');
         }
@@ -694,10 +710,10 @@ function getSampleTypeJson(SampleTypeurl) {
 var SampleTypeurl = '../Fp_Ajax/PageConData.aspx?conMarc=SampleType';
 var getSampleTypeData = getSampleTypeJson(SampleTypeurl);
 var getDtaJsonSampleType;
-getDtaJsonSampleType = JSON.parse(getSampleTypeData);
-//if (getSampleTypeData) {
-//    getDtaJsonSampleType = JSON.parse(getSampleTypeData);
-//}
+if (getDtaJsonSampleType) {
+    getDtaJsonSampleType = JSON.parse(getSampleTypeData);
+}
+
 
 //联动数据绑定值
 function getSampleInfourlJsonurl(SampleInfourl) {
@@ -801,16 +817,20 @@ function postData1() {
 function postPatientInfo() {
     var name = $('#_80').textbox('getText');
     var hzid = $('#_91').textbox('getText');
-    if (name == "" || hzid == "") { $.messager.alert('提示', '必须输入姓名以及患者ID', 'error'); return; }
+    var sample_source_type = $('#sample_source_typecmb').combobox('getValue')
+    if (!sample_source_type) { $.messager.alert('提示', '必须选择基本信息类型', 'error'); return; }
+    if (name == "" || hzid =="") { $.messager.alert('提示', '必须输入姓名以及患者ID', 'error'); return; }
     else
     {
         var _baseinfo = getBaseInfoFormData();
 
         //ClinicalInfoDg 
         var _ClinicalInfoDg = $('#ClinicalInfoDg').datagrid('getChecked');
-        for (var i = 0; i < _ClinicalInfoDg.length - 1; i++) {
-            if (_ClinicalInfoDg[i].DiagnoseDateTime == "") {
-                $.messager.alert('提示', '诊断日期存在未输入字段，请重新输入', 'error'); return;
+        if (_ClinicalInfoDg) {
+            for (var i = 0; i < _ClinicalInfoDg.length - 1; i++) {
+                if (_ClinicalInfoDg[i].DiagnoseDateTime == "") {
+                    $.messager.alert('提示', '请选择诊断日期', 'error'); return;
+                }
             }
         }
         var rowClinicalInfoDg = JSON.stringify(_ClinicalInfoDg);
@@ -819,6 +839,7 @@ function postPatientInfo() {
             dataType: "json",
             url: '/Fp_Ajax/SubmitData.aspx?action=postPatientinfo',
             data: {
+                sample_source_type:sample_source_type,
                 baseinfo: _baseinfo,
                 clinicalInfoDg: rowClinicalInfoDg
             },
@@ -827,11 +848,8 @@ function postPatientInfo() {
             },
             success: function (data) {
                 if (data) {
-                    if (data.success == "True")
-                    {
-                        $.messager.show({ title: '提示！', msg: '导入成功：' + data.msg, showType: 'show' }); return;
-                    }
-                    else { $.messager.show({ title: '提示！', msg: '导入失败：' + data.msg, showType: 'show' }); return; }
+                    if (data.success == "True") { $.messager.show({ title: '提示！', msg: '导入成功：' + data.msg, showType: 'show' }); return; }
+                    else if (data.success == "False") { $.messager.show({ title: '提示！', msg: '导入失败：' + data.msg, showType: 'show' }); return; }
                 }
                 else {
                     $.messager.alert('提示', '服务器未响应', 'error'); return;
@@ -844,18 +862,18 @@ function postPatientInfo() {
 
 function getBaseInfoFormData() {
     var sampleinfo = $("#BaseInfoForm").serializeArray();
-    var s;
+    var base;
     if (sampleinfo) {
-        s = JSON.stringify(sampleinfo);
+        base = JSON.stringify(sampleinfo);
     }
-    return s;
+    return base;
 }
 
 function getSampleInfoFormData() {
     var sampleinfo = $("#SampleInfoForm").serializeArray();
-    var s;
+    var samp;
     if (sampleinfo) {
-        s = JSON.stringify(sampleinfo);
+        samp = JSON.stringify(sampleinfo);
     }
-    return s;
+    return samp;
 }
