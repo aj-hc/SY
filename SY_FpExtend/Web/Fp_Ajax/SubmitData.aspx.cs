@@ -163,19 +163,26 @@ namespace RuRo.Web.Fp_Ajax
                     SaveClinicalDicToLocalBase(clinicalInfoDgDicList);
                     string success = FreezerProUtility.Fp_Common.FpJsonHelper.GetStrFromJsonStr("success", improtTestDataResult);
                     string msg = FreezerProUtility.Fp_Common.FpJsonHelper.GetStrFromJsonStr("msg", improtTestDataResult);
-                    Dictionary<string, string> dic = new Dictionary<string, string>(); dic.Add("sucess", success); dic.Add("msg", msg);
-
+                    Dictionary<string, string> dic = new Dictionary<string, string>(); dic.Add("success", success); dic.Add("msg", msg);
                     Response.Write(FreezerProUtility.Fp_Common.FpJsonHelper.DictionaryToJsonString(dic));
                 }
                 else
                 {
                     string success = FreezerProUtility.Fp_Common.FpJsonHelper.GetStrFromJsonStr("success", improtBaseInfoResult);
                     string msg = FreezerProUtility.Fp_Common.FpJsonHelper.GetStrFromJsonStr("msg", improtBaseInfoResult);
-                    Dictionary<string, string> dic = new Dictionary<string, string>(); dic.Add("sucess", success); dic.Add("msg", msg);
+                    Dictionary<string, string> dic = new Dictionary<string, string>(); dic.Add("success", success); dic.Add("msg", msg);
                     Response.Write(FreezerProUtility.Fp_Common.FpJsonHelper.DictionaryToJsonString(dic));
                     Response.Write(improtBaseInfoResult);
                 }
 
+            }
+            else
+            {
+                string success = FreezerProUtility.Fp_Common.FpJsonHelper.GetStrFromJsonStr("success", improtBaseInfoResult);
+                string msg = FreezerProUtility.Fp_Common.FpJsonHelper.GetStrFromJsonStr("msg", improtBaseInfoResult);
+                Dictionary<string, string> dic = new Dictionary<string, string>(); dic.Add("success", success); dic.Add("msg", msg);
+                Response.Write(FreezerProUtility.Fp_Common.FpJsonHelper.DictionaryToJsonString(dic));
+                Response.Write(improtBaseInfoResult);
             }
 
 

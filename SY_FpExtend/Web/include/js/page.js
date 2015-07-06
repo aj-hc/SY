@@ -829,7 +829,7 @@ function postPatientInfo() {
             success: function (data) {
                 if (data) {
                     if (data.success == "True") {
-                        $.messager.alert('提示', '导入成功：' + data.msg); return;
+                        $.messager.show('提示', '导入成功：' + data.msg,""); return;
                     }
                     else { $.messager.alert('提示', '导入失败：' + data.msg); return; }
                 }
@@ -840,7 +840,6 @@ function postPatientInfo() {
             }
         });
     }
-
 }
 
 function getBaseInfoFormData() {
