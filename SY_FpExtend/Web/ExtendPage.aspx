@@ -24,7 +24,7 @@
                 <div><b>查找患者</b></div>
                 <div runat="server">
                     查找方式：
-                <input id="In_CodeType" class="easyui-combobox" name="querybycode" style="width: 200px;" data-options="required:true" />
+                    <input id="In_CodeType" class="easyui-combobox" name="querybycode" style="width: 200px;" data-options="required:true" />
                     <input id="In_Code" class="easyui-textbox" data-options="required:true" />
                     <a href="#" onclick="querybycode()" id="btnGet" class="easyui-linkbutton">查询患者信息</a>
                 </div>
@@ -105,7 +105,7 @@
         </form>
         </div>
         <div class="h"></div>
-        <div hidden="hidden" id="sample">
+        <div hidden="hidden" id="sample" style="display:none">
             <form id="SampleInfoForm">
                 <%--1、共有字段信息展现--字段标识--%>
                 <%--2、样本特有字段、管数、位置信息展现--%>
@@ -165,8 +165,8 @@
             </form>
         </div>
         <div id="footer" style="padding: 5px; margin: 10px" data-options="region:'south',">
-            <a href="javascript:void(0)" class="easyui-linkbutton" onclick="postPatientInfo();" id="submit" style="width: auto">添加样本</a>
-            <a href="javascript:void(0)" class="easyui-linkbutton" onclick="" style="width: auto">取消录入</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" onclick="postPatientInfo()" id="submit" style="width: auto">导入信息</a>
+            <a href="javascript:window.opener=null;window.close();" class="easyui-linkbutton" onclick="" style="width: auto">取消导入</a>
         </div>
     </div>
 
