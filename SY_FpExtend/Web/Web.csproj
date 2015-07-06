@@ -89,7 +89,6 @@
     <Content Include="Fp_ExtendPage\ClinicalInfo.aspx" />
     <Content Include="Fp_ExtendPage\SampleInfo.aspx" />
     <Content Include="Global.asax" />
-    <Content Include="HtmlPage1.html" />
     <Content Include="Images\Images\about16.gif" />
     <Content Include="Images\Images\add16.gif" />
     <Content Include="Images\Images\a_te01.gif" />

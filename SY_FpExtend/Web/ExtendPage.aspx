@@ -7,12 +7,12 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <script src="../include/jquery-easyui-1.4.2/jquery.min.js"></script>
     <script src="../include/jquery-easyui-1.4.2/jquery.easyui.min.js"></script>
-    <script src="../include/js/default.js"></script>
-    <script src="include/js/sy_func.js"></script>
-    <script src="include/js/page.js"></script>
     <link href="../include/jquery-easyui-1.4.2/themes/default/easyui.css" rel="stylesheet" />
     <link href="../include/jquery-easyui-1.4.2/themes/icon.css" rel="stylesheet" />
     <link href="include/css/default.css" rel="stylesheet" />
+    <script src="../include/js/default.js"></script>
+    <script src="include/js/sy_func.js"></script>
+    <script src="include/js/page.js"></script>
     <title>样品录入</title>
     <script type="text/javascript">
     </script>

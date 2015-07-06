@@ -140,12 +140,10 @@ namespace FreezerProUtility.Fp_BLL
 
         public static string ImportSampleSource(string url, string sample_source_type, Dictionary<string, string> dataDic)
         {
-            string username = Fp_Common.CookieHelper.GetCookieValue("username");
-            int kk = 0;
             string result = string.Empty;
             string jsondata = string.Empty;
-            jsondata = FpJsonHelper.DictionaryToJsonString(dataDic);
-            result = ImportSampleSourceToFp(url, jsondata);
+            jsondata = string.Format("&sample_source_type={0}&json={1}", sample_source_type, FpJsonHelper.DictionaryToJsonString(dataDic));
+            result = ImportSampleSourceToFp(url,jsondata);
             return result;
         }
 

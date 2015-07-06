@@ -1,14 +1,18 @@
 ﻿function PostDataToFp(url, username, password, method, parms, Jsdata) {
-    var urlStr = url + "username=" + username + "&password=" + password + "&password=" + method
-    var dataStr = "";
-    if (parms) {
-        dataStr += parms;
-    }
-    if (Jsdata) {
-        dataStr = dataStr + "&json=" + Jsdata;
-    }
-    $.post(urlStr, dataStr, function callback() {
-
+    $.ajax({
+        type: "POST",
+        url: "http://192.168.183.130/api",
+        data: {
+            username:"admin",
+            password :"123456",
+            method: "import_sources",
+            sample_source_type:'基本资料--心研所',
+            json:{"Name":"3708555","Description":"叶万福"}
+        },
+        dataType: "json",
+        success: function (response) {
+            alert(response)
+        }
     });
 }
 

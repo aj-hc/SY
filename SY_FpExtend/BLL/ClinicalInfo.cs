@@ -172,6 +172,8 @@ namespace RuRo.BLL
 
 		#endregion  BasicMethod
 		#region  ExtensionMethod
+        
+
 
 		#endregion  ExtensionMethod
 	}

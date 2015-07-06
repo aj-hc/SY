@@ -76,7 +76,6 @@ namespace FreezerProUtility.Fp_BLL
 
             }
             result = ImportSamples(url, sample_type, jsondata);
-
             return result;
         }
 
