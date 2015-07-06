@@ -827,10 +827,11 @@ function postPatientInfo() {
             },
             success: function (data) {
                 if (data) {
-                    if (data.success == "True") {
-                        $.messager.alert('提示', '导入成功：' + data.msg); return;
+                    if (data.success == "True")
+                    {
+                        $.messager.show({ title: '提示！', msg: '导入成功：' + data.msg, showType: 'show' }); return;
                     }
-                    else { $.messager.alert('提示', '导入失败：' + data.msg); return; }
+                    else { $.messager.show({ title: '提示！', msg: '导入失败：' + data.msg, showType: 'show' }); return; }
                 }
                 else {
                     $.messager.alert('提示', '服务器未响应', 'error'); return;
