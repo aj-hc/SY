@@ -367,7 +367,6 @@ namespace RuRo.Web.Fp_Ajax
                 }
                 catch (Exception ex)
                 {
-                    Common.LogHelper.WriteExcError(ex);
                     continue;
                 }
             }

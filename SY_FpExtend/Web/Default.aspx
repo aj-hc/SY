@@ -22,6 +22,7 @@
             var t = Math.round((window.screen.height - height) / 2);
             window.open('Login.aspx', 'newwindow', 'height=' + height + ', width=' + width + ', top=' + t + ',left=' + l + ',toolbar=no, menubar=no, scrollbars=yes, resizable=no,location=no, status=no')
         }
+
     </script>
 </head>
 <body style="width: 100%; height: 100%">
@@ -29,7 +30,8 @@
     <iframe runat="server" id="FreezerPro" name="FreezerPro" frameborder="0" style="width: 100%; height: 100%;"></iframe>
     <form action="/" method="post" runat="server" id="from">
         <%--菜单栏--%>
-        <div id="MenuBar" runat="server"> <a href="#" id="btnextend" onclick="doimport()" >扩展</a></div>
+        <div id="MenuBar" runat="server"><a href="#" id="btnextend" onclick="doimport()" >扩展</a></div>
+        
     </form>
 </body>
 </html>
