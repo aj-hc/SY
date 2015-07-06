@@ -172,8 +172,10 @@ namespace RuRo.BLL
 
 		#endregion  BasicMethod
 		#region  ExtensionMethod
-        
-
+        public bool Get_ClinicalInfoCount_Bll(string strInPatientID, string strRegisterID, string DiagnoseDateTime)
+        {
+            return dal.Get_ClinicalInfoCount(strInPatientID,strRegisterID,DiagnoseDateTime);
+        }
 
 		#endregion  ExtensionMethod
 	}

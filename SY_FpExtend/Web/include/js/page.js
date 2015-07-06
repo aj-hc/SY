@@ -791,7 +791,6 @@ function postData1() {
                     }
                     else { $.messager.alert('提示', '导入失败：' + data.message); return; }
                 }
-                //推送不过加个注释
             }
         });
     }
