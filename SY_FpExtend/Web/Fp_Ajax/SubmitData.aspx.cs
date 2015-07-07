@@ -322,51 +322,10 @@ namespace RuRo.Web.Fp_Ajax
             {
                 try
                 {
-                    if (item.Name == "SexFlag")
-                    {
-                        string value = Common.ReflectHelper.GetValue(pageBaseInfo, item.Name);
-                        if (!string.IsNullOrEmpty(value))
-                        {
-                            switch (value)
-                            {
-                                case "0":
-                                    pageBaseInfoDic.Add(item.Name, "未知");
-                                    break;
-                                case "1":
-                                    pageBaseInfoDic.Add(item.Name, "男");
-                                    break;
-                                case "2":
-                                    pageBaseInfoDic.Add(item.Name, "女");
-                                    break;
-                                default:
-                                    pageBaseInfoDic.Add(item.Name, "未知");
-                                    break;
-                            }
-                        }
-                    }
-                    //else if (item.Name == "BloodTypeFlag")
-                    //{
-                    //    string value = Common.ReflectHelper.GetValue(pageBaseInfo, item.Name);
-                    //    if (!string.IsNullOrEmpty(value))
-                    //    {
-                    //        switch (value)
-                    //        {
-                    //            case "1": pageBaseInfoDic.Add(item.Name, "A"); break;
-                    //            case "2": pageBaseInfoDic.Add(item.Name, "B"); break;
-                    //            case "3": pageBaseInfoDic.Add(item.Name, "AB"); break;
-                    //            case "4": pageBaseInfoDic.Add(item.Name, "O"); break;
-                    //            case "5": pageBaseInfoDic.Add(item.Name, "其它"); break;
-                    //            case "6": pageBaseInfoDic.Add(item.Name, "未查"); break;
-                    //            default: pageBaseInfoDic.Add(item.Name, "未查"); break;
-                    //        }
-                    //    }
-                    //}
-                    else
-                    {
+
                         string value = Common.ReflectHelper.GetValue(pageBaseInfo, item.Name);
                         pageBaseInfoDic.Add(item.Name, value);
                     }
-                }
                 catch (Exception ex)
                 {
                     continue;

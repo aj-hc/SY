@@ -91,6 +91,7 @@
     <Content Include="Global.asax" />
     <Content Include="Images\Images\about16.gif" />
     <Content Include="Images\Images\add16.gif" />
+    <Content Include="Images\Images\ant.png" />
     <Content Include="Images\Images\a_te01.gif" />
     <Content Include="Images\Images\a_te02.gif" />
     <Content Include="Images\Images\b1.gif" />

@@ -363,7 +363,7 @@ namespace RuRo.DAL
 					new SqlParameter("@InPatientID", SqlDbType.Int),
                    new SqlParameter("@RegisterID", SqlDbType.Int),
                    new SqlParameter("@DiagnoseDateTime", SqlDbType.DateTime),
-                   new SqlParameter("@DiagnoseDateTime", SqlDbType.NVarChar)
+                   new SqlParameter("@type", SqlDbType.NVarChar,50)
                 };
                 parameters[0].Value = InPatientID;
                 parameters[1].Value = RegisterID;
