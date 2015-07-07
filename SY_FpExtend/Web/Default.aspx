@@ -39,7 +39,7 @@
         <%--菜单栏--%>
         <div class="side">
             <ul>
-                <li><a href="#" id="btnextend" onclick="doimport()"><div class="sidebox">＜＜打开扩展</div></a></li>
+                <li><a href="#" id="btnextend" onclick="doimport()"><div class="sidebox"><img src="../Images/Images/ant.png" style=" width:21px;height:15px"/>&nbsp;打开扩展</div></a></li>
             </ul>
         </div>
         <%--<div id="MenuBar" runat="server"><a href="#" id="btnextend" onclick="doimport()" >扩展</a></div>--%>
