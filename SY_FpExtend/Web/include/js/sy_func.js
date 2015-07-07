@@ -151,9 +151,10 @@ function AddBaseInfoToForm(_BaseInfo)
 {
     if (_BaseInfo)
     {
-        if (_BaseInfo['PatientName'])
-        {
-            $("#_80").textbox('setValue', $.trim(_BaseInfo['PatientName']));
+        if (_BaseInfo['PatientName']){
+            if (_BaseInfo['PatientName']!="") {
+                $("#_80").textbox('setValue', $.trim(_BaseInfo['PatientName']));
+            }
         }
         if (_BaseInfo['IPSeqNoText'])
         {
