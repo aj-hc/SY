@@ -85,55 +85,56 @@ function querybycode() {
                 }
                 else {
                     //测试代码
-                    //var obj = $.parseJSON(data);
-                    //if (obj._BaseInfo)
-                    //{
-                    //    if (obj._BaseInfo.ds)
-                    //    {
-                    //        var ds = obj._BaseInfo.ds;
-                    //        $("#BaseInfoForm").form("load", ds[0]);
-                    //        //AddBaseInfoToForm(ds[0]);
-                    //    }
-                    //}
-                    //if (obj._ClinicalInfo)
-                    //{
-                    //    if (obj._ClinicalInfo.ds)
-                    //    {
-                    //        for (var i = 0; i < obj._ClinicalInfo.ds.length ; i++)
-                    //        {
-                    //            var text = obj._ClinicalInfo.ds[i].DiagnoseDateTime.substring(0,10);
-                    //            obj._ClinicalInfo.ds[i].DiagnoseDateTime = text
-                    //        }
-                    //        var ds = obj._ClinicalInfo.ds
-                    //        $('#ClinicalInfoDg').datagrid({ loadFilter: pagerFilter }).datagrid('loadData', ds).datagrid('reload');
-                    //    }
-                    //}
-                    //测试end
-                    //将数据转换成json对象 正式
                     var obj = $.parseJSON(data);
                     if (obj._BaseInfo)
                     {
-                        var _BaseInfo = $.parseJSON(obj._BaseInfo);
-                        if (_BaseInfo.ds)
+                        if (obj._BaseInfo.ds)
                         {
-                            var ds = _BaseInfo.ds;
-                            AddBaseInfoToForm(ds[0]);
+                            var ds = obj._BaseInfo.ds;
+                            $("#BaseInfoForm").form("load", ds[0]);
+                            //AddBaseInfoToForm(ds[0]);
                         }
                     }
                     if (obj._ClinicalInfo)
-                    { 
-                        var _ClinicalInfo = $.parseJSON(obj._ClinicalInfo);
-                        if (_ClinicalInfo.ds)
-                        { 
-                            var ds = _ClinicalInfo.ds
-                            for (var i = 0; i < ds.length; i++)
+                    {
+                        if (obj._ClinicalInfo.ds)
+                        {
+                            for (var i = 0; i < obj._ClinicalInfo.ds.length ; i++)
                             {
-                                var text = _ClinicalInfo.ds[i].DiagnoseDateTime.substring(0,10);
-                                _ClinicalInfo.ds[i].DiagnoseDateTime = text;
+                                var text = obj._ClinicalInfo.ds[i].DiagnoseDateTime.substring(0,10);
+                                obj._ClinicalInfo.ds[i].DiagnoseDateTime = text
                             }
+                            var ds = obj._ClinicalInfo.ds
                             $('#ClinicalInfoDg').datagrid({ loadFilter: pagerFilter }).datagrid('loadData', ds).datagrid('reload');
                         }
                     }
+                    //测试end
+                    //将数据转换成json对象 正式
+
+                    //var obj=$.parseJSON(data);
+                    //if (obj._BaseInfo)
+                    //{
+                    //    var _BaseInfo = $.parseJSON(obj._BaseInfo);
+                    //    if (_BaseInfo.ds)
+                    //    {
+                    //        var ds = _BaseInfo.ds;
+                    //        AddBaseInfoToForm(ds[0]);
+                    //    }
+                    //}
+                    //if (obj._ClinicalInfo)
+                    //{ 
+                    //    var _ClinicalInfo = $.parseJSON(obj._ClinicalInfo);
+                    //    if (_ClinicalInfo.ds)
+                    //    { 
+                    //        var ds = _ClinicalInfo.ds
+                    //        for (var i = 0; i < ds.length; i++)
+                    //        {
+                    //            var text = _ClinicalInfo.ds[i].DiagnoseDateTime.substring(0,10);
+                    //            _ClinicalInfo.ds[i].DiagnoseDateTime = text;
+                    //        }
+                    //        $('#ClinicalInfoDg').datagrid({ loadFilter: pagerFilter }).datagrid('loadData', ds).datagrid('reload');
+                    //    }
+                    //}
                     //正式END
                 }
             }

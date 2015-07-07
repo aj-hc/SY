@@ -371,7 +371,6 @@ namespace RuRo.DAL
             }
             catch (Exception e)
             {
-                RuRo.Common.LogHelper.WriteExcError(e);
                 return false;
             }
         }

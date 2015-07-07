@@ -100,7 +100,6 @@ namespace RuRo.BLL
         public string GetSY_HC_GetPatientInfoJson(RuRo.Model.FP_SY_HIS_IP_PublicInterface model)
         {
             DataSet ds = dal.GetSY_HC_GetPatientInfo(model);
-            DateTime dt = new DateTime();
             if (ds.Tables[0].Rows.Count > 0)
             {
                 for (int i = 0; i < ds.Tables[0].Rows.Count - 1; i++)
