@@ -26,7 +26,7 @@ namespace RuRo.Web
                 case "linkagefrom": Response.Write(ReturnGet_Linkage2()); break;
                 case "Employee": Response.Write(ReturnGet_Employee()); break;
                 case "SampleType": Response.Write(ReturnSampleType()); break;
-                case "SampleSocrceType": Response.Write(ReturnSampleSocrceType()); break;
+                case "departments": Response.Write(ReturnDepartments()); break;
                 default:
                     break;
             }
@@ -138,6 +138,12 @@ namespace RuRo.Web
             DataSet ds = new DataSet();
             string JSON = fp_sy.GetSY_HC_GetEmployeeInfoJson(mark);
             return JSON;
+        }
+
+        private string ReturnDepartments()
+        {
+            string res = "[{ \"value\": \"0\", \"text\": \"肺癌所\" }, { \"value\": \"1\", \"text\": \"心研所\" }]";
+            return res;
         }
         
         //private string ReturnSampleType()

@@ -390,14 +390,14 @@ $(function () {
     })
 })
 
-//给sample_source_typecmb下拉框绑定值
+//给departments下拉框绑定值
 $(function () {
     $('#sample_source_typecmb').combobox({
         editable: false,
         method: 'get',
         valueField: 'value',
         textField: 'text',
-        url: '../Fp_Ajax/PageConData.aspx?conMarc=SampleSocrceType',
+        url: '../Fp_Ajax/PageConData.aspx?conMarc=departments',
         panelHeight: 'auto',
         onLoadSuccess: function () { //数据加载完毕事件
             //$("#In_CodeType").combobox('setValue', '住院号');
@@ -428,66 +428,64 @@ $(function () {
         panelHeight: 'auto'
     });
 })
-
-//给取材时段下拉框绑定值
-$(function () {
-    $('#_113').combobox({
-        url: '../Fp_Ajax/PageConData.aspx?conMarc=SamplingMethod',
-        multiple: true,
-        method: 'get',
-        valueField: 'samplingMethod',
-        textField: 'text',
-        panelHeight: 'auto'
-    });
-})
-//绑定采集人
-$(function () {
-    $('#_99').combobox({
-        editable: true,
-        panelHeight: '200px',
-        delay: '600',
-        valueField: 'EmployeeNo',
-        textField: 'EmployeeName',
-        onChange: function (newVal, oldVal) {
-            var faultAddr = encodeURI(newVal);
-            //faultAddr = encodeURI(faultAddr);  //需要通过两次编码
-            if (newVal == "" || newVal == oldVal) {
-                $('#_99').combobox('clear');
-                return;
+    $(function () {
+        $('#_113').combobox({
+            url: '../Fp_Ajax/PageConData.aspx?conMarc=SamplingMethod',
+            multiple: true,
+            method: 'get',
+            valueField: 'samplingMethod',
+            textField: 'text',
+            panelHeight: 'auto'
+        });
+    })
+    //绑定采集人
+    $(function () {
+        $('#_99').combobox({
+            editable: true,
+            panelHeight: '200px',
+            delay: '600',
+            valueField: 'EmployeeNo',
+            textField: 'EmployeeName',
+            onChange: function (newVal, oldVal) {
+                var faultAddr = encodeURI(newVal);
+                //faultAddr = encodeURI(faultAddr);  //需要通过两次编码
+                if (newVal == "" || newVal == oldVal) {
+                    $('#_99').combobox('clear');
+                    return;
+                }
+                else {
+                    var url = '../Fp_Ajax/PageConData.aspx?conMarc=Employee&com=' + faultAddr;
+                    $('#_99').combobox('reload', url);
+                }
+            },
+            onHidePanel: function () {
+                var o = $('#_99').combobox('getValue');//获取采集人的EmployeeNo
+                var url = '../Fp_Ajax/PageConData.aspx?conMarc=Employee&com=' + o;
+                var temp = getEmployee(url);
+                var tempjson = JSON.parse(temp);
+                $('#_109').combobox({
+                    editable: true,
+                    data: tempjson,
+                    valueField: 'EmployeeNo',
+                    textField: 'EmployeeName'
+                });
+                $('#_109').combobox('setValue', tempjson.EmployeeName);
             }
-            else {
-                var url = '../Fp_Ajax/PageConData.aspx?conMarc=Employee&com=' + faultAddr;
-                $('#_99').combobox('reload', url);
+        });
+    })
+    function getEmployee(Employeeurl) {
+        var temp;
+        $.ajax({
+            type: 'get',
+            url: Employeeurl,
+            async: false,
+            datatype: 'json',
+            success: function (responseData) {
+                temp = responseData;
             }
-        },
-        onHidePanel: function () {
-            var o = $('#_99').combobox('getValue');//获取采集人的EmployeeNo
-            var url = '../Fp_Ajax/PageConData.aspx?conMarc=Employee&com=' + o;
-            var temp = getEmployee(url);
-            var tempjson = JSON.parse(temp);
-            $('#_109').combobox({
-                editable: true,
-                data: tempjson,
-                valueField: 'EmployeeNo',
-                textField: 'EmployeeName'
-            });
-            $('#_109').combobox('setValue', tempjson.EmployeeName);
-        }
-    });
-})
-function getEmployee(Employeeurl) {
-    var temp;
-    $.ajax({
-        type: 'get',
-        url: Employeeurl,
-        async: false,
-        datatype: 'json',
-        success: function (responseData) {
-            temp = responseData;
-        }
-    });
-    return temp;
-}
+        });
+        return temp;
+    }
 
 //POST数据
 function postData() {
@@ -817,8 +815,8 @@ function postData1() {
 function postPatientInfo() {
     var name = $('#_80').textbox('getText');
     var hzid = $('#_91').textbox('getText');
-    var sample_source_type = $('#sample_source_typecmb').combobox('getValue')
-    if (!sample_source_type) { $.messager.alert('提示', '必须选择基本信息类型', 'error'); return; }
+    var departments = $('#departments').combobox('getText')
+    if (!departments) { $.messager.alert('提示', '必须选择科室', 'error'); return; }
     if (name == "" || hzid =="") { $.messager.alert('提示', '必须输入姓名以及患者ID', 'error'); return; }
     else
     {
@@ -839,7 +837,7 @@ function postPatientInfo() {
             dataType: "json",
             url: '/Fp_Ajax/SubmitData.aspx?action=postPatientinfo',
             data: {
-                sample_source_type:sample_source_type,
+                departments: departments,
                 baseinfo: _baseinfo,
                 clinicalInfoDg: rowClinicalInfoDg
             },

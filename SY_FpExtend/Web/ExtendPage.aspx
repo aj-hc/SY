@@ -35,7 +35,7 @@
         <div id="patient">
             <div class="easyui-panel">
                 <div style="padding: 2px"><b>基本资料：</b>
-                <input id="sample_source_typecmb" class="easyui-combobox" name="sample_source_type" style="width: 200px;" data-options="required:true" /></div>
+                <input id="departments" class="easyui-combobox" name="departments" style="width: 200px;" data-options="required:true" /></div>
                 <form id="BaseInfoForm">
                     <div id="BaseInfoDiv" runat="server" style="padding: 5px;">
                         <table>
