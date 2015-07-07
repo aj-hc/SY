@@ -392,7 +392,7 @@ $(function () {
 
 //给departments下拉框绑定值
 $(function () {
-    $('#sample_source_typecmb').combobox({
+    $('#departments').combobox({
         editable: false,
         method: 'get',
         valueField: 'value',
