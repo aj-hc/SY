@@ -349,7 +349,7 @@ namespace RuRo.DAL
         /// 查询本地库中这个表有没有值
         /// </summary>
         /// <returns></returns>
-        public bool Get_ClinicalInfoCount(string strInPatientID, string strRegisterID, string DiagnoseDateTime)
+        public bool Get_ClinicalInfoCount(string strInPatientID, string strRegisterID, string DiagnoseDateTime,string type)
         {
             try
             {
@@ -357,16 +357,18 @@ namespace RuRo.DAL
                 int RegisterID = Convert.ToInt32(strRegisterID);
                 StringBuilder strSql = new StringBuilder();
                 strSql.Append("select count(1) from ClinicalInfo");
-                strSql.Append(" where InPatientID=@InPatientID and RegisterID=@RegisterID and DiagnoseDateTime=@DiagnoseDateTime");
+                strSql.Append(" where InPatientID=@InPatientID and RegisterID=@RegisterID and DiagnoseDateTime=@DiagnoseDateTime and type=@type");
                 SqlParameter[] parameters = 
                     {
 					new SqlParameter("@InPatientID", SqlDbType.Int),
                    new SqlParameter("@RegisterID", SqlDbType.Int),
-                   new SqlParameter("@DiagnoseDateTime", SqlDbType.DateTime)
+                   new SqlParameter("@DiagnoseDateTime", SqlDbType.DateTime),
+                   new SqlParameter("@DiagnoseDateTime", SqlDbType.NVarChar)
                 };
                 parameters[0].Value = InPatientID;
                 parameters[1].Value = RegisterID;
                 parameters[2].Value = DiagnoseDateTime;
+                parameters[3].Value = type;
                 return DbHelperSQL_SY.ExistsSY(strSql.ToString(), parameters);
             }
             catch (Exception e)

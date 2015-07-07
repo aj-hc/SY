@@ -163,7 +163,7 @@ namespace RuRo.Web.Fp_Ajax
                 {
                     //导入成功--保存数据到本地数据库
                     //需要将字典转换为对象
-                    SaveClinicalDicToLocalBase(clinicalInfoDgDicList);
+                    SaveClinicalDicToLocalBase(clinicalInfoDgDicList, departments);
                     string success = FreezerProUtility.Fp_Common.FpJsonHelper.GetStrFromJsonStr("success", improtTestDataResult);
                     string msg = FreezerProUtility.Fp_Common.FpJsonHelper.GetStrFromJsonStr("msg", improtTestDataResult);
                     Dictionary<string, string> dic = new Dictionary<string, string>(); dic.Add("success", success); dic.Add("msg", msg);
@@ -249,7 +249,7 @@ namespace RuRo.Web.Fp_Ajax
                 }
                 try
                 {
-                    if (cl.Get_ClinicalInfoCount_Bll(item.InPatientID, item.RegisterID, item.DiagnoseDateTime))
+                    if (cl.Get_ClinicalInfoCount_Bll(item.InPatientID, item.RegisterID, item.DiagnoseDateTime, departments))
                     {
                         //数据库中有该条数据
                         continue;
@@ -705,7 +705,7 @@ namespace RuRo.Web.Fp_Ajax
         }
         #endregion
 
-        private void SaveClinicalDicToLocalBase(List<Dictionary<string, string>> clinicalInfoDgDicList)
+        private void SaveClinicalDicToLocalBase(List<Dictionary<string, string>> clinicalInfoDgDicList, string departments)
         {
             BLL.ClinicalInfo clinicalBll = new BLL.ClinicalInfo();
 
@@ -741,6 +741,7 @@ namespace RuRo.Web.Fp_Ajax
                         {
                             clinical.RegisterID = int.Parse(dic.Value);
                         }
+                        clinical.type = departments;
                     }
                     catch (Exception)
                     {
