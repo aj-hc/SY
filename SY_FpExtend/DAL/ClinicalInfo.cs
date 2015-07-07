@@ -13,15 +13,6 @@ namespace RuRo.DAL
         public ClinicalInfo()
         { }
         #region  BasicMethod
-
-        /// <summary>
-        /// 得到最大ID
-        /// </summary>
-        public int GetMaxId()
-        {
-            return DbHelperSQL_SY.GetMaxIDSY("id", "ClinicalInfo");
-        }
-
         /// <summary>
         /// 是否存在该记录
         /// </summary>
@@ -46,9 +37,9 @@ namespace RuRo.DAL
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("insert into ClinicalInfo(");
-            strSql.Append("DiagnoseTypeFlag,DiagnoseDateTime,RegisterID,InPatientID,ICDCode,DiseaseName,Description)");
+            strSql.Append("DiagnoseTypeFlag,DiagnoseDateTime,RegisterID,InPatientID,ICDCode,DiseaseName,Description,type)");
             strSql.Append(" values (");
-            strSql.Append("@DiagnoseTypeFlag,@DiagnoseDateTime,@RegisterID,@InPatientID,@ICDCode,@DiseaseName,@Description)");
+            strSql.Append("@DiagnoseTypeFlag,@DiagnoseDateTime,@RegisterID,@InPatientID,@ICDCode,@DiseaseName,@Description,@type)");
             strSql.Append(";select @@IDENTITY");
             SqlParameter[] parameters = {
 					new SqlParameter("@DiagnoseTypeFlag", SqlDbType.NVarChar,20),
@@ -57,7 +48,8 @@ namespace RuRo.DAL
 					new SqlParameter("@InPatientID", SqlDbType.Int,4),
 					new SqlParameter("@ICDCode", SqlDbType.NVarChar,30),
 					new SqlParameter("@DiseaseName", SqlDbType.NVarChar,100),
-					new SqlParameter("@Description", SqlDbType.NVarChar,100)};
+					new SqlParameter("@Description", SqlDbType.NVarChar,100),
+					new SqlParameter("@type", SqlDbType.NVarChar,50)};
             parameters[0].Value = model.DiagnoseTypeFlag;
             parameters[1].Value = model.DiagnoseDateTime;
             parameters[2].Value = model.RegisterID;
@@ -65,6 +57,7 @@ namespace RuRo.DAL
             parameters[4].Value = model.ICDCode;
             parameters[5].Value = model.DiseaseName;
             parameters[6].Value = model.Description;
+            parameters[7].Value = model.type;
 
             object obj = DbHelperSQL_SY.GetSingleSY(strSql.ToString(), parameters);
             if (obj == null)
@@ -89,7 +82,8 @@ namespace RuRo.DAL
             strSql.Append("InPatientID=@InPatientID,");
             strSql.Append("ICDCode=@ICDCode,");
             strSql.Append("DiseaseName=@DiseaseName,");
-            strSql.Append("Description=@Description");
+            strSql.Append("Description=@Description,");
+            strSql.Append("type=@type");
             strSql.Append(" where id=@id");
             SqlParameter[] parameters = {
 					new SqlParameter("@DiagnoseTypeFlag", SqlDbType.NVarChar,20),
@@ -99,6 +93,7 @@ namespace RuRo.DAL
 					new SqlParameter("@ICDCode", SqlDbType.NVarChar,30),
 					new SqlParameter("@DiseaseName", SqlDbType.NVarChar,100),
 					new SqlParameter("@Description", SqlDbType.NVarChar,100),
+					new SqlParameter("@type", SqlDbType.NVarChar,50),
 					new SqlParameter("@id", SqlDbType.Int,4)};
             parameters[0].Value = model.DiagnoseTypeFlag;
             parameters[1].Value = model.DiagnoseDateTime;
@@ -107,7 +102,8 @@ namespace RuRo.DAL
             parameters[4].Value = model.ICDCode;
             parameters[5].Value = model.DiseaseName;
             parameters[6].Value = model.Description;
-            parameters[7].Value = model.id;
+            parameters[7].Value = model.type;
+            parameters[8].Value = model.id;
 
             int rows = DbHelperSQL_SY.ExecuteSqlSY(strSql.ToString(), parameters);
             if (rows > 0)
@@ -171,7 +167,7 @@ namespace RuRo.DAL
         {
 
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select  top 1 id,DiagnoseTypeFlag,DiagnoseDateTime,RegisterID,InPatientID,ICDCode,DiseaseName,Description from ClinicalInfo ");
+            strSql.Append("select  top 1 id,DiagnoseTypeFlag,DiagnoseDateTime,RegisterID,InPatientID,ICDCode,DiseaseName,Description,type from ClinicalInfo ");
             strSql.Append(" where id=@id");
             SqlParameter[] parameters = {
 					new SqlParameter("@id", SqlDbType.Int,4)
@@ -231,6 +227,10 @@ namespace RuRo.DAL
                 {
                     model.Description = row["Description"].ToString();
                 }
+                if (row["type"] != null)
+                {
+                    model.type = row["type"].ToString();
+                }
             }
             return model;
         }
@@ -241,7 +241,7 @@ namespace RuRo.DAL
         public DataSet GetList(string strWhere)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select id,DiagnoseTypeFlag,DiagnoseDateTime,RegisterID,InPatientID,ICDCode,DiseaseName,Description ");
+            strSql.Append("select id,DiagnoseTypeFlag,DiagnoseDateTime,RegisterID,InPatientID,ICDCode,DiseaseName,Description,type ");
             strSql.Append(" FROM ClinicalInfo ");
             if (strWhere.Trim() != "")
             {
@@ -261,7 +261,7 @@ namespace RuRo.DAL
             {
                 strSql.Append(" top " + Top.ToString());
             }
-            strSql.Append(" id,DiagnoseTypeFlag,DiagnoseDateTime,RegisterID,InPatientID,ICDCode,DiseaseName,Description ");
+            strSql.Append(" id,DiagnoseTypeFlag,DiagnoseDateTime,RegisterID,InPatientID,ICDCode,DiseaseName,Description,type ");
             strSql.Append(" FROM ClinicalInfo ");
             if (strWhere.Trim() != "")
             {
