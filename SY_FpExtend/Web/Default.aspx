@@ -23,11 +23,11 @@
             window.open('Login.aspx', 'newwindow', 'height=' + height + ', width=' + width + ', top=' + t + ',left=' + l + ',toolbar=no, menubar=no, scrollbars=yes, resizable=no,location=no, status=no')
         }
         $(function () {
-            $(".side").css({ 'width': '15px', 'padding-right': '5px' });
+            $(".side").css({ 'width': '24px', 'padding-right': '5px' });
             $(".side ul li").hover(function () {
                 $(this).find(".sidebox").stop().animate({ "width": "124px" }, 200).css({ "opacity": "1", "filter": "Alpha(opacity=100)", "background": "192237" })
             }, function () {
-                $(this).find(".sidebox").stop().animate({ "width": "15px" }, 200).css({ "opacity": "0.8", "filter": "Alpha(opacity=80)", "background": "192237" })
+                $(this).find(".sidebox").stop().animate({ "width": "45px" }, 200).css({ "opacity": "0.9", "filter": "Alpha(opacity=80)", "background": "192237" })
             });
         });
     </script>
@@ -39,9 +39,7 @@
         <%--菜单栏--%>
         <div class="side">
             <ul>
-                <li><a href="#" id="btnextend" onclick="doimport()">
-                    <div class="sidebox">＜＜打开扩展</div>
-                </a></li>
+                <li><a href="#" id="btnextend" onclick="doimport()"><div class="sidebox">＜＜打开扩展</div></a></li>
             </ul>
         </div>
         <%--<div id="MenuBar" runat="server"><a href="#" id="btnextend" onclick="doimport()" >扩展</a></div>--%>

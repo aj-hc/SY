@@ -733,10 +733,10 @@ var SampleInfourl = '../Fp_Ajax/PageConData.aspx?conMarc=linkage';
 var getSampleInfoData = getSampleInfourlJsonurl(SampleInfourl);
 var getdtaSampleInfo;
 var getDtaJsonSampleInfo;
-//if (getdtaSampleInfo) {
+if (getdtaSampleInfo) {
 getdtaSampleInfo = JSON.parse(getSampleInfoData);
 getDtaJsonSampleInfo = getdtaSampleInfo.ds;
-////}
+//}
 
 //下级绑定值
 function getliandongJsonurl(liandongurl) {
@@ -824,7 +824,7 @@ function postPatientInfo() {
     {
         var _baseinfo = getBaseInfoFormData();
 
-        //ClinicalInfoDg 
+        //ClinicalInfoDg
         var _ClinicalInfoDg = $('#ClinicalInfoDg').datagrid('getChecked');
         if (_ClinicalInfoDg) {
             for (var i = 0; i < _ClinicalInfoDg.length - 1; i++) {
