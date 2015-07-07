@@ -177,202 +177,202 @@ var SampleInfotarget;
 var SampleInfobool = true;
 var SampleInfoadd = true;
 //初始化样本信息面板
-$(function () {
-    var editRow = undefined;
-    var $dg_SampleInfo = $('#dg_SampleInfo');
-    $dg_SampleInfo.datagrid({
-        title: '样本信息',
-        columns: [[
-            {
-                field: 'SampleType', title: '样品类型', width: '25%', align: 'center', editor: {
-                    type: 'combobox', options: {
-                        data: getDtaJsonSampleType,
-                        valueField: 'value',
-                        textField: 'text',
-                        editable: false,
-                        panelHeight: 'auto',
-                        required: true
-                    }
-                }, formatter: function (value, rowData, rowIndex) {
-                    var getData = getSampleTypeJson(SampleTypeurl);
-                    if (getData) {
-                        var getDtaJson = JSON.parse(getData);
-                        for (var i = 0; i < getDtaJson.length; i++) {
-                            if (getDtaJson[i].value == value) { return getDtaJson[i].text; }
-                        }
-                    }
-                    else { return value; }
-                }
-            },
-            { field: 'Scount', title: '管数', width: '5%', align: 'center', editor: { type: 'numberbox', options: { required: false } } },
-            {
-                field: 'Organ', title: '器官系统', width: '30%', align: 'center',
-                editor: {
-                    type: 'combobox',
-                    options:
-                     {
-                         data: getDtaJsonSampleInfo,
-                         valueField: 'ID',
-                         textField: 'NAME',
-                         editable: false,
-                         panelHeight: 'auto',
-                         required: false,
-                         onSelect: function (rec) {
-                             var row = $dg_SampleInfo.datagrid("getSelections");
-                             var rowIndex = $dg_SampleInfo.datagrid('getRowIndex', row[0]);
-                             var target = $('#dg_SampleInfo').datagrid('getEditor', { 'index': rowIndex, 'field': 'Classification' }).target;
-                             SampleInfotarget = target;
-                             target.combobox('clear');
-                             var url = '../Fp_Ajax/PageConData.aspx?conMarc=linkagefrom&id=' + rec.ID;
-                             liandongurl = url;
-                             if (liandongurl == "") { return; }
-                             var liandongdata = getliandongJsonurl(liandongurl);
-                             var getDtaJsonliandong = JSON.parse(liandongdata);
-                             var getDtaJsonliandong2 = getDtaJsonliandong.ds;
-                             target.combobox('loadData', getDtaJsonliandong2);
-                         }
-                     }
-                }, formatter: function (value, rowData, rowIndex) {
-                    var getData = getSampleInfourlJsonurl(SampleInfourl);
-                    var getDtaJson = JSON.parse(getData);
-                    var getDtaJsonds = getDtaJson.ds;
-                    if (getDtaJsonds != "" || getDtaJsonds != null) {
-                        for (var i = 0; i < getDtaJsonds.length; i++) {
-                            if (getDtaJsonds[i].ID == value) {
-                                if (liandongurl == "") { return; }
-                                else
-                                {
-                                    var com2value = SampleInfotarget.combobox("getValue");
-                                    var liandongdata = getliandongJsonurl(liandongurl);
-                                    var getDtaJsonliandong = JSON.parse(liandongdata);
-                                    var getDtaJsonliandong2 = getDtaJsonliandong.ds;
-                                    for (var j = 0; j < getDtaJsonliandong2.length; j++) {
-                                        if (com2value == getDtaJsonliandong2[j].ID) {
-                                            getDtaJsonliandong2[j].NAME;
-                                            SampleInfotarget.combobox("setText", getDtaJsonliandong2[j].NAME);
-                                        }
-                                    }
-                                    //target.combobox('loadData', getDtaJsonliandong2);
-                                }
-                                return getDtaJsonds[i].NAME;
-                            }
-                        }
-                    }
-                    else { return value; }
-                }
-            },
-            {
-                field: 'Classification', title: '二级下拉', width: '30%', align: 'center', editor: {
-                    type: 'combobox', options: {
-                        valueField: 'NAME',
-                        textField: 'NAME'
-                    },
-                    formatter: function (value, rowData, rowIndex) {
-                        if (liandongurl == "") { return; }
-                        var getData = getliandongJsonurl(liandongurl);
-                        var getDtaJson = JSON.parse(getData);
-                        var getDtaJsonds = getDtaJson.ds;
-                        if (getDtaJsonds != "" || getDtaJsonds != null) {
-                            for (var i = 0; i < getDtaJsonds.length; i++) {
-                                if (getDtaJsonds[i].ID == value) { return getDtaJsonds[i].NAME; }
-                            }
-                        }
-                        else { return value; }
-                    }
-                }
-            }
-            //{ field: 'Remark', title: '备注', width: '40%', align: 'center', editor: { type: 'validatebox', options: { required: false } } },//动态列--根据样品类型展示不同的数据
+//$(function () {
+//    var editRow = undefined;
+//    var $dg_SampleInfo = $('#dg_SampleInfo');
+//    $dg_SampleInfo.datagrid({
+//        title: '样本信息',
+//        columns: [[
+//            {
+//                field: 'SampleType', title: '样品类型', width: '25%', align: 'center', editor: {
+//                    type: 'combobox', options: {
+//                        data: getDtaJsonSampleType,
+//                        valueField: 'value',
+//                        textField: 'text',
+//                        editable: false,
+//                        panelHeight: 'auto',
+//                        required: true
+//                    }
+//                }, formatter: function (value, rowData, rowIndex) {
+//                    var getData = getSampleTypeJson(SampleTypeurl);
+//                    if (getData) {
+//                        var getDtaJson = JSON.parse(getData);
+//                        for (var i = 0; i < getDtaJson.length; i++) {
+//                            if (getDtaJson[i].value == value) { return getDtaJson[i].text; }
+//                        }
+//                    }
+//                    else { return value; }
+//                }
+//            },
+//            { field: 'Scount', title: '管数', width: '5%', align: 'center', editor: { type: 'numberbox', options: { required: false } } },
+//            {
+//                field: 'Organ', title: '器官系统', width: '30%', align: 'center',
+//                editor: {
+//                    type: 'combobox',
+//                    options:
+//                     {
+//                         data: getDtaJsonSampleInfo,
+//                         valueField: 'ID',
+//                         textField: 'NAME',
+//                         editable: false,
+//                         panelHeight: 'auto',
+//                         required: false,
+//                         onSelect: function (rec) {
+//                             var row = $dg_SampleInfo.datagrid("getSelections");
+//                             var rowIndex = $dg_SampleInfo.datagrid('getRowIndex', row[0]);
+//                             var target = $('#dg_SampleInfo').datagrid('getEditor', { 'index': rowIndex, 'field': 'Classification' }).target;
+//                             SampleInfotarget = target;
+//                             target.combobox('clear');
+//                             var url = '../Fp_Ajax/PageConData.aspx?conMarc=linkagefrom&id=' + rec.ID;
+//                             liandongurl = url;
+//                             if (liandongurl == "") { return; }
+//                             var liandongdata = getliandongJsonurl(liandongurl);
+//                             var getDtaJsonliandong = JSON.parse(liandongdata);
+//                             var getDtaJsonliandong2 = getDtaJsonliandong.ds;
+//                             target.combobox('loadData', getDtaJsonliandong2);
+//                         }
+//                     }
+//                }, formatter: function (value, rowData, rowIndex) {
+//                    var getData = getSampleInfourlJsonurl(SampleInfourl);
+//                    var getDtaJson = JSON.parse(getData);
+//                    var getDtaJsonds = getDtaJson.ds;
+//                    if (getDtaJsonds != "" || getDtaJsonds != null) {
+//                        for (var i = 0; i < getDtaJsonds.length; i++) {
+//                            if (getDtaJsonds[i].ID == value) {
+//                                if (liandongurl == "") { return; }
+//                                else
+//                                {
+//                                    var com2value = SampleInfotarget.combobox("getValue");
+//                                    var liandongdata = getliandongJsonurl(liandongurl);
+//                                    var getDtaJsonliandong = JSON.parse(liandongdata);
+//                                    var getDtaJsonliandong2 = getDtaJsonliandong.ds;
+//                                    for (var j = 0; j < getDtaJsonliandong2.length; j++) {
+//                                        if (com2value == getDtaJsonliandong2[j].ID) {
+//                                            getDtaJsonliandong2[j].NAME;
+//                                            SampleInfotarget.combobox("setText", getDtaJsonliandong2[j].NAME);
+//                                        }
+//                                    }
+//                                    //target.combobox('loadData', getDtaJsonliandong2);
+//                                }
+//                                return getDtaJsonds[i].NAME;
+//                            }
+//                        }
+//                    }
+//                    else { return value; }
+//                }
+//            },
+//            {
+//                field: 'Classification', title: '二级下拉', width: '30%', align: 'center', editor: {
+//                    type: 'combobox', options: {
+//                        valueField: 'NAME',
+//                        textField: 'NAME'
+//                    },
+//                    formatter: function (value, rowData, rowIndex) {
+//                        if (liandongurl == "") { return; }
+//                        var getData = getliandongJsonurl(liandongurl);
+//                        var getDtaJson = JSON.parse(getData);
+//                        var getDtaJsonds = getDtaJson.ds;
+//                        if (getDtaJsonds != "" || getDtaJsonds != null) {
+//                            for (var i = 0; i < getDtaJsonds.length; i++) {
+//                                if (getDtaJsonds[i].ID == value) { return getDtaJsonds[i].NAME; }
+//                            }
+//                        }
+//                        else { return value; }
+//                    }
+//                }
+//            }
+//            //{ field: 'Remark', title: '备注', width: '40%', align: 'center', editor: { type: 'validatebox', options: { required: false } } },//动态列--根据样品类型展示不同的数据
 
-        ]],
-        singleSelect: false,
-        pagination: true,
-        toolbar: [
-            {
-                text: '添加', iconCls: 'icon-add', handler: function () {
-                    if (editRow != undefined) {
-                        $dg_SampleInfo.datagrid('endEdit', editRow);
-                    }
-                    if (editRow == undefined) {
-                        var rows = $dg_SampleInfo.datagrid('getRows');
-                        for (var i = 0; i < rows.length; i++) {
-                            if (rows[i].SampleType == null || rows.Scount == "" || rows.Organ == "") {
-                                $.messager.alert('提示', '请保存上一条样品后再继续添加', 'error');
-                                $dg_SampleInfo.datagrid('beginEdit', i);
-                                return;
-                            }
-                        };
-                        $dg_SampleInfo.datagrid('insertRow', { index: 0, row: {} });
-                        $dg_SampleInfo.datagrid('beginEdit', 0);
-                        editRow = undefined;
-                    }
-                }
-            }, '-',
-            {
-                text: '保存', iconCls: 'icon-save', handler: function () {
-                    $('#dg_SampleInfo').datagrid('acceptChanges');
-                    var rows = $dg_SampleInfo.datagrid('getRows');
-                    var bool = true;
-                    for (var i = 0; i < rows.length; i++) {
-                        if (rows[i].Scount <= 0 || rows[i].Scount == "" || rows[i].SampleType == "" || rows[i].SampleType == undefined) {
-                            $dg_SampleInfo.datagrid('beginEdit', i);
-                            bool = false;
-                        }
-                    }
-                    if (bool == true) {
-                        SampleInfoadd = true;
-                        $dg_SampleInfo.datagrid('endEdit', editRow);
-                        var rowstr = JSON.stringify(rows);
-                    }
-                    else {
-                        SampleInfoadd = false;
-                        $.messager.alert('提示', '试管数量必须大于0,且样本类型不能为空', 'error');
-                    }
-                }
-            }, '-',
-            {
-                text: '删除', iconCls: 'icon-remove', handler: function () {
-                    var row = $dg_SampleInfo.datagrid('getChecked');
-                    for (var i = 0; i < row.length; i++) {
-                        var rowIndex = $dg_SampleInfo.datagrid('getRowIndex', row[i]);
-                        $dg_SampleInfo.datagrid('deleteRow', rowIndex);
-                    }
-                    $("#dg_SampleInfo").datagrid("clearSelections");
-                    editRow == undefined;
-                }
-            }, '-',
-            {
-                text: '修改', iconCls: 'icon-edit', handler: function () {
-                    var row = $dg_SampleInfo.datagrid('getSelected');
-                    if (row != null) {
-                        if (editRow != undefined) { $dg_SampleInfo.datagrid('endEdit', editRow); }
-                        if (editRow == undefined) {
-                            var index = $dg_SampleInfo.datagrid('getRowIndex', row);
-                            $dg_SampleInfo.datagrid('beginEdit', index);
-                            editRow = index;
-                            $dg_SampleInfo.datagrid('unselectAll');
-                        }
-                    } else { }
-                }
-            }],
-        onAfterEdit: function (rowIndex, rowData, changes) {
-            editRow = undefined;
-        },
-        onDblClickRow: function (rowIndex, rowData) {
-            if (editRow != undefined) {
-                $dg_SampleInfo.datagrid('endEdit', editRow);
-            }
-            if (editRow == undefined) {
-                $dg_SampleInfo.datagrid('beginEdit', rowIndex);
-                editRow = rowIndex;
-            }
-        },
-        onClickRow: function (rowIndex, rowData) {
-            if (editRow != undefined) {
-                $dg_SampleInfo.datagrid('endEdit', editRow);
-            }
-        }
-    });
-})
+//        ]],
+//        singleSelect: false,
+//        pagination: true,
+//        toolbar: [
+//            {
+//                text: '添加', iconCls: 'icon-add', handler: function () {
+//                    if (editRow != undefined) {
+//                        $dg_SampleInfo.datagrid('endEdit', editRow);
+//                    }
+//                    if (editRow == undefined) {
+//                        var rows = $dg_SampleInfo.datagrid('getRows');
+//                        for (var i = 0; i < rows.length; i++) {
+//                            if (rows[i].SampleType == null || rows.Scount == "" || rows.Organ == "") {
+//                                $.messager.alert('提示', '请保存上一条样品后再继续添加', 'error');
+//                                $dg_SampleInfo.datagrid('beginEdit', i);
+//                                return;
+//                            }
+//                        };
+//                        $dg_SampleInfo.datagrid('insertRow', { index: 0, row: {} });
+//                        $dg_SampleInfo.datagrid('beginEdit', 0);
+//                        editRow = undefined;
+//                    }
+//                }
+//            }, '-',
+//            {
+//                text: '保存', iconCls: 'icon-save', handler: function () {
+//                    $('#dg_SampleInfo').datagrid('acceptChanges');
+//                    var rows = $dg_SampleInfo.datagrid('getRows');
+//                    var bool = true;
+//                    for (var i = 0; i < rows.length; i++) {
+//                        if (rows[i].Scount <= 0 || rows[i].Scount == "" || rows[i].SampleType == "" || rows[i].SampleType == undefined) {
+//                            $dg_SampleInfo.datagrid('beginEdit', i);
+//                            bool = false;
+//                        }
+//                    }
+//                    if (bool == true) {
+//                        SampleInfoadd = true;
+//                        $dg_SampleInfo.datagrid('endEdit', editRow);
+//                        var rowstr = JSON.stringify(rows);
+//                    }
+//                    else {
+//                        SampleInfoadd = false;
+//                        $.messager.alert('提示', '试管数量必须大于0,且样本类型不能为空', 'error');
+//                    }
+//                }
+//            }, '-',
+//            {
+//                text: '删除', iconCls: 'icon-remove', handler: function () {
+//                    var row = $dg_SampleInfo.datagrid('getChecked');
+//                    for (var i = 0; i < row.length; i++) {
+//                        var rowIndex = $dg_SampleInfo.datagrid('getRowIndex', row[i]);
+//                        $dg_SampleInfo.datagrid('deleteRow', rowIndex);
+//                    }
+//                    $("#dg_SampleInfo").datagrid("clearSelections");
+//                    editRow == undefined;
+//                }
+//            }, '-',
+//            {
+//                text: '修改', iconCls: 'icon-edit', handler: function () {
+//                    var row = $dg_SampleInfo.datagrid('getSelected');
+//                    if (row != null) {
+//                        if (editRow != undefined) { $dg_SampleInfo.datagrid('endEdit', editRow); }
+//                        if (editRow == undefined) {
+//                            var index = $dg_SampleInfo.datagrid('getRowIndex', row);
+//                            $dg_SampleInfo.datagrid('beginEdit', index);
+//                            editRow = index;
+//                            $dg_SampleInfo.datagrid('unselectAll');
+//                        }
+//                    } else { }
+//                }
+//            }],
+//        onAfterEdit: function (rowIndex, rowData, changes) {
+//            editRow = undefined;
+//        },
+//        onDblClickRow: function (rowIndex, rowData) {
+//            if (editRow != undefined) {
+//                $dg_SampleInfo.datagrid('endEdit', editRow);
+//            }
+//            if (editRow == undefined) {
+//                $dg_SampleInfo.datagrid('beginEdit', rowIndex);
+//                editRow = rowIndex;
+//            }
+//        },
+//        onClickRow: function (rowIndex, rowData) {
+//            if (editRow != undefined) {
+//                $dg_SampleInfo.datagrid('endEdit', editRow);
+//            }
+//        }
+//    });
+//})
 
 //给In_CodeType下拉框绑定值
 $(function () {
@@ -428,64 +428,66 @@ $(function () {
         panelHeight: 'auto'
     });
 })
-    $(function () {
-        $('#_113').combobox({
-            url: '../Fp_Ajax/PageConData.aspx?conMarc=SamplingMethod',
-            multiple: true,
-            method: 'get',
-            valueField: 'samplingMethod',
-            textField: 'text',
-            panelHeight: 'auto'
-        });
-    })
+
+    ////取材方式有问题
+    //$(function () {
+    //    $('#_116').combobox({
+    //        url: '../Fp_Ajax/PageConData.aspx?conMarc=BloodTypeFlag',
+    //        multiple: true,
+    //        method: 'get',
+    //        valueField: 'BloodTypeFlag',
+    //        textField: 'text',
+    //        panelHeight: 'auto'
+    //    });
+    //})
     //绑定采集人
-    $(function () {
-        $('#_99').combobox({
-            editable: true,
-            panelHeight: '200px',
-            delay: '600',
-            valueField: 'EmployeeNo',
-            textField: 'EmployeeName',
-            onChange: function (newVal, oldVal) {
-                var faultAddr = encodeURI(newVal);
-                //faultAddr = encodeURI(faultAddr);  //需要通过两次编码
-                if (newVal == "" || newVal == oldVal) {
-                    $('#_99').combobox('clear');
-                    return;
-                }
-                else {
-                    var url = '../Fp_Ajax/PageConData.aspx?conMarc=Employee&com=' + faultAddr;
-                    $('#_99').combobox('reload', url);
-                }
-            },
-            onHidePanel: function () {
-                var o = $('#_99').combobox('getValue');//获取采集人的EmployeeNo
-                var url = '../Fp_Ajax/PageConData.aspx?conMarc=Employee&com=' + o;
-                var temp = getEmployee(url);
-                var tempjson = JSON.parse(temp);
-                $('#_109').combobox({
-                    editable: true,
-                    data: tempjson,
-                    valueField: 'EmployeeNo',
-                    textField: 'EmployeeName'
-                });
-                $('#_109').combobox('setValue', tempjson.EmployeeName);
-            }
-        });
-    })
-    function getEmployee(Employeeurl) {
-        var temp;
-        $.ajax({
-            type: 'get',
-            url: Employeeurl,
-            async: false,
-            datatype: 'json',
-            success: function (responseData) {
-                temp = responseData;
-            }
-        });
-        return temp;
-    }
+    //$(function () {
+    //    $('#_99').combobox({
+    //        editable: true,
+    //        panelHeight: '200px',
+    //        delay: '600',
+    //        valueField: 'EmployeeNo',
+    //        textField: 'EmployeeName',
+    //        onChange: function (newVal, oldVal) {
+    //            var faultAddr = encodeURI(newVal);
+    //            //faultAddr = encodeURI(faultAddr);  //需要通过两次编码
+    //            if (newVal == "" || newVal == oldVal) {
+    //                $('#_99').combobox('clear');
+    //                return;
+    //            }
+    //            else {
+    //                var url = '../Fp_Ajax/PageConData.aspx?conMarc=Employee&com=' + faultAddr;
+    //                $('#_99').combobox('reload', url);
+    //            }
+    //        },
+    //        onHidePanel: function () {
+    //            var o = $('#_99').combobox('getValue');//获取采集人的EmployeeNo
+    //            var url = '../Fp_Ajax/PageConData.aspx?conMarc=Employee&com=' + o;
+    //            var temp = getEmployee(url);
+    //            var tempjson = JSON.parse(temp);
+    //            $('#_109').combobox({
+    //                editable: true,
+    //                data: tempjson,
+    //                valueField: 'EmployeeNo',
+    //                textField: 'EmployeeName'
+    //            });
+    //            $('#_109').combobox('setValue', tempjson.EmployeeName);
+    //        }
+    //    });
+    //})
+    //function getEmployee(Employeeurl) {
+    //    var temp;
+    //    $.ajax({
+    //        type: 'get',
+    //        url: Employeeurl,
+    //        async: false,
+    //        datatype: 'json',
+    //        success: function (responseData) {
+    //            temp = responseData;
+    //        }
+    //    });
+    //    return temp;
+    //}
 
 //POST数据
 function postData() {
@@ -713,46 +715,46 @@ if (getDtaJsonSampleType) {
 }
 
 
-//联动数据绑定值
-function getSampleInfourlJsonurl(SampleInfourl) {
-    var temp;
-    $.ajax({
-        type: 'get',
-        url: SampleInfourl,
-        async: false,
-        datatype: 'json',
-        success: function (responseData) {
-            temp = responseData;
-        }
-    });
-    return temp;
-}
-var SampleInfourl = '../Fp_Ajax/PageConData.aspx?conMarc=linkage';
-var getSampleInfoData = getSampleInfourlJsonurl(SampleInfourl);
-var getdtaSampleInfo;
-var getDtaJsonSampleInfo;
-if (getdtaSampleInfo) {
-getdtaSampleInfo = JSON.parse(getSampleInfoData);
-getDtaJsonSampleInfo = getdtaSampleInfo.ds;
+////联动数据绑定值
+//function getSampleInfourlJsonurl(SampleInfourl) {
+//    var temp;
+//    $.ajax({
+//        type: 'get',
+//        url: SampleInfourl,
+//        async: false,
+//        datatype: 'json',
+//        success: function (responseData) {
+//            temp = responseData;
+//        }
+//    });
+//    return temp;
+//}
+//var SampleInfourl = '../Fp_Ajax/PageConData.aspx?conMarc=linkage';
+//var getSampleInfoData = getSampleInfourlJsonurl(SampleInfourl);
+//var getdtaSampleInfo;
+//var getDtaJsonSampleInfo;
+//if (getdtaSampleInfo) {
+//getdtaSampleInfo = JSON.parse(getSampleInfoData);
+//getDtaJsonSampleInfo = getdtaSampleInfo.ds;
 //}
 
-//下级绑定值
-function getliandongJsonurl(liandongurl) {
-    var temp;
-    $.ajax({
-        type: 'get',
-        url: liandongurl,
-        async: false,
-        datatype: 'json',
-        success: function (responseData) {
-            temp = responseData;
-        }
-    });
-    return temp;
-}
-var liandongurl;
-var getliandongData = getliandongJsonurl(liandongurl);
-var getDtaJsonliandong;
+////下级绑定值
+//function getliandongJsonurl(liandongurl) {
+//    var temp;
+//    $.ajax({
+//        type: 'get',
+//        url: liandongurl,
+//        async: false,
+//        datatype: 'json',
+//        success: function (responseData) {
+//            temp = responseData;
+//        }
+//    });
+//    return temp;
+//}
+//var liandongurl;
+//var getliandongData = getliandongJsonurl(liandongurl);
+//var getDtaJsonliandong;
 
 //POST数据
 function postData1() {
@@ -852,7 +854,6 @@ function postPatientInfo() {
                 else {
                     $.messager.alert('提示', '服务器未响应', 'error'); return;
                 }
-                //推送不过加个注释
             }
         });
     }
