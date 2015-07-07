@@ -90,9 +90,9 @@ function querybycode() {
                     {
                         if (obj._BaseInfo.ds)
                         {
-                            var ds = obj._BaseInfo.ds;
-                            $("#BaseInfoForm").form("load", ds[0]);
-                            //AddBaseInfoToForm(ds[0]);
+                            var ds = _BaseInfo.ds;
+                            //$("#BaseInfoForm").form("load", ds[0]);
+                            AddBaseInfoToForm(ds[0]);
                         }
                     }
                     if (obj._ClinicalInfo)
@@ -147,63 +147,86 @@ function clearForm() {
     $('#ClinicalInfoDg').datagrid('loadData', { total: 0, rows: [] });
 }
 //绑定数据到基本信息数据框
-function AddBaseInfoToForm(_BaseInfo) {
-    if (_BaseInfo) {
-        if (_BaseInfo['PatientName']) {
+function AddBaseInfoToForm(_BaseInfo)
+{
+    if (_BaseInfo)
+    {
+        if (_BaseInfo['PatientName'])
+        {
             $("#_80").textbox('setValue', $.trim(_BaseInfo['PatientName']));
         }
-        if (_BaseInfo['IPSeqNoText']) {
+        if (_BaseInfo['IPSeqNoText'])
+        {
             $("#_81").textbox('setValue', $.trim(_BaseInfo['IPSeqNoText']));
         }
-        if (_BaseInfo['PatientCardNo']) {
+        if (_BaseInfo['PatientCardNo'])
+        {
             $("#_82").textbox('setValue', $.trim(_BaseInfo['PatientCardNo']));
         }
-        if (_BaseInfo['SexFlag']) {
-            var data = $('#_115').combobox('getData')
+        if (_BaseInfo['SexFlag'] || _BaseInfo['SexFlag']==0)
+        {
+            var data = $('#_115').combobox('getData');
             var SexFlag = _BaseInfo['SexFlag'];
-            if (data.length > 0) {
-                for (var tem in data) {
-                    if (data[tem].SexFlag == SexFlag);
-                    $("#_115").combobox('select', data[tem].text);
+            if (data.length > 0)
+            {
+                for (var tem in data)
+                {
+                    if (data[tem].SexFlag == SexFlag) { $("#_115").combobox('select', data[tem].text); }
                 }
             }
         }
-        if (_BaseInfo['BirthDay']) {
+        if (_BaseInfo['BirthDay'])
+        {
             var Birthday = _BaseInfo['BirthDay'].substring(0, 10);
             $("#_84").datebox('setValue', Birthday);
         }
-        if (_BaseInfo['BloodTypeFlag']) {
-            var BloodTypeFlag = _BaseInfo['BloodTypeFlag']
-            var data = $('#_116').combobox('getData')
-            if (data.length > 0) {
-                for (var tem in data) {
-                    if (data[tem].BloodTypeFlag == BloodTypeFlag);
-                    $("#_116").combobox('select', data[tem].text);
+        if (_BaseInfo['BloodTypeFlag'] || _BaseInfo['BloodTypeFlag']==0)
+        {
+            var BloodTypeFlag = _BaseInfo['BloodTypeFlag'];
+            if (BloodTypeFlag==0)
+            {
+                BloodTypeFlag = 6;
                 }
+            var data = $('#_116').combobox('getData');
+            if (data.length > 0)
+            {
+                for (var tem in data)
+                {
+                    if (data[tem].BloodTypeFlag == BloodTypeFlag) { $("#_116").combobox('select', data[tem].text); }
+                    
             }
         }
-        if (_BaseInfo['Phone']) {
+        }
+        if (_BaseInfo['Phone'])
+        {
             $("#_86").textbox('setValue', $.trim(_BaseInfo['Phone']));
         }
-        if (_BaseInfo['ContactPhone']) {
+        if (_BaseInfo['ContactPhone'])
+        {
             $("#_87").textbox('setValue', $.trim(_BaseInfo['ContactPhone']));
         }
-        if (_BaseInfo['ContactPerson']) {
+        if (_BaseInfo['ContactPerson'])
+        {
             $("#_88").textbox('setValue', $.trim(_BaseInfo['ContactPerson']));
         }
-        if (_BaseInfo['NativePlace']) {
+        if (_BaseInfo['NativePlace'])
+        {
             $("#_89").textbox('setValue', $.trim(_BaseInfo['NativePlace']));
         }
-        if (_BaseInfo['RegisterSeqNO']) {
+        if (_BaseInfo['RegisterSeqNO'])
+        {
             $("#_90").textbox('setValue', $.trim(_BaseInfo['RegisterSeqNO']));
         }
-        if (_BaseInfo['PatientID']) {
+        if (_BaseInfo['PatientID'])
+        {
             $("#_91").textbox('setValue', $.trim(_BaseInfo['PatientID']));
         }
-        if (_BaseInfo['RegisterID']) {
+        if (_BaseInfo['RegisterID'])
+        {
             $("#_92").textbox('setValue', $.trim(_BaseInfo['RegisterID']));
         }
-        if (_BaseInfo['InPatientID']) {
+        if (_BaseInfo['InPatientID'])
+        {
             $("#_93").textbox('setValue', $.trim(_BaseInfo['InPatientID']));
         }
     }
