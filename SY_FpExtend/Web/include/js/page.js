@@ -823,7 +823,6 @@ function postPatientInfo() {
     else
     {
         var _baseinfo = getBaseInfoFormData();
-
         //ClinicalInfoDg
         var _ClinicalInfoDg = $('#ClinicalInfoDg').datagrid('getChecked');
         if (_ClinicalInfoDg) {
@@ -861,6 +860,7 @@ function postPatientInfo() {
 
 function getBaseInfoFormData() {
     var sampleinfo = $("#BaseInfoForm").serializeArray();
+    var ii = $("#_116").combobox('getText');
     var base;
     if (sampleinfo) {
         base = JSON.stringify(sampleinfo);

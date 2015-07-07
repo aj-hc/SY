@@ -22,7 +22,7 @@ namespace RuRo.Web.Fp_Ajax
             //页面第一次加载时初始化变量
             if (!IsPostBack)
             {
-               organIdAndNamedic = fp_linkage.GetOrganDic();
+                organIdAndNamedic = fp_linkage.GetOrganDic();
                 clinicalDiagnoseTypeFlagdic = PageConData.DiagnoseTypeFlagDic();
                 sampleTypeIdAndNamedic = FreezerProUtility.Fp_BLL.Samples.GetAllSample_TypesNames(Common.CreatFpUrl.FpUrl);
             }
@@ -30,9 +30,9 @@ namespace RuRo.Web.Fp_Ajax
             departments = Request.Params["departments"].Trim();
             if (action == "postPatientinfo")
             {
-              string result = ImportPatientInfo();
+                string result = ImportPatientInfo();
 
-              Response.Write(result);
+                Response.Write(result);
             }
             if (action == "postSampleInfo")
             {
@@ -174,7 +174,7 @@ namespace RuRo.Web.Fp_Ajax
                     string success = FreezerProUtility.Fp_Common.FpJsonHelper.GetStrFromJsonStr("success", improtBaseInfoResult);
                     string msg = FreezerProUtility.Fp_Common.FpJsonHelper.GetStrFromJsonStr("msg", improtBaseInfoResult);
                     Dictionary<string, string> dic = new Dictionary<string, string>(); dic.Add("success", success); dic.Add("msg", msg);
-                   return FreezerProUtility.Fp_Common.FpJsonHelper.DictionaryToJsonString(dic);
+                    return FreezerProUtility.Fp_Common.FpJsonHelper.DictionaryToJsonString(dic);
                 }
 
             }
@@ -322,50 +322,9 @@ namespace RuRo.Web.Fp_Ajax
             {
                 try
                 {
-                    if (item.Name == "SexFlag")
-                    {
-                        string value = Common.ReflectHelper.GetValue(pageBaseInfo, item.Name);
-                        if (!string.IsNullOrEmpty(value))
-                        {
-                            switch (value)
-                            {
-                                case "0":
-                                    pageBaseInfoDic.Add(item.Name, "未知");
-                                    break;
-                                case "1":
-                                    pageBaseInfoDic.Add(item.Name, "男");
-                                    break;
-                                case "2":
-                                    pageBaseInfoDic.Add(item.Name, "女");
-                                    break;
-                                default:
-                                    pageBaseInfoDic.Add(item.Name, "未知");
-                                    break;
-                            }
-                        }
-                    }
-                    else if (item.Name == "BloodTypeFlag")
-                    {
-                        string value = Common.ReflectHelper.GetValue(pageBaseInfo, item.Name);
-                        if (!string.IsNullOrEmpty(value))
-                        {
-                            switch (value)
-                            {
-                                case "1": pageBaseInfoDic.Add(item.Name, "A"); break;
-                                case "2": pageBaseInfoDic.Add(item.Name, "B"); break;
-                                case "3": pageBaseInfoDic.Add(item.Name, "AB"); break;
-                                case "4": pageBaseInfoDic.Add(item.Name, "O"); break;
-                                case "5": pageBaseInfoDic.Add(item.Name, "其它"); break;
-                                case "6": pageBaseInfoDic.Add(item.Name, "未查"); break;
-                                default: pageBaseInfoDic.Add(item.Name, "未查"); break;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        string value = Common.ReflectHelper.GetValue(pageBaseInfo, item.Name);
-                        pageBaseInfoDic.Add(item.Name, value);
-                    }
+
+                    string value = Common.ReflectHelper.GetValue(pageBaseInfo, item.Name);
+                    pageBaseInfoDic.Add(item.Name, value);
                 }
                 catch (Exception ex)
                 {
@@ -690,14 +649,14 @@ namespace RuRo.Web.Fp_Ajax
         {
             string test_data_type = string.Empty;
             if (!string.IsNullOrEmpty(departments))
+            {
+                try
                 {
-                    try
-                    {
-                        test_data_type = "临床诊断--" + departments;
-                    }
-                    catch (Exception)
-                    {
-                    }
+                    test_data_type = "临床诊断--" + departments;
+                }
+                catch (Exception)
+                {
+                }
             }
             string result = FreezerProUtility.Fp_BLL.TestData.ImportTestData(url, test_data_type, dataDicList);
 
