@@ -147,7 +147,6 @@
       </SubType>
     </Compile>
     <Compile Include="JsonHelper.cs" />
-    <Compile Include="LogHelper.cs" />
     <Compile Include="MailSender.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

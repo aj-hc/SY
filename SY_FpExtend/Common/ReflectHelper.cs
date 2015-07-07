@@ -22,7 +22,7 @@ namespace RuRo.Common
 
             if (IsType(propertyInfo.PropertyType, "System.String"))
             {
-                propertyInfo.SetValue(entity, fieldValue, null);
+                propertyInfo.SetValue(entity, fieldValue.Trim(), null);
 
             }
 
