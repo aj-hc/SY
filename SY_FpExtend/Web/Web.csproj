@@ -597,7 +597,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Error\AppError\" />
-    <Folder Include="Error\ExError\" />
+    <Folder Include="Error\AppExError\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Images\Images\MenuImg\Thumbs.db" />

@@ -16,8 +16,6 @@ namespace RuRo.Web.TestData
             Common.HttpItem item = new Common.HttpItem();
             Common.HttpResult res = new Common.HttpResult();
 
-            
-
             // item.URL = "http://192.168.183.130/api?username=admin&password=123456&method=get_perfect_box";
 
             //http://192.168.183.130/api?username=admin&password=123456&method=get_perfect_box&space=1&container_id=2
@@ -58,6 +56,17 @@ namespace RuRo.Web.TestData
             //Response.Write(jsonDic);
             //Response.Write("<br />");
             //Response.Write(jsonList);
+
+            BLL.BasedInfo bas = new BLL.BasedInfo();
+            try
+            {
+                bas.Delete(1);
+            }
+            catch (Exception ex)
+            {
+                Common.LogHelper.WriteError(ex);
+            }
+            Response.Write("ok");
         }
     }
 }
