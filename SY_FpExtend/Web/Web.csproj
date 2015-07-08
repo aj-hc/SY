@@ -77,6 +77,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Default.aspx" />
+    <Content Include="Encrypt.aspx" />
     <Content Include="ExtendPage.aspx" />
     <Content Include="Fp_Ajax\Fp_Ajax.txt" />
     <Content Include="Fp_Ajax\GetData.aspx" />
@@ -460,6 +461,13 @@
     </Compile>
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Encrypt.aspx.cs">
+      <DependentUpon>Encrypt.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Encrypt.aspx.designer.cs">
+      <DependentUpon>Encrypt.aspx</DependentUpon>
     </Compile>
     <Compile Include="ExtendPage.aspx.cs">
       <DependentUpon>ExtendPage.aspx</DependentUpon>

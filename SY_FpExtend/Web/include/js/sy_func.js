@@ -85,55 +85,55 @@ function querybycode() {
                 }
                 else {
                     //测试代码
-                    var obj = $.parseJSON(data);
-                    if (obj._BaseInfo)
-                    {
-                        if (obj._BaseInfo.ds)
-                        {
-                            var ds = obj._BaseInfo.ds;
-                            //$("#BaseInfoForm").form("load", ds[0]);
-                            AddBaseInfoToForm(ds[0]);
-                        }
-                    }
-                    if (obj._ClinicalInfo)
-                    {
-                        if (obj._ClinicalInfo.ds)
-                        {
-                            for (var i = 0; i < obj._ClinicalInfo.ds.length ; i++)
-                            {
-                                var text = obj._ClinicalInfo.ds[i].DiagnoseDateTime.substring(0,10);
-                                obj._ClinicalInfo.ds[i].DiagnoseDateTime = text
-                            }
-                            var ds = obj._ClinicalInfo.ds
-                            $('#ClinicalInfoDg').datagrid({ loadFilter: pagerFilter }).datagrid('loadData', ds).datagrid('reload');
-                        }
-                    }
-                    //测试end
-                    //将数据转换成json对象 正式
-                    //var obj=$.parseJSON(data);
+                    //var obj = $.parseJSON(data);
                     //if (obj._BaseInfo)
                     //{
-                    //    var _BaseInfo = $.parseJSON(obj._BaseInfo);
-                    //    if (_BaseInfo.ds)
+                    //    if (obj._BaseInfo.ds)
                     //    {
-                    //        var ds = _BaseInfo.ds;
+                    //        var ds = obj._BaseInfo.ds;
+                    //        //$("#BaseInfoForm").form("load", ds[0]);
                     //        AddBaseInfoToForm(ds[0]);
                     //    }
                     //}
                     //if (obj._ClinicalInfo)
-                    //{ 
-                    //    var _ClinicalInfo = $.parseJSON(obj._ClinicalInfo);
-                    //    if (_ClinicalInfo.ds)
-                    //    { 
-                    //        var ds = _ClinicalInfo.ds
-                    //        for (var i = 0; i < ds.length; i++)
+                    //{
+                    //    if (obj._ClinicalInfo.ds)
+                    //    {
+                    //        for (var i = 0; i < obj._ClinicalInfo.ds.length ; i++)
                     //        {
-                    //            var text = _ClinicalInfo.ds[i].DiagnoseDateTime.substring(0,10);
-                    //            _ClinicalInfo.ds[i].DiagnoseDateTime = text;
+                    //            var text = obj._ClinicalInfo.ds[i].DiagnoseDateTime.substring(0,10);
+                    //            obj._ClinicalInfo.ds[i].DiagnoseDateTime = text
                     //        }
+                    //        var ds = obj._ClinicalInfo.ds
                     //        $('#ClinicalInfoDg').datagrid({ loadFilter: pagerFilter }).datagrid('loadData', ds).datagrid('reload');
                     //    }
                     //}
+                    //测试end
+                    //将数据转换成json对象 正式
+                    var obj=$.parseJSON(data);
+                    if (obj._BaseInfo)
+                    {
+                        var _BaseInfo = $.parseJSON(obj._BaseInfo);
+                        if (_BaseInfo.ds)
+                        {
+                            var ds = _BaseInfo.ds;
+                            AddBaseInfoToForm(ds[0]);
+                        }
+                    }
+                    if (obj._ClinicalInfo)
+                    { 
+                        var _ClinicalInfo = $.parseJSON(obj._ClinicalInfo);
+                        if (_ClinicalInfo.ds)
+                        { 
+                            var ds = _ClinicalInfo.ds
+                            for (var i = 0; i < ds.length; i++)
+                            {
+                                var text = _ClinicalInfo.ds[i].DiagnoseDateTime.substring(0,10);
+                                _ClinicalInfo.ds[i].DiagnoseDateTime = text;
+                            }
+                            $('#ClinicalInfoDg').datagrid({ loadFilter: pagerFilter }).datagrid('loadData', ds).datagrid('reload');
+                        }
+                    }
                     //正式END
                 }
             }
@@ -165,13 +165,12 @@ function AddBaseInfoToForm(_BaseInfo)
         $("#_92").textbox('readonly', false);
         $("#_93").textbox('readonly', false);
     }
-   else if (_BaseInfo)
+    if (_BaseInfo)
     {
         if (_BaseInfo['PatientName'] && _BaseInfo['PatientName']!="")
         {
                 $("#_80").textbox('setValue', $.trim(_BaseInfo['PatientName']));
             $("#_80").textbox('readonly');
-            }
         }
         if (_BaseInfo['IPSeqNoText'])
         {
@@ -205,10 +204,7 @@ function AddBaseInfoToForm(_BaseInfo)
         if (_BaseInfo['BloodTypeFlag'] || _BaseInfo['BloodTypeFlag']==0)
         {
             var BloodTypeFlag = _BaseInfo['BloodTypeFlag'];
-            if (BloodTypeFlag==0)
-            {
-                BloodTypeFlag = 6;
-                }
+            if (BloodTypeFlag==0){BloodTypeFlag = 6;}
             var data = $('#_116').combobox('getData');
             if (data.length > 0)
             {
@@ -216,9 +212,9 @@ function AddBaseInfoToForm(_BaseInfo)
                 {
                     if (data[tem].BloodTypeFlag == BloodTypeFlag) { $("#_116").combobox('select', data[tem].text); }
                     
-            }
+                }
                 $("#_116").textbox('readonly');
-        }
+            }
         }
         if (_BaseInfo['Phone'])
         {
@@ -261,10 +257,7 @@ function AddBaseInfoToForm(_BaseInfo)
             $("#_93").textbox('readonly');
         }
     }
-    else
-    {
-        $.messager.alert('提示', '这个编号没有数据', 'error');
-    }
+    else {$.messager.alert('提示', '这个编号没有数据', 'error'); }
 }
 
 //条码框按钮回车事件
@@ -323,7 +316,6 @@ function postPatientInfo() {
                     if (data.success == "True") {
                         $.messager.show({ title: '提示！', msg: '导入成功：' + data.msg, showType: 'show' });
                         AddBaseInfoToForm("SEE");
-                        clearForm();
                         return;
                     }
                     else if (data.success == "False") {
