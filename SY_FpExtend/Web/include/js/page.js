@@ -764,7 +764,6 @@ function postData1() {
     else
     {
         var _baseinfo = getBaseInfoFormData();
-
         //var _baseinfo=querySampleInfoDiv();
         //ClinicalInfoDg 
         var _ClinicalInfoDg = $('#ClinicalInfoDg').datagrid('getChecked');

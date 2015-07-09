@@ -109,11 +109,7 @@ namespace RuRo.Web.Fp_Ajax
                     }
                 }
             }
-
-
             //导入样本数据
-
-
         }
         private string ImportPatientInfo()
         {

@@ -6,7 +6,8 @@
 <head runat="server">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link href="Images/Images/login.css" rel="stylesheet" />
-      <title>系统登录</title>
+    <script src="include/jquery-easyui-1.4.2/jquery.min.js"></script>
+    <title>系统登录</title>
     <script type="text/javascript">
         function isEmptyStr(str) {
             if (str == '' || str == null) {
@@ -30,11 +31,37 @@
                     t.focus();
                     return false;
                 }
+                if (num == 3 && isEmptyStr(t.value) && t.value == "--请选择--") {
+                    alert("请选择科室！");
+                    t.focus();
+                    return false;
+                }
                 nextobj.focus();
                 return false;
             }
             return true;
         }
+        $(function () {
+            $("#btnLogin").click(function () {
+                var txtU = $("#<%=txtUsername.ClientID%>").val();
+                if (isEmptyStr(txtU)) {
+                    alert("请输入用户名！");
+                    $("#<%=txtUsername.ClientID%>").focus();
+                    return false;
+                }
+                var txtP = $("#<%=txtPass.ClientID%>").val();
+                if (isEmptyStr(txtP)) {
+                    alert("请输入密码！");
+                    $("#<%=txtPass.ClientID%>").focus();
+                    return false;
+                }
+                var department = $('select#department option:selected').text();
+                if (isEmptyStr(department) || department == "--请选择--") {
+                    alert("请选择科室！");
+                    return false;
+                }
+            });
+        })
     </script>
 </head>
 <body leftmargin="0" topmargin="0" marginheight="0" marginwidth="0">
@@ -60,8 +87,7 @@
                                     <table cellspacing="0" cellpadding="0" width="570" border="0">
                                         <tbody>
                                             <tr>
-                                                <td width="245" height="80" align="center" valign="top">
-                                                </td>
+                                                <td width="245" height="80" align="center" valign="top"></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -84,7 +110,7 @@
                                                     <tr>
                                                         <td width="210" height="25" valign="top">用户名：
                                                         <input class="nemo01" tabindex="1" maxlength="22" size="22" name="user" id="txtUsername"
-                                                            runat="server" onkeypress="return focusNext('txtPass', event,1,this)">
+                                                            runat="server" onkeypress="return focusNext('txtPass', event,1,this)" causesvalidation="False">
                                                         </td>
                                                         <td width="80" rowspan="3" align="right" valign="middle">
                                                             <asp:ImageButton ID="btnLogin" runat="server" ImageUrl="Images/Images/login_p_img11.gif"></asp:ImageButton>
@@ -94,6 +120,11 @@
                                                         <td valign="bottom" height="12">密&nbsp;&nbsp; 码：
                                                         <input name="user" type="password" class="nemo01" tabindex="1" size="22" maxlength="22"
                                                             id="txtPass" runat="server" onkeypress="return focusNext('btnLogin', event,2,this)">
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td valign="bottom" height="12">科&nbsp;&nbsp; 室：
+                                                            <asp:DropDownList ID="department" Style="margin-top: 8px" runat="server" class="nemo01" TabIndex="1" Font-Size="Small"></asp:DropDownList>
                                                         </td>
                                                     </tr>
                                                 </table>

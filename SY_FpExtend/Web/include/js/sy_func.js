@@ -343,14 +343,6 @@ function getBaseInfoFormData() {
     return base;
 }
 
-function getSampleInfoFormData() {
-    var sampleinfo = $("#SampleInfoForm").serializeArray();
-    var samp;
-    if (sampleinfo) {
-        samp = JSON.stringify(sampleinfo);
-    }
-    return samp;
-}
 
 
 

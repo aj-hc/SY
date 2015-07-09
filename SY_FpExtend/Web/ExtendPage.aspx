@@ -25,7 +25,7 @@
             <form id="querybycodeform">
                 <div runat="server">
                     查找方式：
-                <input id="In_CodeType" class="easyui-combobox" name="querybycode" style="width: 200px;" data-options="prompt:'请选择条码类型'required:true" />
+                <input id="In_CodeType" class="easyui-combobox" name="querybycode" style="width: 200px;" data-options="prompt:'请选择条码类型',required:true" />
                     <input id="In_Code" class="easyui-textbox" data-options="prompt:'请输入条码',required:true" />
                     <a href="#" onclick="querybycode()" id="btnGet" class="easyui-linkbutton">查询患者信息</a>
                 </div>
@@ -35,7 +35,7 @@
         <div id="patient">
             <div class="easyui-panel">
                 <div style="padding: 2px"><b>基本资料：</b>
-                <input id="departments" class="easyui-combobox" name="departments" style="width: 200px;" data-options="prompt:'请选择科室'required:true" /></div>
+                <input id="departments" class="easyui-combobox" name="departments" style="width: 200px;" data-options="prompt:'请选择科室',required:true" /></div>
                 <form id="BaseInfoForm">
                     <div id="BaseInfoDiv" runat="server" style="padding: 5px;">
                         <table>
@@ -107,7 +107,7 @@
             </form>
         </div>
         <div class="h"></div>
-        <div hidden="hidden" id="sample" style="display: none">
+        <div id="sample">
             <div class="easyui-panel">
                     <div style="padding: 2px"><b>标本信息 </b></div>
                 <form id="SampleInfoForm">

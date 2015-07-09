@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Web.UI.WebControls;
 namespace RuRo.Web
 {
     /// <summary>
@@ -9,15 +10,20 @@ namespace RuRo.Web
     {
         protected void Page_Load(object sender, System.EventArgs e)
         {
+
+            if (!IsPostBack)
+            {
+                SetDepartment();
+            }
             if (CheckLoginByCookie())
             {
                 Response.Redirect("ExtendPage.aspx");
             }
-
             //登陆
             //验证登陆
             //跳转扩展页面
         }
+        
 
         #region Web 窗体设计器生成的代码
         override protected void OnInit(EventArgs e)
@@ -40,6 +46,16 @@ namespace RuRo.Web
         }
         #endregion
 
+        private void SetDepartment()
+        {
+            department.Width = 136;
+            ListItem list = new ListItem("--请选择--", "0");
+            ListItem list1 = new ListItem("心研所", "1");
+            ListItem list2 = new ListItem("肺癌所", "2");
+            department.Items.Add(list);
+            department.Items.Add(list1);
+            department.Items.Add(list2);
+        }
         private void btnLogin_Click(object sender, System.Web.UI.ImageClickEventArgs e)
         {
             #region 检查登陆
