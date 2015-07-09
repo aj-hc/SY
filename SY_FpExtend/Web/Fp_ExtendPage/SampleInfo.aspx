@@ -39,7 +39,7 @@
     </style>
 </head>
 <body>
-    <form id="form2">
+    <form id="SampleInfoFrom">
         <%--1、共有字段信息展现--字段标识--%>
         <%--2、样本特有字段、管数、位置信息展现--%>
         <div class="easyui-panel">
@@ -102,93 +102,7 @@
                 </table>
             </div>
         </div>
-        <div><br /></div>
-        <div class="easyui-panel">
-            <div id="tb" style="height: auto">
-                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" onclick="append()" style="width: auto">添加样本</a>
-                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true" onclick="removeit()" style="width: auto">移除样本</a>
-            </div>
-            <table id="dg_SampleInfo" class="easyui-datagrid" title="取样信息" style="width: 99%; height: auto"
-                data-options="rownumbers:true,singleSelect:false,url:'',method:'get',toolbar: '#tb',pagination: true">
-                <thead>
-                    <tr>
-                        <th data-options="field:'ck',checkbox:true" style="width: 15px"></th>
-                        <th data-options="field:'DiagnoseTypeFlag',
-                            formatter:function(value,row){
-							return row.productname;
-						},
-						editor:{
-							type:'combobox',
-							options:{
-								valueField:'productid',
-								textField:'productname',
-								method:'get',
-								url:'',
-								required:true
-							}
-						}"
-                            style="width: 25%">研究脏器</th>
-                        <th data-options="field:'DiagnoseDateTime',
-                             formatter:function(value,row){
-							return row.productname;
-						},
-						editor:{
-							type:'combobox',
-							options:{
-								valueField:'productid',
-								textField:'productname',
-								method:'get',
-								url:'',
-								required:true
-							}
-						}"
-                            style="width: 30%">标本类型</th>
-                        <th data-options="field:'savemethod',width:300,editor:'textbox'">保存方式</th>
-                    </tr>
-                </thead>
-            </table>
-        </div>
+        <div id="dg_SampleInfo"></div>
     </form>
-     <script type="text/javascript">
-		 var editIndex = undefined;
-         function endEditing(){
-             if (editIndex == undefined){return true}
-             if ($('#dg_SampleInfo').datagrid('validateRow', editIndex)) {
-                 var ed = $('#dg_SampleInfo').datagrid('getEditor', { index: editIndex, field: 'productid' });
-                 var productname = $(ed.target).combobox('getText');
-                 $('#dg_SampleInfo').datagrid('getRows')[editIndex]['productname'] = productname;
-                 $('#dg_SampleInfo').datagrid('endEdit', editIndex);
-                 editIndex = undefined;
-                 return true;
-             } else {
-                 return false;
-             }
-         }
-         function onClickRow(index){
-             if (editIndex != index){
-                 if (endEditing()){
-                     $('#dg_SampleInfo').datagrid('selectRow', index)
-                             .datagrid('beginEdit', index);
-                     editIndex = index;
-                 } else {
-                     $('#dg_SampleInfo').datagrid('selectRow', editIndex);
-                 }
-             }
-         }
-         function append(){
-             if (endEditing()){
-                 $('#dg_SampleInfo').datagrid('appendRow', { status: 'P' });
-                 editIndex = $('#dg_SampleInfo').datagrid('getRows').length - 1;
-                 $('#dg_SampleInfo').datagrid('selectRow', editIndex)
-                         .datagrid('beginEdit', editIndex);
-             }
-         }
-         function removeit(){
-             if (editIndex == undefined){return}
-             $('#dg_SampleInfo').datagrid('cancelEdit', editIndex)
-                     .datagrid('deleteRow', editIndex);
-             editIndex = undefined;
-         }
-	</script>
 </body>
 </html>

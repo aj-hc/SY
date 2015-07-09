@@ -19,9 +19,12 @@
 </head>
 <body style="overflow: auto;">
     <div id="main" style="width: 900px; padding: 1px;">
-
         <div class="easyui-panel">
-                <div><b>查找患者</b></div>
+                <div>
+                  <ul>
+                    <li><b>查找患者</b></li>
+                  </ul>
+                </div>
             <form id="querybycodeform">
                 <div runat="server">
                     查找方式：
@@ -41,56 +44,41 @@
                         <table>
                             <tr>
                                 <td>姓名：</td>
-                                <td>
-                                    <input class="easyui-textbox" name="PatientName" id="_80" data-options="required:true" /></td>
+                                <td><input class="easyui-textbox" name="PatientName" id="_80" data-options="required:true" /></td>
                                 <td class="name">住院号：</td>
-                                <td>
-                                    <input class="easyui-textbox" name="IPSeqNoText" id="_81" data-options="required:false" /></td>
+                                <td><input class="easyui-textbox" name="IPSeqNoText" id="_81" data-options="required:false" /></td>
                                 <td>就诊卡号：</td>
-                                <td>
-                                    <input class="easyui-textbox" name="PatientCardNo" id="_82" data-options="required:false" /></td>
+                                <td><input class="easyui-textbox" name="PatientCardNo" id="_82" data-options="required:false" /></td>
                             </tr>
                             <tr>
                                 <td>性别：</td>
-                                <td>
-                                    <input class="easyui-combobox" name="SexFlag" id="_115" style="width: 204px" data-options=" required:false" />
-                                </td>
+                                <td><input class="easyui-combobox" name="SexFlag" id="_115" style="width: 204px" data-options=" required:false" /></td>
                                 <td>出生日期：</td>
-                                <td>
-                                    <input class="easyui-datebox" name="BirthDay" id="_84" data-options="required:false" /></td>
+                                <td><input class="easyui-datebox" name="BirthDay" id="_84" data-options="required:false" /></td>
                                 <td>血型：</td>
-                                <td>
-                                    <input class="easyui-combobox" name="BloodTypeFlag" id="_116" data-options="required:false" /></td>
+                                <td><input class="easyui-combobox" name="BloodTypeFlag" id="_116" data-options="required:false" /></td>
                             </tr>
                             <tr>
                                 <td>联系人：</td>
-                                <td>
-                                    <input class="easyui-textbox" name="ContactPerson" id="_88" data-options="required:false" /></td>
+                                <td><input class="easyui-textbox" name="ContactPerson" id="_88" data-options="required:false" /></td>
                                 <td>联系人电话：</td>
-                                <td>
-                                    <input class="easyui-textbox" name="ContactPhone" id="_87" data-options="required:false" /></td>
+                                <td><input class="easyui-textbox" name="ContactPhone" id="_87" data-options="required:false" /></td>
                                 <td>联系电话：</td>
-                                <td>
-                                    <input class="easyui-textbox" name="Phone" id="_86" data-options="required:false" /></td>
+                                <td><input class="easyui-textbox" name="Phone" id="_86" data-options="required:false" /></td>
                             </tr>
                             <tr>
                                 <td>籍贯：</td>
-                                <td>
-                                    <input class="easyui-textbox" name="NativePlace" id="_89" data-options="required:false" /></td>
+                                <td><input class="easyui-textbox" name="NativePlace" id="_89" data-options="required:false" /></td>
                                 <td>门诊流水号：</td>
-                                <td>
-                                    <input class="easyui-textbox" name="RegisterSeqNO" id="_90" data-options="required:false" /></td>
+                                <td><input class="easyui-textbox" name="RegisterSeqNO" id="_90" data-options="required:false" /></td>
                                 <td>患者ID：</td>
-                                <td>
-                                    <input class="easyui-textbox" name="PatientID" id="_91" data-options="required:true" /></td>
+                                <td><input class="easyui-textbox" name="PatientID" id="_91" data-options="required:true" /></td>
                             </tr>
                             <tr>
                                 <td>住院ID：</td>
-                                <td>
-                                    <input class="easyui-textbox" name="InPatientID" id="_93" data-options="required:false" /></td>
+                                <td><input class="easyui-textbox" name="InPatientID" id="_93" data-options="required:false" /></td>
                                 <td>挂号ID：</td>
-                                <td>
-                                    <input class="easyui-textbox" name="RegisterID" id="_92" data-options="required:false" /></td>
+                                <td><input class="easyui-textbox" name="RegisterID" id="_92" data-options="required:false" /></td>
                             </tr>
                         </table>
                     </div>
@@ -117,43 +105,33 @@
                         <table>
                             <tr>
                                 <td>采集人：</td>
-                                <td>
-                                    <input class="easyui-combobox" id="_99" name="_99" /></td>
+                                <td><input class="easyui-combobox" id="_99" name="_99" /></td>
                                 <td>采集目的：</td>
-                                <td>
-                                    <input class="easyui-textbox" id="_100" name="_100" style="width: 484px;" /></td>
+                                <td><input class="easyui-textbox" id="_100" name="_100" style="width: 484px;" /></td>
                             </tr>
                             <tr>
                                 <td>取材日期：</td>
-                                <td>
-                                    <input class="easyui-datebox" id="_103" name="_103" /></td>
+                                <td><input class="easyui-datebox" id="_103" name="_103" /></td>
                                 <td>取材时段：</td>
-                                <td>
-                                    <input class="easyui-combobox" id="_113" name="_113" style="width: 484px;" /></td>
+                                <td><input class="easyui-combobox" id="_113" name="_113" style="width: 484px;" /></td>
                             </tr>
                             <tr>
                                 <td>取材时间：</td>
-                                <td>
-                                    <input class="easyui-textbox" id="_104" name="_104" /></td>
+                                <td><input class="easyui-textbox" id="_104" name="_104" /></td>
                                 <td>取材描述：</td>
-                                <td>
-                                    <input class="easyui-textbox" id="_110" name="_110" style="width: 484px;" /></td>
+                                <td><input class="easyui-textbox" id="_110" name="_110" style="width: 484px;" /></td>
                             </tr>
                             <tr>
                                 <td>取材医护：</td>
-                                <td>
-                                    <input class="easyui-combobox" id="_109" name="_109" /></td>
+                                <td><input class="easyui-combobox" id="_109" name="_109" /></td>
                                 <td>研究方案：</td>
-                                <td>
-                                    <input class="easyui-textbox" id="_102" name="_102" style="width: 484px;" /></td>
+                                <td><input class="easyui-textbox" id="_102" name="_102" style="width: 484px;" /></td>
                             </tr>
                             <tr>
                                 <td>过期日期：</td>
-                                <td>
-                                    <input class="easyui-datebox" id="_107" name="_107" /></td>
+                                <td><input class="easyui-datebox" id="_107" name="_107" /></td>
                                 <td>备注：</td>
-                                <td>
-                                    <input class="easyui-textbox" id="_112" name="_112" style="width: 484px" /></td>
+                                <td><input class="easyui-textbox" id="_112" name="_112" style="width: 484px" /></td>
                             </tr>
                         </table>
                     </div>
