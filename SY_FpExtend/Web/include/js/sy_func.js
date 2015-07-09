@@ -288,7 +288,6 @@ function postPatientInfo() {
         });
     }
 }
-
 function getBaseInfoFormData() {
     var sampleinfo = $("#BaseInfoForm").serializeArray();
     var ii = $("#_116").combobox('getText');

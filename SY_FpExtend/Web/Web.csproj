@@ -270,6 +270,7 @@
     <Content Include="Images\Images\yw16.gif" />
     <Content Include="Images\Images\zhut16.gif" />
     <Content Include="Images\Images\zjsp16.gif" />
+    <Content Include="Images\LoGo.jpg" />
     <Content Include="ImportSample.aspx" />
     <Content Include="include\css\default.css" />
     <Content Include="include\jquery-easyui-1.4.2\easyloader.js" />

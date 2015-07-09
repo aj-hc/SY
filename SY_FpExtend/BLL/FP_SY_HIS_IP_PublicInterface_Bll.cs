@@ -30,7 +30,17 @@ namespace RuRo.BLL
                 string strdate = dt.ToString("yyyy-MM-dd");
                 ds.Tables[0].Rows[i]["DiagnoseDateTime"] = strdate;
             }
-            return FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(ds);
+            string res= FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(ds);
+            //明天正式环境检测
+            if (res == "{\"ds\":[]}")
+            {
+                res="";
+                return res;
+            }
+            else 
+            {
+                return res;
+            }
         }
         #endregion
 
@@ -140,10 +150,5 @@ namespace RuRo.BLL
             DataTable dt = new DataTable();
             return dal.GetSY_HC_GetEmployeeInfo();
         }
-
-
-
-
-
     }
 }

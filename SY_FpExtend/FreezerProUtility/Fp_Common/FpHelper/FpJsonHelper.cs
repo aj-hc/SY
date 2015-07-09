@@ -37,6 +37,11 @@ namespace FreezerProUtility.Fp_Common
             return JsonConvert.SerializeObject(str);
         }
 
+        public static object DeserializeObjectStr(string str)
+        {
+            return JsonConvert.DeserializeObject(str);
+        }
+
 
         #region 将API返回的json格式的字符串中对象转换成list集合 + public static List<T> JObjectToList<T>(string str, string json)
         /// <summary>
