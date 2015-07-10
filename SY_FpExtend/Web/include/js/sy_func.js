@@ -57,8 +57,9 @@ function querybycode() {
             url: '/Fp_Ajax/GetData.aspx?action=gethisdata&In_CodeType=' + In_CodeType + '&In_Code=' + In_Code,
             onSubmit: function () { },
             success: function (data) {
+                $('#In_Code').textbox('setValue','');
                 clearForm();
-                if (!data) { $.messager.alert('提示', '查询不到数据,请检查数据是否存在！', 'error'); }
+                if (!data) { $.messager.alert('提示', '查询不到数据,请检查数据是否存在！', 'error')}
                 else {
                     //测试代码
                     var obj = $.parseJSON(data);
@@ -296,7 +297,3 @@ function getBaseInfoFormData() {
     if (sampleinfo) {base = JSON.stringify(sampleinfo);}
     return base;
 }
-
-
-
-

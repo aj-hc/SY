@@ -31,12 +31,13 @@ namespace RuRo.Web.Fp_Ajax
             if (action == "postPatientinfo")
             {
               string result = ImportPatientInfo();
-
               Response.Write(result);
             }
             if (action == "postSampleInfo")
             {
-
+                //string id=获取样本的行号
+                //使用方法提交样本数据到fp
+                //返回提交后的结果
             }
         }
 
@@ -162,7 +163,8 @@ namespace RuRo.Web.Fp_Ajax
                     SaveClinicalDicToLocalBase(clinicalInfoDgDicList, departments);
                     string success = FreezerProUtility.Fp_Common.FpJsonHelper.GetStrFromJsonStr("success", improtTestDataResult);
                     string msg = FreezerProUtility.Fp_Common.FpJsonHelper.GetStrFromJsonStr("msg", improtTestDataResult);
-                    Dictionary<string, string> dic = new Dictionary<string, string>(); dic.Add("success", success); dic.Add("msg", msg);
+                    Dictionary<string, string> dic = new Dictionary<string, string>();
+                    dic.Add("success", success); dic.Add("msg", msg);
                     return FreezerProUtility.Fp_Common.FpJsonHelper.DictionaryToJsonString(dic);
                 }
                 else
@@ -181,11 +183,18 @@ namespace RuRo.Web.Fp_Ajax
                 Dictionary<string, string> dic = new Dictionary<string, string>(); dic.Add("success", success); dic.Add("msg", msg + "   临床数据已存在");
                 return FreezerProUtility.Fp_Common.FpJsonHelper.DictionaryToJsonString(dic);
             }
-
-
             //导入样本数据
-
-
+        }
+        private string SplitJson(string returnjson, string mark)
+        {
+            Dictionary<string, Dictionary<string, string>> dic = new Dictionary<string, Dictionary<string, string>>();
+            string success = FreezerProUtility.Fp_Common.FpJsonHelper.GetStrFromJsonStr("success", returnjson);
+            string msg = FreezerProUtility.Fp_Common.FpJsonHelper.GetStrFromJsonStr("msg", returnjson);
+            Dictionary<string, string> dicdd = new Dictionary<string, string>();
+            dicdd.Add("success", success); 
+            dicdd.Add("msg", msg);
+            dic.Add(mark, dicdd);
+            return FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(dic);
         }
         #region 获取基本信息字典（样本源）
         //获取基本信息字典（样本源）

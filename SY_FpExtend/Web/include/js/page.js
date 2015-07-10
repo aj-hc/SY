@@ -264,7 +264,7 @@ $(function () {
                 formatter: function (value, rec) {
                     var btnn = '<input type="button" value="提交" text="提交" id="ForSubmit" />';
                     var btn = '<a  href="#" class="easyui-linkbutton" id="ForSubmit" onclick="ForSubmitSampleInfo();" ><p id="txtSubmit">提交</p></a>';
-                    return btnn;
+                    return btn;
                 }
             }
         ]],

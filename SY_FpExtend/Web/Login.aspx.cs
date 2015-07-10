@@ -23,7 +23,7 @@ namespace RuRo.Web
             //验证登陆
             //跳转扩展页面
         }
-        
+
 
         #region Web 窗体设计器生成的代码
         override protected void OnInit(EventArgs e)
@@ -48,7 +48,9 @@ namespace RuRo.Web
 
         private void SetDepartment()
         {
+            string cookDepartment = Common.CookieHelper.GetCookieValue("department");
             department.Width = 136;
+            
             ListItem list = new ListItem("--请选择--", "0");
             ListItem list1 = new ListItem("心研所", "1");
             ListItem list2 = new ListItem("肺癌所", "2");
@@ -61,6 +63,7 @@ namespace RuRo.Web
             #region 检查登陆
             string userName = RuRo.Common.PageValidate.InputText(txtUsername.Value.Trim(), 30);
             string passWord = RuRo.Common.PageValidate.InputText(txtPass.Value.Trim(), 30);
+            string depar = department.SelectedItem.Text;
             if (checkToken(userName, passWord))
             {
                 WriteCookie(userName, passWord);
@@ -78,6 +81,7 @@ namespace RuRo.Web
         {
             string userName = Common.CookieHelper.GetCookieValue("username");
             string temPass = Common.CookieHelper.GetCookieValue("password");
+
             if (!string.IsNullOrEmpty(userName) && !string.IsNullOrEmpty(temPass))
             {
                 string passWord = Common.DEncrypt.DESEncrypt.Decrypt(temPass);
@@ -108,6 +112,7 @@ namespace RuRo.Web
         //写入cookie
         private void WriteCookie(string username, string password)
         {
+            LoginOut();
             string DEnPassword = Common.DEncrypt.DESEncrypt.Encrypt(password);
             Common.CookieHelper.SetCookie("username", username);
             Common.CookieHelper.SetCookie("password", DEnPassword);
