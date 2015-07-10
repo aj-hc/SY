@@ -114,6 +114,9 @@ $(function () {
     var $dg_SampleInfo = $('#dg_SampleInfo');
     $dg_SampleInfo.datagrid({
         title: '样本信息',
+        singleSelect: false,
+        //pagination: true,
+        rownumbers:true,
         columns: [[
             {
                 field: 'SampleType', title: '样品类型', width: '25%', align: 'center', editor: {
@@ -216,12 +219,10 @@ $(function () {
                 formatter: function (value, rec) {
                     var btnn = '<input type="button" value="提交" text="提交" id="ForSubmit" />';
                     var btn = '<a  href="#" class="easyui-linkbutton" id="ForSubmit" onclick="ForSubmitSampleInfo();" ><p id="txtSubmit">提交</p></a>';
-                    return btnn;
+                    return btn;
                 }
             }
         ]],
-        singleSelect: false,
-        pagination: true,
         toolbar: [
             {
                 text: '添加', iconCls: 'icon-add', handler: function () {
@@ -559,20 +560,18 @@ var getDtaJsonDiagnoseTypeFlag = JSON.parse(getDiagnoseTypeFlagData);
 
 //初始化面板SampleType
 function getSampleTypeJson(SampleTypeurl) {
-    var temp;
     $.ajax({
         type: 'get',
         url: SampleTypeurl,
-        async: false,
+        //async: false,
         //datatype: 'json',
-        success: function (responseData) {temp = responseData;}
+        success: function (data) {return data}
     });
-    return temp;
 }
 var SampleTypeurl = '../Fp_Ajax/PageConData.aspx?conMarc=SampleType';
 var getSampleTypeData = getSampleTypeJson(SampleTypeurl);
 var getDtaJsonSampleType;
-    getDtaJsonSampleType = JSON.parse(getSampleTypeData);
+//getDtaJsonSampleType = JSON.parse(getSampleTypeData);
 
 
 //////联动数据绑定值

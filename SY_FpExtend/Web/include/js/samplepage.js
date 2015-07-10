@@ -13,8 +13,10 @@ function postSampleInfo(sampleinfo,dgrowdata) {
     //提交数据做验证
     $.ajax({
         type: "POST",
-        url: "/url",
-        data: "name=John&location=Boston",
+        url: '/Fp_Ajax/SubmitData.aspx?action=postSampleInfo',
+        data: {
+
+        },
         dataType: "json",
         success: function (response) {
 
