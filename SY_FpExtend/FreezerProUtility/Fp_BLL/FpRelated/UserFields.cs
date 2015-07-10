@@ -27,7 +27,7 @@ namespace FreezerProUtility.Fp_BLL
                     list_UserFields = FpJsonHelper.JObjectToList<UserFields>("UserFields", str_Json);
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
             }
             return list_UserFields;

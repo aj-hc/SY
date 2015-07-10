@@ -7,6 +7,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <script src="../include/jquery-easyui-1.4.3/jquery.min.js"></script>
     <script src="../include/jquery-easyui-1.4.3/jquery.easyui.min.js"></script>
+    <script src="include/js/jquery.cookie.js"></script>
     <link href="../include/jquery-easyui-1.4.3/themes/default/easyui.css" rel="stylesheet" />
     <link href="../include/jquery-easyui-1.4.3/themes/icon.css" rel="stylesheet" />
     <link href="include/css/default.css" rel="stylesheet" />
@@ -20,7 +21,7 @@
     <div id="main" style="width: 900px; padding: 1px;">
         <div class="easyui-panel">
             <div>
-            <a href="#" id="loginOut" class="easyui-linkbutton" data-options="plain:true" style="position:absolute;right:15px;top:10px">注销</a><%--注销操作，清除cookie，关闭--%>
+                <a href="javascript:void(0)" id="loginOut" class="easyui-linkbutton" data-options="plain:true" style="position: absolute; right: 15px; top: 10px" onclick="loginOut()">注销</a><%--注销操作，清除cookie，关闭--%>
                 <ul>
                     <li><b>查找患者</b></li>
                 </ul>
@@ -30,7 +31,7 @@
                     查找方式：
                 <input id="In_CodeType" class="easyui-combobox" name="querybycode" style="width: 200px;" data-options="prompt:'请选择条码类型',required:true" />
                     <input id="In_Code" class="easyui-textbox" data-options="prompt:'请输入条码',required:true" />
-                    <a href="#" id="btnGet" class="easyui-linkbutton">查询患者信息</a>
+                    <a href="javascript:void(0)" id="btnGet" class="easyui-linkbutton" onclick="querybycode()">查询患者信息</a>
                 </div>
             </form>
         </div>
@@ -82,14 +83,17 @@
                                     <td>门诊流水号：</td>
                                     <td>
                                         <input class="easyui-textbox" name="RegisterSeqNO" id="_90" data-options="required:false" /></td>
-                                <td style=" display:none">患者ID：</td>
-                                <td style=" display:none"><input class="easyui-textbox" name="PatientID" id="_91" data-options="required:true" /></td>
+                                    <td style="display: none">患者ID：</td>
+                                    <td style="display: none">
+                                        <input class="easyui-textbox" name="PatientID" id="_91" data-options="required:true" /></td>
                                 </tr>
                                 <tr>
-                                <td style=" display:none">住院ID：</td>
-                                <td style=" display:none"><input class="easyui-textbox" name="InPatientID" id="_93" data-options="required:false" /></td>
-                                <td style=" display:none">挂号ID：</td>
-                                <td style=" display:none"><input class="easyui-textbox" name="RegisterID" id="_92" data-options="required:false" /></td>
+                                    <td style="display: none">住院ID：</td>
+                                    <td style="display: none">
+                                        <input class="easyui-textbox" name="InPatientID" id="_93" data-options="required:false" /></td>
+                                    <td style="display: none">挂号ID：</td>
+                                    <td style="display: none">
+                                        <input class="easyui-textbox" name="RegisterID" id="_92" data-options="required:false" /></td>
                                 </tr>
                             </table>
                         </div>
@@ -166,26 +170,12 @@
                 </form>
             </div>
             <div id="footer" style="padding: 5px; margin: 10px" data-options="region:'south',">
-                <a href="javascript:void(0)" class="easyui-linkbutton" onclick="postPatientInfo()" id="submit" style="width: auto">导入信息</a>
-                <a href="javascript:void(0)" class="easyui-linkbutton" onclick="CloseWebPage()" style="width: auto">取消导入</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" id="submit" style="width: auto" onclick="postPatientInfo()">导入信息</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" id="cancleSubmit" style="width: auto" onclick="CloseWebPage()">取消导入</a>
             </div>
         </div>
-    </div>
-    <!--登陆框-->
-    <div id="Login" class="easyui-dialog" style="width: 300px; padding: 30px 50px 20px 50px" title="请登录助手" data-options="closed:true">
-        <form id="frmLogin" runat="server" enableviewstate="false">
-            <div style="margin-bottom: 10px">
-                <input class="easyui-textbox" id="username" name="username" style="width: 100%; height: 40px; padding: 12px" data-options="prompt:'username',iconCls:'icon-man',iconWidth:38" />
-            </div>
-            <div style="margin-bottom: 20px">
-                <input class="easyui-textbox" id="password" name="password" style="width: 100%; height: 40px; padding: 12px" type="password" data-options="prompt:'password',iconCls:'icon-lock',iconWidth:38" />
-            </div>
-            <div style="text-align: center; padding: 5px">
-                <a href="javascript:void(0)" style="margin: 0px 10px 0px 10px" class="easyui-linkbutton" onclick="login()">登陆</a>
-                <a href="javascript:void(0)" style="margin: 0px 10px 0px 10px" class=" easyui-linkbutton" onclick="$('#Login').dialog('close')">取消</a>
-            </div>
-        </form>
-    </div>
+
+
     <!--临床信息录入框 -->
     <div id="w" class="easyui-window" title="添加临床数据" data-options="modal:true,closed:true,iconCls:'icon-save'" style="width:450px;height:400px;padding:10px;">
 		<div style="padding:10px 60px 20px 60px">

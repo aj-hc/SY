@@ -66,11 +66,11 @@
 </head>
 <body leftmargin="0" topmargin="0" marginheight="0" marginwidth="0">
     <form id="Form1" method="post" runat="server">
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
         <table width="620" border="0" align="center" cellpadding="0" cellspacing="0">
             <tbody>
                 <tr>
@@ -80,7 +80,7 @@
                 </tr>
                 <tr>
                     <td align="center" background="Images/Images/login_p_img03.gif">
-                        <br>
+                        <br/>
                         <table width="570" border="0" cellspacing="0" cellpadding="0">
                             <tr>
                                 <td>
@@ -109,26 +109,25 @@
                                                 <table cellspacing="0" cellpadding="0" border="0">
                                                     <tr>
                                                         <td width="210" height="25" valign="top">用户名：
-                                                        <input class="nemo01" tabindex="1" maxlength="22" size="22" name="user" id="txtUsername"
-                                                            runat="server" onkeypress="return focusNext('txtPass', event,1,this)" causesvalidation="False">
+                                                            <asp:TextBox runat="server" class="nemo01" TabIndex="1" MaxLength="22" size="22" name="user" ID="txtUsername" onkeypress="return focusNext('txtPass', event,1,this)" AutoPostBack="True" OnTextChanged="txtUsername_TextChanged" />
                                                         </td>
                                                         <td width="80" rowspan="3" align="right" valign="middle">
                                                             <asp:ImageButton ID="btnLogin" runat="server" ImageUrl="Images/Images/login_p_img11.gif"></asp:ImageButton>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td valign="bottom" height="12">密&nbsp;&nbsp; 码：
+                                                        <td valign="bottom" height="12">密&nbsp;&nbsp;&nbsp;码：
                                                         <input name="user" type="password" class="nemo01" tabindex="1" size="22" maxlength="22"
                                                             id="txtPass" runat="server" onkeypress="return focusNext('btnLogin', event,2,this)">
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td valign="bottom" height="12">科&nbsp;&nbsp; 室：
+                                                        <td valign="bottom" height="12">科&nbsp;&nbsp;&nbsp;室：
                                                             <asp:DropDownList ID="department" Style="margin-top: 8px" runat="server" class="nemo01" TabIndex="1" Font-Size="Small"></asp:DropDownList>
                                                         </td>
                                                     </tr>
                                                 </table>
-                                                <br>
+                                                <br/>
                                                 <asp:Label ID="lblMsg" runat="server" BackColor="Transparent" ForeColor="Red"></asp:Label>
                                             </td>
                                         </tr>
@@ -153,12 +152,12 @@
                 </tr>
                 <tr>
                     <td>
-                        <img height="11" src="Images/Images/login_p_img04.gif" width="650">
+                        <img height="11" src="Images/Images/login_p_img04.gif" width="650" />
                     </td>
                 </tr>
             </tbody>
         </table>
-        <br>
+        <br/>
     </form>
 </body>
 </html>

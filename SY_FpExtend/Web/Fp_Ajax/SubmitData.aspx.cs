@@ -352,6 +352,7 @@ namespace RuRo.Web.Fp_Ajax
                     }
                 catch (Exception ex)
                 {
+                    Common.LogHelper.WriteError(ex);
                     continue;
                 }
             }
@@ -380,6 +381,7 @@ namespace RuRo.Web.Fp_Ajax
                 }
                 catch (Exception ex)
                 {
+                    Common.LogHelper.WriteError(ex);
                     continue;
                 }
             }
@@ -420,6 +422,7 @@ namespace RuRo.Web.Fp_Ajax
                 }
                 catch (Exception ex)
                 {
+                    Common.LogHelper.WriteError(ex);
                     continue;
                 }
             }
@@ -744,7 +747,7 @@ namespace RuRo.Web.Fp_Ajax
                         }
                         catch (Exception ex)
                         {
-
+                            Common.LogHelper.WriteError(ex);
                         }
                         Common.ReflectHelper.SetValue(t, name, value);
                     }
@@ -755,6 +758,7 @@ namespace RuRo.Web.Fp_Ajax
                 }
                 catch (Exception ex)
                 {
+                    Common.LogHelper.WriteError(ex);
                     continue;
                 }
 
