@@ -302,7 +302,8 @@ $(function () {
 
 //给In_CodeType下拉框绑定值
 $(function () {
-    var In_CodeType = $.cookie("In_CodeType");
+    var username = $.cookie('username');
+    var In_CodeType = $.cookie(username + 'In_CodeType');
     $('#In_CodeType').combobox({
         editable: false,
         method: 'get',
@@ -310,22 +311,25 @@ $(function () {
         textField: 'text',
         url: '../Fp_Ajax/PageConData.aspx?conMarc=In_CodeType',
         panelHeight: 'auto',
+        onChange:In_CodeTypeChange,
         //selectOnNavigation:$(this).is(':checked'),
         onLoadSuccess: function () { //数据加载完毕事件
             //$("#In_CodeType").combobox('setValue', '住院号');
             if (In_CodeType) {
-                $('#In_CodeType').combogrid('setValue', In_CodeType);
+                $('#In_CodeType').combobox('setValue', In_CodeType);
                 //绑定数据到页面
             }
         }
     })
 })
+
 function In_CodeTypeChange() {
+    var username = $.cookie('username');
     var In_CodeType = $('#In_CodeType').combobox('getValue');
     //清除cookie 
-    $.cookie("In_CodeType", null);
+    $.cookie(username+"In_CodeType", null);
     //重写cookie
-    $.cookie('In_CodeType', In_CodeType, { expires: 7 });
+    $.cookie(username+'In_CodeType', In_CodeType, { expires: 7 });
 }
 
 //给departments下拉框绑定值
