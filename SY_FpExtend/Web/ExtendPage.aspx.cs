@@ -19,7 +19,7 @@ namespace RuRo.Web
                 //页面第一次加载
                 if (!login.CheckLoginByCookie())
                 {
-                    Response.Redirect("Login.aspx");
+                    //Response.Redirect("Login.aspx");
                 }
             }
         }
