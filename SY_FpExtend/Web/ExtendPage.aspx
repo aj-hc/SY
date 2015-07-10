@@ -29,7 +29,7 @@
             <form id="querybycodeform">
                 <div runat="server">
                     查找方式：
-                <input id="In_CodeType" class="easyui-combobox" name="querybycode" style="width: 200px;" data-options="prompt:'请选择条码类型',required:true" />
+                    <input id="In_CodeType" class="easyui-combobox" name="querybycode" style="width: 200px;" data-options="prompt:'请选择条码类型',required:true" />
                     <input id="In_Code" class="easyui-textbox" data-options="prompt:'请输入条码',required:true" />
                     <a href="javascript:void(0)" id="btnGet" class="easyui-linkbutton" onclick="querybycode()">查询患者信息</a>
                 </div>
@@ -174,8 +174,6 @@
                 <a href="javascript:void(0)" class="easyui-linkbutton" id="cancleSubmit" style="width: auto" onclick="CloseWebPage()">取消导入</a>
             </div>
         </div>
-
-
     <!--临床信息录入框 -->
     <div id="w" class="easyui-window" title="添加临床数据" data-options="modal:true,closed:true,iconCls:'icon-save'" style="width:450px;height:400px;padding:10px;">
 		<div style="padding:10px 60px 20px 60px">

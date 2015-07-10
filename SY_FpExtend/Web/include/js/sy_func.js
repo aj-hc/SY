@@ -340,7 +340,6 @@ function getBaseInfoFormData() {
     if (sampleinfo) {base = JSON.stringify(sampleinfo);}
     return base;
 }
-
 //添加值到ClinicalInfoDg
 function submitFormClinicalInfoDg() {
     var from = $('#setClinicalInfoDg').serializeArray();
