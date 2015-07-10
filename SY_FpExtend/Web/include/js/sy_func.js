@@ -50,8 +50,32 @@ function myparser(s) {
 function querybycode() {
     var In_CodeType = $('#In_CodeType').combobox('getValue');
     var In_Code = $('#In_Code').textbox('getValue');//获取数据源
+    if (In_Code.length > 14) { $.messager.alert('错误', '条码最高不能超过15位', 'error'); $('#In_Code').textbox('clear'); return; }
     if (isEmptyStr(In_CodeType) || isEmptyStr(In_Code)) {$.messager.alert('提示', '请检查条码类型和条码号', 'error');}
     else {
+        if (In_CodeType=="3")
+        {
+            var date = In_Code.substring(0,8);
+            var r1 = /^(19|20)\d\d(0[1-9]|1[012])(0[1-9]|[12]\d|3[01])$/;
+            if (r1.test(date))
+            {
+                var num = In_Code.substring(8, In_Code.length);
+                if(num.length<6)
+                {
+                    //不知道是不是6位 文档是5，接口文档是6，是5的话就改6为5
+                    for (var i = num.length; i < 6; i++) {
+                        num = "0" + num;
+                    }
+                    In_Code = date + num;
+                    $('#In_Code').textbox('setValue', date + num);
+                }
+            }
+            else
+            {
+                $.messager.alert('错误', '门诊流水号的日期格式不对,请重新输入', 'error');
+                return;
+            }
+        }
         $.ajax({
             type: 'GET',
             url: '/Fp_Ajax/GetData.aspx?action=gethisdata&In_CodeType=' + In_CodeType + '&In_Code=' + In_Code,
@@ -62,61 +86,61 @@ function querybycode() {
                 if (!data) { $.messager.alert('提示', '查询不到数据,请检查数据是否存在！', 'error')}
                 else {
                     //测试代码
-                    //var obj = $.parseJSON(data);
-                    //if (obj._BaseInfo) {
-                    //    if (obj._BaseInfo.ds) {
-                    //        var ds = obj._BaseInfo.ds;
-                    //        //$("#BaseInfoForm").form("load", ds[0]);
-                    //        AddBaseInfoToForm(ds[0]);
-                    //    }
-                    //}
-                    //if (obj._ClinicalInfo) {
-                    //    if (obj._ClinicalInfo.ds) {
-                    //        for (var i = 0; i < obj._ClinicalInfo.ds.length ; i++) {
-                    //            var text = obj._ClinicalInfo.ds[i].DiagnoseDateTime.substring(0, 10);
-                    //            obj._ClinicalInfo.ds[i].DiagnoseDateTime = text
-                    //        }
-                    //        var ds = obj._ClinicalInfo.ds
-                    //        $('#ClinicalInfoDg').datagrid({ loadFilter: pagerFilter }).datagrid('loadData', ds).datagrid('reload');
-                    //    }
-                    //}
-                    //测试end
-                    //将数据转换成json对象 正式
                     var obj = $.parseJSON(data);
-                    $('#In_Code').textbox('clear');
-                    if (obj._BaseInfo)
-                    {
-                        var _BaseInfo = $.parseJSON(obj._BaseInfo);
-                        if (_BaseInfo.ds)
-                        {
-                            var ds = _BaseInfo.ds;
-                            if(ds[0]==undefined)
-                            {
-                                $.messager.alert('提示', '查询不到数据,请检查数据是否存在！', 'error');
-                                return;
-                            }
+                    if (obj._BaseInfo) {
+                        if (obj._BaseInfo.ds) {
+                            var ds = obj._BaseInfo.ds;
+                            //$("#BaseInfoForm").form("load", ds[0]);
                             AddBaseInfoToForm(ds[0]);
                         }
                     }
-                    if (obj._ClinicalInfo)
-                    {
-                        var _ClinicalInfo = $.parseJSON(obj._ClinicalInfo);
-
-                            if (_ClinicalInfo.ds) {
-                                var ds = _ClinicalInfo.ds
-                                if (ds[0].msg) {
-                                    $.messager.alert('提示', ds[0].msg);
-                                }
-                                else
-                                {
-                                    for (var i = 0; i < ds.length; i++) {
-                                        var text = _ClinicalInfo.ds[i].DiagnoseDateTime.substring(0, 10);
-                                        _ClinicalInfo.ds[i].DiagnoseDateTime = text;
-                                    }
-                                    $('#ClinicalInfoDg').datagrid({ loadFilter: pagerFilter }).datagrid('loadData', ds).datagrid('reload');
-                                }
+                    if (obj._ClinicalInfo) {
+                        if (obj._ClinicalInfo.ds) {
+                            for (var i = 0; i < obj._ClinicalInfo.ds.length ; i++) {
+                                var text = obj._ClinicalInfo.ds[i].DiagnoseDateTime.substring(0, 10);
+                                obj._ClinicalInfo.ds[i].DiagnoseDateTime = text
                             }
+                            var ds = obj._ClinicalInfo.ds
+                            $('#ClinicalInfoDg').datagrid({ loadFilter: pagerFilter }).datagrid('loadData', ds).datagrid('reload');
+                        }
                     }
+                    //测试end
+                    //将数据转换成json对象 正式
+                    //var obj = $.parseJSON(data);
+                    //$('#In_Code').textbox('clear');
+                    //if (obj._BaseInfo)
+                    //{
+                    //    var _BaseInfo = $.parseJSON(obj._BaseInfo);
+                    //    if (_BaseInfo.ds)
+                    //    {
+                    //        var ds = _BaseInfo.ds;
+                    //        if(ds[0]==undefined)
+                    //        {
+                    //            $.messager.alert('提示', '查询不到数据,请检查数据是否存在！', 'error');
+                    //            return;
+                    //        }
+                    //        AddBaseInfoToForm(ds[0]);
+                    //    }
+                    //}
+                    //if (obj._ClinicalInfo)
+                    //{
+                    //    var _ClinicalInfo = $.parseJSON(obj._ClinicalInfo);
+
+                    //        if (_ClinicalInfo.ds) {
+                    //            var ds = _ClinicalInfo.ds
+                    //            if (ds[0].msg) {
+                    //                $.messager.alert('提示', ds[0].msg);
+                    //            }
+                    //            else
+                    //            {
+                    //                for (var i = 0; i < ds.length; i++) {
+                    //                    var text = _ClinicalInfo.ds[i].DiagnoseDateTime.substring(0, 10);
+                    //                    _ClinicalInfo.ds[i].DiagnoseDateTime = text;
+                    //                }
+                    //                $('#ClinicalInfoDg').datagrid({ loadFilter: pagerFilter }).datagrid('loadData', ds).datagrid('reload');
+                    //            }
+                    //        }
+                    //}
                     //正式END
                 }
             }
@@ -315,4 +339,21 @@ function getBaseInfoFormData() {
     var base;
     if (sampleinfo) {base = JSON.stringify(sampleinfo);}
     return base;
+}
+
+//添加值到ClinicalInfoDg
+function submitFormClinicalInfoDg() {
+    var from = $('#setClinicalInfoDg').serializeArray();
+    $('#ClinicalInfoDg').datagrid('insertRow', {
+        index: 1,	// 索引从0开始
+        row: {
+            DiagnoseTypeFlag: from[0].value,
+            DiagnoseDateTime: from[1].value,
+            ICDCode: from[2].value,
+            DiseaseName: from[3].value,
+            Description: from[4].value
+        }
+    });
+    $('#setClinicalInfoDg').form('clear');
+    $('#w').window('close');
 }

@@ -23,15 +23,26 @@ namespace RuRo.BLL
         {
             DataSet ds = new DataSet();
             DateTime dt = new DateTime();
+            DataView dv = new DataView();
+            DataSet ds1 = new DataSet();
             ds = dal.GetSY_HC_GetDiagnoseInfo(model);
             for (int i = 0; i < ds.Tables[0].Rows.Count - 1; i++)
             {
+                switch (Convert.ToInt32(ds.Tables[0].Rows[i]["DiagnoseTypeFlag"])) 
+                {
+                    case 1: ds.Tables[0].Rows[i]["DiagnoseTypeFlag"] = "门诊诊断"; break;
+                    case 2: ds.Tables[0].Rows[i]["DiagnoseTypeFlag"] = "入院诊断"; break;
+                    case 3: ds.Tables[0].Rows[i]["DiagnoseTypeFlag"] = "出院主要诊断"; break;
+                    case 4: ds.Tables[0].Rows[i]["DiagnoseTypeFlag"] = "出院次要诊断"; break;
+                    case 12: ds.Tables[0].Rows[i]["DiagnoseTypeFlag"] = "病理诊断"; break;
+                    default: ds.Tables[0].Rows[i]["DiagnoseTypeFlag"] = "未知诊断"; break;
+                };
                 dt = Convert.ToDateTime(ds.Tables[0].Rows[i]["DiagnoseDateTime"]);
                 string strdate = dt.ToString("yyyy-MM-dd");
                 ds.Tables[0].Rows[i]["DiagnoseDateTime"] = strdate;
             }
             string res= FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(ds);
-            //明天正式环境检测
+            //排查，待测试
             if (res == "{\"ds\":[]}")
             {
                 res = "{\"ds\":[{\"msg\":\"临床数据为空\"}]}";
@@ -39,6 +50,41 @@ namespace RuRo.BLL
             }
             else 
             {
+                #region 按照SB信息科的要求，出院-入院-门诊 到时候不需要只要删除这个就OK 如果需要返回最新一条数据改一改就好
+                dv = ds.Tables[0].DefaultView;
+                dv.RowFilter = "DiagnoseDateTime ASC AND DiagnoseTypeFlag='出院主要诊断'";
+                if (dv.Count == 0 || object.Equals(dv, null))
+                {
+                    dv = new DataView();
+                    dv = ds.Tables[0].DefaultView;
+                    dv.RowFilter = "DiagnoseDateTime ASC AND DiagnoseTypeFlag='入院诊断'";
+                    if (dv.Count == 0 || object.Equals(dv, null))
+                    {
+                        dv = new DataView();
+                        dv = ds.Tables[0].DefaultView;
+                        dv.RowFilter = "DiagnoseDateTime ASC AND DiagnoseTypeFlag='门诊诊断'";
+                        if (dv.Count == 0 || object.Equals(dv, null))
+                        {
+                            res = "{\"ds\":[{\"msg\":\"无标准临床数据返回\"}]}";
+                        }
+                        else 
+                        {
+                            ds1.Tables.Add(dv.ToTable());
+                            res = FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(ds1);
+                        }
+                    }
+                    else 
+                    {
+                        ds1.Tables.Add(dv.ToTable());
+                        res = FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(ds1);
+                    }
+                }
+                else 
+                {
+                    ds1.Tables.Add(dv.ToTable());
+                    res = FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(ds1);
+                }
+                #endregion
                 return res;
             }
         }
