@@ -16,25 +16,28 @@
     <script type="text/javascript">
         //初始化win弹窗在显示器中央
         function doimport() {
-            var width = 915;
+            var width = 970;
             var height = 600;
             var l = Math.round((window.screen.width - width) / 2);
             var t = Math.round((window.screen.height - height) / 2);
             window.open('Login.aspx', 'newwindow', 'height=' + height + ', width=' + width + ', top=' + t + ',left=' + l + ',toolbar=no, menubar=no, scrollbars=yes, resizable=no,location=no, status=no')
         }
-        $(function () {
-            $(".side").css({ 'width': '24px', 'padding-right': '5px' });
-            $(".side ul li").hover(function () {
-                $(this).find(".sidebox").stop().animate({ "width": "124px" }, 200).css({ "opacity": "1", "filter": "Alpha(opacity=100)", "background": "192237" })
-            }, function () {
-                $(this).find(".sidebox").stop().animate({ "width": "45px" }, 200).css({ "opacity": "0.9", "filter": "Alpha(opacity=80)", "background": "192237" })
-            });
-        });
+        //$(function () {
+        //    $(".side").css({ 'width': '24px', 'padding-right': '5px' });
+        //    $(".side ul li").hover(function () {
+        //        $(this).find(".sidebox").stop().animate({ "width": "124px" }, 200).css({ "opacity": "1", "filter": "Alpha(opacity=100)", "background": "192237" })
+        //    }, function () {
+        //        $(this).find(".sidebox").stop().animate({ "width": "45px" }, 200).css({ "opacity": "0.9", "filter": "Alpha(opacity=80)", "background": "192237" })
+        //    });
+        //});
     </script>
 </head>
 <body style="width: 100%; height: 100%">
     <%--嵌套页--%>
+        <div id="main"style="width: 100%; height: 100%" >
+            <div id="logo" style="width:20%; height:40px; position:absolute; top:2px; left:50px;"><img src="../Images/LoGo.jpg" style="width:190px; height:40px; z-index:100"></img></div>
     <iframe runat="server" id="FreezerPro" name="FreezerPro" frameborder="0" style="width: 100%; height: 100%;"></iframe>
+    
     <form action="/" method="post" runat="server" id="from">
         <%--菜单栏--%>
         <div class="side">
@@ -44,5 +47,6 @@
         </div>
         <%--<div id="MenuBar" runat="server"><a href="#" id="btnextend" onclick="doimport()" >扩展</a></div>--%>
     </form>
+            </div>
 </body>
 </html>

@@ -38,7 +38,6 @@
         <div id="patient">
             <div class="easyui-panel">
                 <div style="padding: 2px"><b>基本资料：</b>
-                <input id="departments" class="easyui-combobox" name="departments" style="width: 200px;" data-options="prompt:'请选择科室',required:true" /></div>
                 <form id="BaseInfoForm">
                     <div id="BaseInfoDiv" runat="server" style="padding: 5px;">
                         <table>
@@ -72,7 +71,7 @@
                                 <td>门诊流水号：</td>
                                 <td><input class="easyui-textbox" name="RegisterSeqNO" id="_90" data-options="required:false" /></td>
                                 <td>患者ID：</td>
-                                <td><input class="easyui-textbox" name="PatientID" id="_91" data-options="required:true" /></td>
+                                <td><input class="easyui-textbox" name="PatientID" id="_91" display="none" data-options="required:true" /></td>
                             </tr>
                             <tr>
                                 <td>住院ID：</td>
