@@ -7,7 +7,7 @@ using System.Text;
 
 namespace RuRo.Common
 {
-   public class LogHelper
+    public class LogHelper
     {
 
         public static void WriteError(string errorMessage)
@@ -34,15 +34,29 @@ namespace RuRo.Common
                 WriteError(ex.Message);
             }
         }
-
-
         public static void WriteError(Exception ex)
         {
-            // 在出现未处理的错误时运行的代码
-            Exception objErr = ex.GetBaseException();
-            //记录出现错误的IP地址
-            string err = "Error Message【" + objErr.Message.ToString() + "】" + Environment.NewLine + "Error TargetSite【" + objErr.TargetSite.ToString() + "】" + Environment.NewLine + "Error Source【" + objErr.Source.ToString() + "】";
             //记录错误
+            StringBuilder str = new StringBuilder();
+            Type type = ex.GetType();
+            foreach (var item in type.GetProperties())
+            {
+                string tem = string.Empty;
+                try
+                {
+                    tem = Common.ReflectHelper.GetValue(ex, item.Name);
+                    if (!string.IsNullOrEmpty(tem))
+                    {
+                        str.AppendFormat("{0}：【{1}】{2}", item.Name,tem, Environment.NewLine);
+                    }
+                }
+                catch (Exception e)
+                {
+                    WriteError(e.Message);
+                    continue;
+                }
+
+            }
 
             try
             {
@@ -55,7 +69,7 @@ namespace RuRo.Common
                 {
                     w.WriteLine("\r\nLog Entry : ");
                     w.WriteLine("{0}", DateTime.Now.ToString(CultureInfo.InvariantCulture));
-                    w.WriteLine(err);
+                    w.WriteLine(str.ToString());
                     w.WriteLine("________________________________________________________");
                     w.Flush();
                     w.Close();

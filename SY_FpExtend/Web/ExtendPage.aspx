@@ -7,6 +7,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <script src="../include/jquery-easyui-1.4.3/jquery.min.js"></script>
     <script src="../include/jquery-easyui-1.4.3/jquery.easyui.min.js"></script>
+    <script src="include/js/jquery.cookie.js"></script>
     <link href="../include/jquery-easyui-1.4.3/themes/default/easyui.css" rel="stylesheet" />
     <link href="../include/jquery-easyui-1.4.3/themes/icon.css" rel="stylesheet" />
     <link href="include/css/default.css" rel="stylesheet" />
@@ -15,12 +16,14 @@
     <script src="include/js/page.js"></script>
     <script src="include/js/BindFuncToId.js"></script>
     <title>样品录入</title>
+    <script type="text/javascript">
+    </script>
 </head>
 <body style="overflow: auto;">
     <div id="main" style="width: 900px; padding: 1px;">
         <div class="easyui-panel">
             <div>
-            <a href="#" id="loginOut" class="easyui-linkbutton" data-options="plain:true" style="position:absolute;right:15px;top:10px">注销</a><%--注销操作，清除cookie，关闭--%>
+                <a href="javascript:void(0)" id="loginOut" class="easyui-linkbutton" data-options="plain:true" style="position: absolute; right: 15px; top: 10px" onclick="loginOut()">注销</a><%--注销操作，清除cookie，关闭--%>
                 <ul>
                     <li><b>查找患者</b></li>
                 </ul>
@@ -30,7 +33,7 @@
                     查找方式：
                 <input id="In_CodeType" class="easyui-combobox" name="querybycode" style="width: 200px;" data-options="prompt:'请选择条码类型',required:true" />
                     <input id="In_Code" class="easyui-textbox" data-options="prompt:'请输入条码',required:true" />
-                    <a href="#" id="btnGet" class="easyui-linkbutton">查询患者信息</a>
+                    <a href="javascript:void(0)" id="btnGet" class="easyui-linkbutton" onclick="querybycode()">查询患者信息</a>
                 </div>
             </form>
         </div>
@@ -82,14 +85,17 @@
                                     <td>门诊流水号：</td>
                                     <td>
                                         <input class="easyui-textbox" name="RegisterSeqNO" id="_90" data-options="required:false" /></td>
-                                <td style=" display:none">患者ID：</td>
-                                <td style=" display:none"><input class="easyui-textbox" name="PatientID" id="_91" data-options="required:true" /></td>
+                                    <td style="display: none">患者ID：</td>
+                                    <td style="display: none">
+                                        <input class="easyui-textbox" name="PatientID" id="_91" data-options="required:true" /></td>
                                 </tr>
                                 <tr>
-                                <td style=" display:none">住院ID：</td>
-                                <td style=" display:none"><input class="easyui-textbox" name="InPatientID" id="_93" data-options="required:false" /></td>
-                                <td style=" display:none">挂号ID：</td>
-                                <td style=" display:none"><input class="easyui-textbox" name="RegisterID" id="_92" data-options="required:false" /></td>
+                                    <td style="display: none">住院ID：</td>
+                                    <td style="display: none">
+                                        <input class="easyui-textbox" name="InPatientID" id="_93" data-options="required:false" /></td>
+                                    <td style="display: none">挂号ID：</td>
+                                    <td style="display: none">
+                                        <input class="easyui-textbox" name="RegisterID" id="_92" data-options="required:false" /></td>
                                 </tr>
                             </table>
                         </div>
@@ -166,11 +172,10 @@
                 </form>
             </div>
             <div id="footer" style="padding: 5px; margin: 10px" data-options="region:'south',">
-                <a href="javascript:void(0)" class="easyui-linkbutton" onclick="postPatientInfo()" id="submit" style="width: auto">导入信息</a>
-                <a href="javascript:void(0)" class="easyui-linkbutton" onclick="CloseWebPage()" style="width: auto">取消导入</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" id="submit" style="width: auto" onclick="postPatientInfo()">导入信息</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" id="cancleSubmit" style="width: auto" onclick="CloseWebPage()">取消导入</a>
             </div>
         </div>
-
         <!--登陆框-->
         <div id="Login" class="easyui-dialog" style="width: 300px; padding: 30px 50px 20px 50px" title="请登录助手" data-options="closed:true">
             <form id="frmLogin" runat="server" enableviewstate="false">
@@ -186,40 +191,84 @@
                 </div>
             </form>
         </div>
-    <!--临床信息录入框 -->
-    <div id="w" class="easyui-window" title="Modal Window" data-options="modal:true,closed:true,iconCls:'icon-save'" style="width:500px;height:200px;padding:10px;">
-				<div style="padding:10px 60px 20px 60px">
-	    <form id="ff" method="post">
-	    	<table cellpadding="5">
-	    		<tr>
-	    			<td>Name:</td>
-	    			<td><input class="easyui-textbox" type="text" name="name" data-options="required:true"></input></td>
-	    		</tr>
-	    		<tr>
-	    			<td>Email:</td>
-	    			<td><input class="easyui-textbox" type="text" name="email" data-options="required:true,validType:'email'"></input></td>
-	    		</tr>
-	    		<tr>
-	    			<td>Subject:</td>
-	    			<td><input class="easyui-textbox" type="text" name="subject" data-options="required:true"></input></td>
-	    		</tr>
-	    		<tr>
-	    			<td>Message:</td>
-	    			<td><input class="easyui-textbox" name="message" data-options="multiline:true" style="height:60px"></input></td>
-	    		</tr>
-	    		<tr>
-	    			<td>Language:</td>
-	    			<td>
-	    				<select class="easyui-combobox" name="language"><option value="ar">Arabic</option><option value="bg">Bulgarian</option><option value="ca">Catalan</option><option value="zh-cht">Chinese Traditional</option><option value="cs">Czech</option><option value="da">Danish</option><option value="nl">Dutch</option><option value="en" selected="selected">English</option><option value="et">Estonian</option><option value="fi">Finnish</option><option value="fr">French</option><option value="de">German</option><option value="el">Greek</option><option value="ht">Haitian Creole</option><option value="he">Hebrew</option><option value="hi">Hindi</option><option value="mww">Hmong Daw</option><option value="hu">Hungarian</option><option value="id">Indonesian</option><option value="it">Italian</option><option value="ja">Japanese</option><option value="ko">Korean</option><option value="lv">Latvian</option><option value="lt">Lithuanian</option><option value="no">Norwegian</option><option value="fa">Persian</option><option value="pl">Polish</option><option value="pt">Portuguese</option><option value="ro">Romanian</option><option value="ru">Russian</option><option value="sk">Slovak</option><option value="sl">Slovenian</option><option value="es">Spanish</option><option value="sv">Swedish</option><option value="th">Thai</option><option value="tr">Turkish</option><option value="uk">Ukrainian</option><option value="vi">Vietnamese</option></select>
-	    			</td>
-	    		</tr>
-	    	</table>
-	    </form>
-	    <div style="text-align:center;padding:5px">
-	    	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm()">Submit</a>
-	    	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearForm()">Clear</a>
-	    </div>
-	    </div>
+        <!--临床信息录入框 -->
+        <div id="w" class="easyui-window" title="Modal Window" data-options="modal:true,closed:true,iconCls:'icon-save'" style="width: 500px; height: 200px; padding: 10px;">
+            <div style="padding: 10px 60px 20px 60px">
+                <form id="ff" method="post">
+                    <table cellpadding="5">
+                        <tr>
+                            <td>Name:</td>
+                            <td>
+                                <input class="easyui-textbox" type="text" name="name" data-options="required:true"></input></td>
+                        </tr>
+                        <tr>
+                            <td>Email:</td>
+                            <td>
+                                <input class="easyui-textbox" type="text" name="email" data-options="required:true,validType:'email'"></input></td>
+                        </tr>
+                        <tr>
+                            <td>Subject:</td>
+                            <td>
+                                <input class="easyui-textbox" type="text" name="subject" data-options="required:true"></input></td>
+                        </tr>
+                        <tr>
+                            <td>Message:</td>
+                            <td>
+                                <input class="easyui-textbox" name="message" data-options="multiline:true" style="height: 60px"></input></td>
+                        </tr>
+                        <tr>
+                            <td>Language:</td>
+                            <td>
+                                <select class="easyui-combobox" name="language">
+                                    <option value="ar">Arabic</option>
+                                    <option value="bg">Bulgarian</option>
+                                    <option value="ca">Catalan</option>
+                                    <option value="zh-cht">Chinese Traditional</option>
+                                    <option value="cs">Czech</option>
+                                    <option value="da">Danish</option>
+                                    <option value="nl">Dutch</option>
+                                    <option value="en" selected="selected">English</option>
+                                    <option value="et">Estonian</option>
+                                    <option value="fi">Finnish</option>
+                                    <option value="fr">French</option>
+                                    <option value="de">German</option>
+                                    <option value="el">Greek</option>
+                                    <option value="ht">Haitian Creole</option>
+                                    <option value="he">Hebrew</option>
+                                    <option value="hi">Hindi</option>
+                                    <option value="mww">Hmong Daw</option>
+                                    <option value="hu">Hungarian</option>
+                                    <option value="id">Indonesian</option>
+                                    <option value="it">Italian</option>
+                                    <option value="ja">Japanese</option>
+                                    <option value="ko">Korean</option>
+                                    <option value="lv">Latvian</option>
+                                    <option value="lt">Lithuanian</option>
+                                    <option value="no">Norwegian</option>
+                                    <option value="fa">Persian</option>
+                                    <option value="pl">Polish</option>
+                                    <option value="pt">Portuguese</option>
+                                    <option value="ro">Romanian</option>
+                                    <option value="ru">Russian</option>
+                                    <option value="sk">Slovak</option>
+                                    <option value="sl">Slovenian</option>
+                                    <option value="es">Spanish</option>
+                                    <option value="sv">Swedish</option>
+                                    <option value="th">Thai</option>
+                                    <option value="tr">Turkish</option>
+                                    <option value="uk">Ukrainian</option>
+                                    <option value="vi">Vietnamese</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+                <div style="text-align: center; padding: 5px">
+                    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm()">Submit</a>
+                    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearForm()">Clear</a>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 </html>
