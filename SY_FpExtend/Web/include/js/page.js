@@ -7,27 +7,27 @@ $(function () {
         columns: [[
             { field: 'ck', checkbox: true, width: '5%' },
             {
-                field: 'DiagnoseTypeFlag', title: '诊断类型', width: '20%',
-                editor: {
-                    type: 'combobox',
-                    options: {
-                        data: getDtaJsonDiagnoseTypeFlag,
-                        valueField: 'DiagnoseTypeFlag',
-                        textField: 'text',
-                        editable: false,
-                        panelHeight: 'auto',
-                        required: true
-                    }
-                }, formatter: function (value, rowData, rowIndex) {
-                    var getData = getDiagnoseTypeFlagJsonurl(Diagnoseurl);
-                    var getDtaJson = JSON.parse(getData);
-                    if (getDtaJson != "" || getDtaJson != null) {
-                        for (var i = 0; i < getDtaJson.length; i++) {
-                            if (getDtaJson[i].DiagnoseTypeFlag == value) { return getDtaJson[i].text; }
-                        }
-                    }
-                    else { return value; }
-                }
+                field: 'DiagnoseTypeFlag', title: '诊断类型', width: '20%', editor: { type: 'validatebox', options: { required: false } }
+                //editor: {
+                //    type: 'combobox',
+                //    options: {
+                //        data: getDtaJsonDiagnoseTypeFlag,
+                //        valueField: 'DiagnoseTypeFlag',
+                //        textField: 'text',
+                //        editable: false,
+                //        panelHeight: 'auto',
+                //        required: true
+                //    }
+                //}, formatter: function (value, rowData, rowIndex) {
+                //    var getData = getDiagnoseTypeFlagJsonurl(Diagnoseurl);
+                //    var getDtaJson = JSON.parse(getData);
+                //    if (getDtaJson != "" || getDtaJson != null) {
+                //        for (var i = 0; i < getDtaJson.length; i++) {
+                //            if (getDtaJson[i].DiagnoseTypeFlag == value) { return getDtaJson[i].text; }
+                //        }
+                //    }
+                //    else { return value; }
+                //}
             },
             { field: 'DiagnoseDateTime', title: '诊断日期', width: '20%', sortable: true, editor: { type: 'datebox', options: { required: false } }},
             { field: 'ICDCode', title: 'ICD码', width: '15%', align: 'center', sortable: true, editor: { type: 'validatebox', options: { required: false } } },
@@ -37,20 +37,21 @@ $(function () {
         singleSelect: false,
         fitColumns: true,
         rownumbers: true,//行号
-        pagination: true,
-        pagePosition: 'bottom',
-        pageNumber: 1,
-        pageSize: 5,
-        pageList: [5, 10, 15, 20],
+        //pagination: true,
+        //pagePosition: 'bottom',
+        //pageNumber: 1,
+        //pageSize: 5,
+        //pageList: [5, 10, 15, 20],
         toolbar: [
             {
                 text: '添加', iconCls: 'icon-add', handler: function () {
-                    if (editRow != undefined) {$ClinicalInfoDg.datagrid('endEdit', editRow);}
-                    if (editRow == undefined) {
-                        $ClinicalInfoDg.datagrid('insertRow', { index: 0, row: {} });
-                        $ClinicalInfoDg.datagrid('beginEdit', 0);
-                        editRow = undefined;
-                    }
+                    $('#w').window('open');
+                    //if (editRow != undefined) {$ClinicalInfoDg.datagrid('endEdit', editRow);}
+                    //if (editRow == undefined) {
+                    //    $ClinicalInfoDg.datagrid('insertRow', { index: 0, row: {} });
+                    //    $ClinicalInfoDg.datagrid('beginEdit', 0);
+                    //    editRow = undefined;
+                    //}
                 }
             }, '-', {
                 text: '保存', iconCls: 'icon-save', handler: function () {
@@ -74,26 +75,24 @@ $(function () {
                         $ClinicalInfoDg.datagrid('deleteRow', rowIndex);
                     }
                     $("#ClinicalInfoDg").datagrid("clearSelections");
-                    //if (row) {
-                    //    var rowIndex = $ClinicalInfoDg.datagrid('getRowIndex', row);
-                    //    $ClinicalInfoDg.datagrid('deleteRow', rowIndex);
                     editRow == undefined;
-                    //}
                 }
-            }, '-', {
-                text: '修改', iconCls: 'icon-edit', handler: function () {
-                    var row = $ClinicalInfoDg.datagrid('getSelected');
-                    if (row != null) {
-                        if (editRow != undefined) {$ClinicalInfoDg.datagrid('endEdit', editRow);}
-                        if (editRow == undefined) {
-                            var index = $ClinicalInfoDg.datagrid('getRowIndex', row);
-                            $ClinicalInfoDg.datagrid('beginEdit', index);
-                            editRow = index;
-                            $ClinicalInfoDg.datagrid('unselectAll');
-                        }
-                    } else { }
-                }
-            }],
+            }, '-',
+            //{
+            //    text: '修改', iconCls: 'icon-edit', handler: function () {
+            //        var row = $ClinicalInfoDg.datagrid('getSelected');
+            //        if (row != null) {
+            //            if (editRow != undefined) {$ClinicalInfoDg.datagrid('endEdit', editRow);}
+            //            if (editRow == undefined) {
+            //                var index = $ClinicalInfoDg.datagrid('getRowIndex', row);
+            //                $ClinicalInfoDg.datagrid('beginEdit', index);
+            //                editRow = index;
+            //                $ClinicalInfoDg.datagrid('unselectAll');
+            //            }
+            //        } else { }
+            //    }
+            //}
+        ],
 
         onAfterEdit: function (rowIndex, rowData, changes) {editRow = undefined;},
         onDblClickRow: function (rowIndex, rowData) {
@@ -104,54 +103,7 @@ $(function () {
             if (editRow != undefined) {$ClinicalInfoDg.datagrid('endEdit', editRow);}
             }
     });
-    //var pager = $("#ClinicalInfoDg").datagrid("getPager");
-    //pager.pagination({
-    //    onSelectPage: function (pageNo, pageSize) {
-    //        var data = $("#ClinicalInfoDg").datagrid("getData");
-    //        var arr = [];
-    //        for (var i = 0; i < data.rows.length - 1; i++) {
-    //            arr.push
-    //                ({
-    //                    "Description": data.rows[i].Description,
-    //                    "DiagnoseDateTime": data.rows[i].DiagnoseDateTime,
-    //                    "DiagnoseTypeFlag": data.rows[i].DiagnoseTypeFlag,
-    //                    "DiseaseName": data.rows[i].DiseaseName,
-    //                    "ICDCode": data.rows[i].ICDCode
-    //                });
-    //        }
-    //        var start = (pageNo - 1) * pageSize;
-    //        var end = start + pageSize;
-    //        $("#ClinicalInfoDg").datagrid("loadData", arr.slice(start, end));
-    //        pager.pagination('refresh', {
-    //            total: data.rows.length,
-    //            pageNumber: pageNo
-    //        });
-    //    }
-    //});
 })
-//function pagerFilter(data) {
-//    var dg = $('#ClinicalInfoDg').datagrid();
-//    var opts = dg.datagrid('options');
-//    var pager = dg.datagrid('getPager');
-//    pager.pagination({
-//        onSelectPage: function (pageNum, pageSize) {
-//            opts.pageNumber = pageNum;
-//            opts.pageSize = pageSize;
-//            pager.pagination('refresh', {
-//                pageNumber: pageNum,
-//                pageSize: pageSize
-//            });
-//            dg.datagrid('loadData', data);
-//        }
-//    });
-//    if (!data.originalRows) {
-//        data.originalRows = (data.rows);
-//    }
-//    var start = (opts.pageNumber - 1) * parseInt(opts.pageSize);
-//    var end = start + parseInt(opts.pageSize);
-//    data.rows = (data.Rows.slice(start, end));
-//    return data;
-//}
 //诊断类型JSON
 var SampleInfotarget;
 var SampleInfobool = true;
@@ -666,5 +618,13 @@ function ForSubmitSampleInfo()
 {
     alert('1111');
     //提交样品
+}
+
+function prompt1() {
+    $.messager.prompt('My Title', 'Please type something', function (r) {
+        if (r) {
+            alert('you type: ' + r);
+        }
+    });
 }
 
