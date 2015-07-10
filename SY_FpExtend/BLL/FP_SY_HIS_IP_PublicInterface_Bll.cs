@@ -34,7 +34,7 @@ namespace RuRo.BLL
             //明天正式环境检测
             if (res == "{\"ds\":[]}")
             {
-                res="";
+                res = "{\"ds\":[{\"msg\":\"临床数据为空\"}]}";
                 return res;
             }
             else 
