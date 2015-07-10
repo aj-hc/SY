@@ -6,9 +6,11 @@ $(function () {
 
 //注销按钮
 function loginOut() {
+    $.messager.alert('提示', '确认注销？', 'error')
     $.cookie('username', null);
     $.cookie('password', null);
     CloseWebPage();
+
 }
 
 //点击查询数据

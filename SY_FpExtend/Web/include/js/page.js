@@ -302,6 +302,7 @@ $(function () {
 
 //给In_CodeType下拉框绑定值
 $(function () {
+    var In_CodeType = $.cookie("In_CodeType");
     $('#In_CodeType').combobox({
         editable: false,
         method: 'get',
@@ -312,9 +313,20 @@ $(function () {
         //selectOnNavigation:$(this).is(':checked'),
         onLoadSuccess: function () { //数据加载完毕事件
             //$("#In_CodeType").combobox('setValue', '住院号');
+            if (In_CodeType) {
+                $('#In_CodeType').combogrid('setValue', In_CodeType);
+                //绑定数据到页面
+            }
         }
     })
 })
+function In_CodeTypeChange() {
+    var In_CodeType = $('#In_CodeType').combobox('getValue');
+    //清除cookie 
+    $.cookie("In_CodeType", null);
+    //重写cookie
+    $.cookie('In_CodeType', In_CodeType, { expires: 7 });
+}
 
 //给departments下拉框绑定值
 $(function () {

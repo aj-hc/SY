@@ -16,7 +16,6 @@ namespace RuRo.Web
             if (!IsPostBack)
             {
                 SetDepartment();
-
             }
             if (CheckLoginByCookie())
             {
@@ -49,9 +48,9 @@ namespace RuRo.Web
         }
         #endregion
 
+        
         private void SetDepartment()
         {
-            string cookDepartment = Common.CookieHelper.GetCookieValue("department");
             department.Width = 136;
             //ListItem list = new ListItem("--请选择--", "0");
             //ListItem list1 = new ListItem("心研所", "1");
@@ -68,28 +67,17 @@ namespace RuRo.Web
             department.DataSource = arrValue;
 
             department.DataBind();
-            if (!string.IsNullOrEmpty(cookDepartment))
-            {
-                try
-                {
-                    department.SelectedValue = Common.DEncrypt.DESEncrypt.Decrypt(cookDepartment);
-                }
-                catch (Exception ex)
-                {
-                    Common.LogHelper.WriteError(ex);
-                }
-            }
+            
         }
         private void btnLogin_Click(object sender, System.Web.UI.ImageClickEventArgs e)
         {
             #region 检查登陆
-            string userName = RuRo.Common.PageValidate.InputText(txtUsername.Value.Trim(), 30);
+            string userName =txtUsername.Text.ToString().Trim();
             string passWord = RuRo.Common.PageValidate.InputText(txtPass.Value.Trim(), 30);
             //获取当前科室存入cookie
             string depar = department.SelectedValue;
             DateTime datetime = DateTime.Now.AddDays(7.0);
-
-            Common.CookieHelper.SetCookie("department", Common.DEncrypt.DESEncrypt.Encrypt(depar), datetime);
+            Common.CookieHelper.SetCookie(userName+"department", Common.DEncrypt.DESEncrypt.Encrypt(depar), datetime);
             if (checkToken(userName, passWord))
             {
                 //清除cookie
@@ -152,6 +140,27 @@ namespace RuRo.Web
             string DEnPassword = Common.DEncrypt.DESEncrypt.Encrypt(password);
             Common.CookieHelper.SetCookie("username", username);
             Common.CookieHelper.SetCookie("password", DEnPassword);
+        }
+
+        protected void txtUsername_TextChanged(object sender, EventArgs e)
+        {
+            //自动回发当前的用户名。
+            string username = txtUsername.Text.ToString().Trim(); 
+            //给科室下拉框赋值
+
+            string cookDepartment = Common.CookieHelper.GetCookieValue(username+"department");
+            if (!string.IsNullOrEmpty(cookDepartment))
+            {
+                try
+                {
+                    department.SelectedValue = Common.DEncrypt.DESEncrypt.Decrypt(cookDepartment);
+                }
+                catch (Exception ex)
+                {
+                    Common.LogHelper.WriteError(ex);
+                }
+            }
+            txtPass.Focus();
         }
     }
 }

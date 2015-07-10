@@ -31,7 +31,7 @@
             <form id="querybycodeform">
                 <div runat="server">
                     查找方式：
-                <input id="In_CodeType" class="easyui-combobox" name="querybycode" style="width: 200px;" data-options="prompt:'请选择条码类型',required:true" />
+                <input id="In_CodeType" class="easyui-combobox" name="querybycode" style="width: 200px;" data-options="prompt:'请选择条码类型',required:true" onchange="In_CodeTypeChange()" />
                     <input id="In_Code" class="easyui-textbox" data-options="prompt:'请输入条码',required:true" />
                     <a href="javascript:void(0)" id="btnGet" class="easyui-linkbutton" onclick="querybycode()">查询患者信息</a>
                 </div>
