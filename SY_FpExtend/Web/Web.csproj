@@ -76,6 +76,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="TestData\1.html" />
     <Content Include="Default.aspx" />
     <Content Include="Encrypt.aspx" />
     <Content Include="ExtendPage.aspx" />

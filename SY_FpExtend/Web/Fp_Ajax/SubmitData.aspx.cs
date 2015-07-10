@@ -30,8 +30,7 @@ namespace RuRo.Web.Fp_Ajax
             departments = Request.Params["departments"].Trim();
             if (action == "postPatientinfo")
             {
-              string result = ImportPatientInfo();
-              Response.Write(result);
+                ImportPatientInfo();
             }
             if (action == "postSampleInfo")
             {
@@ -112,7 +111,7 @@ namespace RuRo.Web.Fp_Ajax
             }
             //导入样本数据
         }
-        private string ImportPatientInfo()
+        private void ImportPatientInfo()
         {
             //导入数据
             //第一步：导入样本源
@@ -122,10 +121,9 @@ namespace RuRo.Web.Fp_Ajax
             //01.创建临床数据字典
             //02.指定临床数据类型
             //03.指定临床数据对应的样本源
-
             Dictionary<string, string> baseInfoDic = GetBaseInfoDic();
             List<Dictionary<string, string>> clinicalInfoDgDicList = GetClinicalInfoDgDicList(baseInfoDic);
-
+            List<Dictionary<string, Dictionary<string, string>>> importResult = new List<Dictionary<string, Dictionary<string, string>>>();
             string PatientID = string.Empty;
             if (baseInfoDic.ContainsKey("PatientID"))
             {
@@ -141,10 +139,15 @@ namespace RuRo.Web.Fp_Ajax
 
             //导入样本源数据
             string improtBaseInfoResult = ImportSampleSource(MatchBaseInfoDic(baseInfoDic));
-
-            if (FreezerProUtility.Fp_Common.FpJsonHelper.GetStrFromJsonStr("success", improtBaseInfoResult) == "True" || improtBaseInfoResult.Contains("should be unique."))
+            string success = FreezerProUtility.Fp_Common.FpJsonHelper.GetStrFromJsonStr("success", improtBaseInfoResult);
+            string msg = FreezerProUtility.Fp_Common.FpJsonHelper.GetStrFromJsonStr("msg", improtBaseInfoResult);
+            Dictionary<string, Dictionary<string, string>> importSampleSourceResult = new Dictionary<string, Dictionary<string, string>>();
+            importSampleSourceResult.Add("importSample", new Dictionary<string, string>() { { "success", success }, { "msg", msg } });
+            importResult.Add(importSampleSourceResult);
+            
+            if ( success== "True" || improtBaseInfoResult.Contains("should be unique."))
             {
-                //导入成功
+                //导入样品源成功
                 //导入临床数据
                 if (clinicalInfoDgDicList.Count > 0)
                 {
@@ -161,31 +164,32 @@ namespace RuRo.Web.Fp_Ajax
                     //导入成功--保存数据到本地数据库
                     //需要将字典转换为对象
                     SaveClinicalDicToLocalBase(clinicalInfoDgDicList, departments);
-                    string success = FreezerProUtility.Fp_Common.FpJsonHelper.GetStrFromJsonStr("success", improtTestDataResult);
-                    string msg = FreezerProUtility.Fp_Common.FpJsonHelper.GetStrFromJsonStr("msg", improtTestDataResult);
+                    success = FreezerProUtility.Fp_Common.FpJsonHelper.GetStrFromJsonStr("success", improtTestDataResult);
+                    msg = FreezerProUtility.Fp_Common.FpJsonHelper.GetStrFromJsonStr("msg", improtTestDataResult);
                     Dictionary<string, string> dic = new Dictionary<string, string>();
-                    dic.Add("success", success); dic.Add("msg", msg);
-                    return FreezerProUtility.Fp_Common.FpJsonHelper.DictionaryToJsonString(dic);
+                    Dictionary<string, Dictionary<string, string>> dicr = new Dictionary<string, Dictionary<string, string>>();
+                    dicr.Add("ImportClinicalResult", new Dictionary<string, string>() { { "success", success }, { "msg", msg } });
+                    importResult.Add(dicr);
                 }
                 else
                 {
-                    string success = FreezerProUtility.Fp_Common.FpJsonHelper.GetStrFromJsonStr("success", improtBaseInfoResult);
-                    string msg = FreezerProUtility.Fp_Common.FpJsonHelper.GetStrFromJsonStr("msg", improtBaseInfoResult);
-                    Dictionary<string, string> dic = new Dictionary<string, string>(); dic.Add("success", success); dic.Add("msg", msg);
-                   return FreezerProUtility.Fp_Common.FpJsonHelper.DictionaryToJsonString(dic);
+                    Dictionary<string, Dictionary<string, string>> dicr = new Dictionary<string, Dictionary<string, string>>();
+                    dicr.Add("ImportClinicalResult", new Dictionary<string, string>() { { "success", "False" }, { "msg", "该临床数据已存在" } });
+                    importResult.Add(dicr);
                 }
+                //导入样本数据
+
 
             }
             else
             {
-                string success = FreezerProUtility.Fp_Common.FpJsonHelper.GetStrFromJsonStr("success", improtBaseInfoResult);
-                string msg = FreezerProUtility.Fp_Common.FpJsonHelper.GetStrFromJsonStr("msg", improtBaseInfoResult);
-                Dictionary<string, string> dic = new Dictionary<string, string>(); dic.Add("success", success); dic.Add("msg", msg + "   临床数据已存在");
-                return FreezerProUtility.Fp_Common.FpJsonHelper.DictionaryToJsonString(dic);
+                //导入样本源失败
+                 Dictionary<string, Dictionary<string, string>> dicr = new Dictionary<string, Dictionary<string, string>>();
+                 dicr.Add("ImportClinicalResult", new Dictionary<string, string>() { { "success", "False" }, { "msg", "请先导入基本信息" } });
+                importResult.Add(dicr);
             }
-            //导入样本数据
         }
-        private string SplitJson(string returnjson, string mark)
+        private Dictionary<string, Dictionary<string, string>> SplitJson(string returnjson, string mark)
         {
             Dictionary<string, Dictionary<string, string>> dic = new Dictionary<string, Dictionary<string, string>>();
             string success = FreezerProUtility.Fp_Common.FpJsonHelper.GetStrFromJsonStr("success", returnjson);
@@ -194,9 +198,11 @@ namespace RuRo.Web.Fp_Ajax
             dicdd.Add("success", success); 
             dicdd.Add("msg", msg);
             dic.Add(mark, dicdd);
-            return FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(dic);
+            return dic;
         }
-        #region 获取基本信息字典（样本源）
+
+        #region 获取页面信息
+        #region 获取基本信息字典（样本源） +  private Dictionary<string, string> GetBaseInfoDic()
         //获取基本信息字典（样本源）
         private Dictionary<string, string> GetBaseInfoDic()
         {
@@ -270,6 +276,11 @@ namespace RuRo.Web.Fp_Ajax
             return ClinicalInfoDgDicList;
         }
         #endregion
+        #region 获取页面上的样本信息form并转换成字典 + private Dictionary<string, string> GetSampleInfoDic()
+        /// <summary>
+        /// 获取页面上的样本信息form并转换成字典
+        /// </summary>
+        /// <returns></returns>
         private Dictionary<string, string> GetSampleInfoDic()
         {
             string sampleInfo = Request.Params["sampleInfo"];//form
@@ -290,6 +301,12 @@ namespace RuRo.Web.Fp_Ajax
             }
             return sampleinfoDic;
         }
+        #endregion
+        #region 获取页面上的样本信息dg并转换成字典 + private List<Dictionary<string, string>> GetSampleInfoDgDicList()
+        /// <summary>
+        /// 获取页面上的样本信息dg并转换成字典
+        /// </summary>
+        /// <returns>字典集合</returns>
         private List<Dictionary<string, string>> GetSampleInfoDgDicList()
         {
             string sampleInfoDg = Request.Params["sampleInfoDg"];
@@ -310,6 +327,8 @@ namespace RuRo.Web.Fp_Ajax
 
             return SampleInfoDgDicList;
         }
+        #endregion 
+        #endregion
 
         #region 转换对象数据为字典或者字典集合
         #region 转换患者基本信息为字典 +private Dictionary<string, string> ConvertBaseInfoObjToDic(PageBaseInfo pageBaseInfo)
@@ -472,11 +491,221 @@ namespace RuRo.Web.Fp_Ajax
 
         #endregion
 
-        #region 将前台返回的form转换成对象
+        #region 匹配字段，并添加额外字段
+        #region 匹配基本信息字典 + private Dictionary<string, string> MatchBaseInfoDic(Dictionary<string, string> baseinfoDic)
         /// <summary>
-        /// 将前台返回的form转换成对象
+        /// 匹配基本信息字典
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <param name="baseinfoDic">基本信息字段</param>
+        /// <returns>匹配完成的字典</returns>
+        private Dictionary<string, string> MatchBaseInfoDic(Dictionary<string, string> baseinfoDic)
+        {
+            Dictionary<string, string> dic = BLL.MatchFileds.BaseInfoMatchDic();
+            Dictionary<string, string> resDic = new Dictionary<string, string>();
+            foreach (KeyValuePair<string, string> item in baseinfoDic)
+            {
+                if (dic.ContainsKey(item.Key))
+                {
+                    string key = dic[item.Key];
+                    if (!resDic.ContainsKey(key))
+                    {
+                        resDic.Add(key, item.Value);
+                    }
+                }
+            }
+            Dictionary<string, string> orderResDic = new Dictionary<string, string>();
+            orderResDic.Add("Name", resDic["Name"]);
+            foreach (KeyValuePair<string, string> item in resDic)
+            {
+                if (item.Key == "Name")
+                {
+                    continue;
+                }
+                else
+                {
+                    orderResDic.Add(item.Key, item.Value);
+                }
+            }
+            return orderResDic;
+        } 
+        #endregion
+        #region 匹配临床信息字典 + private List<Dictionary<string, string>> MatchClinicalDic(List<Dictionary<string, string>> clinicalDicList)
+        /// <summary>
+        /// 匹配临床信息字典
+        /// </summary>
+        /// <param name="clinicalDicList">临床信息字典</param>
+        /// <returns>匹配完成的字典</returns>
+        private List<Dictionary<string, string>> MatchClinicalDic(List<Dictionary<string, string>> clinicalDicList)
+        {
+            Dictionary<string, string> dic = BLL.MatchFileds.ClinicalFiledsMatchDic();
+            List<Dictionary<string, string>> resDicList = new List<Dictionary<string, string>>();
+            foreach (var clinicalDic in clinicalDicList)
+            {
+                Dictionary<string, string> resDic = new Dictionary<string, string>();
+                foreach (KeyValuePair<string, string> item in clinicalDic)
+                {
+                    if (dic.ContainsKey(item.Key))
+                    {
+                        string key = dic[item.Key];
+                        if (!resDic.ContainsKey(key))
+                        {
+                            resDic.Add(key, item.Value);
+                        }
+                    }
+                }
+                resDicList.Add(resDic);
+            }
+
+            return resDicList;
+        } 
+        #endregion
+        #region 匹配样本信息字典 + private Dictionary<string, string> MatchSampleInfoDic(Dictionary<string, string> sampleinfoDic)
+        /// <summary>
+        /// 匹配样本信息字典
+        /// </summary>
+        /// <param name="sampleinfoDic">样本信息字典</param>
+        /// <returns>匹配后的字典</returns>
+        private Dictionary<string, string> MatchSampleInfoDic(Dictionary<string, string> sampleinfoDic)
+        {
+            Dictionary<string, string> dic = BLL.MatchFileds.SampleFiledsMatchDic();
+            Dictionary<string, string> resDic = new Dictionary<string, string>();
+            foreach (KeyValuePair<string, string> item in sampleinfoDic)
+            {
+                if (dic.ContainsKey(item.Key))
+                {
+                    string key = dic[item.Key];
+                    if (!resDic.ContainsKey(key))
+                    {
+                        resDic.Add(key, item.Value);
+                    }
+                }
+            }
+            return resDic;
+        } 
+        #endregion
+        #endregion
+
+        #region 导入数据
+        #region 导入样本信息 + private string ImportSamples(Dictionary<string, string> dataDic ,string sample_type,string count)
+        /// <summary>
+        /// 导入样本信息
+        /// </summary>
+        /// <param name="dataDic"></param>
+        /// <returns></returns>
+        private string ImportSamples(Dictionary<string, string> dataDic, string sample_type, string count)
+        {
+            string result = FreezerProUtility.Fp_BLL.Samples.Import_Sample(url, sample_type, count, dataDic);
+            return result;
+        }
+        //private string ImportSamples(List<Dictionary<string, string>> dataDicList, Dictionary<string, string> dataDic)
+        //{
+        //    foreach (var item in dataDicList)
+        //    {
+        //        dataDic.Add("_117", item["_117"]);
+        //        string result = FreezerProUtility.Fp_BLL.Samples.Import_Sample(url, item["sample_type"], item["Scount"], MatchSampleInfoDic(dataDic));
+        //    }
+
+        //    return result;
+        //}
+
+
+        #endregion
+        #region 导入样本源 + private string ImportSampleSource(Dictionary<string, string> dataDic)
+        /// <summary>
+        /// 导入样本源
+        /// </summary>
+        /// <param name="dataDic"></param>
+        /// <returns></returns>
+        private string ImportSampleSource(Dictionary<string, string> dataDic)
+        {
+            string result = FreezerProUtility.Fp_BLL.SampleSocrce.ImportSampleSource(url, "基本资料", dataDic);
+            return result;
+        }
+        #endregion
+        #region 导入临床数据 + private string ImportTestData(Dictionary<string, string> dataDic)
+        /// <summary>
+        /// 导入临床数据
+        /// </summary>
+        /// <param name="dataDic"></param>
+        /// <returns></returns>
+        private string ImportTestData(List<Dictionary<string, string>> dataDicList)
+        {
+            string test_data_type = string.Empty;
+            if (!string.IsNullOrEmpty(departments))
+            {
+                try
+                {
+                    test_data_type = "临床诊断--" + departments;
+                }
+                catch (Exception)
+                {
+                }
+            }
+            string result = FreezerProUtility.Fp_BLL.TestData.ImportTestData(url, test_data_type, dataDicList);
+
+            return result;
+        }
+        #endregion 
+        #endregion
+
+        #region 将临床数据字典转换成对象并保存至数据库 + private void SaveClinicalDicToLocalBase(List<Dictionary<string, string>> clinicalInfoDgDicList, string departments)
+        /// <summary>
+        /// 将临床数据字典转换成对象并保存至数据库
+        /// </summary>
+        /// <param name="clinicalInfoDgDicList">临床数据字典</param>
+        /// <param name="departments">科室</param>
+        private void SaveClinicalDicToLocalBase(List<Dictionary<string, string>> clinicalInfoDgDicList, string departments)
+        {
+            BLL.ClinicalInfo clinicalBll = new BLL.ClinicalInfo();
+            foreach (var item in clinicalInfoDgDicList)
+            {
+                Model.ClinicalInfo clinical = new Model.ClinicalInfo();
+                item.Remove("Sample Source");
+                foreach (KeyValuePair<string, string> dic in item)
+                {
+                    try
+                    {
+                        if (dic.Key == "DiagnoseDateTime")
+                        {
+                            clinical.DiagnoseDateTime = DateTime.ParseExact(dic.Value, "yyyy-MM-dd", null);
+                        }
+                        if (dic.Key == "DiagnoseTypeFlag")
+                        {
+                            clinical.DiagnoseTypeFlag = dic.Value;
+                        }
+                        if (dic.Key == "DiseaseName")
+                        {
+                            clinical.DiseaseName = dic.Value;
+                        }
+                        if (dic.Key == "ICDCode")
+                        {
+                            clinical.ICDCode = dic.Value;
+                        }
+                        if (dic.Key == "InPatientID")
+                        {
+                            clinical.InPatientID = int.Parse(dic.Value);
+                        }
+                        if (dic.Key == "RegisterID")
+                        {
+                            clinical.RegisterID = int.Parse(dic.Value);
+                        }
+                        clinical.type = departments;
+                    }
+                    catch (Exception ex)
+                    {
+                        Common.LogHelper.WriteError(ex);
+                        continue;
+                    }
+                }
+                clinicalBll.Add(clinical);
+            }
+        } 
+        #endregion
+        #region 将前台返回的form字典转换成对象 + private T GetFromInfo<T>(List<Dictionary<string, string>> dicList) where T : class,new()
+        /// <summary>
+        /// 将前台返回的form字典转换成对象
+        /// </summary>
+        /// <typeparam name="T">要转换成的对象</typeparam>
         /// <param name="dicList"></param>
         /// <returns></returns>
         private T GetFromInfo<T>(List<Dictionary<string, string>> dicList) where T : class,new()
@@ -533,188 +762,5 @@ namespace RuRo.Web.Fp_Ajax
             return t;
         }
         #endregion
-
-        //匹配字段，并添加额外字段
-        private Dictionary<string, string> MatchBaseInfoDic(Dictionary<string, string> baseinfoDic)
-        {
-            Dictionary<string, string> dic = BLL.MatchFileds.BaseInfoMatchDic();
-            Dictionary<string, string> resDic = new Dictionary<string, string>();
-            foreach (KeyValuePair<string, string> item in baseinfoDic)
-            {
-                if (dic.ContainsKey(item.Key))
-                {
-                    string key = dic[item.Key];
-                    if (!resDic.ContainsKey(key))
-                    {
-                        resDic.Add(key, item.Value);
-                    }
-                }
-            }
-            Dictionary<string, string> orderResDic = new Dictionary<string, string>();
-            orderResDic.Add("Name", resDic["Name"]);
-            foreach (KeyValuePair<string, string> item in resDic)
-            {
-                if (item.Key == "Name")
-                {
-                    continue;
-                }
-                else
-                {
-                    orderResDic.Add(item.Key, item.Value);
-                }
-            }
-            return orderResDic;
-        }
-        private List<Dictionary<string, string>> MatchClinicalDic(List<Dictionary<string, string>> clinicalDicList)
-        {
-            Dictionary<string, string> dic = BLL.MatchFileds.ClinicalFiledsMatchDic();
-            List<Dictionary<string, string>> resDicList = new List<Dictionary<string, string>>();
-            foreach (var clinicalDic in clinicalDicList)
-            {
-                Dictionary<string, string> resDic = new Dictionary<string, string>();
-                foreach (KeyValuePair<string, string> item in clinicalDic)
-                {
-                    if (dic.ContainsKey(item.Key))
-                    {
-                        string key = dic[item.Key];
-                        if (!resDic.ContainsKey(key))
-                        {
-                            resDic.Add(key, item.Value);
-                        }
-                    }
-                }
-                resDicList.Add(resDic);
-            }
-
-            return resDicList;
-        }
-        private Dictionary<string, string> MatchSampleInfoDic(Dictionary<string, string> sampleinfoDic)
-        {
-            Dictionary<string, string> dic = BLL.MatchFileds.SampleFiledsMatchDic();
-            Dictionary<string, string> resDic = new Dictionary<string, string>();
-            foreach (KeyValuePair<string, string> item in sampleinfoDic)
-            {
-                if (dic.ContainsKey(item.Key))
-                {
-                    string key = dic[item.Key];
-                    if (!resDic.ContainsKey(key))
-                    {
-                        resDic.Add(key, item.Value);
-                    }
-                }
-            }
-            return resDic;
-        }
-
-        #region 导入样本信息 + private string ImportSamples(Dictionary<string, string> dataDic ,string sample_type,string count)
-        /// <summary>
-        /// 导入样本信息
-        /// </summary>
-        /// <param name="dataDic"></param>
-        /// <returns></returns>
-        private string ImportSamples(Dictionary<string, string> dataDic, string sample_type, string count)
-        {
-            string result = FreezerProUtility.Fp_BLL.Samples.Import_Sample(url, sample_type, count, dataDic);
-            return result;
-        }
-        //private string ImportSamples(List<Dictionary<string, string>> dataDicList, Dictionary<string, string> dataDic)
-        //{
-        //    foreach (var item in dataDicList)
-        //    {
-        //        dataDic.Add("_117", item["_117"]);
-        //        string result = FreezerProUtility.Fp_BLL.Samples.Import_Sample(url, item["sample_type"], item["Scount"], MatchSampleInfoDic(dataDic));
-        //    }
-
-        //    return result;
-        //}
-
-
-        #endregion
-
-        #region 导入样本源 + private string ImportSampleSource(Dictionary<string, string> dataDic)
-        /// <summary>
-        /// 导入样本源
-        /// </summary>
-        /// <param name="dataDic"></param>
-        /// <returns></returns>
-        private string ImportSampleSource(Dictionary<string, string> dataDic)
-        {
-            string result = FreezerProUtility.Fp_BLL.SampleSocrce.ImportSampleSource(url, "基本资料", dataDic);
-            return result;
-        }
-        #endregion
-
-        #region 导入临床数据 + private string ImportTestData(Dictionary<string, string> dataDic)
-        /// <summary>
-        /// 导入临床数据
-        /// </summary>
-        /// <param name="dataDic"></param>
-        /// <returns></returns>
-        private string ImportTestData(List<Dictionary<string, string>> dataDicList)
-        {
-            string test_data_type = string.Empty;
-            if (!string.IsNullOrEmpty(departments))
-                {
-                    try
-                    {
-                        test_data_type = "临床诊断--" + departments;
-                    }
-                    catch (Exception)
-                    {
-                    }
-            }
-            string result = FreezerProUtility.Fp_BLL.TestData.ImportTestData(url, test_data_type, dataDicList);
-
-            return result;
-        }
-        #endregion
-
-        private void SaveClinicalDicToLocalBase(List<Dictionary<string, string>> clinicalInfoDgDicList, string departments)
-        {
-            BLL.ClinicalInfo clinicalBll = new BLL.ClinicalInfo();
-
-            foreach (var item in clinicalInfoDgDicList)
-            {
-                Model.ClinicalInfo clinical = new Model.ClinicalInfo();
-                item.Remove("Sample Source");
-                foreach (KeyValuePair<string, string> dic in item)
-                {
-                    try
-                    {
-                        if (dic.Key == "DiagnoseDateTime")
-                        {
-                            clinical.DiagnoseDateTime = DateTime.ParseExact(dic.Value, "yyyy-MM-dd", null);
-                        }
-                        if (dic.Key == "DiagnoseTypeFlag")
-                        {
-                            clinical.DiagnoseTypeFlag = dic.Value;
-                        }
-                        if (dic.Key == "DiseaseName")
-                        {
-                            clinical.DiseaseName = dic.Value;
-                        }
-                        if (dic.Key == "ICDCode")
-                        {
-                            clinical.ICDCode = dic.Value;
-                        }
-                        if (dic.Key == "InPatientID")
-                        {
-                            clinical.InPatientID = int.Parse(dic.Value);
-                        }
-                        if (dic.Key == "RegisterID")
-                        {
-                            clinical.RegisterID = int.Parse(dic.Value);
-                        }
-                        clinical.type = departments;
-                    }
-                    catch (Exception)
-                    {
-                        continue;
-                    }
-
-                }
-                clinicalBll.Add(clinical);
-            }
-        }
     }
 }

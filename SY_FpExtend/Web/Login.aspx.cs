@@ -1,5 +1,7 @@
 ﻿
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Web.UI.WebControls;
 namespace RuRo.Web
 {
@@ -14,6 +16,7 @@ namespace RuRo.Web
             if (!IsPostBack)
             {
                 SetDepartment();
+                
             }
             if (CheckLoginByCookie())
             {
@@ -50,22 +53,36 @@ namespace RuRo.Web
         {
             string cookDepartment = Common.CookieHelper.GetCookieValue("department");
             department.Width = 136;
-            
-            ListItem list = new ListItem("--请选择--", "0");
-            ListItem list1 = new ListItem("心研所", "1");
-            ListItem list2 = new ListItem("肺癌所", "2");
-            department.Items.Add(list);
-            department.Items.Add(list1);
-            department.Items.Add(list2);
+            //ListItem list = new ListItem("--请选择--", "0");
+            //ListItem list1 = new ListItem("心研所", "1");
+            //ListItem list2 = new ListItem("肺癌所", "2");
+            //department.Items.Add(list);
+            //department.Items.Add(list1);
+            //department.Items.Add(list2);
+
+            ArrayList arrValue = new ArrayList();
+            arrValue.Add("--请选择--");
+            arrValue.Add("心研所");
+            arrValue.Add("肺癌所");
+            //将数组绑定到DropDownList控件的DataSource属性
+            department.DataSource = arrValue;
+            department.DataBind();
+
+            department.SelectedValue = cookDepartment;
         }
         private void btnLogin_Click(object sender, System.Web.UI.ImageClickEventArgs e)
         {
             #region 检查登陆
             string userName = RuRo.Common.PageValidate.InputText(txtUsername.Value.Trim(), 30);
             string passWord = RuRo.Common.PageValidate.InputText(txtPass.Value.Trim(), 30);
+            //获取当前科室存入cookie
             string depar = department.SelectedItem.Text;
+            Common.CookieHelper.SetCookie("department", depar, new DateTime().AddYears(1));
             if (checkToken(userName, passWord))
             {
+                //清除cookie
+                LoginOut();
+                //重写cookie
                 WriteCookie(userName, passWord);
                 Response.Redirect("ExtendPage.aspx");
             }
@@ -112,7 +129,7 @@ namespace RuRo.Web
         //写入cookie
         private void WriteCookie(string username, string password)
         {
-            LoginOut();
+            
             string DEnPassword = Common.DEncrypt.DESEncrypt.Encrypt(password);
             Common.CookieHelper.SetCookie("username", username);
             Common.CookieHelper.SetCookie("password", DEnPassword);

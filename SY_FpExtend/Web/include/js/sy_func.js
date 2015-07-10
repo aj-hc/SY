@@ -274,6 +274,8 @@ function postPatientInfo() {
             success: function (data) {
                 if (data) {
                     if (data.success == "True") {
+                        //调用方法导入样本数据，需要传入当前的基本信息。。。。？
+                        //一次将数据提交到后台，导入之后返回状态为每一行数据改变状态--需要当前数据的行号
                         $.messager.show({ title: '提示！', msg: '导入成功：' + data.msg, showType: 'show' });
                         AddBaseInfoToForm("SEE");
                         return;
