@@ -309,7 +309,7 @@ function postPatientInfo() {
         var _sampleInfoForm = getSampleInfoFormData();
 
         var _dg_SampleInfoDg = $('#dg_SampleInfo').datagrid('getRows');
-        if (_dg_SampleInfoDg || _dg_SampleInfoDg == '[]') {
+        if (!_dg_SampleInfoDg || _dg_SampleInfoDg == '[]') {
               $.messager.alert('提示', '请添加样本信息', 'error'); return; 
         }
         var _dg_SampleInfo = JSON.stringify(_dg_SampleInfoDg);

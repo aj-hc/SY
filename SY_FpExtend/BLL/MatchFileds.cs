@@ -32,6 +32,7 @@ namespace RuRo.BLL
         {
             Dictionary<string, string> dic = new Dictionary<string, string>();
             dic.Add("Name", "Name");
+            dic.Add("Volume", "Volume");
             dic.Add("Description", "Description");
             dic.Add("_109", "取材医护");
             dic.Add("_105", "取材名称");

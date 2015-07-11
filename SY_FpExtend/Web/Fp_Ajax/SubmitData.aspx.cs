@@ -58,9 +58,14 @@ namespace RuRo.Web.Fp_Ajax
             //01.获取样本类型
             //02.获取管数
             //03.提交
+
+            //获取页面上的基本信息表单
             Dictionary<string, string> baseInfoDic = GetBaseInfoDic();
+            //获取页面上的样本信息Dg表单
             List<Dictionary<string, string>> sampleInfoDgDicList = GetSampleInfoDgDicList();
+            //获取页面上的样本信息表单
             Dictionary<string, string> sampleInfoDic = GetSampleInfoDic();
+            //获取页面上的临床信息Dg表单
             List<Dictionary<string, string>> clinicalInfoDgDicList = GetClinicalInfoDgDicList(baseInfoDic);
 
             string PatientID = string.Empty;
@@ -78,8 +83,9 @@ namespace RuRo.Web.Fp_Ajax
             sampleInfoDic.Add("Name", PatientID);
 
             //导入样本源数据
-            string resultImpSS = ImportSampleSource(MatchBaseInfoDic(baseInfoDic));
+            //检查样本源是否存在？？----无API操作
 
+            string resultImpSS = ImportSampleSource(MatchBaseInfoDic(baseInfoDic));
 
             if (FreezerProUtility.Fp_Common.FpJsonHelper.GetStrFromJsonStr("success", resultImpSS) == "True" || resultImpSS.Contains("should be unique."))
             {
@@ -112,8 +118,16 @@ namespace RuRo.Web.Fp_Ajax
 
                     }
                 }
+                //导入样本数据
+                //循环样本信息列表
+                foreach (var item in sampleInfoDgDicList)
+                {
+                    
+                }
+
+
             }
-            //导入样本数据
+            
         }
         private void ImportPatientInfo()
         {
@@ -125,8 +139,16 @@ namespace RuRo.Web.Fp_Ajax
             //01.创建临床数据字典
             //02.指定临床数据类型
             //03.指定临床数据对应的样本源
+
+            //获取页面上的基本信息表单
             Dictionary<string, string> baseInfoDic = GetBaseInfoDic();
+            //获取页面上的样本信息Dg表单
+            List<Dictionary<string, string>> sampleInfoDgDicList = GetSampleInfoDgDicList();
+            //获取页面上的样本信息表单
+            Dictionary<string, string> sampleInfoDic = GetSampleInfoDic();
+            //获取页面上的临床信息Dg表单
             List<Dictionary<string, string>> clinicalInfoDgDicList = GetClinicalInfoDgDicList(baseInfoDic);
+
             List<Dictionary<string, Dictionary<string, string>>> importResult = new List<Dictionary<string, Dictionary<string, string>>>();
             string PatientID = string.Empty;
             if (baseInfoDic.ContainsKey("PatientID"))
@@ -183,7 +205,26 @@ namespace RuRo.Web.Fp_Ajax
                 }
                 //导入样本数据
                 //调用方法导入样品
-                Dictionary<string, string> sampleBaseinfo = GetBaseInfoDic();
+
+                foreach (Dictionary<string,string> item in sampleInfoDgDicList)
+                {
+                    //循环类型列表
+                    //组合样本信息
+                    //提交样本信息到fp
+                    //记录返回结果
+                    //将结果返回给前台
+                    
+
+                    //将列表中的字段添加到样本信息字典
+                    //将样本信息字典匹配成Fp中的字段
+                    //调用方法提交数据到fp
+                    //将结果添加到列字典中
+                    //将Dg字典转换成对象，将对象添加到对象集合
+                    //将对象结合序列化成json发送到前台Dg中重新绑定
+
+                    sampleInfoDic.Add("","");
+
+                }
             }
             else
             {
@@ -193,6 +234,7 @@ namespace RuRo.Web.Fp_Ajax
                 importResult.Add(dicr);
             }
         }
+
         private Dictionary<string, Dictionary<string, string>> SplitJson(string returnjson, string mark)
         {
             Dictionary<string, Dictionary<string, string>> dic = new Dictionary<string, Dictionary<string, string>>();
@@ -287,7 +329,7 @@ namespace RuRo.Web.Fp_Ajax
         /// <returns></returns>
         private Dictionary<string, string> GetSampleInfoDic()
         {
-            string sampleInfo = Request.Params["sampleInfo"];//form
+            string sampleInfo = Request.Params["sampleInfoForm"];//form
             //基本信息对象
             PageBaseInfo pageBaseInfo = new PageBaseInfo();
             //将页面上的样本信息转换成对象，然后将对象转换成字典
@@ -313,7 +355,7 @@ namespace RuRo.Web.Fp_Ajax
         /// <returns>字典集合</returns>
         private List<Dictionary<string, string>> GetSampleInfoDgDicList()
         {
-            string sampleInfoDg = Request.Params["sampleInfoDg"];
+            string sampleInfoDg = Request.Params["dg_SampleInfo"];
             //将页面上的样本类型信息转换成对象集合
             //样本类型信息数据集合
             List<PageSampleDg> pageSampleDgList = new List<PageSampleDg>();
@@ -328,7 +370,6 @@ namespace RuRo.Web.Fp_Ajax
             {
                 SampleInfoDgDicList.Add(ConvertSampleDgToDic(item));
             }
-
             return SampleInfoDgDicList;
         }
         #endregion 
@@ -350,7 +391,6 @@ namespace RuRo.Web.Fp_Ajax
             {
                 try
                 {
-
                         string value = Common.ReflectHelper.GetValue(pageBaseInfo, item.Name);
                         pageBaseInfoDic.Add(item.Name, value);
                     }
@@ -483,14 +523,16 @@ namespace RuRo.Web.Fp_Ajax
             #endregion
             if (sampleTypeIdAndNamedic.ContainsKey(pageSampleDg.SampleType))
             {
+                //添加当前样本类型,将id转换成汉字
                 pageSampleDgDic.Add("SampleType", sampleTypeIdAndNamedic[pageSampleDg.SampleType]);
             }
-            if (sampleTypeIdAndNamedic.ContainsKey(pageSampleDg.Organ))
+            if (!string.IsNullOrEmpty(pageSampleDg.Organ.ToString())&&!string.IsNullOrEmpty(pageSampleDg.OrganSubdivision))
             {
                 string Organ = sampleTypeIdAndNamedic[pageSampleDg.Organ];
-                string Classification = pageSampleDg.Classification;
-                pageSampleDgDic.Add("_117", Organ + ";" + Classification);
+                string OrganSubdivision = pageSampleDg.OrganSubdivision;
+                pageSampleDgDic.Add("_117", Organ + ";" + OrganSubdivision);
             }
+            pageSampleDgDic.Add("Volume", pageSampleDg.Volume);
             pageSampleDgDic.Add("Scount", pageSampleDg.Scount.ToString());
             return pageSampleDgDic;
         }
@@ -597,24 +639,15 @@ namespace RuRo.Web.Fp_Ajax
         /// <summary>
         /// 导入样本信息
         /// </summary>
-        /// <param name="dataDic"></param>
+        /// <param name="dataDic">数据字典</param>
+        /// <param name="sample_type">样本类型</param>
+        /// <param name="count">数量</param>
         /// <returns></returns>
         private string ImportSamples(Dictionary<string, string> dataDic, string sample_type, string count)
         {
             string result = FreezerProUtility.Fp_BLL.Samples.Import_Sample(url, sample_type, count, dataDic);
             return result;
         }
-        //private string ImportSamples(List<Dictionary<string, string>> dataDicList, Dictionary<string, string> dataDic)
-        //{
-        //    foreach (var item in dataDicList)
-        //    {
-        //        dataDic.Add("_117", item["_117"]);
-        //        string result = FreezerProUtility.Fp_BLL.Samples.Import_Sample(url, item["sample_type"], item["Scount"], MatchSampleInfoDic(dataDic));
-        //    }
-
-        //    return result;
-        //}
-
 
         #endregion
         #region 导入样本源 + private string ImportSampleSource(Dictionary<string, string> dataDic)
