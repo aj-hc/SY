@@ -204,13 +204,14 @@ $(function () {
     });
 })
 
-////取材时段有问题
+//取材时段
 $(function () {
     $('#_113').combobox({
         url: '../Fp_Ajax/PageConData.aspx?conMarc=SamplingMethod',
+        required:false,
         multiple: true,
         method: 'get',
-        valueField: 'SamplingMethod',
+        valueField: 'samplingMethod',
         textField: 'text',
         panelHeight: 'auto'
     });
@@ -225,6 +226,18 @@ $(function () {
         panelHeight: 'auto'
     });
 })
+
+//样品类型
+$(function () {
+    $('#sampleTypeE').combobox({
+        url: '../Fp_Ajax/PageConData.aspx?conMarc=SampleType',
+        method: 'get',
+        valueField: 'value',
+        textField: 'text',
+        panelHeight: 'auto'
+    });
+})
+
 
 //绑定采集人
 $(function () {
