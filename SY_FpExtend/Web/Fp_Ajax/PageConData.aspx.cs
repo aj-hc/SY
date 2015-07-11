@@ -27,9 +27,30 @@ namespace RuRo.Web
                 case "Employee": Response.Write(ReturnGet_Employee()); break;
                 case "SampleType": Response.Write(ReturnSampleType()); break;
                 case "departments": Response.Write(ReturnDepartments()); break;
+                case "SampleGroups": Response.Write(ReturnSampleGroups()); break;
                 default:
                     break;
             }
+        }
+
+        private string ReturnSampleGroups()
+        {
+            Common.CreatFpUrl fpurl = new Common.CreatFpUrl();
+            string url = fpurl.FpUrl;
+            Dictionary<string, string> dic = FreezerProUtility.Fp_BLL.SampleGroup.GetAllIdAndNamesDic(url);
+            List<Dictionary<string, string>> list = new List<Dictionary<string, string>>();
+            if (dic.Count > 0)
+            {
+                foreach (KeyValuePair<string, string> dd in dic)
+                {
+                    Dictionary<string, string> temdic = new Dictionary<string, string>();
+                    temdic.Add("value", dd.Key);
+                    temdic.Add("text", dd.Value);
+                    list.Add(temdic);
+                }
+            }
+            string json = FreezerProUtility.Fp_Common.FpJsonHelper.DictionaryListToJsonString(list);
+            return json;
         }
         //初始化唯一选择框
         private string ReturnIn_CodeType()
@@ -78,7 +99,7 @@ namespace RuRo.Web
             //string res = "[{\"value\": \"0\",\"text\": \"正常组织-心研所\" },{\"value\": \"1\", \"text\": \"正常组织-肺癌所\"}, { \"value\": \"2\", \"text\": \"组织-心研所\"} , { \"value\": \"3\", \"text\": \"组织-肺癌所\"} ]";
             Common.CreatFpUrl fpurl = new Common.CreatFpUrl();
             string url = fpurl.FpUrl;
-            Dictionary<string, string> dic = FreezerProUtility.Fp_BLL.Samples.GetAllSample_TypesNames(url);
+            Dictionary<string, string> dic = FreezerProUtility.Fp_BLL.Samples.GetAllIdAndNamesDic(url);
             List<Dictionary<string, string>> list = new List<Dictionary<string, string>>();
             if (dic.Count > 0)
             {

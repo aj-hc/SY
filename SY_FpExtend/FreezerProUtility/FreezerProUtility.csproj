@@ -54,6 +54,7 @@
     <Compile Include="Fp_BLL\FpRelated\Users.cs" />
     <Compile Include="Fp_BLL\FpRelated\FpUrlMaker.cs" />
     <Compile Include="Fp_BLL\FpRelated\TestData.cs" />
+    <Compile Include="Fp_BLL\FpRelated\SampleGroup.cs" />
     <Compile Include="Fp_BLL\ValidationData.cs" />
     <Compile Include="Fp_Common\AttributeHelper.cs" />
     <Compile Include="Fp_Common\CookieHelper.cs" />
@@ -77,6 +78,7 @@
     <Compile Include="Fp_Model\FpReturnModel\AuditRec.cs" />
     <Compile Include="Fp_Model\FpReturnModel\Box.cs" />
     <Compile Include="Fp_Model\FpReturnModel\BoxType.cs" />
+    <Compile Include="Fp_Model\FpReturnModel\Box_Path.cs" />
     <Compile Include="Fp_Model\FpReturnModel\Freezer.cs" />
     <Compile Include="Fp_Model\FpReturnModel\Location.cs" />
     <Compile Include="Fp_Model\FpReturnModel\Role.cs" />

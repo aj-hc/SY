@@ -11,26 +11,10 @@ namespace FreezerProUtility.Fp_BLL
         DataWithFP dataWithFP = new DataWithFP();
 
         #region 获取自定义字段集合 + public List<UserFields> UserFields()
-        /// <summary>
-        /// 获取自定义字段集合
-        /// </summary>
-        /// <returns> List<UserFields> </returns>
-        public List<UserFields> UserFieldList()
+        public static List<Fp_Model.UserFields> GetAll(string url)
         {
-            List<UserFields> list_UserFields = new List<UserFields>() { };
-            string str_Json = "";
-            try
-            {
-                string total = FpJsonHelper.GetStrFromJsonStr("Total", str_Json);
-                if (Convert.ToInt32(total) > 0)
-                {
-                    list_UserFields = FpJsonHelper.JObjectToList<UserFields>("UserFields", str_Json);
-                }
-            }
-            catch (Exception ex)
-            {
-            }
-            return list_UserFields;
+            List<Fp_Model.UserFields> list = Fp_DAL.DataWithFP.getdata<Fp_Model.UserFields>(url, Fp_Common.FpMethod.userfields, "", "UserFields");
+            return list;
         }
         #endregion
 

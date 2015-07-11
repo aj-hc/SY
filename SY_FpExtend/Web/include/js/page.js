@@ -68,6 +68,7 @@ $(function () {
         rownumbers: true,
         columns: [[
             { field: 'SampleType', title: '样品类型', width: '20%', align: 'center' },
+            { field: 'SampleGroup', title: '样品组', width: '20%', align: 'center' },
             { field: 'Volume', title: '体积', width: '5%', align: 'center' },
             { field: 'Scount', title: '管数', width: '5%', align: 'center' },
             { field: 'Organ', title: '器官', width: '20%', align: 'center' },

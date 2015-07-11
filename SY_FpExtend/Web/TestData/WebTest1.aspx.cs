@@ -57,16 +57,19 @@ namespace RuRo.Web.TestData
             //Response.Write("<br />");
             //Response.Write(jsonList);
 
-            BLL.BasedInfo bas = new BLL.BasedInfo();
-            try
-            {
-                bas.Delete(1);
-            }
-            catch (Exception ex)
-            {
-                Common.LogHelper.WriteError(ex);
-            }
-            Response.Write("ok");
+            //BLL.BasedInfo bas = new BLL.BasedInfo();
+            //try
+            //{
+            //    bas.Delete(1);
+            //}
+            //catch (Exception ex)
+            //{
+            //    Common.LogHelper.WriteError(ex);
+            //}
+            //Response.Write("ok");
+
+
+            Response.Write(DateTime.Now + "<br/>" + DateTime.Now.Month + "<br/>" + DateTime.Now.Date.ToString("dd"));
         }
     }
 }
