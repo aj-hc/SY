@@ -46,3 +46,48 @@ Source：【mscorlib】
 HResult：【-2146233033】
 
 ________________________________________________________
+
+Log Entry : 
+07/11/2015 18:46:17
+Message：【未将对象引用设置到对象的实例。】
+StackTrace：【   在 RuRo.Web.Fp_Ajax.SubmitData.GetFromInfo[T](List`1 dicList) 位置 f:\Repositories\SY\SY_FpExtend\Web\Fp_Ajax\SubmitData.aspx.cs:行号 778】
+Source：【RuRo.Web】
+HResult：【-2147467261】
+
+________________________________________________________
+
+Log Entry : 
+07/11/2015 18:51:57
+Message：【未将对象引用设置到对象的实例。】
+StackTrace：【   在 RuRo.Web.Fp_Ajax.SubmitData.GetFromInfo[T](List`1 dicList) 位置 f:\Repositories\SY\SY_FpExtend\Web\Fp_Ajax\SubmitData.aspx.cs:行号 778】
+Source：【RuRo.Web】
+HResult：【-2147467261】
+
+________________________________________________________
+
+Log Entry : 
+07/11/2015 18:56:03
+Message：【未将对象引用设置到对象的实例。】
+StackTrace：【   在 RuRo.Web.Fp_Ajax.SubmitData.GetFromInfo[T](List`1 dicList) 位置 f:\Repositories\SY\SY_FpExtend\Web\Fp_Ajax\SubmitData.aspx.cs:行号 778】
+Source：【RuRo.Web】
+HResult：【-2147467261】
+
+________________________________________________________
+
+Log Entry : 
+07/11/2015 18:57:58
+Message：【未将对象引用设置到对象的实例。】
+StackTrace：【   在 RuRo.Web.Fp_Ajax.SubmitData.GetFromInfo[T](List`1 dicList) 位置 f:\Repositories\SY\SY_FpExtend\Web\Fp_Ajax\SubmitData.aspx.cs:行号 778】
+Source：【RuRo.Web】
+HResult：【-2147467261】
+
+________________________________________________________
+
+Log Entry : 
+07/11/2015 19:00:49
+Message：【未将对象引用设置到对象的实例。】
+StackTrace：【   在 RuRo.Web.Fp_Ajax.SubmitData.GetFromInfo[T](List`1 dicList) 位置 f:\Repositories\SY\SY_FpExtend\Web\Fp_Ajax\SubmitData.aspx.cs:行号 779】
+Source：【RuRo.Web】
+HResult：【-2147467261】
+
+________________________________________________________

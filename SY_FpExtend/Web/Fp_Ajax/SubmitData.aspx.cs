@@ -30,7 +30,7 @@ namespace RuRo.Web.Fp_Ajax
                 sampleTypeIdAndNamedic = FreezerProUtility.Fp_BLL.Samples.GetAllSample_TypesNames(url);
             }
             string action = Request.Params["action"].Trim();
-            departments = Request.Params["departments"].Trim();
+            departments =Common.DEncrypt.DESEncrypt.Decrypt(Request.Params["departments"].Trim());
             if (action == "postPatientinfo")
             {
                 ImportPatientInfo();
@@ -163,7 +163,8 @@ namespace RuRo.Web.Fp_Ajax
             baseInfoDic.Add("Description", PatientName);
 
             //导入样本源数据
-            string improtBaseInfoResult = ImportSampleSource(MatchBaseInfoDic(baseInfoDic));
+            Dictionary<string, string> mathcBaseInfoDic = MatchBaseInfoDic(baseInfoDic);
+            string improtBaseInfoResult = ImportSampleSource(mathcBaseInfoDic);
             string success = FreezerProUtility.Fp_Common.FpJsonHelper.GetStrFromJsonStr("success", improtBaseInfoResult);
             string msg = FreezerProUtility.Fp_Common.FpJsonHelper.GetStrFromJsonStr("msg", improtBaseInfoResult);
             Dictionary<string, Dictionary<string, string>> importSampleSourceResult = new Dictionary<string, Dictionary<string, string>>();
@@ -220,10 +221,13 @@ namespace RuRo.Web.Fp_Ajax
                     //将结果添加到列字典中
                     //将Dg字典转换成对象，将对象添加到对象集合
                     //将对象结合序列化成json发送到前台Dg中重新绑定
-                    sampleInfoDic.Add("Name ", "");
                     sampleInfoDic.Add("Volume", item["Volume"]);
-                    sampleInfoDic.Add("Name ", "");
-
+                    sampleInfoDic.Add("Sample Source", baseInfoDic["Name"]);
+                    sampleInfoDic.Add("_117", item["_117"]);
+                    Dictionary<string, string> dataDic = MatchSampleInfoDic(sampleInfoDic);
+                    //匹配完毕
+                    string importsampleres = ImportSamples(AddName(dataDic, baseInfoDic["Name"]), item["sample_type"], item["Scount"]);
+                    
                 }
             }
             else
@@ -483,7 +487,7 @@ namespace RuRo.Web.Fp_Ajax
         private Dictionary<string, string> ConvertSampleDgToDic(PageSampleDg pageSampleDg)
         {
             Dictionary<string, string> pageSampleDgDic = new Dictionary<string, string>();
-            //[{"SampleType":"27","Scount":"1","Organ":"1","Classification":"肺"}]
+            //[{"SampleType":"27","Scount":"1","Organ":"1","OrganSubdivision":"肺"}]
             //01.获取样本类型id和名称的字典
             //02.获取脏器id和名称字典
             #region 反射方法
@@ -521,14 +525,11 @@ namespace RuRo.Web.Fp_Ajax
             //    }
             //} 
             #endregion
-            if (sampleTypeIdAndNamedic.ContainsKey(pageSampleDg.SampleType))
-            {
-                //添加当前样本类型,将id转换成汉字
-                pageSampleDgDic.Add("SampleType", sampleTypeIdAndNamedic[pageSampleDg.SampleType]);
-            }
+            //添加当前样本类型,将id转换成汉字
+            pageSampleDgDic.Add("SampleType", pageSampleDg.SampleType);
             if (!string.IsNullOrEmpty(pageSampleDg.Organ.ToString())&&!string.IsNullOrEmpty(pageSampleDg.OrganSubdivision))
             {
-                string Organ = sampleTypeIdAndNamedic[pageSampleDg.Organ];
+                string Organ = pageSampleDg.Organ;
                 string OrganSubdivision = pageSampleDg.OrganSubdivision;
                 pageSampleDgDic.Add("_117", Organ + ";" + OrganSubdivision);
             }
@@ -803,5 +804,23 @@ namespace RuRo.Web.Fp_Ajax
             return t;
         }
         #endregion
+
+        private Dictionary<string,string> AddName(Dictionary<string,string> dic,string name)
+        {
+            Dictionary<string, string> resDic = new Dictionary<string, string>();
+            resDic.Add("Name", name);
+            foreach (KeyValuePair<string,string> item in dic)
+            {
+                if (item.Key =="Name")
+                {
+                    continue;
+                }
+                else
+                {
+                    resDic.Add(item.Key, item.Value);
+                }
+            }
+            return new Dictionary<string, string>();
+        }
     }
 }

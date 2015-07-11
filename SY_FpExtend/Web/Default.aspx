@@ -54,15 +54,15 @@
         </form>
     </div>
     <script type="text/javascript">
-        window.onbeforeunload = function () {
-            if (document.all) {
-                if (event.clientY < 0) {
-                    $.cookie('password', null);
-                }
-            } else {
-                $.cookie('password', null);
-            }
-        }
+        //window.onbeforeunload = function () {
+        //    if (document.all) {
+        //        if (event.clientY < 0) {
+        //            $.cookie('password', null);
+        //        }
+        //    } else {
+        //        $.cookie('password', null);
+        //    }
+        //}
     </script>
 </body>
 </html>

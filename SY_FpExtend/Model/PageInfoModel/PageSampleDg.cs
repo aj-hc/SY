@@ -12,7 +12,8 @@ namespace RuRo.Model.PageInfoModel
         public int Scount { get; set; }
         public string Organ { get; set; }
         public string OrganSubdivision { get; set; }
-        public string state { get; set; }
+        public string State { get; set; }
+        public string Msg { get; set; }
 
     }
 }
