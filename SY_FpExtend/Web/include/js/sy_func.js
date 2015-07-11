@@ -294,7 +294,7 @@ function postPatientInfo() {
     var username = $.cookie('username');
     var departments = $.cookie(username + 'department');
     if (!departments) { $.messager.alert('提示', '必须选择科室', 'error'); return; }
-    if (name == "" || hzid == "") { $.messager.alert('提示', '必须输入姓名以及患者ID', 'error'); return; }
+    if (name == "") { $.messager.alert('提示', '必须输入姓名', 'error'); return; }
     else
     {
         var _baseinfo = getBaseInfoFormData();
@@ -352,6 +352,13 @@ function getBaseInfoFormData() {
     var ii = $("#_116").combobox('getText');
     var base;
     if (sampleinfo) {base = JSON.stringify(sampleinfo);}
+    return base;
+}
+function getSampleInfoFormData() {
+    var sampleinfo = $("#SampleInfoForm").serializeArray();
+    var ii = $("#_116").combobox('getText');
+    var base;
+    if (sampleinfo) { base = JSON.stringify(sampleinfo); }
     return base;
 }
 //添加值到ClinicalInfoDg
