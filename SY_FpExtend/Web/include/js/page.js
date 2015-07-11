@@ -6,30 +6,8 @@ $(function () {
         title: '临床信息',
         columns: [[
             { field: 'ck', checkbox: true, width: '5%' },
-            {
-                field: 'DiagnoseTypeFlag', title: '诊断类型', width: '20%', editor: { type: 'validatebox', options: { required: false } }
-                //editor: {
-                //    type: 'combobox',
-                //    options: {
-                //        data: getDtaJsonDiagnoseTypeFlag,
-                //        valueField: 'DiagnoseTypeFlag',
-                //        textField: 'text',
-                //        editable: false,
-                //        panelHeight: 'auto',
-                //        required: true
-                //    }
-                //}, formatter: function (value, rowData, rowIndex) {
-                //    var getData = getDiagnoseTypeFlagJsonurl(Diagnoseurl);
-                //    var getDtaJson = JSON.parse(getData);
-                //    if (getDtaJson != "" || getDtaJson != null) {
-                //        for (var i = 0; i < getDtaJson.length; i++) {
-                //            if (getDtaJson[i].DiagnoseTypeFlag == value) { return getDtaJson[i].text; }
-                //        }
-                //    }
-                //    else { return value; }
-                //}
-            },
-            { field: 'DiagnoseDateTime', title: '诊断日期', width: '20%', sortable: true, editor: { type: 'datebox', options: { required: false } }},
+            { field: 'DiagnoseTypeFlag', title: '诊断类型', width: '20%', editor: { type: 'validatebox', options: { required: false } }},
+            { field: 'DiagnoseDateTime', title: '诊断日期', width: '15%', sortable: true, editor: { type: 'datebox', options: { required: false } }},
             { field: 'ICDCode', title: 'ICD码', width: '15%', align: 'center', sortable: true, editor: { type: 'validatebox', options: { required: false } } },
             { field: 'DiseaseName', title: '疾病名称', width: '20%', align: 'center', sortable: true, editor: { type: 'validatebox', options: { required: false } } },
             { field: 'Description', title: '疾病描述', width: '20%', align: 'center', editor: { type: 'validatebox', options: { required: false } } },
@@ -37,21 +15,10 @@ $(function () {
         singleSelect: false,
         fitColumns: true,
         rownumbers: true,//行号
-        //pagination: true,
-        //pagePosition: 'bottom',
-        //pageNumber: 1,
-        //pageSize: 5,
-        //pageList: [5, 10, 15, 20],
         toolbar: [
             {
                 text: '添加', iconCls: 'icon-add', handler: function () {
                     $('#w').window('open');
-                    //if (editRow != undefined) {$ClinicalInfoDg.datagrid('endEdit', editRow);}
-                    //if (editRow == undefined) {
-                    //    $ClinicalInfoDg.datagrid('insertRow', { index: 0, row: {} });
-                    //    $ClinicalInfoDg.datagrid('beginEdit', 0);
-                    //    editRow = undefined;
-                    //}
                 }
             }, '-', {
                 text: '保存', iconCls: 'icon-save', handler: function () {
@@ -78,30 +45,9 @@ $(function () {
                     editRow == undefined;
                 }
             }, '-',
-            //{
-            //    text: '修改', iconCls: 'icon-edit', handler: function () {
-            //        var row = $ClinicalInfoDg.datagrid('getSelected');
-            //        if (row != null) {
-            //            if (editRow != undefined) {$ClinicalInfoDg.datagrid('endEdit', editRow);}
-            //            if (editRow == undefined) {
-            //                var index = $ClinicalInfoDg.datagrid('getRowIndex', row);
-            //                $ClinicalInfoDg.datagrid('beginEdit', index);
-            //                editRow = index;
-            //                $ClinicalInfoDg.datagrid('unselectAll');
-            //            }
-            //        } else { }
-            //    }
-            //}
         ],
-
         onAfterEdit: function (rowIndex, rowData, changes) {editRow = undefined;},
-        onDblClickRow: function (rowIndex, rowData) {
-            if (editRow != undefined) {$ClinicalInfoDg.datagrid('endEdit', editRow);}
-            if (editRow == undefined) {$ClinicalInfoDg.datagrid('beginEdit', rowIndex);editRow = rowIndex;}
-        },
-        onClickRow: function (rowIndex, rowData) {
-            if (editRow != undefined) {$ClinicalInfoDg.datagrid('endEdit', editRow);}
-            }
+        onClickRow: function (rowIndex, rowData) {if (editRow != undefined) {$ClinicalInfoDg.datagrid('endEdit', editRow);}}
     });
 })
 //诊断类型JSON
@@ -380,6 +326,16 @@ $(function () {
     valueField: 'SamplingMethod',
     textField: 'text',
     panelHeight: 'auto'
+    });
+})
+//诊断类型
+$(function () {
+    $('#diagnoseTypeFlag').combobox({
+        url: '../Fp_Ajax/PageConData.aspx?conMarc=DiagnoseTypeFlag',
+        method: 'get',
+        valueField: 'text',
+        textField: 'text',
+        panelHeight: 'auto'
     });
 })
 

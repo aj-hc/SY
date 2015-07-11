@@ -16,8 +16,6 @@
     <script src="include/js/page.js"></script>
     <script src="include/js/BindFuncToId.js"></script>
     <title>样品录入</title>
-    <script type="text/javascript">
-    </script>
 </head>
 <body style="overflow: auto;">
     <div id="main" style="width: 900px; padding: 1px;">
@@ -177,83 +175,37 @@
             </div>
         </div>
         <!--临床信息录入框 -->
-        <div id="w" class="easyui-window" title="Modal Window" data-options="modal:true,closed:true,iconCls:'icon-save'" style="width: 500px; height: 200px; padding: 10px;">
-            <div style="padding: 10px 60px 20px 60px">
-                <form id="ff" method="post">
+    <div id="w" class="easyui-window" title="添加临床数据" data-options="modal:true,closed:true,iconCls:'icon-save'" style="width:450px;height:400px;padding:10px;">
+		<div style="padding:10px 60px 20px 60px">
+            <form id="setClinicalInfoDg" method="post">
                     <table cellpadding="5">
                         <tr>
-                            <td>Name:</td>
-                            <td>
-                                <input class="easyui-textbox" type="text" name="name" data-options="required:true"></input></td>
+	    			    <td style="width:100px;">诊断类型:</td>
+	    			    <td><input class="easyui-combobox" name="diagnoseTypeFlag" id="diagnoseTypeFlag" data-options="required:true,multiple:false"></input></td>
                         </tr>
                         <tr>
-                            <td>Email:</td>
-                            <td>
-                                <input class="easyui-textbox" type="text" name="email" data-options="required:true,validType:'email'"></input></td>
+	    			    <td style="width:100px;">诊断日期:</td>
+	    			    <td><input class="easyui-datebox" type="text" name="diagnoseDateTime" id="diagnoseDateTime" data-options="required:true"></input></td>
                         </tr>
                         <tr>
-                            <td>Subject:</td>
-                            <td>
-                                <input class="easyui-textbox" type="text" name="subject" data-options="required:true"></input></td>
+	    			    <td style="width:100px;">ICD码:</td>
+	    			    <td><input class="easyui-textbox" type="text" name="icdcode" id="icdcode" data-options="required:false"></input></td>
                         </tr>
                         <tr>
-                            <td>Message:</td>
-                            <td>
-                                <input class="easyui-textbox" name="message" data-options="multiline:true" style="height: 60px"></input></td>
+	    			    <td style="width:100px;">疾病名称:</td>
+                        <td><input class="easyui-textbox" type="text" name="diseaseName" id="diseaseName" data-options="required:false"></input></td>
                         </tr>
                         <tr>
-                            <td>Language:</td>
-                            <td>
-                                <select class="easyui-combobox" name="language">
-                                    <option value="ar">Arabic</option>
-                                    <option value="bg">Bulgarian</option>
-                                    <option value="ca">Catalan</option>
-                                    <option value="zh-cht">Chinese Traditional</option>
-                                    <option value="cs">Czech</option>
-                                    <option value="da">Danish</option>
-                                    <option value="nl">Dutch</option>
-                                    <option value="en" selected="selected">English</option>
-                                    <option value="et">Estonian</option>
-                                    <option value="fi">Finnish</option>
-                                    <option value="fr">French</option>
-                                    <option value="de">German</option>
-                                    <option value="el">Greek</option>
-                                    <option value="ht">Haitian Creole</option>
-                                    <option value="he">Hebrew</option>
-                                    <option value="hi">Hindi</option>
-                                    <option value="mww">Hmong Daw</option>
-                                    <option value="hu">Hungarian</option>
-                                    <option value="id">Indonesian</option>
-                                    <option value="it">Italian</option>
-                                    <option value="ja">Japanese</option>
-                                    <option value="ko">Korean</option>
-                                    <option value="lv">Latvian</option>
-                                    <option value="lt">Lithuanian</option>
-                                    <option value="no">Norwegian</option>
-                                    <option value="fa">Persian</option>
-                                    <option value="pl">Polish</option>
-                                    <option value="pt">Portuguese</option>
-                                    <option value="ro">Romanian</option>
-                                    <option value="ru">Russian</option>
-                                    <option value="sk">Slovak</option>
-                                    <option value="sl">Slovenian</option>
-                                    <option value="es">Spanish</option>
-                                    <option value="sv">Swedish</option>
-                                    <option value="th">Thai</option>
-                                    <option value="tr">Turkish</option>
-                                    <option value="uk">Ukrainian</option>
-                                    <option value="vi">Vietnamese</option>
-                                </select>
-                            </td>
+	    			    <td style="width:100px;">疾病描述:</td>
+                        <td><input class="easyui-textbox" name="description" id="description" data-options="required:false" style="height:60px"></input></td>
                         </tr>
                     </table>
                 </form>
-                <div style="text-align: center; padding: 5px">
-                    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm()">Submit</a>
-                    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearForm()">Clear</a>
+            <div style="text-align:center;padding:5px">
+                <a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitFormClinicalInfoDg()">确定添加</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearForm()">清除</a>
                 </div>
             </div>
         </div>
-    </div>
 </body>
 </html>
