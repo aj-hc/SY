@@ -175,7 +175,7 @@
             </div>
         </div>
         <!--临床信息录入框 -->
-    <div id="w" class="easyui-window" title="添加临床数据" data-options="modal:true,closed:true,iconCls:'icon-add'" style="width:436px;height:299px;padding:10px;">
+    <div id="w" class="easyui-window" title="添加临床数据" data-options="modal:false,closed:true,minimizable:false,maximizable:false,iconCls:'icon-add'" style="width:436px;height:299px;padding:10px;">
 		<div style="padding:10px">
             <form id="setClinicalInfoDg" method="post">
                     <table>
@@ -209,7 +209,7 @@
         </div>
 
     <%--样本信息录入框--%>
-    <div id="addSampleForm" class="easyui-window" title="添加样品信息" data-options="modal:true,closed:true,iconCls:'icon-add'" style="width:436px;height:299px;padding:10px;">
+    <div id="addSampleForm" class="easyui-window" title="添加样品信息" data-options="modal:true,closed:true,minimizable:false,maximizable:false,iconCls:'icon-add'" style="width:436px;height:299px;padding:10px;">
 		    <div style="padding:10px">
                 <form id="sampleInfoFormToDg" method="post">
                     <table>
@@ -219,7 +219,7 @@
                         </tr>
                         <tr>
 	    			        <td style="width:100px;">样品组:</td>
-	    			        <td><input class="easyui-combobox" name="sampleTypeE" id="SampleGroupE" data-options="required:false,multiple:false,prompt:'请选择样品组'"/></td>
+	    			        <td><input class="easyui-combobox" name="sampleTypeE" id="SampleGroupE" data-options="required:false,multiple:true,prompt:'请选择样品组'"/></td>
                         </tr>
                         <tr>
 	    			        <td style="width:100px;">体积:</td>

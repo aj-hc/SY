@@ -239,6 +239,36 @@ $(function () {
         panelHeight: 'auto'
     });
 })
+//样品组
+$(function () {
+    var url = '../Fp_Ajax/PageConData.aspx?conMarc=SampleGroups';
+    var dataJson = getSampleGroups(url);
+    if (dataJson == "]") {
+
+    }
+    else
+    {
+        $('#SampleGroupE').combobox({
+            url: '../Fp_Ajax/PageConData.aspx?conMarc=SampleGroups',
+            method: 'get',
+            valueField: 'text',
+            textField: 'text',
+            panelHeight: 'auto'
+        });
+    }
+})
+function getSampleGroups(url) {
+    var temp;
+    $.ajax({
+        type: 'get',
+        url: url,
+        async: false,
+        datatype: 'json',
+        success: function (responseData) { temp = responseData; }
+    });
+    return temp;
+}
+
 
 //脏器和脏器细分
 $(function () {
