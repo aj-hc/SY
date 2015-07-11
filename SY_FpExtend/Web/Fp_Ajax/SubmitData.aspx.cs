@@ -168,7 +168,7 @@ namespace RuRo.Web.Fp_Ajax
             string success = FreezerProUtility.Fp_Common.FpJsonHelper.GetStrFromJsonStr("success", improtBaseInfoResult);
             string msg = FreezerProUtility.Fp_Common.FpJsonHelper.GetStrFromJsonStr("msg", improtBaseInfoResult);
             Dictionary<string, Dictionary<string, string>> importSampleSourceResult = new Dictionary<string, Dictionary<string, string>>();
-            importSampleSourceResult.Add("importSample", new Dictionary<string, string>() { { "success", success }, { "msg", msg } });
+            importSampleSourceResult.Add("importSampleSourceResult", new Dictionary<string, string>() { { "success", success }, { "msg", msg } });
             importResult.Add(importSampleSourceResult);
             
             if ( success== "True" || improtBaseInfoResult.Contains("should be unique."))
@@ -184,7 +184,8 @@ namespace RuRo.Web.Fp_Ajax
                     }
                 }
                 //导入临床数据
-                string improtTestDataResult = ImportTestData(MatchClinicalDic(clinicalInfoDgDicList));
+                List<Dictionary<string, string>> matchClinicalDic = MatchClinicalDic(clinicalInfoDgDicList);
+                string improtTestDataResult = ImportTestData(matchClinicalDic);
                 if (improtTestDataResult.Contains("\"status\":\"DONE\""))
                 {
                     //导入成功--保存数据到本地数据库
