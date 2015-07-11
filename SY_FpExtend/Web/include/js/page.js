@@ -506,27 +506,6 @@ var getDtaJsonSampleType;
 //getDtaJsonSampleType = JSON.parse(getSampleTypeData);
 
 
-//联动数据绑定值
-
-
-//////下级绑定值
-//function getliandongJsonurl(liandongurl) {
-//    var temp;
-//    $.ajax({
-//        type: 'get',
-//        url: liandongurl,
-//        async: false,
-//        datatype: 'json',
-//        success: function (responseData) {
-//            temp = responseData;
-//        }
-//    });
-//    return temp;
-//}
-//var liandongurl;
-//var getliandongData = getliandongJsonurl(liandongurl);
-//var getDtaJsonliandong;
-
 function ForSubmitSampleInfo() {
     alert('1111');
     //提交样品

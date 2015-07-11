@@ -65,7 +65,11 @@
     </script>
 </head>
 <body leftmargin="0" topmargin="0" marginheight="0" marginwidth="0">
+
     <form id="Form1" method="post" runat="server">
+        <div id="mianlogo" style="width: 20%; height: 40px; position: absolute; top: 110px; left: 190px;">
+            <img src="../Images/LoGo.jpg" style="width: 190px; height: 40px; z-index: 100"></img>
+        </div>
         <br/>
         <br/>
         <br/>
