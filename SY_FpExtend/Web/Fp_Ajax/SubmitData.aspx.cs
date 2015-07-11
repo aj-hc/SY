@@ -220,8 +220,9 @@ namespace RuRo.Web.Fp_Ajax
                     //将结果添加到列字典中
                     //将Dg字典转换成对象，将对象添加到对象集合
                     //将对象结合序列化成json发送到前台Dg中重新绑定
-
-                    sampleInfoDic.Add("","");
+                    sampleInfoDic.Add("Name ", "");
+                    sampleInfoDic.Add("Volume", item["Volume"]);
+                    sampleInfoDic.Add("Name ", "");
 
                 }
             }
