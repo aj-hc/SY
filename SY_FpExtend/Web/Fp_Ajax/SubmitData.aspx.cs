@@ -30,7 +30,7 @@ namespace RuRo.Web.Fp_Ajax
                 sampleTypeIdAndNamedic = FreezerProUtility.Fp_BLL.Samples.GetAllSample_TypesNames(url);
             }
             string action = Request.Params["action"].Trim();
-            departments = Request.Params["departments"].Trim();
+            departments =Common.DEncrypt.DESEncrypt.Decrypt(Request.Params["departments"].Trim());
             if (action == "postPatientinfo")
             {
                 ImportPatientInfo();
@@ -163,7 +163,8 @@ namespace RuRo.Web.Fp_Ajax
             baseInfoDic.Add("Description", PatientName);
 
             //导入样本源数据
-            string improtBaseInfoResult = ImportSampleSource(MatchBaseInfoDic(baseInfoDic));
+            Dictionary<string, string> mathcBaseInfoDic = MatchBaseInfoDic(baseInfoDic);
+            string improtBaseInfoResult = ImportSampleSource(mathcBaseInfoDic);
             string success = FreezerProUtility.Fp_Common.FpJsonHelper.GetStrFromJsonStr("success", improtBaseInfoResult);
             string msg = FreezerProUtility.Fp_Common.FpJsonHelper.GetStrFromJsonStr("msg", improtBaseInfoResult);
             Dictionary<string, Dictionary<string, string>> importSampleSourceResult = new Dictionary<string, Dictionary<string, string>>();
@@ -222,6 +223,7 @@ namespace RuRo.Web.Fp_Ajax
                     //将对象结合序列化成json发送到前台Dg中重新绑定
                     sampleInfoDic.Add("Volume", item["Volume"]);
                     sampleInfoDic.Add("Sample Source", baseInfoDic["Name"]);
+                    sampleInfoDic.Add("_117", item["_117"]);
                     Dictionary<string, string> dataDic = MatchSampleInfoDic(sampleInfoDic);
                     //匹配完毕
                     string importsampleres = ImportSamples(AddName(dataDic, baseInfoDic["Name"]), item["sample_type"], item["Scount"]);
