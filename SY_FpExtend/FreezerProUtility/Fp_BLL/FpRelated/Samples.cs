@@ -156,18 +156,21 @@ namespace FreezerProUtility.Fp_BLL
             string connFpUrl = UrlHelper.ConnectionUrlAndPar(url, FpMethod.import_samples, "", out check);
             bool creat = false;
             string box_path = CreatTemFreezerPath(url).Replace('→', ',');
-
-            string box_path2 = CreatTemFreezerPath(url, out creat);
+            FreezerProUtility.Fp_Model.Box_Path boxpath = new Box_Path();
+            CreatTemFreezerPath(url, out creat);
 
             if (creat)
             {
                 //需要创建盒子
-                string Freezer = "";//TEM
+                string Freezer ="";//TEM
                 string Level1 = "";//username
                 string Level2 = "";//月
                 string Level3 = "";//日
                 string Box = "";//盒子
                 string Position = "";//位置
+
+
+
 
             }
 
@@ -251,16 +254,23 @@ namespace FreezerProUtility.Fp_BLL
             return box_path;
         }
         #endregion
-
-        private static string CreatTemFreezerPath(string url, out bool creat)
+        /// <summary>
+        /// 创建导入的样品盒路径，默认是10 X 10 的盒子
+        /// </summary>
+        /// <param name="url">fp链接地址</param>
+        /// <param name="creat">是否需要创建盒子</param>
+        /// <returns>路径</returns>
+        private static Fp_Model.Box_Path CreatTemFreezerPath(string url, out bool creat)
         {
-            //tem-->username-->month-->day(-->box)
-            string box_path = string.Empty;
+            FreezerProUtility.Fp_Model.Box_Path box_path = new Box_Path();
+            ////tem-->username-->month-->day(-->box)
+            //string box_path = string.Empty;
             string username = Fp_Common.CookieHelper.GetCookieValue("username");
             string freezerName = "Tem";
             if (!string.IsNullOrEmpty(username))
             {
                 Fp_Model.Freezer freezer = Freezers.GetFreezerBy(url, freezerName);
+                
                 string _path = string.Format("{0}→{1}→{2}月→{3}日", freezerName, username, DateTime.Now.Month, DateTime.Now.Date.ToString("dd"));//创建盒子路径
                 //获取次路径下的盒子
                 if (freezer != null)
@@ -275,7 +285,11 @@ namespace FreezerProUtility.Fp_BLL
                             string maxBoxName = boxsList.OrderByDescending(a => a.name).FirstOrDefault().name;
                             if (string.IsNullOrEmpty(maxBoxName))
                             {
-                                box_path = string.Format("{0}→{1}→{2}月→{3}日→{4}", freezerName, username, DateTime.Now.Month, DateTime.Now.Date.ToString("dd"), maxBoxName);
+                                box_path.Freezer = "Tem";
+                                box_path.Level1 = username;
+                                box_path.Level2 = DateTime.Now.Month + "月";
+                                box_path.Level3 = DateTime.Now.Date.ToString("dd");
+                                box_path.Box = maxBoxName;
                                 creat = false;
                             }
                             else
@@ -284,29 +298,45 @@ namespace FreezerProUtility.Fp_BLL
                                 //意外报错
                                 if (int.TryParse(maxBoxName, out max))
                                 {
-                                    box_path = string.Format("{0}→{1}→{2}月→{3}日→{4}", freezerName, username, DateTime.Now.Month, DateTime.Now.Date.ToString("dd"), max + 1);
+                                    box_path.Freezer = "Tem";
+                                    box_path.Level1 = username;
+                                    box_path.Level2 = DateTime.Now.Month + "月";
+                                    box_path.Level3 = DateTime.Now.Date.ToString("dd");
+                                    box_path.Box = (max + 1).ToString();
                                 }
                                 creat = true;
                             }
                         }
                         else
                         {
-                            //日期节点下没盒子
-                            box_path = string.Format("{0}→{1}→{2}月→{3}日→{4}", freezerName, username, DateTime.Now.Month, DateTime.Now.Date.ToString("dd"), "1");
                             creat = true;
+                            //日期节点下没盒子
+                            box_path.Freezer = "Tem";
+                            box_path.Level1 = username;
+                            box_path.Level2 = DateTime.Now.Month + "月";
+                            box_path.Level3 = DateTime.Now.Date.ToString("dd");
+                            box_path.Box = "1";
                         }
                     }
                     else
                     {
-                        //当前节点下没盒子
-                        box_path = string.Format("{0}→{1}→{2}月→{3}日→{4}", freezerName, username, DateTime.Now.Month, DateTime.Now.Date.ToString("dd"), "1");
                         creat = true;
+                        //当前节点下没盒子
+                        box_path.Freezer = "Tem";
+                        box_path.Level1 = username;
+                        box_path.Level2 = DateTime.Now.Month + "月";
+                        box_path.Level3 = DateTime.Now.Date.ToString("dd");
+                        box_path.Box = "1";
                     }
                 }
                 else
                 {
                     creat = true;
-                    box_path = string.Format("{0}→{1}→{2}月→{3}日→{4}", freezerName, username, DateTime.Now.Month, DateTime.Now.Date.ToString("dd"), "1");
+                    box_path.Freezer = "Tem";
+                    box_path.Level1 = username;
+                    box_path.Level2 = DateTime.Now.Month + "月";
+                    box_path.Level3 = DateTime.Now.Date.ToString("dd");
+                    box_path.Box = "1"; ;
                 }
             }
             else

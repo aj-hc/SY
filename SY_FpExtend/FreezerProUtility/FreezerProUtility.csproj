@@ -77,6 +77,7 @@
     <Compile Include="Fp_Model\FpReturnModel\AuditRec.cs" />
     <Compile Include="Fp_Model\FpReturnModel\Box.cs" />
     <Compile Include="Fp_Model\FpReturnModel\BoxType.cs" />
+    <Compile Include="Fp_Model\FpReturnModel\Box_Path.cs" />
     <Compile Include="Fp_Model\FpReturnModel\Freezer.cs" />
     <Compile Include="Fp_Model\FpReturnModel\Location.cs" />
     <Compile Include="Fp_Model\FpReturnModel\Role.cs" />
