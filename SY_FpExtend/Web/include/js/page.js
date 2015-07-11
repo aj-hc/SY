@@ -200,20 +200,20 @@ $(function () {
         valueField: 'BloodTypeFlag',
         textField: 'text',
         url: '../Fp_Ajax/PageConData.aspx?conMarc=BloodTypeFlag',
-        panelHeight: 'auto',
-        multiple: true
+        panelHeight: 'auto'
     });
 })
 
-////取材时段有问题
+//取材时段
 $(function () {
     $('#_113').combobox({
-        method: 'get',
-        valueField: 'SamplingMethod',
-        textField: 'text',
         url: '../Fp_Ajax/PageConData.aspx?conMarc=SamplingMethod',
-        panelHeight: 'auto',
-        multiple: true
+        required:false,
+        multiple: true,
+        method: 'get',
+        valueField: 'samplingMethod',
+        textField: 'text',
+        panelHeight: 'auto'
     });
 })
 //诊断类型
@@ -226,6 +226,74 @@ $(function () {
         panelHeight: 'auto'
     });
 })
+
+//样品类型
+$(function () {
+    $('#sampleTypeE').combobox({
+        url: '../Fp_Ajax/PageConData.aspx?conMarc=SampleType',
+        method: 'get',
+        valueField: 'text',
+        textField: 'text',
+        panelHeight: 'auto'
+    });
+})
+
+//脏器和脏器细分
+$(function () {
+    $('#organE').combobox({
+        data: getDtaJsonLinkage,
+        method: 'get',
+        valueField: 'NAME',
+        textField: 'NAME',
+        panelHeight: 'auto',
+        onSelect: function (rec)
+        {
+            var linkagefromurl = '../Fp_Ajax/PageConData.aspx?conMarc=linkagefrom&id=' + rec.ID;
+            var getlinkagefrom;
+            var getDtaJsonLinkagefrom;
+            var getlinkageFromData = getlinkagefromJson(linkagefromurl);
+            getlinkagefrom = JSON.parse(getlinkageFromData);
+            getDtaJsonLinkagefrom = getlinkagefrom.ds;
+            $('#organsubdivisionE').combobox({
+                data: getDtaJsonLinkagefrom,
+                method: 'get',
+                valueField: 'NAME',
+                textField: 'NAME',
+                panelHeight: 'auto'
+            });
+        }
+    });
+})
+//脏器绑定值
+var linkageurl = '../Fp_Ajax/PageConData.aspx?conMarc=linkage';
+var getlinkage;
+var getDtaJsonLinkage;
+function getlinkageJson(linkageurl) {
+    var temp;
+    $.ajax({
+        type: 'get',
+        url: linkageurl,
+        async: false,
+        datatype: 'json',
+        success: function (responseData) { temp = responseData; }
+    });
+    return temp;
+}
+var getlinkageData = getlinkageJson(linkageurl);
+getlinkage = JSON.parse(getlinkageData);
+getDtaJsonLinkage = getlinkage.ds;
+//读取脏器细分
+function getlinkagefromJson(linkagefromurl) {
+    var temp;
+    $.ajax({
+        type: 'get',
+        url: linkagefromurl,
+        async: false,
+        datatype: 'json',
+        success: function (responseData) { temp = responseData; }
+    });
+    return temp;
+}
 
 //绑定采集人
 $(function () {
@@ -264,6 +332,7 @@ $(function () {
         }
     });
 })
+
 function getEmployee(Employeeurl) {
     var temp;
     $.ajax({
@@ -436,26 +505,8 @@ var getDtaJsonSampleType;
 //getDtaJsonSampleType = JSON.parse(getSampleTypeData);
 
 
-//////联动数据绑定值
-function getSampleInfourlJsonurl(SampleInfourl) {
-    var temp;
-    $.ajax({
-        type: 'get',
-        url: SampleInfourl,
-        async: false,
-        datatype: 'json',
-        success: function (responseData) { temp = responseData; }
-    });
-    return temp;
-}
-var SampleInfourl = '../Fp_Ajax/PageConData.aspx?conMarc=linkage';
-var getSampleInfoData = getSampleInfourlJsonurl(SampleInfourl);
-var getdtaSampleInfo;
-var getDtaJsonSampleInfo;
-if (getdtaSampleInfo) {
-    getdtaSampleInfo = JSON.parse(getSampleInfoData);
-    getDtaJsonSampleInfo = getdtaSampleInfo.ds;
-}
+//联动数据绑定值
+
 
 //////下级绑定值
 //function getliandongJsonurl(liandongurl) {

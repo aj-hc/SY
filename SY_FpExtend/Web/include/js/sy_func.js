@@ -291,8 +291,7 @@ function getdatabybarcode() {
 function postPatientInfo() {
     var name = $('#_80').textbox('getText');
     var hzid = $('#_91').textbox('getText');
-    var username = $.cookie('username');
-    var departments = $.cookie(username + 'department');
+    var departments = $('#departments').combobox('getText')
     if (!departments) { $.messager.alert('提示', '必须选择科室', 'error'); return; }
     if (name == "" || hzid == "") { $.messager.alert('提示', '必须输入姓名以及患者ID', 'error'); return; }
     else
@@ -320,13 +319,9 @@ function postPatientInfo() {
             data: {
                 departments: departments,
                 baseinfo: _baseinfo,
-                clinicalInfoDg: rowClinicalInfoDg,
-                sampleInfoForm: _sampleInfoForm,
-                dg_SampleInfo:_dg_SampleInfo
+                clinicalInfoDg: rowClinicalInfoDg
             },
-            onSubmit: function () {
-
-            },
+            onSubmit: function () {},
             success: function (data) {
                 if (data) {
                     if (data.success == "True") {
@@ -348,16 +343,11 @@ function postPatientInfo() {
     }
 }
 function getBaseInfoFormData() {
-    var baseInfoForm = $("#BaseInfoForm").serializeArray();
-    var Tem;
-    if (baseInfoForm) { Tem = JSON.stringify(baseInfoForm); }
-    return Tem;
-}
-function getSampleInfoFormData() {
-    var sampleInfo = $("#SampleInfoForm").serializeArray();
-    var Tem;
-    if (sampleInfo) { Tem = JSON.stringify(sampleInfo); }
-    return Tem;
+    var sampleinfo = $("#BaseInfoForm").serializeArray();
+    var ii = $("#_116").combobox('getText');
+    var base;
+    if (sampleinfo) {base = JSON.stringify(sampleinfo);}
+    return base;
 }
 //添加值到ClinicalInfoDg
 function submitFormClinicalInfoDg() {
@@ -397,11 +387,10 @@ function AddSampleInfoToDg() {
                 OrganSubdivision: from[4].value
             }
         });
-        $('#setClinicalInfoDg').form('clear');
-        $('#w').window('close');
+        $('#sampleInfoFormToDg').form('clear');
+        $('#addSampleForm').window('close');
     }
 }
-
 function clearSampleInfoAddForm() {
     $('#sampleInfoFormToDg').form('clear');
 }
