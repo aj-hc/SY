@@ -176,21 +176,6 @@
                 <a href="javascript:void(0)" class="easyui-linkbutton" id="cancleSubmit" style="width: auto" onclick="CloseWebPage()">取消导入</a>
             </div>
         </div>
-        <!--登陆框-->
-        <div id="Login" class="easyui-dialog" style="width: 300px; padding: 30px 50px 20px 50px" title="请登录助手" data-options="closed:true">
-            <form id="frmLogin" runat="server" enableviewstate="false">
-                <div style="margin-bottom: 10px">
-                    <input class="easyui-textbox" id="username" name="username" style="width: 100%; height: 40px; padding: 12px" data-options="prompt:'username',iconCls:'icon-man',iconWidth:38" />
-                </div>
-                <div style="margin-bottom: 20px">
-                    <input class="easyui-textbox" id="password" name="password" style="width: 100%; height: 40px; padding: 12px" type="password" data-options="prompt:'password',iconCls:'icon-lock',iconWidth:38" />
-                </div>
-                <div style="text-align: center; padding: 5px">
-                    <a href="javascript:void(0)" style="margin: 0px 10px 0px 10px" class="easyui-linkbutton" onclick="login()">登陆</a>
-                    <a href="javascript:void(0)" style="margin: 0px 10px 0px 10px" class=" easyui-linkbutton" onclick="$('#Login').dialog('close')">取消</a>
-                </div>
-            </form>
-        </div>
         <!--临床信息录入框 -->
         <div id="w" class="easyui-window" title="Modal Window" data-options="modal:true,closed:true,iconCls:'icon-save'" style="width: 500px; height: 200px; padding: 10px;">
             <div style="padding: 10px 60px 20px 60px">
