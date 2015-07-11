@@ -30,7 +30,7 @@ namespace RuRo.Web.Fp_Ajax
                 sampleTypeIdAndNamedic = FreezerProUtility.Fp_BLL.Samples.GetAllSample_TypesNames(url);
             }
             string action = Request.Params["action"].Trim();
-            departments = Request.Params["departments"].Trim();
+            departments =Common.DEncrypt.DESEncrypt.Decrypt(Request.Params["departments"].Trim());
             if (action == "postPatientinfo")
             {
                 ImportPatientInfo();
@@ -40,6 +40,7 @@ namespace RuRo.Web.Fp_Ajax
                 //string id=获取样本的行号
                 //使用方法提交样本数据到fp
                 //返回提交后的结果
+                //导入单管样品
             }
         }
 
@@ -181,8 +182,8 @@ namespace RuRo.Web.Fp_Ajax
                     importResult.Add(dicr);
                 }
                 //导入样本数据
-
-
+                //调用方法导入样品
+                Dictionary<string, string> sampleBaseinfo = GetBaseInfoDic();
             }
             else
             {

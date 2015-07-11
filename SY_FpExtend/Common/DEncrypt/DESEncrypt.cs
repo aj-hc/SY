@@ -16,13 +16,21 @@ namespace RuRo.Common.DEncrypt
 		#region ========加密======== 
  
         /// <summary>
-        /// 加密
+        /// 加密加密失败就返回原字符串
         /// </summary>
         /// <param name="Text"></param>
         /// <returns></returns>
 		public static string Encrypt(string Text) 
 		{
-            return Encrypt(Text, "RUROFREE");
+            try
+            {
+                return Encrypt(Text, "RUROFREE");
+            }
+            catch (Exception ex)
+            {
+                Common.LogHelper.WriteError(ex.Message + Environment.NewLine + Text);
+                return Text;
+            }
 		}
 		/// <summary> 
 		/// 加密数据 
@@ -55,13 +63,21 @@ namespace RuRo.Common.DEncrypt
    
  
         /// <summary>
-        /// 解密
+        /// 解密 解密失败返回空字符串
         /// </summary>
         /// <param name="Text"></param>
         /// <returns></returns>
 		public static string Decrypt(string Text) 
 		{
+            try
+            {
             return Decrypt(Text, "RUROFREE");
+            }
+            catch (Exception ex)
+            {
+                Common.LogHelper.WriteError(ex.Message + Environment.NewLine + Text);
+                return "";
+            }
 		}
 		/// <summary> 
 		/// 解密数据 

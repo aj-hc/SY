@@ -200,19 +200,20 @@ $(function () {
         valueField: 'BloodTypeFlag',
         textField: 'text',
         url: '../Fp_Ajax/PageConData.aspx?conMarc=BloodTypeFlag',
-        panelHeight: 'auto'
+        panelHeight: 'auto',
+        multiple: true
     });
 })
 
 ////取材时段有问题
 $(function () {
     $('#_113').combobox({
-        url: '../Fp_Ajax/PageConData.aspx?conMarc=SamplingMethod',
-        multiple: true,
         method: 'get',
         valueField: 'SamplingMethod',
         textField: 'text',
-        panelHeight: 'auto'
+        url: '../Fp_Ajax/PageConData.aspx?conMarc=SamplingMethod',
+        panelHeight: 'auto',
+        multiple: true
     });
 })
 //诊断类型

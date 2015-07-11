@@ -291,7 +291,8 @@ function getdatabybarcode() {
 function postPatientInfo() {
     var name = $('#_80').textbox('getText');
     var hzid = $('#_91').textbox('getText');
-    var departments = $('#departments').combobox('getText')
+    var username = $.cookie('username');
+    var departments = $.cookie(username + 'department');
     if (!departments) { $.messager.alert('提示', '必须选择科室', 'error'); return; }
     if (name == "" || hzid == "") { $.messager.alert('提示', '必须输入姓名以及患者ID', 'error'); return; }
     else
@@ -305,6 +306,13 @@ function postPatientInfo() {
                 }
             }
         var rowClinicalInfoDg = JSON.stringify(_ClinicalInfoDg);
+        var _sampleInfoForm = getSampleInfoFormData();
+
+        var _dg_SampleInfoDg = $('#dg_SampleInfo').datagrid('getRows');
+        if (_dg_SampleInfoDg || _dg_SampleInfoDg == '[]') {
+              $.messager.alert('提示', '请添加样本信息', 'error'); return; 
+        }
+        var _dg_SampleInfo = JSON.stringify(_dg_SampleInfoDg);
         $.ajax({
             type: 'post',
             dataType: "json",
@@ -312,9 +320,13 @@ function postPatientInfo() {
             data: {
                 departments: departments,
                 baseinfo: _baseinfo,
-                clinicalInfoDg: rowClinicalInfoDg
+                clinicalInfoDg: rowClinicalInfoDg,
+                sampleInfoForm: _sampleInfoForm,
+                dg_SampleInfo:_dg_SampleInfo
             },
-            onSubmit: function () {},
+            onSubmit: function () {
+
+            },
             success: function (data) {
                 if (data) {
                     if (data.success == "True") {
@@ -336,11 +348,16 @@ function postPatientInfo() {
     }
 }
 function getBaseInfoFormData() {
-    var sampleinfo = $("#BaseInfoForm").serializeArray();
-    var ii = $("#_116").combobox('getText');
-    var base;
-    if (sampleinfo) {base = JSON.stringify(sampleinfo);}
-    return base;
+    var baseInfoForm = $("#BaseInfoForm").serializeArray();
+    var Tem;
+    if (baseInfoForm) { Tem = JSON.stringify(baseInfoForm); }
+    return Tem;
+}
+function getSampleInfoFormData() {
+    var sampleInfo = $("#SampleInfoForm").serializeArray();
+    var Tem;
+    if (sampleInfo) { Tem = JSON.stringify(sampleInfo); }
+    return Tem;
 }
 //添加值到ClinicalInfoDg
 function submitFormClinicalInfoDg() {
