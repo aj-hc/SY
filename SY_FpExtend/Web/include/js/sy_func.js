@@ -281,6 +281,13 @@ $(document).keyup(function (e) {
         clearForm();
     }
 });
+//F2快捷键
+$(document).keyup(function (e) {
+    var key = e.which;
+    if (key == 113) {
+        postPatientInfo();
+    }
+});
 //点击确定按钮提交请求
 function getdatabybarcode() {
     var code = $('#barcodebox').textbox('getValue');
