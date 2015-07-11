@@ -380,11 +380,10 @@ function AddSampleInfoToDg() {
                 OrganSubdivision: from[4].value
             }
         });
-        $('#setClinicalInfoDg').form('clear');
-        $('#w').window('close');
+        $('#sampleInfoFormToDg').form('clear');
+        $('#addSampleForm').window('close');
     }
 }
-
 function clearSampleInfoAddForm() {
     $('#sampleInfoFormToDg').form('clear');
 }

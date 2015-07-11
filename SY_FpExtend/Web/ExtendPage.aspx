@@ -227,11 +227,11 @@
                         </tr>
                         <tr>
 	    			        <td style="width:100px;">脏器:</td>
-	    			        <td><input class="easyui-combobox" type="text" name="ScountE" id="organE" data-options="required:false"/></td>
+	    			        <td><input class="easyui-combobox" type="text" name="organE" id="organE" data-options="required:false"/></td>
                         </tr>
                         <tr>
 	    			        <td style="width:100px;">脏器细分:</td>
-                            <td><input class="easyui-combobox" type="text" name="diseaseName" id="organsubdivisionE" data-options="required:false"/></td>
+                            <td><input class="easyui-combobox" type="text" name="organsubdivisionE" id="organsubdivisionE" data-options="required:false"/></td>
                         </tr>
                     </table>
                 </form>
