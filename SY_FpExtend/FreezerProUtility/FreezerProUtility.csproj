@@ -54,6 +54,7 @@
     <Compile Include="Fp_BLL\FpRelated\Users.cs" />
     <Compile Include="Fp_BLL\FpRelated\FpUrlMaker.cs" />
     <Compile Include="Fp_BLL\FpRelated\TestData.cs" />
+    <Compile Include="Fp_BLL\FpRelated\SampleGroup.cs" />
     <Compile Include="Fp_BLL\ValidationData.cs" />
     <Compile Include="Fp_Common\AttributeHelper.cs" />
     <Compile Include="Fp_Common\CookieHelper.cs" />

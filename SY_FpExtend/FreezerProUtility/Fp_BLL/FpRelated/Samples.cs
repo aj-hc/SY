@@ -89,7 +89,7 @@ namespace FreezerProUtility.Fp_BLL
         #endregion
 
         #region 获取样品类型集合 +  public List<SampleTypes>  GetAllSample_Types(string url)
-        public static List<SampleTypes> GetAllSample_Types(string url)
+        public static List<SampleTypes> GetAll(string url)
         {
             List<SampleTypes> sample_TypesList = Fp_DAL.DataWithFP.getdata<SampleTypes>(url, FpMethod.sample_types, "", "SampleTypes");
             return sample_TypesList;
@@ -102,10 +102,10 @@ namespace FreezerProUtility.Fp_BLL
         /// </summary>
         /// <param name="url">带有username和password的url</param>
         /// <returns></returns>
-        public static Dictionary<string, string> GetAllSample_TypesNames(string url)
+        public static Dictionary<string, string> GetAllIdAndNamesDic(string url)
         {
             Dictionary<string, string> dic = new Dictionary<string, string>();
-            List<SampleTypes> sample_TypesList = GetAllSample_Types(url);
+            List<SampleTypes> sample_TypesList = GetAll(url);
             foreach (var item in sample_TypesList)
             {
                 dic.Add(item.id, item.name);
@@ -117,7 +117,7 @@ namespace FreezerProUtility.Fp_BLL
         #region 获取样品类型根据名称 + public static SampleTypes GetSample_TypeByTypeName(string url, string name)
         public static SampleTypes GetSample_TypeByTypeName(string url, string name)
         {
-            List<SampleTypes> sample_TypesList = GetAllSample_Types(url);
+            List<SampleTypes> sample_TypesList = GetAll(url);
             SampleTypes sample = sample_TypesList.Where(a => a.name == name).FirstOrDefault();
             return sample;
         }
@@ -217,7 +217,7 @@ namespace FreezerProUtility.Fp_BLL
             string freezerName = "Tem";
             if (!string.IsNullOrEmpty(username))
             {
-                Fp_Model.Freezer freezer = Freezers.GetFreezerBy(url, freezerName);
+                Fp_Model.Freezer freezer = Freezers.GetBy(url, freezerName);
                 string _path = string.Format("{0}→{1}→{2}月→{3}日", freezerName, username, DateTime.Now.Month, DateTime.Now.Date.ToString("dd"));//创建盒子路径
                 //获取次路径下的盒子
                 if (freezer != null)
@@ -254,12 +254,6 @@ namespace FreezerProUtility.Fp_BLL
             return box_path;
         }
         #endregion
-        /// <summary>
-        /// 创建导入的样品盒路径，默认是10 X 10 的盒子
-        /// </summary>
-        /// <param name="url">fp链接地址</param>
-        /// <param name="creat">是否需要创建盒子</param>
-        /// <returns>路径</returns>
         private static Fp_Model.Box_Path CreatTemFreezerPath(string url, out bool creat)
         {
             FreezerProUtility.Fp_Model.Box_Path box_path = new Box_Path();
@@ -269,7 +263,7 @@ namespace FreezerProUtility.Fp_BLL
             string freezerName = "Tem";
             if (!string.IsNullOrEmpty(username))
             {
-                Fp_Model.Freezer freezer = Freezers.GetFreezerBy(url, freezerName);
+                Fp_Model.Freezer freezer = Freezers.GetBy(url, freezerName);
                 
                 string _path = string.Format("{0}→{1}→{2}月→{3}日", freezerName, username, DateTime.Now.Month, DateTime.Now.Date.ToString("dd"));//创建盒子路径
                 //获取次路径下的盒子
@@ -345,7 +339,6 @@ namespace FreezerProUtility.Fp_BLL
             }
             return box_path;
         }
-
 
         #region 提交数据到fp +private static string ImportSampleToFp(string url, string jsonData)
         /// <summary> 

@@ -27,7 +27,7 @@ namespace RuRo.Web.Fp_Ajax
                 url = fpurl.FpUrl;
                 organIdAndNamedic = fp_linkage.GetOrganDic();
                 clinicalDiagnoseTypeFlagdic = PageConData.DiagnoseTypeFlagDic();
-                sampleTypeIdAndNamedic = FreezerProUtility.Fp_BLL.Samples.GetAllSample_TypesNames(url);
+                sampleTypeIdAndNamedic = FreezerProUtility.Fp_BLL.Samples.GetAllIdAndNamesDic(url);
             }
             string action = Request.Params["action"].Trim();
             departments = Common.DEncrypt.DESEncrypt.Decrypt(Request.Params["departments"].Trim());

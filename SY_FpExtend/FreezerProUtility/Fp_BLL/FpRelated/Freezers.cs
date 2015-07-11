@@ -16,7 +16,7 @@ namespace FreezerProUtility.Fp_BLL
             List<Fp_Model.Freezer> freezersList = Fp_DAL.DataWithFP.getdata<Fp_Model.Freezer>(url, Fp_Common.FpMethod.freezers, "", "Freezers");
             return freezersList;
         }
-        public static Freezer GetFreezerBy(string url, string name)
+        public static Freezer GetBy(string url, string name)
         {
             Fp_Model.Freezer freezer = GetAll(url).Where<Fp_Model.Freezer>(a => a.name == name).FirstOrDefault();
             return freezer;
