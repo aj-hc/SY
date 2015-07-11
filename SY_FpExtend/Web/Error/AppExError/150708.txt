@@ -1,0 +1,5 @@
+
+Log Entry : 
+07/08/2015 06:07:31
+Error Message【用户 'sa' 登录失败。】Error TargetSite【Int32 ExecuteSqlSY(System.String, System.Data.SqlClient.SqlParameter[])】Error Source【.Net SqlClient Data Provider】
+________________________________________________________

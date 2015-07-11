@@ -1,0 +1,48 @@
+
+Log Entry : 
+07/11/2015 00:47:48
+Message：【
+】StackTrace：【
+】Source：【
+】HResult：【
+】
+________________________________________________________
+
+Log Entry : 
+07/11/2015 00:49:53
+Message：【未能找到任何可识别的数字。】
+StackTrace：【   在 System.ParseNumbers.StringToInt(String s, Int32 radix, Int32 flags, Int32* currPos)
+   在 System.Convert.ToInt32(String value, Int32 fromBase)
+   在 RuRo.Common.DEncrypt.DESEncrypt.Decrypt(String Text, String sKey) 位置 f:\Repositories\SY\SY_FpExtend\Common\DEncrypt\DESEncrypt.cs:行号 81
+   在 RuRo.Common.DEncrypt.DESEncrypt.Decrypt(String Text) 位置 f:\Repositories\SY\SY_FpExtend\Common\DEncrypt\DESEncrypt.cs:行号 64
+   在 RuRo.Web.Login.CheckLoginByCookie() 位置 f:\Repositories\SY\SY_FpExtend\Web\Login.aspx.cs:行号 119】
+Source：【mscorlib】
+HResult：【-2146233033】
+
+________________________________________________________
+
+Log Entry : 
+07/11/2015 00:51:16
+Message：【未能找到任何可识别的数字。】
+StackTrace：【   在 System.ParseNumbers.StringToInt(String s, Int32 radix, Int32 flags, Int32* currPos)
+   在 System.Convert.ToInt32(String value, Int32 fromBase)
+   在 RuRo.Common.DEncrypt.DESEncrypt.Decrypt(String Text, String sKey) 位置 f:\Repositories\SY\SY_FpExtend\Common\DEncrypt\DESEncrypt.cs:行号 81
+   在 RuRo.Common.DEncrypt.DESEncrypt.Decrypt(String Text) 位置 f:\Repositories\SY\SY_FpExtend\Common\DEncrypt\DESEncrypt.cs:行号 64
+   在 RuRo.Web.Login.CheckLoginByCookie() 位置 f:\Repositories\SY\SY_FpExtend\Web\Login.aspx.cs:行号 119】
+Source：【mscorlib】
+HResult：【-2146233033】
+
+________________________________________________________
+
+Log Entry : 
+07/11/2015 00:52:28
+Message：【未能找到任何可识别的数字。】
+StackTrace：【   在 System.ParseNumbers.StringToInt(String s, Int32 radix, Int32 flags, Int32* currPos)
+   在 System.Convert.ToInt32(String value, Int32 fromBase)
+   在 RuRo.Common.DEncrypt.DESEncrypt.Decrypt(String Text, String sKey) 位置 f:\Repositories\SY\SY_FpExtend\Common\DEncrypt\DESEncrypt.cs:行号 81
+   在 RuRo.Common.DEncrypt.DESEncrypt.Decrypt(String Text) 位置 f:\Repositories\SY\SY_FpExtend\Common\DEncrypt\DESEncrypt.cs:行号 64
+   在 RuRo.Web.Login.CheckLoginByCookie() 位置 f:\Repositories\SY\SY_FpExtend\Web\Login.aspx.cs:行号 119】
+Source：【mscorlib】
+HResult：【-2146233033】
+
+________________________________________________________

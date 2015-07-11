@@ -1,0 +1,126 @@
+
+Log Entry : 
+07/10/2015 22:36:40
+Error Message【未能找到任何可识别的数字。】
+Error TargetSite【Int32 StringToInt(System.String, Int32, Int32, Int32*)】
+Error Source【mscorlib】
+________________________________________________________
+
+Log Entry : 
+07/10/2015 22:36:46
+Error Message【未能找到任何可识别的数字。】
+Error TargetSite【Int32 StringToInt(System.String, Int32, Int32, Int32*)】
+Error Source【mscorlib】
+________________________________________________________
+
+Log Entry : 
+07/10/2015 22:48:45
+Error Message【未能找到任何可识别的数字。】
+Error TargetSite【Int32 StringToInt(System.String, Int32, Int32, Int32*)】
+Error Source【mscorlib】
+________________________________________________________
+
+Log Entry : 
+07/10/2015 22:48:51
+Error Message【未能找到任何可识别的数字。】
+Error TargetSite【Int32 StringToInt(System.String, Int32, Int32, Int32*)】
+Error Source【mscorlib】
+________________________________________________________
+
+Log Entry : 
+07/10/2015 22:51:40
+Error Message【未能找到任何可识别的数字。】
+Error TargetSite【Int32 StringToInt(System.String, Int32, Int32, Int32*)】
+Error Source【mscorlib】
+________________________________________________________
+
+Log Entry : 
+07/10/2015 22:57:06
+Error Message【未能找到任何可识别的数字。】
+Error TargetSite【Int32 StringToInt(System.String, Int32, Int32, Int32*)】
+Error Source【mscorlib】
+________________________________________________________
+
+Log Entry : 
+07/10/2015 23:00:08
+Error Message【未能找到任何可识别的数字。】
+Error TargetSite【Int32 StringToInt(System.String, Int32, Int32, Int32*)】
+Error Source【mscorlib】
+________________________________________________________
+
+Log Entry : 
+07/10/2015 23:01:16
+Error Message【未能找到任何可识别的数字。】
+Error TargetSite【Int32 StringToInt(System.String, Int32, Int32, Int32*)】
+Error Source【mscorlib】
+________________________________________________________
+
+Log Entry : 
+07/10/2015 23:03:00
+Error Message【未能找到任何可识别的数字。】
+Error TargetSite【Int32 StringToInt(System.String, Int32, Int32, Int32*)】
+Error Source【mscorlib】
+________________________________________________________
+
+Log Entry : 
+07/10/2015 23:05:08
+Error Message【未能找到任何可识别的数字。】
+Error TargetSite【Int32 StringToInt(System.String, Int32, Int32, Int32*)】
+Error Source【mscorlib】
+________________________________________________________
+
+Log Entry : 
+07/10/2015 23:07:48
+Error Message【未能找到任何可识别的数字。】
+Error TargetSite【Int32 StringToInt(System.String, Int32, Int32, Int32*)】
+Error Source【mscorlib】
+________________________________________________________
+
+Log Entry : 
+07/10/2015 23:08:00
+Error Message【未能找到任何可识别的数字。】
+Error TargetSite【Int32 StringToInt(System.String, Int32, Int32, Int32*)】
+Error Source【mscorlib】
+________________________________________________________
+
+Log Entry : 
+07/10/2015 23:08:06
+Error Message【未能找到任何可识别的数字。】
+Error TargetSite【Int32 StringToInt(System.String, Int32, Int32, Int32*)】
+Error Source【mscorlib】
+________________________________________________________
+
+Log Entry : 
+07/10/2015 23:15:02
+Error Message【未能找到任何可识别的数字。】
+Error TargetSite【Int32 StringToInt(System.String, Int32, Int32, Int32*)】
+Error Source【mscorlib】
+________________________________________________________
+
+Log Entry : 
+07/10/2015 23:15:08
+Error Message【未能找到任何可识别的数字。】
+Error TargetSite【Int32 StringToInt(System.String, Int32, Int32, Int32*)】
+Error Source【mscorlib】
+________________________________________________________
+
+Log Entry : 
+07/10/2015 23:15:13
+Error Message【未能找到任何可识别的数字。】
+Error TargetSite【Int32 StringToInt(System.String, Int32, Int32, Int32*)】
+Error Source【mscorlib】
+________________________________________________________
+
+Log Entry : 
+07/10/2015 23:15:23
+Error Message【未能找到任何可识别的数字。】
+Error TargetSite【Int32 StringToInt(System.String, Int32, Int32, Int32*)】
+Error Source【mscorlib】
+________________________________________________________
+
+Log Entry : 
+07/10/2015 23:15:29
+Error Message【未能找到任何可识别的数字。】
+Error TargetSite【Int32 StringToInt(System.String, Int32, Int32, Int32*)】
+Error Source【mscorlib】
+________________________________________________________
