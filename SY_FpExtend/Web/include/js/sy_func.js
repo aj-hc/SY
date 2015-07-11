@@ -307,7 +307,6 @@ function postPatientInfo() {
         }
         var rowClinicalInfoDg = JSON.stringify(_ClinicalInfoDg);
         var _sampleInfoForm = getSampleInfoFormData();
-
         var _dg_SampleInfoDg = $('#dg_SampleInfo').datagrid('getRows');
         if (!_dg_SampleInfoDg || _dg_SampleInfoDg == '[]') {
             $.messager.alert('提示', '请添加样本信息', 'error'); return;
@@ -348,11 +347,16 @@ function postPatientInfo() {
     }
 }
 function getBaseInfoFormData() {
-    var sampleinfo = $("#BaseInfoForm").serializeArray();
-    var ii = $("#_116").combobox('getText');
-    var base;
-    if (sampleinfo) {base = JSON.stringify(sampleinfo);}
-    return base;
+    var baseInfoForm = $("#BaseInfoForm").serializeArray();
+    var Tem;
+    if (baseInfoForm) { Tem = JSON.stringify(baseInfoForm); }
+    return Tem;
+}
+function getSampleInfoFormData() {
+    var sampleInfo = $("#SampleInfoForm").serializeArray();
+    var Tem;
+    if (sampleInfo) { Tem = JSON.stringify(sampleInfo); }
+    return Tem;
 }
 //添加值到ClinicalInfoDg
 function submitFormClinicalInfoDg() {
