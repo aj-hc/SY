@@ -277,7 +277,8 @@ $(function () {
 //ESC事件,点击ESC后清空所有值
 $(document).keyup(function (e) {
     var key = e.which;
-    if (key == 27) {
+    if (key == 27
+        ) {
         clearForm();
     }
 });
