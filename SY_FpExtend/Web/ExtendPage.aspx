@@ -219,7 +219,7 @@
                         </tr>
                         <tr>
 	    			        <td style="width:100px;">样品组:</td>
-	    			        <td><input class="easyui-combobox" name="sampleTypeE" id="SampleGroupE" data-options="required:false,multiple:false,prompt:'请选择样品组'"/></td>
+	    			        <td><input class="easyui-combobox" name="sampleTypeE" id="SampleGroupE" data-options="required:false,multiple:true,prompt:'请选择样品组'"/></td>
                         </tr>
                         <tr>
 	    			        <td style="width:100px;">体积:</td>
