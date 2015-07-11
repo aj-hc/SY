@@ -403,8 +403,8 @@ function AddSampleInfoToDg() {
                 OrganSubdivision: from[4].value
             }
         });
-        $('#sampleInfoFormToDg').form('clear');
-        $('#addSampleForm').window('close');
+        //$('#sampleInfoFormToDg').form('clear');
+        //$('#addSampleForm').window('close');
     }
 }
 function clearSampleInfoAddForm() {

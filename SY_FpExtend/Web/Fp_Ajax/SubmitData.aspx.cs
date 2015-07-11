@@ -20,17 +20,17 @@ namespace RuRo.Web.Fp_Ajax
         string departments = string.Empty;
         protected void Page_Load(object sender, EventArgs e)
         {
-            
+
             //页面第一次加载时初始化变量
             if (!IsPostBack)
             {
                 url = fpurl.FpUrl;
-               organIdAndNamedic = fp_linkage.GetOrganDic();
+                organIdAndNamedic = fp_linkage.GetOrganDic();
                 clinicalDiagnoseTypeFlagdic = PageConData.DiagnoseTypeFlagDic();
                 sampleTypeIdAndNamedic = FreezerProUtility.Fp_BLL.Samples.GetAllSample_TypesNames(url);
             }
             string action = Request.Params["action"].Trim();
-            departments =Common.DEncrypt.DESEncrypt.Decrypt(Request.Params["departments"].Trim());
+            departments = Common.DEncrypt.DESEncrypt.Decrypt(Request.Params["departments"].Trim());
             if (action == "postPatientinfo")
             {
                 ImportPatientInfo();
@@ -121,12 +121,12 @@ namespace RuRo.Web.Fp_Ajax
                 //循环样本信息列表
                 foreach (var item in sampleInfoDgDicList)
                 {
-                    
+
                 }
 
 
             }
-            
+
         }
         private void ImportPatientInfo()
         {
@@ -164,14 +164,16 @@ namespace RuRo.Web.Fp_Ajax
 
             //导入样本源数据
             Dictionary<string, string> mathcBaseInfoDic = MatchBaseInfoDic(baseInfoDic);
+
             string improtBaseInfoResult = ImportSampleSource(mathcBaseInfoDic);
+
             string success = FreezerProUtility.Fp_Common.FpJsonHelper.GetStrFromJsonStr("success", improtBaseInfoResult);
             string msg = FreezerProUtility.Fp_Common.FpJsonHelper.GetStrFromJsonStr("msg", improtBaseInfoResult);
             Dictionary<string, Dictionary<string, string>> importSampleSourceResult = new Dictionary<string, Dictionary<string, string>>();
             importSampleSourceResult.Add("importSampleSourceResult", new Dictionary<string, string>() { { "success", success }, { "msg", msg } });
             importResult.Add(importSampleSourceResult);
-            
-            if ( success== "True" || improtBaseInfoResult.Contains("should be unique."))
+
+            if (success == "True" || improtBaseInfoResult.Contains("should be unique."))
             {
                 //导入样品源成功
                 //导入临床数据
@@ -185,36 +187,46 @@ namespace RuRo.Web.Fp_Ajax
                 }
                 //导入临床数据
                 List<Dictionary<string, string>> matchClinicalDic = MatchClinicalDic(clinicalInfoDgDicList);
-                string improtTestDataResult = ImportTestData(matchClinicalDic);
-                if (improtTestDataResult.Contains("\"status\":\"DONE\""))
+                if (matchClinicalDic.Count > 0)
                 {
-                    //导入成功--保存数据到本地数据库
-                    //需要将字典转换为对象
-                    SaveClinicalDicToLocalBase(clinicalInfoDgDicList, departments);
-                    success = FreezerProUtility.Fp_Common.FpJsonHelper.GetStrFromJsonStr("success", improtTestDataResult);
-                    msg = FreezerProUtility.Fp_Common.FpJsonHelper.GetStrFromJsonStr("msg", improtTestDataResult);
-                    Dictionary<string, string> dic = new Dictionary<string, string>();
-                    Dictionary<string, Dictionary<string, string>> dicr = new Dictionary<string, Dictionary<string, string>>();
-                    dicr.Add("ImportClinicalResult", new Dictionary<string, string>() { { "success", success }, { "msg", msg } });
-                    importResult.Add(dicr);
+                    string improtTestDataResult = ImportTestData(matchClinicalDic);
+                    if (improtTestDataResult.Contains("\"status\":\"DONE\""))
+                    {
+                        //导入成功--保存数据到本地数据库
+                        //需要将字典转换为对象
+                        SaveClinicalDicToLocalBase(clinicalInfoDgDicList, departments);
+                        success = FreezerProUtility.Fp_Common.FpJsonHelper.GetStrFromJsonStr("success", improtTestDataResult);
+                        msg = FreezerProUtility.Fp_Common.FpJsonHelper.GetStrFromJsonStr("msg", improtTestDataResult);
+                        Dictionary<string, string> dic = new Dictionary<string, string>();
+                        Dictionary<string, Dictionary<string, string>> dicr = new Dictionary<string, Dictionary<string, string>>();
+                        dicr.Add("ImportClinicalResult", new Dictionary<string, string>() { { "success", success }, { "msg", msg } });
+                        importResult.Add(dicr);
+                    }
+                    else
+                    {
+                        Dictionary<string, Dictionary<string, string>> dicr = new Dictionary<string, Dictionary<string, string>>();
+                        dicr.Add("ImportClinicalResult", new Dictionary<string, string>() { { "success", "False" }, { "msg", "该临床数据已存在" } });
+                        importResult.Add(dicr);
+                    }
                 }
                 else
                 {
                     Dictionary<string, Dictionary<string, string>> dicr = new Dictionary<string, Dictionary<string, string>>();
-                    dicr.Add("ImportClinicalResult", new Dictionary<string, string>() { { "success", "False" }, { "msg", "该临床数据已存在" } });
+                    dicr.Add("ImportClinicalResult", new Dictionary<string, string>() { { "success", "False" }, { "msg", "无临床数据" } });
                     importResult.Add(dicr);
                 }
+
                 //导入样本数据
                 //调用方法导入样品
 
-                foreach (Dictionary<string,string> item in sampleInfoDgDicList)
+                foreach (Dictionary<string, string> item in sampleInfoDgDicList)
                 {
                     //循环类型列表
                     //组合样本信息
                     //提交样本信息到fp
                     //记录返回结果
                     //将结果返回给前台
-                    
+
 
                     //将列表中的字段添加到样本信息字典
                     //将样本信息字典匹配成Fp中的字段
@@ -225,17 +237,18 @@ namespace RuRo.Web.Fp_Ajax
                     sampleInfoDic.Add("Volume", item["Volume"]);
                     sampleInfoDic.Add("Sample Source", baseInfoDic["Name"]);
                     sampleInfoDic.Add("_117", item["_117"]);
-                    Dictionary<string, string> dataDic = MatchSampleInfoDic(sampleInfoDic);
+                    Dictionary<string, string> matchSampleInfoDic = MatchSampleInfoDic(sampleInfoDic);
+                    Dictionary<string, string> addNameResDic = AddName(matchSampleInfoDic, baseInfoDic["Name"]);
                     //匹配完毕
-                    string importsampleres = ImportSamples(AddName(dataDic, baseInfoDic["Name"]), item["sample_type"], item["Scount"]);
-                    
+                    string importsampleres = ImportSamples(addNameResDic, item["SampleType"], item["Scount"]);
+
                 }
             }
             else
             {
                 //导入样本源失败
-                 Dictionary<string, Dictionary<string, string>> dicr = new Dictionary<string, Dictionary<string, string>>();
-                 dicr.Add("ImportClinicalResult", new Dictionary<string, string>() { { "success", "False" }, { "msg", "请先导入基本信息" } });
+                Dictionary<string, Dictionary<string, string>> dicr = new Dictionary<string, Dictionary<string, string>>();
+                dicr.Add("ImportClinicalResult", new Dictionary<string, string>() { { "success", "False" }, { "msg", "请先导入基本信息" } });
                 importResult.Add(dicr);
             }
         }
@@ -246,7 +259,7 @@ namespace RuRo.Web.Fp_Ajax
             string success = FreezerProUtility.Fp_Common.FpJsonHelper.GetStrFromJsonStr("success", returnjson);
             string msg = FreezerProUtility.Fp_Common.FpJsonHelper.GetStrFromJsonStr("msg", returnjson);
             Dictionary<string, string> dicdd = new Dictionary<string, string>();
-            dicdd.Add("success", success); 
+            dicdd.Add("success", success);
             dicdd.Add("msg", msg);
             dic.Add(mark, dicdd);
             return dic;
@@ -377,7 +390,7 @@ namespace RuRo.Web.Fp_Ajax
             }
             return SampleInfoDgDicList;
         }
-        #endregion 
+        #endregion
         #endregion
 
         #region 转换对象数据为字典或者字典集合
@@ -396,9 +409,9 @@ namespace RuRo.Web.Fp_Ajax
             {
                 try
                 {
-                        string value = Common.ReflectHelper.GetValue(pageBaseInfo, item.Name);
-                        pageBaseInfoDic.Add(item.Name, value);
-                    }
+                    string value = Common.ReflectHelper.GetValue(pageBaseInfo, item.Name);
+                    pageBaseInfoDic.Add(item.Name, value);
+                }
                 catch (Exception ex)
                 {
                     Common.LogHelper.WriteError(ex);
@@ -528,7 +541,7 @@ namespace RuRo.Web.Fp_Ajax
             #endregion
             //添加当前样本类型,将id转换成汉字
             pageSampleDgDic.Add("SampleType", pageSampleDg.SampleType);
-            if (!string.IsNullOrEmpty(pageSampleDg.Organ.ToString())&&!string.IsNullOrEmpty(pageSampleDg.OrganSubdivision))
+            if (!string.IsNullOrEmpty(pageSampleDg.Organ.ToString()) && !string.IsNullOrEmpty(pageSampleDg.OrganSubdivision))
             {
                 string Organ = pageSampleDg.Organ;
                 string OrganSubdivision = pageSampleDg.OrganSubdivision;
@@ -578,7 +591,7 @@ namespace RuRo.Web.Fp_Ajax
                 }
             }
             return orderResDic;
-        } 
+        }
         #endregion
         #region 匹配临床信息字典 + private List<Dictionary<string, string>> MatchClinicalDic(List<Dictionary<string, string>> clinicalDicList)
         /// <summary>
@@ -608,7 +621,7 @@ namespace RuRo.Web.Fp_Ajax
             }
 
             return resDicList;
-        } 
+        }
         #endregion
         #region 匹配样本信息字典 + private Dictionary<string, string> MatchSampleInfoDic(Dictionary<string, string> sampleinfoDic)
         /// <summary>
@@ -632,7 +645,7 @@ namespace RuRo.Web.Fp_Ajax
                 }
             }
             return resDic;
-        } 
+        }
         #endregion
         #endregion
 
@@ -684,10 +697,9 @@ namespace RuRo.Web.Fp_Ajax
                 }
             }
             string result = FreezerProUtility.Fp_BLL.TestData.ImportTestData(url, test_data_type, dataDicList);
-
             return result;
         }
-        #endregion 
+        #endregion
         #endregion
 
         #region 将临床数据字典转换成对象并保存至数据库 + private void SaveClinicalDicToLocalBase(List<Dictionary<string, string>> clinicalInfoDgDicList, string departments)
@@ -741,7 +753,7 @@ namespace RuRo.Web.Fp_Ajax
                 }
                 clinicalBll.Add(clinical);
             }
-        } 
+        }
         #endregion
         #region 将前台返回的form字典转换成对象 + private T GetFromInfo<T>(List<Dictionary<string, string>> dicList) where T : class,new()
         /// <summary>
@@ -806,13 +818,13 @@ namespace RuRo.Web.Fp_Ajax
         }
         #endregion
 
-        private Dictionary<string,string> AddName(Dictionary<string,string> dic,string name)
+        private Dictionary<string, string> AddName(Dictionary<string, string> dic, string name)
         {
             Dictionary<string, string> resDic = new Dictionary<string, string>();
             resDic.Add("Name", name);
-            foreach (KeyValuePair<string,string> item in dic)
+            foreach (KeyValuePair<string, string> item in dic)
             {
-                if (item.Key =="Name")
+                if (item.Key == "Name")
                 {
                     continue;
                 }
@@ -821,7 +833,7 @@ namespace RuRo.Web.Fp_Ajax
                     resDic.Add(item.Key, item.Value);
                 }
             }
-            return new Dictionary<string, string>();
+            return resDic;
         }
     }
 }

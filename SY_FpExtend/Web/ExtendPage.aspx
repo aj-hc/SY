@@ -218,6 +218,10 @@
 	    			        <td><input class="easyui-combobox" name="sampleTypeE" id="sampleTypeE" data-options="required:true,multiple:false,prompt:'请选择样品类型'"/></td>
                         </tr>
                         <tr>
+	    			        <td style="width:100px;">样品组:</td>
+	    			        <td><input class="easyui-combobox" name="sampleTypeE" id="SampleGroupE" data-options="required:false,multiple:false,prompt:'请选择样品组'"/></td>
+                        </tr>
+                        <tr>
 	    			        <td style="width:100px;">体积:</td>
 	    			        <td><input class="easyui-numberbox" name="volumeE" id="volumeE" data-options="required:false,prompt:'输入样品体积时请注意单位'"/></td>
                         </tr>
