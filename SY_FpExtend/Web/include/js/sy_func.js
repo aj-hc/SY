@@ -55,6 +55,7 @@ function querybycode() {
     else {
         if (In_CodeType=="3")
         {
+            //此处只是做了判断
             var date = In_Code.substring(0,8);
             var r1 = /^(19|20)\d\d(0[1-9]|1[012])(0[1-9]|[12]\d|3[01])$/;
             if (r1.test(date))
@@ -152,6 +153,7 @@ function clearForm() {
     $('#BaseInfoForm').form('clear');
     $('#ClinicalInfoDg').datagrid('loadData', { total: 0, rows: [] });
 }
+
 //绑定数据到基本信息数据框
 function AddBaseInfoToForm(_BaseInfo)
 {
@@ -176,7 +178,7 @@ function AddBaseInfoToForm(_BaseInfo)
     {
         if (_BaseInfo['PatientName'] && _BaseInfo['PatientName']!="")
         {
-                $("#_80").textbox('setValue', $.trim(_BaseInfo['PatientName']));
+            $("#_80").textbox('setValue', $.trim(_BaseInfo['PatientName']));
             $("#_80").textbox('readonly');
         }
         if (_BaseInfo['IPSeqNoText'])
@@ -342,17 +344,47 @@ function getBaseInfoFormData() {
 }
 //添加值到ClinicalInfoDg
 function submitFormClinicalInfoDg() {
-    var from = $('#setClinicalInfoDg').serializeArray();
-    $('#ClinicalInfoDg').datagrid('insertRow', {
-        index: 1,	// 索引从0开始
-        row: {
-            DiagnoseTypeFlag: from[0].value,
-            DiagnoseDateTime: from[1].value,
-            ICDCode: from[2].value,
-            DiseaseName: from[3].value,
-            Description: from[4].value
-        }
-    });
+    //验证当前表单？？
+    var isValid = $('#setClinicalInfoDg').form('validate');
+    if (isValid) {
+        var from = $('#setClinicalInfoDg').serializeArray();
+        $('#ClinicalInfoDg').datagrid('insertRow', {
+            index: 1,	// 索引从0开始
+            row: {
+                DiagnoseTypeFlag: from[0].value,
+                DiagnoseDateTime: from[1].value,
+                ICDCode: from[2].value,
+                DiseaseName: from[3].value,
+                Description: from[4].value
+            }
+        });
+        $('#setClinicalInfoDg').form('clear');
+        $('#w').window('close');
+    }
+}
+function clearsetClinicalInfoDg() {
     $('#setClinicalInfoDg').form('clear');
-    $('#w').window('close');
+}
+//添加样本信息到Dg
+function AddSampleInfoToDg() {
+    var isValid = $('#sampleInfoFormToDg').form('validate');
+    if (isValid) {
+        var from = $('#sampleInfoFormToDg').serializeArray();
+        $('#dg_SampleInfo').datagrid('insertRow', {
+            index: 1,	// 索引从0开始
+            row: {
+                SampleType: from[0].value,
+                Volume: from[1].value,
+                Scount: from[2].value,
+                Organ: from[3].value,
+                OrganSubdivision: from[4].value
+            }
+        });
+        $('#setClinicalInfoDg').form('clear');
+        $('#w').window('close');
+    }
+}
+
+function clearSampleInfoAddForm() {
+    $('#sampleInfoFormToDg').form('clear');
 }

@@ -78,8 +78,6 @@
   <ItemGroup>
     <Content Include="include\js\jquery.cookie.js" />
     <Content Include="include\js\BindFuncToId.js" />
-    <Content Include="include\jquery-easyui-1.4.3\jquery.cookie.js" />
-    <Content Include="include\jquery-easyui-1.4.3\changelog.txt" />
     <Content Include="include\jquery-easyui-1.4.3\easyloader.js" />
     <Content Include="include\jquery-easyui-1.4.3\jquery.easyui.min.js" />
     <Content Include="include\jquery-easyui-1.4.3\jquery.easyui.mobile.js" />
@@ -824,6 +822,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\PublishProfiles\sy.pubxml" />
+    <None Include="Properties\PublishProfiles\SY1.pubxml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -10,6 +10,7 @@
     <link href="include/jquery-easyui-1.4.3/themes/default/easyui.css" rel="stylesheet" />
     <link href="include/css/default.css" rel="stylesheet" />
     <link href="include/jquery-easyui-1.4.3/themes/icon.css" rel="stylesheet" />
+    <script src="include/js/jquery.cookie.js"></script>
     <%--<script src="include/js/page.js"></script>--%>
     <%--<script src="include/js/sy_func.js"></script>--%>
     <title>FreezerPro</title>
@@ -34,19 +35,34 @@
 </head>
 <body style="width: 100%; height: 100%">
     <%--嵌套页--%>
-        <div id="main"style="width: 100%; height: 100%" >
-            <div id="logo" style="width:20%; height:40px; position:absolute; top:2px; left:50px;"><img src="../Images/LoGo.jpg" style="width:190px; height:40px; z-index:100"></img></div>
-    <iframe runat="server" id="FreezerPro" name="FreezerPro" frameborder="0" style="width: 100%; height: 100%;"></iframe>
-    
-    <form action="/" method="post" runat="server" id="from">
-        <%--菜单栏--%>
-        <div class="side">
-            <ul>
-                <li><a href="#" id="btnextend" onclick="doimport()"><div class="sidebox"><img src="../Images/Images/ant.png" style=" width:21px;height:15px"/>&nbsp;打开扩展</div></a></li>
-            </ul>
-        </div>
-        <%--<div id="MenuBar" runat="server"><a href="#" id="btnextend" onclick="doimport()" >扩展</a></div>--%>
-    </form>
+    <div id="main" style="width: 100%; height: 100%">
+        <div id="logo" style="width: 20%; height: 40px; position: absolute; top: 2px; left: 50px;">
+            <img src="../Images/LoGo.jpg" style="width: 190px; height: 40px; z-index: 100"></img></div>
+        <iframe runat="server" id="FreezerPro" name="FreezerPro" frameborder="0" style="width: 100%; height: 100%;"></iframe>
+
+        <form action="/" method="post" runat="server" id="from">
+            <%--菜单栏--%>
+            <div class="side">
+                <ul>
+                    <li><a href="#" id="btnextend" onclick="doimport()">
+                        <div class="sidebox">
+                            <img src="../Images/Images/ant.png" style="width: 21px; height: 15px" />&nbsp;打开扩展</div>
+                    </a></li>
+                </ul>
             </div>
+            <%--<div id="MenuBar" runat="server"><a href="#" id="btnextend" onclick="doimport()" >扩展</a></div>--%>
+        </form>
+    </div>
+    <script type="text/javascript">
+        window.onbeforeunload = function () {
+            if (document.all) {
+                if (event.clientY < 0) {
+                    $.cookie('password', null);
+                }
+            } else {
+                $.cookie('password', null);
+            }
+        }
+    </script>
 </body>
 </html>

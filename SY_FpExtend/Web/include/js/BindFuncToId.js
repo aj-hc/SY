@@ -10,7 +10,6 @@ function loginOut() {
     $.cookie('username', null);
     $.cookie('password', null);
     CloseWebPage();
-
 }
 
 //点击查询数据

@@ -11,7 +11,8 @@ namespace RuRo.Web.Fp_Ajax
 {
     public partial class SubmitData : System.Web.UI.Page
     {
-        string url = Common.CreatFpUrl.FpUrl;
+        Common.CreatFpUrl fpurl = new Common.CreatFpUrl(); //获取链接字符串对象
+        string url = string.Empty;
         BLL.FP_LINKAGE_Bll fp_linkage = new BLL.FP_LINKAGE_Bll();
         Dictionary<string, string> sampleTypeIdAndNamedic = new Dictionary<string, string>();
         Dictionary<string, string> organIdAndNamedic = new Dictionary<string, string>();
@@ -19,12 +20,14 @@ namespace RuRo.Web.Fp_Ajax
         string departments = string.Empty;
         protected void Page_Load(object sender, EventArgs e)
         {
+            
             //页面第一次加载时初始化变量
             if (!IsPostBack)
             {
+                url = fpurl.FpUrl;
                organIdAndNamedic = fp_linkage.GetOrganDic();
                 clinicalDiagnoseTypeFlagdic = PageConData.DiagnoseTypeFlagDic();
-                sampleTypeIdAndNamedic = FreezerProUtility.Fp_BLL.Samples.GetAllSample_TypesNames(Common.CreatFpUrl.FpUrl);
+                sampleTypeIdAndNamedic = FreezerProUtility.Fp_BLL.Samples.GetAllSample_TypesNames(url);
             }
             string action = Request.Params["action"].Trim();
             departments = Request.Params["departments"].Trim();

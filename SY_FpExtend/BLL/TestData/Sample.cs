@@ -34,12 +34,7 @@ namespace RuRo.BLL.TestData
 
         public string GetSampleTypeJson()
         {
-           string url =  Common.CreatFpUrl.FpUrl;
-           Common.HttpHelper http = new Common.HttpHelper();
-           Common.HttpItem hitem = new Common.HttpItem();
-           Common.HttpResult hres = new Common.HttpResult();
-
-           return "";
+            return "";
         }
     }
 }

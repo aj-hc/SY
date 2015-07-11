@@ -76,7 +76,8 @@ namespace RuRo.Web
         private string ReturnSampleType()
         {
             //string res = "[{\"value\": \"0\",\"text\": \"正常组织-心研所\" },{\"value\": \"1\", \"text\": \"正常组织-肺癌所\"}, { \"value\": \"2\", \"text\": \"组织-心研所\"} , { \"value\": \"3\", \"text\": \"组织-肺癌所\"} ]";
-            string url = Common.CreatFpUrl.FpUrl;
+            Common.CreatFpUrl fpurl = new Common.CreatFpUrl();
+            string url = fpurl.FpUrl;
             Dictionary<string, string> dic = FreezerProUtility.Fp_BLL.Samples.GetAllSample_TypesNames(url);
             List<Dictionary<string, string>> list = new List<Dictionary<string, string>>();
             if (dic.Count > 0)
@@ -100,7 +101,8 @@ namespace RuRo.Web
         private string ReturnSampleSocrceType()
         {
             //string res = "[{\"value\": \"0\",\"text\": \"基本信息-心研所\" },{\"value\": \"1\", \"text\": \"基本信息-肺癌所\"}]";
-            string url = Common.CreatFpUrl.FpUrl;
+            Common.CreatFpUrl fpurl = new Common.CreatFpUrl();
+            string url = fpurl.FpUrl;
             Dictionary<string, string> dic = FreezerProUtility.Fp_BLL.SampleSocrce.GetAllSample_TypesNames(url);
             List<Dictionary<string, string>> list = new List<Dictionary<string, string>>();
             if (dic.Count > 0)

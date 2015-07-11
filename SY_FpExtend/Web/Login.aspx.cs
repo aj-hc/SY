@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Web;
 using System.Web.UI.WebControls;
 namespace RuRo.Web
 {
@@ -98,7 +99,6 @@ namespace RuRo.Web
         {
             string userName = Common.CookieHelper.GetCookieValue("username");
             string temPass = Common.CookieHelper.GetCookieValue("password");
-
             if (!string.IsNullOrEmpty(userName) && userName != "null" && !string.IsNullOrEmpty(temPass) && temPass != "null")
             {
                 string passWord = string.Empty;
@@ -138,8 +138,11 @@ namespace RuRo.Web
         private void WriteCookie(string username, string password)
         {
             string DEnPassword = Common.DEncrypt.DESEncrypt.Encrypt(password);
+            HttpCookie passwordcookie = new HttpCookie("password");
+            passwordcookie.Value = DEnPassword;
+            Response.Cookies.Add(passwordcookie);
             Common.CookieHelper.SetCookie("username", username);
-            Common.CookieHelper.SetCookie("password", DEnPassword);
+            //Common.CookieHelper.SetCookie("password", DEnPassword);
         }
 
         protected void txtUsername_TextChanged(object sender, EventArgs e)

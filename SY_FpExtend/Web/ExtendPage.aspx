@@ -105,7 +105,7 @@
                     <%--2、临床信息详细信息展现--%>
                     <%--3、单独导入临床信息操作--%>
                     <div class="easyui-panel">
-                        <div id="ClinicalInfoDg" style="height: 260px; width: 100%"></div>
+                        <div id="ClinicalInfoDg" style="height: 105px; width: 100%"></div>
                     </div>
                 </form>
             </div>
@@ -165,7 +165,7 @@
                 <div class="h"></div>
                 <form id="dg_SampleInfoForm">
                     <div class="easyui-panel">
-                        <div id="dg_SampleInfo" class="easyui-datagrid" style="height: auto" data-options="rownumbers:true,singleSelect:false,pagination: true"></div>
+                        <div id="dg_SampleInfo" class="easyui-datagrid" style="height: auto" data-options="rownumbers:true,singleSelect:false,"></div>
                     </div>
                 </form>
             </div>
@@ -175,35 +175,69 @@
             </div>
         </div>
         <!--临床信息录入框 -->
-    <div id="w" class="easyui-window" title="添加临床数据" data-options="modal:true,closed:true,iconCls:'icon-save'" style="width:450px;height:400px;padding:10px;">
-		<div style="padding:10px 60px 20px 60px">
+    <div id="w" class="easyui-window" title="添加临床数据" data-options="modal:true,closed:true,iconCls:'icon-add'" style="width:436px;height:299px;padding:10px;">
+		<div style="padding:10px">
             <form id="setClinicalInfoDg" method="post">
-                    <table cellpadding="5">
+                    <table>
                         <tr>
 	    			    <td style="width:100px;">诊断类型:</td>
-	    			    <td><input class="easyui-combobox" name="diagnoseTypeFlag" id="diagnoseTypeFlag" data-options="required:true,multiple:false"></input></td>
+	    			    <td><input class="easyui-combobox" name="diagnoseTypeFlag" id="diagnoseTypeFlag" data-options="required:true,multiple:false,prompt:'请选择添加数据的诊断类型'"/></td>
                         </tr>
                         <tr>
 	    			    <td style="width:100px;">诊断日期:</td>
-	    			    <td><input class="easyui-datebox" type="text" name="diagnoseDateTime" id="diagnoseDateTime" data-options="required:true"></input></td>
+	    			    <td><input class="easyui-datebox" type="text" name="diagnoseDateTime" id="diagnoseDateTime" data-options="required:true,prompt:'请选择诊断日期'"/></td>
                         </tr>
                         <tr>
 	    			    <td style="width:100px;">ICD码:</td>
-	    			    <td><input class="easyui-textbox" type="text" name="icdcode" id="icdcode" data-options="required:false"></input></td>
+	    			    <td><input class="easyui-textbox" type="text" name="icdcode" id="icdcode" data-options="required:false"/></td>
                         </tr>
                         <tr>
 	    			    <td style="width:100px;">疾病名称:</td>
-                        <td><input class="easyui-textbox" type="text" name="diseaseName" id="diseaseName" data-options="required:false"></input></td>
+                        <td><input class="easyui-textbox" type="text" name="diseaseName" id="diseaseName" data-options="required:false"/></td>
                         </tr>
                         <tr>
 	    			    <td style="width:100px;">疾病描述:</td>
-                        <td><input class="easyui-textbox" name="description" id="description" data-options="required:false" style="height:60px"></input></td>
+                        <td><input class="easyui-textbox" name="description" id="description" data-options="required:false" style="height:60px"/></td>
                         </tr>
                     </table>
                 </form>
-            <div style="text-align:center;padding:5px">
-                <a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitFormClinicalInfoDg()">确定添加</a>
-                <a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearForm()">清除</a>
+            <div style="text-align:center;padding:5px;">
+                <a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitFormClinicalInfoDg()" style="margin:8px">添加</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearsetClinicalInfoDg()" style="margin:8px">清除</a>
+                </div>
+            </div>
+        </div>
+
+        <%--样本信息录入框--%>
+         <div id="addSampleForm" class="easyui-window" title="添加样品信息" data-options="modal:true,closed:true,iconCls:'icon-add'" style="width:436px;height:299px;padding:10px;">
+		<div style="padding:10px">
+            <form id="sampleInfoFormToDg" method="post">
+                    <table>
+                        <tr>
+	    			    <td style="width:100px;">样品类型:</td>
+	    			    <td><input class="easyui-combobox" name="diagnoseTypeFlag" id="sampleTypeE" data-options="required:true,multiple:false,prompt:'请选择样品类型' ,url:'../Fp_Ajax/PageConData.aspx?conMarc=SampleType'"/></td>
+                        </tr>
+                        <tr>
+	    			    <td style="width:100px;">体积:</td>
+	    			    <td><input class="easyui-numberbox" name="diagnoseDateTime" id="volumeE" data-options="required:false,prompt:'输入样品体积时请注意单位'"/></td>
+                        </tr>
+                        <tr>
+	    			    <td style="width:100px;">管数:</td>
+                        <td><input class="easyui-numberbox" name="description" id="ScountE" data-options="min:1,value:1,required:true,prompt:'请输入分管数'"/></td>
+                        </tr>
+                        <tr>
+	    			    <td style="width:100px;">脏器:</td>
+	    			    <td><input class="easyui-combobox" type="text" name="icdcode" id="organE" data-options="required:false"/></td>
+                        </tr>
+                        <tr>
+	    			    <td style="width:100px;">脏器细分:</td>
+                        <td><input class="easyui-combobox" type="text" name="diseaseName" id="organsubdivisionE" data-options="required:false"/></td>
+                        </tr>
+                    </table>
+                </form>
+            <div style="text-align:center;padding:5px;">
+                <a href="javascript:void(0)" class="easyui-linkbutton" onclick="AddSampleInfoToDg()" style="margin:8px">添加</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearSampleInfoAddForm()" style="margin:8px">清除</a>
                 </div>
             </div>
         </div>
