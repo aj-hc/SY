@@ -17,7 +17,7 @@ namespace RuRo.Web
             string username = Common.CookieHelper.GetCookieValue("username");
             string pwd = Common.CookieHelper.GetCookieValue("password");
             string password = string.Empty;
-            if (string.IsNullOrEmpty(pwd))
+            if (!string.IsNullOrEmpty(pwd))
             {
                 try
                 {

@@ -19,7 +19,7 @@ namespace FreezerProUtility.Fp_BLL
             dic.Add("method", Fp_Common.FpMethod.subdivisions.ToString());
             dic.Add("id", id);
             FreezerProUtility.Fp_DAL.CallApi call = new FreezerProUtility.Fp_DAL.CallApi(dic);
-            List<Fp_Model.Subdivision> List = call.getdata<Fp_Model.Subdivision>("Subdivision");
+            List<Fp_Model.Subdivision> List = call.getdata<Fp_Model.Subdivision>("Subdivisions");
             return List;
         }
         //public static List<Subdivision> GetAll(string url, string id)
@@ -33,11 +33,12 @@ namespace FreezerProUtility.Fp_BLL
         public static Fp_Model.Subdivision CheckBy(Fp_Common.UnameAndPwd up,string freezerId, string location)
         {
             List<Fp_Model.Subdivision> subdivisionList = GetAll(up, freezerId);
+             Fp_Model.Subdivision subdivision = new Subdivision();
             string[] l = location.Split('→');
-            foreach (string  item in l)
+            for (int i = 1; i < l.Length; i++)
             {
-                Fp_Model.Subdivision subdivision = subdivisionList.Where(a => a.name == item).FirstOrDefault();//冰箱结构重名取第一个结构
-                if (subdivision==null)
+                subdivision = subdivisionList.Where(a => a.name == l[i]).FirstOrDefault();//冰箱结构重名取第一个结构
+                if (subdivision == null || subdivision.name.Contains("日"))
                 {
                     //找不到对应的节点就跳出
                     break;
@@ -47,7 +48,7 @@ namespace FreezerProUtility.Fp_BLL
                     subdivisionList = GetAll(up, subdivision.id);
                 }
             }
-            return subdivisionList.FirstOrDefault();
+            return subdivision;
         }
     }
 }

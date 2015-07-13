@@ -37,6 +37,7 @@ namespace FreezerProUtility.Fp_BLL
             dic.Add("password", up.PassWord);
             dic.Add("method", Fp_Common.FpMethod.boxes.ToString());
             dic.Add("id", id);
+            dic.Add("show_empty", "true");
             FreezerProUtility.Fp_DAL.CallApi call = new FreezerProUtility.Fp_DAL.CallApi(dic);
             List<Box> boxes = call.getdata<Box>("Boxes");
             return boxes;

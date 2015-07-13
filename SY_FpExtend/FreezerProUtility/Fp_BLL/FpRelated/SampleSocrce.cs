@@ -42,6 +42,7 @@ namespace FreezerProUtility.Fp_BLL
                 dic.Add("json", Fp_Common.FpJsonHelper.DictionaryToJsonString(jsonDic));
             }
             Fp_DAL.CallApi call = new Fp_DAL.CallApi(dic);
+            result = call.PostData();
             return result;
         }
 

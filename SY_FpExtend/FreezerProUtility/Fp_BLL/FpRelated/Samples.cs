@@ -9,19 +9,6 @@ namespace FreezerProUtility.Fp_BLL
 {
     public class Samples
     {
-        #region 根据样本id获取样本的信息
-        //根据样本id获取样本的信息
-        public Sample_Info GetSample_Info(string url, string sample_id)
-        {
-            Sample_Info sample_info = new Sample_Info();
-            if (!string.IsNullOrEmpty(sample_id))
-            {
-                //sample_info = getdata<Sample_Info>(string.Format("{0}&id=", url, sample_id), FpMethod.sample_info, "");
-            }
-            return sample_info;
-        }
-        #endregion
-
 
         //导入样品方式1
         //指定sample_type，box_path(","分割)，jsondata
@@ -42,24 +29,58 @@ namespace FreezerProUtility.Fp_BLL
         //创建存储结构盒子使用bag 导入失败创建新的bag
 
         //综上所述：使用方式 1 +方式 4   非常规方式使用6
-        #region 导入样本数据到fp + public static string Import_Sample(string url, string sample_type, string count, Dictionary<string, string> dataDic)
-        /// <summary>
-        /// 导入样本数据到fp
-        /// </summary>
-        /// <param name="url">链接fp的url包含username，password</param>
-        /// <param name="sample_type">样本类型</param>
-        /// <param name="count">管数</param>
-        /// <param name="dataDic">数据字典</param>
-        /// <returns></returns>
-        public static string Import_Sample(Fp_Common.UnameAndPwd up, string sample_type, string count, Dictionary<string, string> dataDic)
+
+        public static string Import_Sample(Fp_Common.UnameAndPwd up, string department, string sample_type, string count, Dictionary<string, string> dataDic)
         {
             string username = Fp_Common.CookieHelper.GetCookieValue("username");
             string result = string.Empty;
             bool check;
-            Box_Path box_path = CreatTemFreezerPath(up, out check);
-            if (check)
+            Box_Path box_path = CreatTemFreezerPath(up, department, out check);
+            if (check)//正常操作时需要判断是否存在当前结果以判断是否需要创建结构
             {
-                
+                //需要创建盒子
+                result = ImportSamplesToFp(up, sample_type, count, box_path, dataDic);
+            }
+            else
+            {
+                result = ImportSamplesToFp(up, sample_type, count, box_path, dataDic);
+            }
+            if (result.Contains(@"\u8d85\u51fa\u6837\u54c1\u76d2."))
+            {
+                int k;
+                if (int.TryParse(box_path.Box, out k))
+                {
+                    box_path.Box = (k + 1).ToString();
+                }
+                result = ImportSamplesToFp(up, sample_type, count, box_path, dataDic);
+            }
+            return result;
+        }
+
+
+        public static string Import_Sample(Fp_Common.UnameAndPwd up, string department, List<Dictionary<string, string>> dataDicList)
+        {
+            string username = Fp_Common.CookieHelper.GetCookieValue("username");
+            string result = string.Empty;
+            bool check;
+            Box_Path box_path = CreatTemFreezerPath(up, department, out check);
+            if (check)//正常操作时需要判断是否存在当前结果以判断是否需要创建结构
+            {
+                //需要创建盒子
+                result = ImportSamplesToFp(up, box_path, dataDicList);
+            }
+            else
+            {
+                result = ImportSamplesToFp(up, box_path, dataDicList);
+            }
+            if (result.Contains(@"\u8d85\u51fa\u6837\u54c1\u76d2."))
+            {
+                int k;
+                if (int.TryParse(box_path.Box, out k))
+                {
+                    box_path.Box = (k + 1).ToString();
+                }
+                result = ImportSamplesToFp(up, box_path, dataDicList);
             }
             return result;
         }
@@ -76,43 +97,70 @@ namespace FreezerProUtility.Fp_BLL
             #region 创建样本信息字符串&json=
             if (int.TryParse(count, out kk))
             {
-                dataDic.Add("ALIQUOT", ALIQUOT.ToString());
-                dataDic.Add("Freezer", box_path.Freezer);//Tem
-                dataDic.Add("Level1", box_path.Level1);//Username
-                dataDic.Add("Level2", box_path.Level2);//月
-                dataDic.Add("Level3", box_path.Level3);//日
+                if (!dataDic.ContainsKey("ALIQUOT"))
+                {
+                    dataDic.Add("ALIQUOT", ALIQUOT.ToString());
+                }
+                if (!dataDic.ContainsKey("Sample Type"))
+                {
+                    dataDic.Add("Sample Type", sample_type);
+                }
+                if (!dataDic.ContainsKey("Freezer"))
+                {
+                    dataDic.Add("Freezer", box_path.Freezer);//Tem
+                }
+                if (!dataDic.ContainsKey("Level1"))
+                {
+                    dataDic.Add("Level1", box_path.Level1);//Username
+                }
+                if (!dataDic.ContainsKey("Level2"))
+                {
+                    dataDic.Add("Level2", box_path.Level2);//月
+                }
+                if (!dataDic.ContainsKey("Level3"))
+                {
+                    dataDic.Add("Level3", box_path.Level3);//日
+                }
                 create_storage = string.Format("{0},{1},{2},{3}", box_path.Freezer, box_path.Level1, box_path.Level2, box_path.Level3);
-                dataDic.Add("Sample Type", sample_type);
-                dataDic.Add("Box", box_path.Box);//袋子中不需要指定位置
-                if (kk == 1)
+
+                if (dataDic.ContainsKey("Box"))
                 {
-                    //单条数据
-                    jsonsampledata = FpJsonHelper.DictionaryToJsonString(dataDic);
+                    dataDic["Box"] = box_path.Box;
                 }
-                else if (kk > 1 && kk < 500)
+                else
                 {
-                    for (int i = 0; i < kk; i++)
+                    dataDic.Add("Box", box_path.Box);//袋子中不需要指定位置
+                }
+                if (string.IsNullOrEmpty(jsonsampledata))
+                {
+                    if (kk == 1)
                     {
-                        //扩展数据成多条
-                        Dictionary<string, string> tem = new Dictionary<string, string>();
-                        //字典复制需要两次循环，这里是利用字典的序列化和反序列化
-                        tem = Fp_Common.FpJsonHelper.DeserializeObject<Dictionary<string, string>>(Fp_Common.FpJsonHelper.DictionaryToJsonString(dataDic));
-                        jsonDicList.Add(tem);
+                        //单条数据
+                        jsonsampledata = FpJsonHelper.DictionaryToJsonString(dataDic);
                     }
-                    //多条数据
-                    jsonsampledata = FpJsonHelper.DictionaryListToJsonString(jsonDicList);
+                    else if (kk > 1 && kk < 500)
+                    {
+                        for (int i = 0; i < kk; i++)
+                        {
+                            //扩展数据成多条
+                            Dictionary<string, string> tem = new Dictionary<string, string>();
+                            //字典复制需要两次循环，这里是利用字典的序列化和反序列化
+                            tem = Fp_Common.FpJsonHelper.DeserializeObject<Dictionary<string, string>>(Fp_Common.FpJsonHelper.DictionaryToJsonString(dataDic));
+                            jsonDicList.Add(tem);
+                        }
+                        //多条数据
+                        jsonsampledata = FpJsonHelper.DictionaryListToJsonString(jsonDicList);
+                    }
                 }
-            } 
+            }
             #endregion
             Dictionary<string, string> jsonDic = new Dictionary<string, string>();
             jsonDic.Add("create_storage", create_storage);
             jsonDic.Add("box_type", box_type);
             jsonDic.Add("json", jsonsampledata);
-            string importRes = ImportSampleToFp(up,jsonDic);
+            string importRes = ImportSampleToFp(up, jsonDic);
             return importRes;
         }
-
-        #endregion
 
         #region 获取样品类型集合 +  public List<SampleTypes>  GetAllSample_Types(string url)
         public static List<SampleTypes> GetAll(Fp_Common.UnameAndPwd up)
@@ -137,7 +185,7 @@ namespace FreezerProUtility.Fp_BLL
         {
             Dictionary<string, string> dic = new Dictionary<string, string>();
             List<SampleTypes> list = GetAll(up);
-            if (list!=null&&list.Count>0)
+            if (list != null && list.Count > 0)
             {
                 foreach (var item in list)
                 {
@@ -155,12 +203,11 @@ namespace FreezerProUtility.Fp_BLL
             SampleTypes sample = new SampleTypes();
             if (list != null && list.Count > 0)
             {
-               sample = list.Where(a => a.name == name).FirstOrDefault();
+                sample = list.Where(a => a.name == name).FirstOrDefault();
             }
             return sample;
         }
         #endregion
-
 
         private string ImportSamples(string url, string sample_type)
         {
@@ -172,62 +219,77 @@ namespace FreezerProUtility.Fp_BLL
         //第三部没好到就添加样本盒（样本盒名称怎么获取）--获取冰箱（根据名称）--->根据冰箱名获取冰箱id-->根据冰箱id获取冰箱分支---->根据用户名获取对应的分支id---->月份分支---->日分支id----->boxes获取当前分支下的所有盒子，判断盒子是否存在（根据名字判断盒子）
 
         //生成默认临时储存结构的方法--目的，查看对应位置是否存在可以存放样本的孔
-        private static Fp_Model.Box_Path CreatTemFreezerPath(Fp_Common.UnameAndPwd up, out bool creat)
+        private static Fp_Model.Box_Path CreatTemFreezerPath(Fp_Common.UnameAndPwd up, string department, out bool creat)
         {
             FreezerProUtility.Fp_Model.Box_Path box_path = new Box_Path();
             ////Tem-->username-->month-->day(-->box)
             //string box_path = string.Empty;
             string username = Fp_Common.CookieHelper.GetCookieValue("username");
-            string department = Fp_Common.CookieHelper.GetCookieValue(username+"department");
-            string freezerName = "Tem";
+            string freezerName = "Tem--" + department;
             if (!string.IsNullOrEmpty(username))
             {
                 Fp_Model.Freezer freezer = Freezers.GetBy(up, freezerName);
-
                 string _path = string.Format("{0}→{1}→{2}月→{3}日", freezerName, username, DateTime.Now.Month, DateTime.Now.Date.ToString("dd"));//创建盒子路径
                 //获取次路径下的盒子
                 if (freezer != null)
                 {
-                    Fp_Model.Subdivision subdivision = Subdivisions.CheckBy(up,freezer.id, _path);
-                    if (subdivision.name.Contains("日"))
+                    Fp_Model.Subdivision subdivision = Subdivisions.CheckBy(up, freezer.id, _path);
+                    //要判断是否为空
+                    if (subdivision != null)
                     {
-                        List<Fp_Model.Box> boxsList = Fp_BLL.Boxes.GetAll(up, subdivision.id);
-                        if (boxsList.Count > 0)
+                        if (subdivision.name.Contains("日"))
                         {
-                            //日期节点下有盒子
-                            string maxBoxName = boxsList.OrderByDescending(a => a.name).FirstOrDefault().name;
-                            if (string.IsNullOrEmpty(maxBoxName))
+                            List<Fp_Model.Box> boxsList = Fp_BLL.Boxes.GetAll(up, subdivision.id);
+                            if (boxsList.Count > 0)
                             {
-                                box_path.Freezer = "Tem";
-                                box_path.Level1 = username;
-                                box_path.Level2 = DateTime.Now.Month + "月";
-                                box_path.Level3 = DateTime.Now.Date.ToString("dd");
-                                box_path.Box = maxBoxName;
-                                creat = false;
+                                //日期节点下有盒子
+                                Fp_Model.Box maxBox = boxsList.OrderByDescending(a => a.name).FirstOrDefault();
+                                string maxBoxName = maxBox.name.Replace(maxBox.location + "&rarr;", "").Trim();
+                                if (!string.IsNullOrEmpty(maxBoxName))
+                                {
+                                    box_path.Freezer = "Tem--" + department;
+                                    box_path.Level1 = username;
+                                    box_path.Level2 = DateTime.Now.Month + "月";
+                                    box_path.Level3 = DateTime.Now.Date.ToString("dd") + "日";
+                                    box_path.Box = maxBoxName;
+                                    creat = false;
+                                    //此处还需要判断当前的bag中是否有位置存放样品
+                                }
+                                else
+                                {
+                                    int max = 0;
+                                    //意外报错
+                                    if (int.TryParse(maxBoxName, out max))
+                                    {
+                                        box_path.Freezer = "Tem--" + department;
+                                        box_path.Level1 = username;
+                                        box_path.Level2 = DateTime.Now.Month + "月";
+                                        box_path.Level3 = DateTime.Now.Date.ToString("dd") + "日";
+                                        box_path.Box = (max + 1).ToString();
+                                    }
+                                    creat = true;
+                                }
                             }
                             else
                             {
-                                int max = 0;
-                                //意外报错
-                                if (int.TryParse(maxBoxName, out max))
-                                {
-                                    box_path.Freezer = "Tem";
-                                    box_path.Level1 = username;
-                                    box_path.Level2 = DateTime.Now.Month + "月";
-                                    box_path.Level3 = DateTime.Now.Date.ToString("dd");
-                                    box_path.Box = (max + 1).ToString();
-                                }
                                 creat = true;
+                                //日期节点下没盒子
+                                box_path.Freezer = "Tem--" + department;
+                                box_path.Level1 = username;
+                                box_path.Level2 = DateTime.Now.Month + "月";
+                                box_path.Level3 = DateTime.Now.Date.ToString("dd") + "日";
+                                box_path.Box = "1";
                             }
                         }
                         else
                         {
+                            //不包含日
                             creat = true;
-                            //日期节点下没盒子
-                            box_path.Freezer = "Tem";
+                            //当前节点下没盒子
+                            box_path.Freezer = "Tem--" + department;
                             box_path.Level1 = username;
                             box_path.Level2 = DateTime.Now.Month + "月";
-                            box_path.Level3 = DateTime.Now.Date.ToString("dd");
+                            box_path.Level3 = DateTime.Now.Date.ToString("dd") + "日";
                             box_path.Box = "1";
                         }
                     }
@@ -235,20 +297,20 @@ namespace FreezerProUtility.Fp_BLL
                     {
                         creat = true;
                         //当前节点下没盒子
-                        box_path.Freezer = "Tem";
+                        box_path.Freezer = "Tem--" + department;
                         box_path.Level1 = username;
                         box_path.Level2 = DateTime.Now.Month + "月";
-                        box_path.Level3 = DateTime.Now.Date.ToString("dd");
+                        box_path.Level3 = DateTime.Now.Date.ToString("dd") + "日";
                         box_path.Box = "1";
                     }
                 }
                 else
                 {
                     creat = true;
-                    box_path.Freezer = "Tem";
+                    box_path.Freezer = "Tem--" + department;
                     box_path.Level1 = username;
                     box_path.Level2 = DateTime.Now.Month + "月";
-                    box_path.Level3 = DateTime.Now.Date.ToString("dd");
+                    box_path.Level3 = DateTime.Now.Date.ToString("dd") + "日";
                     box_path.Box = "1"; ;
                 }
             }
@@ -280,7 +342,6 @@ namespace FreezerProUtility.Fp_BLL
         }
         #endregion
 
-
         private static string CheckImportRes(string jsonResStr)
         {
             //检测是否导入成功
@@ -298,5 +359,42 @@ namespace FreezerProUtility.Fp_BLL
             }
         }
 
+
+
+        //提交数据新方法，一个dg一次提交
+        public static string ImportSamplesToFp(Fp_Common.UnameAndPwd up, Box_Path box_path, List<Dictionary<string, string>> dataDicList)
+        {
+
+            string jsonsampledata = string.Empty;
+            List<Dictionary<string, string>> jsonDicList = new List<Dictionary<string, string>>();
+            string box_type = "bag"; //默认放入袋子中
+            string create_storage = string.Empty;
+            foreach (var dataDic in dataDicList)
+            {
+                if (!dataDic.ContainsKey("Freezer"))
+                {
+                    dataDic.Add("Freezer", box_path.Freezer);//Tem
+                }
+                if (!dataDic.ContainsKey("Level1"))
+                {
+                    dataDic.Add("Level1", box_path.Level1);//Username
+                }
+                if (!dataDic.ContainsKey("Level2"))
+                {
+                    dataDic.Add("Level2", box_path.Level2);//月
+                }
+                if (!dataDic.ContainsKey("Level3"))
+                {
+                    dataDic.Add("Level3", box_path.Level3);//日
+                }
+            }
+            jsonsampledata = FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(dataDicList);
+            Dictionary<string, string> jsonDic = new Dictionary<string, string>();
+            jsonDic.Add("create_storage", create_storage);
+            jsonDic.Add("box_type", box_type);
+            jsonDic.Add("json", jsonsampledata);
+            string importRes = ImportSampleToFp(up, jsonDic);
+            return importRes;
+        }
     }
 }
