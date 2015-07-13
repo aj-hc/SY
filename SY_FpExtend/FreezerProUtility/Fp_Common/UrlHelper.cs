@@ -37,5 +37,37 @@ namespace FreezerProUtility.Fp_Common
                 return rseUrl.ToString();
             }
         }
+
+        /// <summary>
+        /// 生成链接Fp数据的字符串
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <param name="fpMethod"></param>
+        /// <param name="param">其他参数</param>
+        /// <param name="check">链接是否成功</param>
+        /// <returns></returns>
+        public static string CreatConnStr(UnameAndPwd up,FpMethod fpMethod, string param, out  bool check)
+        {
+            StringBuilder rseUrl = new StringBuilder();
+            if (string.IsNullOrEmpty(up.FpConnUp) || string.IsNullOrEmpty(fpMethod.ToString()))
+            {
+                check = false;
+                return "";
+            }
+            else
+            {
+                check = true;
+                if (string.IsNullOrEmpty(param))
+                {
+                    rseUrl.AppendFormat("{0}&method={1}", up.FpConnUp, fpMethod);
+                }
+                else
+                {
+                    rseUrl.AppendFormat("{0}&method={1}{2}", up.FpConnUp, fpMethod, param);
+                }
+                return rseUrl.ToString();
+            }
+        }
     }
 }

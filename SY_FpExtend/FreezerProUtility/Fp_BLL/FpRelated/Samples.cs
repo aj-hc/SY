@@ -9,7 +9,6 @@ namespace FreezerProUtility.Fp_BLL
 {
     public class Samples
     {
-
         #region 根据样本id获取样本的信息
         //根据样本id获取样本的信息
         public Sample_Info GetSample_Info(string url, string sample_id)
@@ -23,6 +22,26 @@ namespace FreezerProUtility.Fp_BLL
         }
         #endregion
 
+
+        //导入样品方式1
+        //指定sample_type，box_path(","分割)，jsondata
+
+        //导入样品方式2
+        //指定样品jsondata、sample_type，box_path(","分割)，use_positions(指定位置)
+
+        //导入样品方式3
+        //指定样品jsondata、sample_type，box_path(","分割)，next_box (true)
+
+        //导入样品方式4
+        //指定样品jsondata、sample_type，create_storage，box_type (true)
+
+        //导入样品方式5
+        //指定样品jsondata、sample_type，subdivision_barcode
+
+        //导入样本方式6
+        //创建存储结构盒子使用bag 导入失败创建新的bag
+
+        //综上所述：使用方式 1 +方式 4   非常规方式使用6
         #region 导入样本数据到fp + public static string Import_Sample(string url, string sample_type, string count, Dictionary<string, string> dataDic)
         /// <summary>
         /// 导入样本数据到fp
@@ -34,81 +53,24 @@ namespace FreezerProUtility.Fp_BLL
         /// <returns></returns>
         public static string Import_Sample(string url, string sample_type, string count, Dictionary<string, string> dataDic)
         {
-            #region 思路分析
-            //string json = "";
-            //string background_job = "false";//boolean (true or false)
-            //string next_box = "";   //boolean (true or false)
-            //string subdivision_barcode = "";//细分结构---id+样本类型（将样本导入到该分支结构下的可用位置）
-            //string sample_type = "";
-            //string create_storage = ""; //创建储存结构才有 box_type
-            //string box_type = "";
-            //string box_path ="";  //盒子位置
-            //01.先判断储存结构是否存在，存在就添加--先获取冰箱，查看冰箱是否存在，不存在就添加样品时直接创建冰箱结构（Tem-->username-->month-->bag）
-            //02.储存结构空间不足则再次添加储存结构
-            //03.储存结构命名-->Tem-->username-->month-->bag
-            //------>判断存储结构是否存在------>判断条件---冰箱--当前用户--月份。冰箱名指定（TEM）,用户名：当前用户全名，月份--当前日期
-            //添加样品时需要查找指定盒子是否存在，不存在就添加，存在就检查数量是否合规
-            //判断储存结果是否存在（指定位置）--需要用到用户名Users,检查位置Get_Perfect_Box,
-            //先判断日期分支下是有有满足条件的盒子，有就直接添加样本，没有就获取该分支下的所有盒子----然后创建分支并添加样本 
-            #endregion
             string username = Fp_Common.CookieHelper.GetCookieValue("username");
             string result = string.Empty;
             string jsondata = string.Empty;
 
             bool creat;
             Box_Path box_path = CreatTemFreezerPath(url, out creat);
-            if (creat)
-            {
-                //需要创建盒子
-              result= ImportSamplesByCreat(url, sample_type, count, box_path, dataDic);
-            }
-            else
-            {
-                //不需要创建盒子
-              result = ImportSamplesByPath(url, sample_type, count, box_path, dataDic);
-            }
-
+           
             return result;
         }
 
-        private static string  ImportSamplesByPath(string url, string sample_type, string count, Box_Path box_path, Dictionary<string, string> dataDic)
-        {
-            string jsonsampledata = string.Empty;
-            int kk = 1;
-            string path = string.Empty;
-            Random rand = new Random();
-            int ALIQUOT = rand.Next(1, 1000);
-            List<Dictionary<string, string>> jsonDicList = new List<Dictionary<string, string>>();
-            if (int.TryParse(count, out kk))
-            {
-                dataDic.Add("ALIQUOT", ALIQUOT.ToString());
-                path = string.Format("{0},{1},{2},{3},{4}", box_path.Freezer, box_path.Level1, box_path.Level2, box_path.Level3,box_path.Box);
-                if (kk == 1)
-                {
-                    //单条数据
-                    jsonsampledata = FpJsonHelper.DictionaryToJsonString(dataDic);
-                }
-                else if (kk > 1 && kk < 100)
-                {
-                    for (int i = 0; i < kk; i++)
-                    {
-                        jsonDicList.Add(dataDic);
-                    }
-                    //多条数据
-                    jsonsampledata = FpJsonHelper.DictionaryListToJsonString(jsonDicList);
-                }
-            }
-            string jsonData = string.Format("&sample_type={0}&box_path={1}&json={3}", sample_type, path, jsonsampledata);
-            return ImportSampleToFp(url, jsonData);
 
-        }
 
         //创建盒子保存样本
-        private static string ImportSamplesByCreat(string url, string sample_type, string count, Box_Path box_path, Dictionary<string, string> dataDic)
+        private static string ImportSamplesToFp(string username,string password, string sample_type, string count, Box_Path box_path, Dictionary<string, string> dataDic)
         {
             string jsonsampledata = string.Empty;
             List<Dictionary<string, string>> jsonDicList = new List<Dictionary<string, string>>();
-            string box_type = "10 x 10"; //默认10x10的盒子
+            string box_type = "bag"; //默认放入袋子中
             string create_storage = string.Empty;
             int kk = 1;
             Random rand = new Random();
@@ -123,34 +85,30 @@ namespace FreezerProUtility.Fp_BLL
                 create_storage = string.Format("{0},{1},{2},{3}", box_path.Freezer, box_path.Level1, box_path.Level2, box_path.Level3);
                 if (kk == 1)
                 {
-
-                    dataDic.Add("Box", box_path.Box);//Box
-                    dataDic.Add("Position", kk.ToString());
+                    dataDic.Add("Sample Type", sample_type);
+                    dataDic.Add("Box", box_path.Box);//袋子中不需要指定位置
                     //单条数据
                     jsonsampledata = FpJsonHelper.DictionaryToJsonString(dataDic);
                 }
-                else if (kk > 1 && kk < 100)
+                else if (kk > 1 && kk < 500)
                 {
-                    Dictionary<string, string> tem = new Dictionary<string, string>();
-                    dataDic.Add("Box", box_path.Box);//Box
+                    dataDic.Add("Sample Type", sample_type);
+                    dataDic.Add("Box", box_path.Box);//袋子中不需要指定位置
                     for (int i = 0; i < kk; i++)
                     {
-                        if (dataDic.Keys.Contains("Position"))
-                        {
-                            dataDic["Position"] = (i + 2).ToString();
-                        }
-                        else
-                        {
-                            dataDic.Add("Position", (i + 2).ToString());
-                        }
-                        jsonDicList.Add(dataDic);
+                        //扩展数据成多条
+                        Dictionary<string, string> tem = new Dictionary<string, string>();
+                        //字典复制需要两次循环，这里是利用字典的序列化和反序列化
+                        tem = Fp_Common.FpJsonHelper.DeserializeObject<Dictionary<string, string>>(Fp_Common.FpJsonHelper.DictionaryToJsonString(dataDic));
+                        jsonDicList.Add(tem);
                     }
                     //多条数据
                     jsonsampledata = FpJsonHelper.DictionaryListToJsonString(jsonDicList);
                 }
             }
-            string jsonData = string.Format("&sample_type={0}&create_storage={1}&box_type={2}&json={3}", sample_type, create_storage, box_type, jsonsampledata);
-            return ImportSampleToFp(url, jsonData);
+            string jsonData = string.Format("&create_storage={1}&box_type={2}&json={3}", create_storage, box_type, jsonsampledata);
+            string importRes = ImportSampleToFp(username, password, jsonData);
+            return importRes;
         }
 
         #endregion
@@ -190,23 +148,8 @@ namespace FreezerProUtility.Fp_BLL
         }
         #endregion
 
-        //导入样品方式1
-        //指定sample_type，box_path(","分割)，jsondata
-
-        //导入样品方式2
-        //指定样品jsondata、sample_type，box_path(","分割)，use_positions(指定位置)
-
-        //导入样品方式3
-        //指定样品jsondata、sample_type，box_path(","分割)，next_box (true)
-
-        //导入样品方式4
-        //指定样品jsondata、sample_type，create_storage，box_type (true)
-
-        //导入样品方式5
-        //指定样品jsondata、sample_type，subdivision_barcode
 
 
-        //综上所述：使用方式 1 +方式 4
         #region 导入数据到fp私有方法，包含直接导入和创建存储结构 +  private static string ImportSamples(string url, string sample_type, string json)
         /// <summary>
         /// 导入数据到fp私有方法，包含直接导入和创建存储结构
@@ -215,18 +158,16 @@ namespace FreezerProUtility.Fp_BLL
         /// <param name="sample_type"></param>
         /// <param name="json"></param>
         /// <returns></returns>
-        private static string ImportSamples(string url, string sample_type, string json)
+        private static string ImportSamples(UnameAndPwd up ,string sample_type, string json)
         {
             string jsonResStr = string.Empty;
-            string box_type = "10 x 10"; //默认10x10的盒子
+            string box_type = "bag"; //默认10x10的盒子---将数据通过API导入数据到袋子中
             bool check;
-            string connFpUrl = UrlHelper.ConnectionUrlAndPar(url, FpMethod.import_samples, "", out check);
-            bool creat = false;
-            string box_path = CreatTemFreezerPath(url).Replace('→', ',');
+            string connFpUrl = UrlHelper.CreatConnStr(up, FpMethod.import_samples, "", out check);
+            //bool creat = false;
             FreezerProUtility.Fp_Model.Box_Path boxpath = new Box_Path();
-            CreatTemFreezerPath(url, out creat);
-
-            if (creat)
+            //CreatTemFreezerPath(url, out creat);
+            if (check)
             {
                 //需要创建盒子
                 //string Freezer = "";//TEM
@@ -244,9 +185,6 @@ namespace FreezerProUtility.Fp_BLL
 
             }
 
-            string jsonData = string.Format("&sample_type={0}&box_path={1}&json={2}", sample_type, box_path, json);
-            jsonResStr = ImportSampleToFp(url, jsonData);
-            
             return jsonResStr;//导入样本最后的返回信息
         }
         #endregion
@@ -270,7 +208,7 @@ namespace FreezerProUtility.Fp_BLL
         /// </summary>
         /// <param name="url"></param>
         /// <returns>生成默认临时储存结构的方法Tem→username→month→day→1</returns>
-        private static string CreatTemFreezerPath(string url)
+        private static string CreatTemFreezerPath(UnameAndPwd up)
         {
             //tem-->username-->month-->day(-->box)
             string box_path = string.Empty;
@@ -318,7 +256,7 @@ namespace FreezerProUtility.Fp_BLL
         private static Fp_Model.Box_Path CreatTemFreezerPath(string url, out bool creat)
         {
             FreezerProUtility.Fp_Model.Box_Path box_path = new Box_Path();
-            ////tem-->username-->month-->day(-->box)
+            ////Tem-->username-->month-->day(-->box)
             //string box_path = string.Empty;
             string username = Fp_Common.CookieHelper.GetCookieValue("username");
             string freezerName = "Tem";
@@ -417,6 +355,30 @@ namespace FreezerProUtility.Fp_BLL
             {
                 //转换成功
                 result = Fp_DAL.DataWithFP.postDateToFp(connFpUrl, jsonData);
+
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// 使用账号密码提交数据
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <param name="jsonData">&json=[{数据}]</param>
+        /// <returns></returns>
+        private static string ImportSampleToFp(string username, string password,string jsonData)
+        {
+            bool ckeck;
+            string result = string.Empty;
+            string connFpUrl = UrlHelper.CreatConnStr(username,password, FpMethod.import_samples, "", out  ckeck);
+
+            if (ckeck)
+            {
+                string jsondata = string.Format("{0}&json={1}", connFpUrl, jsonData);
+                //转换成功
+                result = Fp_DAL.DataWithFP.postDateToFp(jsondata);
+
             }
             return result;
         }

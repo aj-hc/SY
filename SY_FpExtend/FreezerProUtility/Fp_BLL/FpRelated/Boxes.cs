@@ -20,6 +20,12 @@ namespace FreezerProUtility.Fp_BLL
             return boxes;
         }
 
+        public static List<Box> GetAll(Fp_Common.UnameAndPwd up, string id)
+        {
+            List<Box> boxes = Fp_DAL.DataWithFP.getdata<Box>(up, Fp_Common.FpMethod.boxes, "&id=" + id, "Boxes");
+            return boxes;
+        }
+
         //判断指定名称的盒子是否存在
         /// <summary>
         /// 判断指定节点下是否存在符合条件的盒子

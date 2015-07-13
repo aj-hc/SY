@@ -26,6 +26,18 @@ namespace FreezerProUtility.Fp_BLL
             }
             return "";
         }
+        public static string ImportTestData(string username,string password, string test_data_type, Dictionary<string, string> dataDic)
+        {
+            string result = string.Empty;
+            string jsonDic = Fp_Common.FpJsonHelper.DictionaryToJsonString(dataDic); ;
+            if (!string.IsNullOrEmpty(jsonDic))
+            {
+                string jsonData = string.Format("&test_data_type={0}&json={1}", test_data_type, jsonDic);
+                result = ImportTestDataToFp(username,password, jsonData);
+
+            }
+            return "";
+        }
         /// <summary>
         /// 导入多条临床数据
         /// </summary>
@@ -45,11 +57,24 @@ namespace FreezerProUtility.Fp_BLL
             return result;
         }
 
+        public static string ImportTestData(string username,string password, string test_data_type, List<Dictionary<string, string>> dataDicList)
+        {
+            string result = string.Empty;
+            string jsonDicList = Fp_Common.FpJsonHelper.DictionaryListToJsonString(dataDicList);
+            if (!string.IsNullOrEmpty(jsonDicList))
+            {
+                string jsonData = string.Format("&test_data_type={0}&json={1}", test_data_type, jsonDicList);
+                result = ImportTestDataToFp(username,password, jsonData);
+            }
+            return result;
+        }
+
         private static string ImportTestDataToFp(string url, string jsonData)
         {
             bool check;
             string result = string.Empty;
             string connFpUrl = Fp_Common.UrlHelper.ConnectionUrlAndPar(url, Fp_Common.FpMethod.import_tests, "", out check);
+
             if (check)
             {   
                 //转换成功
@@ -57,9 +82,21 @@ namespace FreezerProUtility.Fp_BLL
             }
             return result;
         }
+        private static string ImportTestDataToFp(string username,string password, string jsonData)
+        {
+            bool check;
+            string result = string.Empty;
+            string connFpUrl = Fp_Common.UrlHelper.CreatConnStr(username, password, Fp_Common.FpMethod.import_tests, "", out check);
+            if (check)
+            {
+                //转换成功
+                string js = string.Format("{0}&json={1}", connFpUrl, jsonData);
+                result = Fp_DAL.DataWithFP.postDateToFp(js);
+            }
+            return result;
+        }
         private static string CheckRes(string jsonResStr)
         {
-
             return "";
         }
     }

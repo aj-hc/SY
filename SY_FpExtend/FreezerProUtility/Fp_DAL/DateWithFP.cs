@@ -11,6 +11,11 @@ namespace FreezerProUtility.Fp_DAL
     /// </summary>
     internal class DataWithFP
     {
+        public static string Url { get; set; }
+        internal DataWithFP()
+        {
+            Url = System.Configuration.ConfigurationManager.AppSettings["FpUrl"];
+        }
         #region 访问Fp的用户名属性
         private string username = "";
         public string Username
@@ -40,10 +45,60 @@ namespace FreezerProUtility.Fp_DAL
         /// <returns></returns>
         public static string getDateFromFp(string url)
         {
-            HttpItem item = new HttpItem();
             HttpHelper http = new HttpHelper();
-            item.URL = url;
-            return http.GetHtml(item).Html;
+            HttpItem item = new HttpItem()
+            {
+                URL = url,//URL     必需项    
+                Method = "get",//URL     可选项 默认为Get   
+                IsToLower = false,//得到的HTML代码是否转成小写     可选项默认转小写   
+                Cookie = "",//字符串Cookie     可选项   
+                Referer = "",//来源URL     可选项   
+                Postdata = "",//Post数据     可选项GET时不需要写   
+                Timeout = 100000,//连接超时时间     可选项默认为100000    
+                ReadWriteTimeout = 30000,//写入Post数据超时时间     可选项默认为30000   
+                UserAgent = "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)",//用户的浏览器类型，版本，操作系统     可选项有默认值   
+                ContentType = "application/x-www-form-urlencoded",//返回类型    可选项有默认值   
+                Allowautoredirect = false,//是否根据301跳转     可选项   
+                //CerPath = "d:\123.cer",//证书绝对路径     可选项不需要证书时可以不写这个参数   
+                //Connectionlimit = 1024,//最大连接数     可选项 默认为1024    
+                ProxyIp = "",//代理服务器ID     可选项 不需要代理 时可以不设置这三个参数    
+                //ProxyPwd = "123456",//代理服务器密码     可选项    
+                //ProxyUserName = "administrator",//代理服务器账户名     可选项   
+                ResultType = ResultType.String
+            };
+            HttpResult result = http.GetHtml(item);
+            string html = result.Html;
+            string cookie = result.Cookie;
+            return html;
+        }
+
+        public static string getDateFromFp(Fp_Common.UnameAndPwd up ,string parm)
+        {
+            HttpHelper http = new HttpHelper();
+            HttpItem item = new HttpItem()
+            {
+                URL = Url+"/api?"+up.FpConnUp+parm,//URL     必需项    
+                Method = "get",//URL     可选项 默认为Get   
+                IsToLower = false,//得到的HTML代码是否转成小写     可选项默认转小写   
+                Cookie = "",//字符串Cookie     可选项   
+                Referer = "",//来源URL     可选项   
+                Postdata = "",//Post数据     可选项GET时不需要写   
+                Timeout = 100000,//连接超时时间     可选项默认为100000    
+                ReadWriteTimeout = 30000,//写入Post数据超时时间     可选项默认为30000   
+                UserAgent = "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)",//用户的浏览器类型，版本，操作系统     可选项有默认值   
+                ContentType = "application/x-www-form-urlencoded",//返回类型    可选项有默认值   
+                Allowautoredirect = false,//是否根据301跳转     可选项   
+                //CerPath = "d:\123.cer",//证书绝对路径     可选项不需要证书时可以不写这个参数   
+                //Connectionlimit = 1024,//最大连接数     可选项 默认为1024    
+                ProxyIp = "",//代理服务器ID     可选项 不需要代理 时可以不设置这三个参数    
+                //ProxyPwd = "123456",//代理服务器密码     可选项    
+                //ProxyUserName = "administrator",//代理服务器账户名     可选项   
+                ResultType = ResultType.String
+            };
+            HttpResult result = http.GetHtml(item);
+            string html = result.Html;
+            string cookie = result.Cookie;
+            return html;
         }
         #endregion
 
@@ -56,22 +111,71 @@ namespace FreezerProUtility.Fp_DAL
         /// <returns></returns>
         public static string postDateToFp(string url, string data)
         {
-            //HttpHelper http = new HttpHelper();
-            //HttpItem item = new HttpItem();
-            //HttpResult hres = new HttpResult();
-            //item.URL = url;
-            //item.Method = "POST";
-            //item.Postdata = data;
-            //item.PostDataType = PostDataType.String;
-            //item.PostEncoding = Encoding.UTF8;
-            //hres = http.GetHtml(item);
-            //return hres.Html;
-
-            WebClient web = new WebClient();
-            web.Encoding = Encoding.UTF8;
+            HttpHelper http = new HttpHelper();
+            HttpItem item = new HttpItem();
+            HttpResult hres = new HttpResult();
+            item.URL = url;
+            item.Method = "post";
+            item.Postdata = data;
+            item.PostDataType = PostDataType.String;
+            item.PostEncoding = Encoding.UTF8;
+            item.ContentType = "application/x-www-form-urlencoded";
+            item.KeepAlive = false;
+            item.ProxyIp = "";
             
-            return web.Post(url, data);
+            
+            hres = http.GetHtml(item);
+            return hres.Html;
+            
+            //WebClient web = new WebClient();
+            //web.Encoding = Encoding.UTF8;
+            //web.Proxy = null;
+            //return web.Post(url, data);
 
+        }
+
+        /// <summary>
+        /// 最新方法，
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public static string postDateToFp(Fp_Common.UnameAndPwd up, FpMethod fpMethod, Dictionary<string, string> parmaDic, string jsdata)
+        {
+            StringBuilder strPar = new StringBuilder();
+            if (parmaDic!=null&&parmaDic.Count>0)
+            {
+                foreach (KeyValuePair<string,string> p in parmaDic)
+                {
+                    strPar.AppendFormat("&{0}&{1}",p.Key,p.Value);
+                }
+            }
+            string data = string.Format("{0}&method={1}{2}&json={3}", up.FpConnUp, fpMethod, strPar.ToString(), jsdata);
+            HttpHelper http = new HttpHelper();
+            HttpItem item = new HttpItem()
+            {
+                URL = Url+"/api",//URL     必需项       
+                Method = "post",//URL     可选项 默认为Get   
+                IsToLower = false,//得到的HTML代码是否转成小写     可选项默认转小写   
+                Cookie = "",//字符串Cookie     可选项   
+                Referer = "",//来源URL     可选项   
+                Postdata =data,//Post数据     可选项GET时不需要写   
+                Timeout = 100000,//连接超时时间     可选项默认为100000    
+                ReadWriteTimeout = 30000,//写入Post数据超时时间     可选项默认为30000   
+                UserAgent = "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)",//用户的浏览器类型，版本，操作系统     可选项有默认值   
+                ContentType = "application/x-www-form-urlencoded",//返回类型    可选项有默认值   
+                Allowautoredirect = true,//是否根据301跳转     可选项   
+                //CerPath = "d:\123.cer",//证书绝对路径     可选项不需要证书时可以不写这个参数   
+                //Connectionlimit = 1024,//最大连接数     可选项 默认为1024    
+                ProxyIp = "",//代理服务器ID     可选项 不需要代理 时可以不设置这三个参数    
+                //ProxyPwd = "123456",//代理服务器密码     可选项    
+                //ProxyUserName = "administrator",//代理服务器账户名     可选项   
+                ResultType = ResultType.String
+            };
+            HttpResult result = http.GetHtml(item);
+            string html = result.Html;
+            string cookie = result.Cookie;
+
+            return html;
         }
         #endregion
 
@@ -120,6 +224,7 @@ namespace FreezerProUtility.Fp_DAL
         /// <param name="param">调用方法的参数</param>
         /// <param name="datawith">从fp返回值中取什么数据</param>
         /// <returns>返回集合</returns>
+         [Fp_Common.Help("过时方法，请调用新的静态方法：postDateToFp(FpMethod fpMethod, string date)")]
         internal static List<T> getdata<T>(string url, FpMethod fpMethod, string param, string datawith)
         {
             List<T> list = new List<T>();
@@ -136,6 +241,22 @@ namespace FreezerProUtility.Fp_DAL
             return list;
         }
 
+         internal static List<T> getdata<T>(Fp_Common.UnameAndPwd up, FpMethod fpMethod, string param, string datawith)
+         {
+             List<T> list = new List<T>();
+             bool check;
+             string connUrl = Fp_Common.UrlHelper.CreatConnStr(up, fpMethod, param, out check);
+             if (check)
+             {
+                 string str_Json = Fp_DAL.DataWithFP.getDateFromFp(connUrl);
+                 if (ValidationData.checkTotal(str_Json))
+                 {
+                     list = FpJsonHelper.JObjectToList<T>(datawith, str_Json);
+                 }
+             }
+             return list;
+         }
+
         #endregion
 
         #region 从fP中获取数据的泛型方法
@@ -146,12 +267,32 @@ namespace FreezerProUtility.Fp_DAL
         /// <param name="url">链接fp的url</param>
         /// <param name="fpMethod">获取数据的方法</param>
         /// <param name="param">获取数据的参数</param>
-        /// <returns></returns>
+         ///  <returns></returns>
+        [Fp_Common.Help("过时方法，请调用新的静态方法：postDateToFp(FpMethod fpMethod, string date)")]
+        
         internal static T getdata<T>(string url, FpMethod fpMethod, string param) where T : class,new()
         {
             T t = new T();
             bool check;
             string connUrl = Fp_Common.UrlHelper.ConnectionUrlAndPar(url, fpMethod, param, out check);
+            if (check)
+            {
+                string str_Json = Fp_DAL.DataWithFP.getDateFromFp(connUrl);
+                if (ValidationData.checkTotal(str_Json))
+                {
+                    t = FpJsonHelper.DeserializeObject<T>(str_Json);
+                }
+            }
+            return t;
+        }
+
+
+
+        internal static T getdata<T>(Fp_Common.UnameAndPwd up, FpMethod fpMethod, string param) where T : class,new()
+        {
+            T t = new T();
+            bool check;
+            string connUrl = Fp_Common.UrlHelper.CreatConnStr(up, fpMethod, param, out check);
             if (check)
             {
                 string str_Json = Fp_DAL.DataWithFP.getDateFromFp(connUrl);

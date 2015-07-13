@@ -405,10 +405,11 @@ function AddSampleInfoToDg() {
             index: 1,	// 索引从0开始
             row: {
                 SampleType: from[0].value,
-                Volume: from[1].value,
-                Scount: from[2].value,
-                Organ: from[3].value,
-                OrganSubdivision: from[4].value
+                SampleGroup: from[1].value,
+                Volume: from[2].value,
+                Scount: from[3].value,
+                Organ: from[4].value,
+                OrganSubdivision: from[5].value
             }
         });
         //$('#sampleInfoFormToDg').form('clear');

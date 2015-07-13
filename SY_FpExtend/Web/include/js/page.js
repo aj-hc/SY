@@ -68,13 +68,13 @@ $(function () {
         rownumbers: true,
         columns: [[
             { field: 'SampleType', title: '样品类型', width: '20%', align: 'center' },
-            { field: 'SampleGroup', title: '样品组', width: '20%', align: 'center' },
+            { field: 'SampleGroup', title: '样品组', width: '10%', align: 'center' },
             { field: 'Volume', title: '体积', width: '5%', align: 'center' },
             { field: 'Scount', title: '管数', width: '5%', align: 'center' },
-            { field: 'Organ', title: '器官', width: '20%', align: 'center' },
+            { field: 'Organ', title: '器官', width: '15%', align: 'center' },
             { field: 'OrganSubdivision', title: '器官细分', width: '30%', align: 'center' },
             { field: 'State', title: '状态', width: 50, align: 'center' },
-            { field: 'Msg', title: '消息', width: '10%', align: 'center' }
+            { field: 'Msg', title: '消息', width: '15%', align: 'center' }
         ]],
         tools: [
             {

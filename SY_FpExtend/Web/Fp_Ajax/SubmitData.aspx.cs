@@ -164,8 +164,7 @@ namespace RuRo.Web.Fp_Ajax
 
             //导入样本源数据
             Dictionary<string, string> mathcBaseInfoDic = MatchBaseInfoDic(baseInfoDic);
-
-            string improtBaseInfoResult = ImportSampleSource(mathcBaseInfoDic);
+            string improtBaseInfoResult = ImportSampleSource(RemoveEmpty(mathcBaseInfoDic));
 
             string success = FreezerProUtility.Fp_Common.FpJsonHelper.GetStrFromJsonStr("success", improtBaseInfoResult);
             string msg = FreezerProUtility.Fp_Common.FpJsonHelper.GetStrFromJsonStr("msg", improtBaseInfoResult);
@@ -237,7 +236,7 @@ namespace RuRo.Web.Fp_Ajax
                     sampleInfoDic.Add("Volume", item["Volume"]);
                     sampleInfoDic.Add("Sample Source", baseInfoDic["Name"]);
                     sampleInfoDic.Add("_117", item["_117"]);
-                    Dictionary<string, string> matchSampleInfoDic = MatchSampleInfoDic(sampleInfoDic);
+                    Dictionary<string, string> matchSampleInfoDic = MatchSampleInfoDic(RemoveEmpty(sampleInfoDic));
                     Dictionary<string, string> addNameResDic = AddName(matchSampleInfoDic, baseInfoDic["Name"]);
                     //匹配完毕
                     string importsampleres = ImportSamples(addNameResDic, item["SampleType"], item["Scount"]);
@@ -834,6 +833,23 @@ namespace RuRo.Web.Fp_Ajax
                 }
             }
             return resDic;
+        }
+
+        private Dictionary<string, string> RemoveEmpty(Dictionary<string, string> dic)
+        {
+            Dictionary<string, string> temp = new Dictionary<string, string>(); 
+            foreach (KeyValuePair<string,string> item in dic)
+            {
+                if (string.IsNullOrEmpty(item.Value))
+                {
+                    continue;
+                }
+                else
+                {
+                    temp.Add(item.Key, item.Value);
+                }
+            }
+            return temp;
         }
     }
 }
