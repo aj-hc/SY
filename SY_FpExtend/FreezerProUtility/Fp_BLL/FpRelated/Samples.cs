@@ -369,6 +369,7 @@ namespace FreezerProUtility.Fp_BLL
             List<Dictionary<string, string>> jsonDicList = new List<Dictionary<string, string>>();
             string box_type = "bag"; //默认放入袋子中
             string create_storage = string.Empty;
+            create_storage = string.Format("{0},{1},{2},{3}", box_path.Freezer, box_path.Level1, box_path.Level2, box_path.Level3);
             foreach (var dataDic in dataDicList)
             {
                 if (!dataDic.ContainsKey("Freezer"))
@@ -386,6 +387,10 @@ namespace FreezerProUtility.Fp_BLL
                 if (!dataDic.ContainsKey("Level3"))
                 {
                     dataDic.Add("Level3", box_path.Level3);//日
+                }
+                if (!dataDic.ContainsKey("Box"))
+                {
+                    dataDic.Add("Box", box_path.Box);//盒子
                 }
             }
             jsonsampledata = FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(dataDicList);

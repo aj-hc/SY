@@ -44,110 +44,111 @@ namespace RuRo.Web.Fp_Ajax
                 sampleTypeIdAndNamedic = FreezerProUtility.Fp_BLL.Samples.GetAllIdAndNamesDic(up);
             }
             string action = Request.Params["action"].Trim();
-            //departments = Common.DEncrypt.DESEncrypt.Decrypt(Request.Params["departments"].Trim());
-            //if (action == "postPatientinfo")
-            //{
-            //    ImportPatientInfo();
-            //}
-            //if (action == "postSampleInfo")
-            //{
-            //    //string id=获取样本的行号
-            //    //使用方法提交样本数据到fp
-            //    //返回提交后的结果
-            //}
-            if (action == "posSingleData")
+            departments = Common.DEncrypt.DESEncrypt.Decrypt(Request.Params["departments"].Trim());
+            if (action == "postPatientinfo")
             {
-                ImportPatientInfo(up, departments);
+                string result = ImportPatientInfo(up, departments);
+                Response.Write(result);
             }
-            if (action == "postSingleData")
+            if (action == "postSampleInfo")
             {
                 //string id=获取样本的行号
                 //使用方法提交样本数据到fp
                 //返回提交后的结果
             }
-        private void ImportDataToFp(FreezerProUtility.Fp_Common.UnameAndPwd up)
-        {
-            //导入数据
-            //第一步：导入样本源
-            //01.创建样本源信息字典
-            //02.指定样本源类型----根据什么获取？
-            //第二部：导入临床数据
-            //01.创建临床数据字典
-            //02.指定临床数据类型
-            //03.指定临床数据对应的样本源
-            //第三部：导入样本信息
-            //01.获取样本类型
-            //02.获取管数
-            //03.提交
-
-            //获取页面上的基本信息表单
-            Dictionary<string, string> baseInfoDic = GetBaseInfoDic();
-            //获取页面上的样本信息Dg表单
-            List<Dictionary<string, string>> sampleInfoDgDicList = GetSampleInfoDgDicList();
-            //获取页面上的样本信息表单
-            Dictionary<string, string> sampleInfoDic = GetSampleInfoDic();
-            //获取页面上的临床信息Dg表单
-            List<Dictionary<string, string>> clinicalInfoDgDicList = GetClinicalInfoDgDicList(baseInfoDic);
-
-            string PatientID = string.Empty;
-            if (baseInfoDic.ContainsKey("PatientID"))
+            if (action == "posSingleData")
             {
-                PatientID = baseInfoDic["PatientID"];
-            }
-            string PatientName = string.Empty;
-            if (baseInfoDic.ContainsKey("PatientName"))
-            {
-                PatientName = baseInfoDic["PatientName"];
-            }
-            baseInfoDic.Add("Name", PatientID);
-            baseInfoDic.Add("Description", PatientName);
-            sampleInfoDic.Add("Name", PatientID);
-
-            //导入样本源数据
-            //检查样本源是否存在？？----无API操作
-
-            string resultImpSS = ImportSampleSource(MatchBaseInfoDic(baseInfoDic), up);
-
-            if (FreezerProUtility.Fp_Common.FpJsonHelper.GetStrFromJsonStr("success", resultImpSS) == "True" || resultImpSS.Contains("should be unique."))
-            {
-                //导入成功
-                //导入临床数据
-                if (clinicalInfoDgDicList.Count > 0)
-                {
-
-                    //添加额外字段
-                    foreach (var item in clinicalInfoDgDicList)
-                    {
-                        item.Add("Sample Source", PatientID);
-                    }
-                }
-                //导入临床数据
-                string resultImpCl = ImportTestData(MatchClinicalDic(clinicalInfoDgDicList), up);
-                if (resultImpCl.Contains("\"status\":\"DONE\""))
-                {
-                    //导入成功--保存数据到本地数据库
-                    //需要将字典转换为对象
-
-                }
-                if (sampleInfoDgDicList.Count > 0)//类型列表中有数据
-                {
-                    //取出一条数据，然后将此数据和样本信息数据合并
-                    //将整个集合的数据都传至业务层
-                    foreach (var item in sampleInfoDgDicList)
-                    {
-                        //样本信息需要单独提交，存在多个样品中导入失败情况
-
-                    }
-                }
-                //导入样本数据
-                //循环样本信息列表
-                foreach (var item in sampleInfoDgDicList)
-                {
-
-                }
+                //string id=获取样本的行号
+                //使用方法提交样本数据到fp
+                //返回提交后的结果
+                string result = ImportPatientInfo(up, departments);
             }
         }
-        private void ImportPatientInfo(FreezerProUtility.Fp_Common.UnameAndPwd up, string department)
+        #region 临时数据
+        //private void ImportDataToFp(FreezerProUtility.Fp_Common.UnameAndPwd up)
+        //{
+        //    //导入数据
+        //    //第一步：导入样本源
+        //    //01.创建样本源信息字典
+        //    //02.指定样本源类型----根据什么获取？
+        //    //第二部：导入临床数据
+        //    //01.创建临床数据字典
+        //    //02.指定临床数据类型
+        //    //03.指定临床数据对应的样本源
+        //    //第三部：导入样本信息
+        //    //01.获取样本类型
+        //    //02.获取管数
+        //    //03.提交
+
+        //    //获取页面上的基本信息表单
+        //    Dictionary<string, string> baseInfoDic = GetBaseInfoDic();
+        //    //获取页面上的样本信息Dg表单
+        //    List<Dictionary<string, string>> sampleInfoDgDicList = GetSampleInfoDgDicList();
+        //    //获取页面上的样本信息表单
+        //    Dictionary<string, string> sampleInfoDic = GetSampleInfoDic();
+        //    //获取页面上的临床信息Dg表单
+        //    List<Dictionary<string, string>> clinicalInfoDgDicList = GetClinicalInfoDgDicList(baseInfoDic);
+
+        //    string PatientID = string.Empty;
+        //    if (baseInfoDic.ContainsKey("PatientID"))
+        //    {
+        //        PatientID = baseInfoDic["PatientID"];
+        //    }
+        //    string PatientName = string.Empty;
+        //    if (baseInfoDic.ContainsKey("PatientName"))
+        //    {
+        //        PatientName = baseInfoDic["PatientName"];
+        //    }
+        //    baseInfoDic.Add("Name", PatientID);
+        //    baseInfoDic.Add("Description", PatientName);
+        //    sampleInfoDic.Add("Name", PatientID);
+
+        //    //导入样本源数据
+        //    //检查样本源是否存在？？----无API操作
+
+        //    string resultImpSS = ImportSampleSource(MatchBaseInfoDic(baseInfoDic), up);
+
+        //    if (FreezerProUtility.Fp_Common.FpJsonHelper.GetStrFromJsonStr("success", resultImpSS) == "True" || resultImpSS.Contains("should be unique."))
+        //    {
+        //        //导入成功
+        //        //导入临床数据
+        //        if (clinicalInfoDgDicList.Count > 0)
+        //        {
+
+        //            //添加额外字段
+        //            foreach (var item in clinicalInfoDgDicList)
+        //            {
+        //                item.Add("Sample Source", PatientID);
+        //            }
+        //        }
+        //        //导入临床数据
+        //        string resultImpCl = ImportTestData(MatchClinicalDic(clinicalInfoDgDicList), up);
+        //        if (resultImpCl.Contains("\"status\":\"DONE\""))
+        //        {
+        //            //导入成功--保存数据到本地数据库
+        //            //需要将字典转换为对象
+
+        //        }
+        //        if (sampleInfoDgDicList.Count > 0)//类型列表中有数据
+        //        {
+        //            //取出一条数据，然后将此数据和样本信息数据合并
+        //            //将整个集合的数据都传至业务层
+        //            foreach (var item in sampleInfoDgDicList)
+        //            {
+        //                //样本信息需要单独提交，存在多个样品中导入失败情况
+
+        //            }
+        //        }
+        //        //导入样本数据
+        //        //循环样本信息列表
+        //        foreach (var item in sampleInfoDgDicList)
+        //        {
+
+        //        }
+        //    }
+        //} 
+        #endregion
+        private string ImportPatientInfo(FreezerProUtility.Fp_Common.UnameAndPwd up, string department)
         {
             //导入数据
             //第一步：导入样本源
@@ -167,7 +168,7 @@ namespace RuRo.Web.Fp_Ajax
             //获取页面上的临床信息Dg表单
             List<Dictionary<string, string>> clinicalInfoDgDicList = GetClinicalInfoDgDicList(baseInfoDic);
 
-            Dictionary<string, string> importResult = new Dictionary<string,string>();
+            Dictionary<string, string> importResult = new Dictionary<string, string>();
             string PatientID = string.Empty;
             if (baseInfoDic.ContainsKey("PatientID"))
             {
@@ -184,10 +185,11 @@ namespace RuRo.Web.Fp_Ajax
             //导入样本源数据
             Dictionary<string, string> mathcBaseInfoDic = MatchBaseInfoDic(baseInfoDic);
             string improtBaseInfoResult = ImportSampleSource(RemoveEmpty(mathcBaseInfoDic), up);
-            if (improtBaseInfoResult.Contains("True") || improtBaseInfoResult.Contains("should be unique."))
+
+            if (improtBaseInfoResult.Contains("true") || improtBaseInfoResult.Contains("should be unique."))
             {
-                improtBaseInfoResult.Replace("False","True");
-                importResult.Add("improtBaseInfoResult",FreezerProUtility.Fp_Common.ConvertResStr.ConvertRes(improtBaseInfoResult));
+                improtBaseInfoResult.Replace("false", "true");
+                importResult.Add("_baseInfo", FreezerProUtility.Fp_Common.ConvertResStr.ConvertRes(improtBaseInfoResult));
                 //导入样品源成功
                 //导入临床数据
                 if (clinicalInfoDgDicList.Count > 0)
@@ -208,12 +210,12 @@ namespace RuRo.Web.Fp_Ajax
                         //导入成功--保存数据到本地数据库
                         SaveClinicalDicToLocalBase(clinicalInfoDgDicList, departments);
                     }
-                    importResult.Add("improtTestDataResult", FreezerProUtility.Fp_Common.ConvertResStr.ConvertRes(improtTestDataResult));
+                    importResult.Add("_clinicalInfo", FreezerProUtility.Fp_Common.ConvertResStr.ConvertRes(improtTestDataResult));
                 }
                 else
                 {
                     string res = "{\"success\":true,\"msg\":\"无临床数据需要导入\",\"message\":\"无临床数据需要导入\",\"status\":\"DONE\",\"job_id\":\"\"}";
-                    importResult.Add("improtTestDataResult", res);
+                    importResult.Add("_clinicalInfo", res);
 
                 }
                 //导入样本数据
@@ -221,6 +223,7 @@ namespace RuRo.Web.Fp_Ajax
                 #region 导入样本数据
                 List<Dictionary<string, string>> dataDicList = new List<Dictionary<string, string>>();
                 int ALIQUOT = 1;
+
                 foreach (Dictionary<string, string> item in sampleInfoDgDicList)
                 {
                     Dictionary<string, string> Tem = new Dictionary<string, string>();
@@ -262,14 +265,14 @@ namespace RuRo.Web.Fp_Ajax
                     {
                         sampleInfoDic.Add("Sample Type", SampleType);
                     }
-                    Tem = FreezerProUtility.Fp_Common.FpJsonHelper.DeserializeObject<Dictionary<string, string>>(FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(MatchSampleInfoDic(RemoveEmpty(sampleInfoDic))));
+                    Tem = FreezerProUtility.Fp_Common.FpJsonHelper.DeserializeObject<Dictionary<string, string>>(FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(MatchSampleInfoDic(RemoveEmpty(AddName(sampleInfoDic, PatientID)))));
                     for (int i = 0; i < int.Parse(Scount); i++)
                     {
                         dataDicList.Add(Tem);
                     }
                 }
                 string importSampleRes = FreezerProUtility.Fp_BLL.Samples.Import_Sample(up, department, dataDicList);
-                importResult.Add("importSampleRes", FreezerProUtility.Fp_Common.ConvertResStr.ConvertRes(importSampleRes));
+                importResult.Add("_dg_SampleInfo", FreezerProUtility.Fp_Common.ConvertResStr.ConvertRes(importSampleRes));
                 #endregion
             }
             else
@@ -279,6 +282,8 @@ namespace RuRo.Web.Fp_Ajax
                 string res = "{\"success\":false,\"msg\":\"样品源导入失败,请检查数据\",\"message\":\"样品源导入失败,请检查数据\",\"status\":\"DONE\",\"job_id\":\"\"}";
                 importResult.Add("improtBaseInfoResult", res);
             }
+
+            return FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(importResult);
         }
 
         private Dictionary<string, Dictionary<string, string>> SplitJson(string returnjson, string mark)
@@ -314,7 +319,7 @@ namespace RuRo.Web.Fp_Ajax
             return dic;
         }
         #endregion
-            #region 获取临床数据字典 + private List<Dictionary<string, string>> GetClinicalInfoDgDicList(Dictionary<string, string> baseInfoDic)
+        #region 获取临床数据字典 + private List<Dictionary<string, string>> GetClinicalInfoDgDicList(Dictionary<string, string> baseInfoDic)
         /// <summary>
         /// 获取临床数据字典 会直接剔除本地数据有的
         /// </summary>
@@ -569,7 +574,7 @@ namespace RuRo.Web.Fp_Ajax
             #endregion
             //添加当前样本类型,将id转换成汉字
             pageSampleDgDic.Add("SampleType", pageSampleDg.SampleType);
-            if (!string.IsNullOrEmpty(pageSampleDg.Organ.ToString()) && !string.IsNullOrEmpty(pageSampleDg.OrganSubdivision))
+            if (!string.IsNullOrEmpty(pageSampleDg.Organ) && !string.IsNullOrEmpty(pageSampleDg.OrganSubdivision))
             {
                 string Organ = pageSampleDg.Organ;
                 string OrganSubdivision = pageSampleDg.OrganSubdivision;

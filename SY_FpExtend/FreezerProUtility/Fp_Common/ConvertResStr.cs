@@ -28,7 +28,7 @@ namespace FreezerProUtility.Fp_Common
                 result.Replace("Not enough permission", "没有足够的权限");
                 result.Replace("does not exist in your database", "不在数据库中");
                 result.Replace("should be unique", "必须唯一");
-                result.Replace("Box could not be found", "没找到盒子");
+                result.Replace("The value for User Field", "这个字段的值：");
                 result.Replace("Box could not be found", "没找到盒子");
                 result.Replace("Box could not be found", "没找到盒子");
                 result.Replace("Box could not be found", "没找到盒子");

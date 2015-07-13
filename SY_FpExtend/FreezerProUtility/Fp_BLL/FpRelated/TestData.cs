@@ -43,7 +43,6 @@ namespace FreezerProUtility.Fp_BLL
                 Dictionary<string, string> dic = new Dictionary<string, string>();
                 dic.Add("test_data_type", test_data_type);
                 dic.Add("json", jsonDicList);
-                string jsonData = string.Format("&test_data_type={0}&json={1}", test_data_type, jsonDicList);
                 result = ImportTestDataToFp(up, dic);
             }
             return result;
@@ -54,7 +53,7 @@ namespace FreezerProUtility.Fp_BLL
             Dictionary<string, string> dic = new Dictionary<string, string>();
             dic.Add("username", up.UserName);
             dic.Add("password", up.PassWord);
-            dic.Add("method", Fp_Common.FpMethod.subdivisions.ToString());
+            dic.Add("method", Fp_Common.FpMethod.import_tests.ToString());
             if (jsonDic != null && jsonDic.Count > 0)
             {
                 foreach (KeyValuePair<string, string> item in jsonDic)
