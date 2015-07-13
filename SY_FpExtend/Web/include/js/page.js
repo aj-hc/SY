@@ -68,12 +68,12 @@ $(function () {
         rownumbers: true,
         columns: [[
             { field: 'SampleType', title: '样品类型', width: '20%', align: 'center' },
-            { field: 'SampleGroup', title: '样品组', width: '20%', align: 'center' },
+            //{ field: 'SampleGroup', title: '样品组', width: '20%', align: 'center' },
             { field: 'Volume', title: '体积', width: '5%', align: 'center' },
             { field: 'Scount', title: '管数', width: '5%', align: 'center' },
-            { field: 'Organ', title: '器官', width: '20%', align: 'center' },
-            { field: 'OrganSubdivision', title: '器官细分', width: '30%', align: 'center' },
-            { field: 'State', title: '状态', width: 50, align: 'center' },
+            //{ field: 'Organ', title: '器官', width: '20%', align: 'center' },
+            //{ field: 'OrganSubdivision', title: '器官细分', width: '30%', align: 'center' },
+            { field: 'State', title: '状态', width: '10%', align: 'center' },
             { field: 'Msg', title: '消息', width: '10%', align: 'center' }
         ]],
         tools: [
@@ -105,6 +105,16 @@ $(function () {
                 // text: '添加',
                 iconCls: 'icon-add',
                 handler: function () {
+                  var rows= $('#dg_SampleInfo').datagrid('getRows');
+                  for (var i = 0; i < rows.length; i++)
+                  {
+                      var strstate = rows[i].State;
+                      if (strstate.indexOf("重新提交") > 0)
+                      {
+                          $.messager.alert('提示', '请把未提交的样本信息提交后再添加', 'error');
+                          return;
+                      }
+                   }
                     $('#addSampleForm').window('open');
                 }
             }, '-',
@@ -206,18 +216,18 @@ $(function () {
     });
 })
 
-//取材时段
-$(function () {
-    $('#_113').combobox({
-        url: '../Fp_Ajax/PageConData.aspx?conMarc=SamplingMethod',
-        required:false,
-        multiple: true,
-        method: 'get',
-        valueField: 'samplingMethod',
-        textField: 'text',
-        panelHeight: 'auto'
-    });
-})
+////取材时段
+//$(function () {
+//    $('#_113').combobox({
+//        url: '../Fp_Ajax/PageConData.aspx?conMarc=SamplingMethod',
+//        required:false,
+//        multiple: true,
+//        method: 'get',
+//        valueField: 'samplingMethod',
+//        textField: 'text',
+//        panelHeight: 'auto'
+//    });
+//})
 //诊断类型
 $(function () {
     $('#diagnoseTypeFlag').combobox({
@@ -239,93 +249,93 @@ $(function () {
         panelHeight: 'auto'
     });
 })
-//样品组
-$(function () {
-    var url = '../Fp_Ajax/PageConData.aspx?conMarc=SampleGroups';
-    var dataJson = getSampleGroups(url);
-    if (dataJson == "]") {
+////样品组
+//$(function () {
+//    var url = '../Fp_Ajax/PageConData.aspx?conMarc=SampleGroups';
+//    var dataJson = getSampleGroups(url);
+//    if (dataJson == "]") {
 
-    }
-    else
-    {
-        $('#SampleGroupE').combobox({
-            url: '../Fp_Ajax/PageConData.aspx?conMarc=SampleGroups',
-            method: 'get',
-            valueField: 'text',
-            textField: 'text',
-            panelHeight: 'auto'
-        });
-    }
-})
-function getSampleGroups(url) {
-    var temp;
-    $.ajax({
-        type: 'get',
-        url: url,
-        async: false,
-        datatype: 'json',
-        success: function (responseData) { temp = responseData; }
-    });
-    return temp;
-}
+//    }
+//    else
+//    {
+//        $('#SampleGroupE').combobox({
+//            url: '../Fp_Ajax/PageConData.aspx?conMarc=SampleGroups',
+//            method: 'get',
+//            valueField: 'text',
+//            textField: 'text',
+//            panelHeight: 'auto'
+//        });
+//    }
+//})
+//function getSampleGroups(url) {
+//    var temp;
+//    $.ajax({
+//        type: 'get',
+//        url: url,
+//        async: false,
+//        datatype: 'json',
+//        success: function (responseData) { temp = responseData; }
+//    });
+//    return temp;
+//}
 
 
-//脏器和脏器细分
-$(function () {
-    $('#organE').combobox({
-        data: getDtaJsonLinkage,
-        method: 'get',
-        valueField: 'NAME',
-        textField: 'NAME',
-        panelHeight: 'auto',
-        onSelect: function (rec)
-        {
-            var linkagefromurl = '../Fp_Ajax/PageConData.aspx?conMarc=linkagefrom&id=' + rec.ID;
-            var getlinkagefrom;
-            var getDtaJsonLinkagefrom;
-            var getlinkageFromData = getlinkagefromJson(linkagefromurl);
-            getlinkagefrom = JSON.parse(getlinkageFromData);
-            getDtaJsonLinkagefrom = getlinkagefrom.ds;
-            $('#organsubdivisionE').combobox({
-                data: getDtaJsonLinkagefrom,
-                method: 'get',
-                valueField: 'NAME',
-                textField: 'NAME',
-                panelHeight: 'auto'
-            });
-        }
-    });
-})
-//脏器绑定值
-var linkageurl = '../Fp_Ajax/PageConData.aspx?conMarc=linkage';
-var getlinkage;
-var getDtaJsonLinkage;
-function getlinkageJson(linkageurl) {
-    var temp;
-    $.ajax({
-        type: 'get',
-        url: linkageurl,
-        async: false,
-        datatype: 'json',
-        success: function (responseData) { temp = responseData; }
-    });
-    return temp;
-}
-var getlinkageData = getlinkageJson(linkageurl);
-getlinkage = JSON.parse(getlinkageData);
-getDtaJsonLinkage = getlinkage.ds;
-//读取脏器细分
-function getlinkagefromJson(linkagefromurl) {
-    var temp;
-    $.ajax({
-        type: 'get',
-        url: linkagefromurl,
-        async: false,
-        datatype: 'json',
-        success: function (responseData) { temp = responseData; }
-    });
-    return temp;
-}
+////脏器和脏器细分
+//$(function () {
+//    $('#organE').combobox({
+//        data: getDtaJsonLinkage,
+//        method: 'get',
+//        valueField: 'NAME',
+//        textField: 'NAME',
+//        panelHeight: 'auto',
+//        onSelect: function (rec)
+//        {
+//            var linkagefromurl = '../Fp_Ajax/PageConData.aspx?conMarc=linkagefrom&id=' + rec.ID;
+//            var getlinkagefrom;
+//            var getDtaJsonLinkagefrom;
+//            var getlinkageFromData = getlinkagefromJson(linkagefromurl);
+//            getlinkagefrom = JSON.parse(getlinkageFromData);
+//            getDtaJsonLinkagefrom = getlinkagefrom.ds;
+//            $('#organsubdivisionE').combobox({
+//                data: getDtaJsonLinkagefrom,
+//                method: 'get',
+//                valueField: 'NAME',
+//                textField: 'NAME',
+//                panelHeight: 'auto'
+//            });
+//        }
+//    });
+//})
+////脏器绑定值
+//var linkageurl = '../Fp_Ajax/PageConData.aspx?conMarc=linkage';
+//var getlinkage;
+//var getDtaJsonLinkage;
+//function getlinkageJson(linkageurl) {
+//    var temp;
+//    $.ajax({
+//        type: 'get',
+//        url: linkageurl,
+//        async: false,
+//        datatype: 'json',
+//        success: function (responseData) { temp = responseData; }
+//    });
+//    return temp;
+//}
+//var getlinkageData = getlinkageJson(linkageurl);
+//getlinkage = JSON.parse(getlinkageData);
+//getDtaJsonLinkage = getlinkage.ds;
+////读取脏器细分
+//function getlinkagefromJson(linkagefromurl) {
+//    var temp;
+//    $.ajax({
+//        type: 'get',
+//        url: linkagefromurl,
+//        async: false,
+//        datatype: 'json',
+//        success: function (responseData) { temp = responseData; }
+//    });
+//    return temp;
+//}
 
 //绑定采集人
 $(function () {
@@ -521,26 +531,7 @@ var Diagnoseurl = '../Fp_Ajax/PageConData.aspx?conMarc=DiagnoseTypeFlag';
 var getDiagnoseTypeFlagData = getDiagnoseTypeFlagJsonurl(Diagnoseurl);
 var getDtaJsonDiagnoseTypeFlag = JSON.parse(getDiagnoseTypeFlagData);
 
-//初始化面板SampleType
-function getSampleTypeJson(SampleTypeurl) {
-    $.ajax({
-        type: 'get',
-        url: SampleTypeurl,
-        //async: false,
-        //datatype: 'json',
-        success: function (data) { return data }
-    });
-}
-var SampleTypeurl = '../Fp_Ajax/PageConData.aspx?conMarc=SampleType';
-var getSampleTypeData = getSampleTypeJson(SampleTypeurl);
-var getDtaJsonSampleType;
-//getDtaJsonSampleType = JSON.parse(getSampleTypeData);
 
-
-function ForSubmitSampleInfo() {
-    alert('1111');
-    //提交样品
-}
 
 function prompt1() {
     $.messager.prompt('My Title', 'Please type something', function (r) {

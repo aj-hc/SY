@@ -20,7 +20,9 @@ namespace RuRo.Web.Fp_Ajax
         string departments = string.Empty;
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            //测试数据
+            string Json = "[{\"_baseInfo\": {\"success\":\"True\", \"msg\": \"111\", \"state\": \"AA\" } },{ \"_clinicalInfo\": {\"success\": \"True\", \"msg\":\"222\",\"state\":\"BB\" } },{\"_dg_SampleInfo\": [{\"success\": \"True\", \"msg\": \"333\", \"state\": \"CC\",\"num\": \"1\" },{ \"success\": \"True\", \"msg\": \"444\", \"state\": \"DD\",\"num\": \"2\" },{ \"success\": \"False\", \"msg\": \"555\", \"state\": \"EE\",\"num\": \"3\" }]}]";
+            Response.Write(Json);
             //页面第一次加载时初始化变量
             if (!IsPostBack)
             {
@@ -30,16 +32,61 @@ namespace RuRo.Web.Fp_Ajax
                 sampleTypeIdAndNamedic = FreezerProUtility.Fp_BLL.Samples.GetAllIdAndNamesDic(url);
             }
             string action = Request.Params["action"].Trim();
-            departments = Common.DEncrypt.DESEncrypt.Decrypt(Request.Params["departments"].Trim());
-            if (action == "postPatientinfo")
+            //departments = Common.DEncrypt.DESEncrypt.Decrypt(Request.Params["departments"].Trim());
+            //if (action == "postPatientinfo")
+            //{
+            //    ImportPatientInfo();
+            //}
+            //if (action == "postSampleInfo")
+            //{
+            //    //string id=获取样本的行号
+            //    //使用方法提交样本数据到fp
+            //    //返回提交后的结果
+            //}
+            if (action == "posSingleData")
             {
-                ImportPatientInfo();
-            }
-            if (action == "postSampleInfo")
-            {
-                //string id=获取样本的行号
-                //使用方法提交样本数据到fp
-                //返回提交后的结果
+                List<Dictionary<string, Dictionary<string, string>>> List = new List<Dictionary<string, Dictionary<string, string>>>();
+
+                Dictionary<string, string> dicbaseinfo = new Dictionary<string, string>();
+                dicbaseinfo.Add("success", "True");
+                dicbaseinfo.Add("msg", "");
+                dicbaseinfo.Add("state", "");
+
+                Dictionary<string, Dictionary<string, string>> dddicbaseinfo = new Dictionary<string, Dictionary<string, string>>();
+                dddicbaseinfo.Add("baseinfo", dicbaseinfo);
+
+                Dictionary<string, string> dicclientinfo = new Dictionary<string, string>();
+                dicclientinfo.Add("success", "True");
+                dicclientinfo.Add("msg", "");
+                dicclientinfo.Add("state", "");
+
+                Dictionary<string, Dictionary<string, string>> ddclieninfo = new Dictionary<string, Dictionary<string, string>>();
+                dddicbaseinfo.Add("clien", dicbaseinfo);
+
+                 Dictionary<string, string> dicsampleinfo1 = new Dictionary<string, string>();
+                dicsampleinfo1.Add("success", "True");
+                dicsampleinfo1.Add("msg", "");
+                dicsampleinfo1.Add("state", "");
+
+                Dictionary<string, string> dicsampleinfo2 = new Dictionary<string, string>();
+                dicsampleinfo2.Add("success", "True");
+                dicsampleinfo2.Add("msg", "");
+                dicsampleinfo2.Add("state", "");
+
+                Dictionary<string, string> dicsampleinfo3 = new Dictionary<string, string>();
+                dicsampleinfo3.Add("success", "True");
+                dicsampleinfo3.Add("msg", "");
+                dicsampleinfo3.Add("state", "");
+                Dictionary<string, Dictionary<string, string>> dddsampleinfo = new Dictionary<string, Dictionary<string, string>>();
+                dddsampleinfo.Add("sampleinfo1", dicsampleinfo1);
+                dddsampleinfo.Add("sampleinfo1", dicsampleinfo2);
+                dddsampleinfo.Add("sampleinfo1", dicsampleinfo3);
+                List.Add(dddicbaseinfo);
+                List.Add(dddsampleinfo);
+                List.Add(ddclieninfo);
+
+
+                Response.Write(FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(List));
             }
         }
 

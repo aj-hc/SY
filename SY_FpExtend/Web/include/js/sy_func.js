@@ -50,6 +50,7 @@ function myparser(s) {
 function querybycode() {
     var In_CodeType = $('#In_CodeType').combobox('getValue');
     var In_Code = $('#In_Code').textbox('getValue');//获取数据源
+    if (/.*[\u4e00-\u9fa5]+.*$/.test(In_Code)) { $.messager.alert('错误', '不能输入中文', 'error'); $('#In_Code').textbox('clear'); return; }
     if (In_Code.length > 14) { $.messager.alert('错误', '条码最高不能超过15位', 'error'); $('#In_Code').textbox('clear'); return; }
     if (isEmptyStr(In_CodeType) || isEmptyStr(In_Code)) {$.messager.alert('提示', '请检查条码类型和条码号', 'error');}
     else {
@@ -87,61 +88,70 @@ function querybycode() {
                 if (!data) { $.messager.alert('提示', '查询不到数据,请检查数据是否存在！', 'error')}
                 else {
                     //测试代码
-                    var obj = $.parseJSON(data);
-                    if (obj._BaseInfo) {
-                        if (obj._BaseInfo.ds) {
-                            var ds = obj._BaseInfo.ds;
-                            //$("#BaseInfoForm").form("load", ds[0]);
-                            AddBaseInfoToForm(ds[0]);
-                        }
-                    }
-                    if (obj._ClinicalInfo) {
-                        if (obj._ClinicalInfo.ds) {
-                            for (var i = 0; i < obj._ClinicalInfo.ds.length ; i++) {
-                                var text = obj._ClinicalInfo.ds[i].DiagnoseDateTime.substring(0, 10);
-                                obj._ClinicalInfo.ds[i].DiagnoseDateTime = text
-                            }
-                            var ds = obj._ClinicalInfo.ds
-                            $('#ClinicalInfoDg').datagrid({ loadFilter: pagerFilter }).datagrid('loadData', ds).datagrid('reload');
-                        }
-                    }
-                    //测试end
-                    //将数据转换成json对象 正式
                     //var obj = $.parseJSON(data);
-                    //$('#In_Code').textbox('clear');
-                    //if (obj._BaseInfo)
-                    //{
-                    //    var _BaseInfo = $.parseJSON(obj._BaseInfo);
-                    //    if (_BaseInfo.ds)
-                    //    {
-                    //        var ds = _BaseInfo.ds;
-                    //        if(ds[0]==undefined)
-                    //        {
-                    //            $.messager.alert('提示', '查询不到数据,请检查数据是否存在！', 'error');
-                    //            return;
-                    //        }
+                    //if (obj._BaseInfo) {
+                    //    if (obj._BaseInfo.ds) {
+                    //        var ds = obj._BaseInfo.ds;
+                    //        //$("#BaseInfoForm").form("load", ds[0]);
                     //        AddBaseInfoToForm(ds[0]);
                     //    }
                     //}
-                    //if (obj._ClinicalInfo)
-                    //{
-                    //    var _ClinicalInfo = $.parseJSON(obj._ClinicalInfo);
-
-                    //        if (_ClinicalInfo.ds) {
-                    //            var ds = _ClinicalInfo.ds
-                    //            if (ds[0].msg) {
-                    //                $.messager.alert('提示', ds[0].msg);
-                    //            }
-                    //            else
-                    //            {
-                    //                for (var i = 0; i < ds.length; i++) {
-                    //                    var text = _ClinicalInfo.ds[i].DiagnoseDateTime.substring(0, 10);
-                    //                    _ClinicalInfo.ds[i].DiagnoseDateTime = text;
-                    //                }
-                    //                $('#ClinicalInfoDg').datagrid({ loadFilter: pagerFilter }).datagrid('loadData', ds).datagrid('reload');
-                    //            }
+                    //if (obj._ClinicalInfo) {
+                    //    if (obj._ClinicalInfo.ds) {
+                    //        for (var i = 0; i < obj._ClinicalInfo.ds.length ; i++) {
+                    //            var text = obj._ClinicalInfo.ds[i].DiagnoseDateTime.substring(0, 10);
+                    //            obj._ClinicalInfo.ds[i].DiagnoseDateTime = text
                     //        }
+                    //        var ds = obj._ClinicalInfo.ds
+                    //        $('#ClinicalInfoDg').datagrid({ loadFilter: pagerFilter }).datagrid('loadData', ds).datagrid('reload');
+                    //    }
                     //}
+                    //测试end
+                    //将数据转换成json对象 正式
+                    var obj = $.parseJSON(data);
+                    $('#In_Code').textbox('clear');
+                    if (obj._BaseInfo)
+                    {
+                        var _BaseInfo = $.parseJSON(obj._BaseInfo);
+                        if (_BaseInfo.ds)
+                        {
+                            var ds = _BaseInfo.ds;
+                            if(ds[0]==undefined)
+                            {
+                                $.messager.alert('提示', '查询不到数据,请检查数据是否存在！', 'error');
+                                return;
+                            }
+                            AddBaseInfoToForm(ds[0]);
+                        }
+                    }
+                    if (obj._ClinicalInfo)
+                    {
+                        var _ClinicalInfo = $.parseJSON(obj._ClinicalInfo);
+
+                            if (_ClinicalInfo.ds) {
+                                var ds = _ClinicalInfo.ds
+                                if (ds[0].msg) {
+                                    $.messager.alert('提示', ds[0].msg);
+                                }
+                                else
+                                {
+                                    for (var i = 0; i < ds.length; i++) {
+                                        var text = _ClinicalInfo.ds[i].DiagnoseDateTime.substring(0, 10);
+                                        _ClinicalInfo.ds[i].DiagnoseDateTime = text; 
+                                        switch (_ClinicalInfo.ds[i].DiagnoseTypeFlag)
+                                        {
+                                            case 0: _ClinicalInfo.ds[i].DiagnoseTypeFlag = "门诊诊断"; break;
+                                            case 1: _ClinicalInfo.ds[i].DiagnoseTypeFlag = "入院诊断"; break;
+                                            case 2: _ClinicalInfo.ds[i].DiagnoseTypeFlag = "出院主要诊断"; break;
+                                            case 3: _ClinicalInfo.ds[i].DiagnoseTypeFlag = "出院次要诊断"; break;
+                                            case 12: _ClinicalInfo.ds[i].DiagnoseTypeFlag = "病理诊断"; break;
+                                            default: _ClinicalInfo.ds[i].DiagnoseTypeFlag = "未知诊断"; break;
+                                        };
+                                    }
+                                    $('#ClinicalInfoDg').datagrid({ loadFilter: pagerFilter }).datagrid('loadData', ds).datagrid('reload');
+                                }
+                            }
+                    }
                     //正式END
                 }
             }
@@ -308,6 +318,10 @@ function postPatientInfo() {
         var _baseinfo = getBaseInfoFormData();
         //ClinicalInfoDg
         var _ClinicalInfoDg = $('#ClinicalInfoDg').datagrid('getChecked');
+        if (_ClinicalInfoDg.length <= 0)
+        {
+            $.messager.alert('提示', '为选择诊断信息或诊断信息为空', 'error'); return;
+        }
         if (_ClinicalInfoDg) {
             for (var i = 0; i < _ClinicalInfoDg.length - 1; i++) {
                 if (_ClinicalInfoDg[i].DiagnoseDateTime == "") { $.messager.alert('提示', '请选择诊断日期', 'error'); return; }
@@ -316,8 +330,14 @@ function postPatientInfo() {
         var rowClinicalInfoDg = JSON.stringify(_ClinicalInfoDg);
         var _sampleInfoForm = getSampleInfoFormData();
         var _dg_SampleInfoDg = $('#dg_SampleInfo').datagrid('getRows');
-        if (!_dg_SampleInfoDg || _dg_SampleInfoDg == '[]') {
+        if (!_dg_SampleInfoDg || _dg_SampleInfoDg == '[]' || _dg_SampleInfoDg.length<=0) {
             $.messager.alert('提示', '请添加样本信息', 'error'); return;
+        }
+        if (_dg_SampleInfoDg.length>0)
+        {
+            for (var i = 0; i < _dg_SampleInfoDg.length; i++) {
+                _dg_SampleInfoDg[i].num = i + 1;
+            }
         }
         var _dg_SampleInfo = JSON.stringify(_dg_SampleInfoDg);
         $.ajax({
@@ -336,18 +356,78 @@ function postPatientInfo() {
             },
             success: function (data) {
                 if (data) {
-                    if (data.success == "True") {
-                        //调用方法导入样本数据，需要传入当前的基本信息。。。。？
-                        //一次将数据提交到后台，导入之后返回状态为每一行数据改变状态--需要当前数据的行号
-                        $.messager.show({ title: '提示！', msg: '导入成功：' + data.msg, showType: 'show' });
-                        AddBaseInfoToForm("SEE");
-                        return;
+                    //var dataJson = $.parseJSON(data);
+                    var baseinfoData = data[0]._baseInfo;
+                    var clinicalInfoData = data[1]._clinicalInfo;
+                    var dg_SampleInfoData = data[2]._dg_SampleInfo;
+                    if (baseinfoData.success == "True")
+                    {
+                        if (clinicalInfoData.success == "True")
+                        {
+                            if (dg_SampleInfoData.length > 0) {
+                                var msg = "";
+                                var bool = true;
+                                for (var i = 0; i < dg_SampleInfoData.length; i++)
+                                {
+                                    if (dg_SampleInfoData[i].success == "True")
+                                    {
+                                        msg = msg + "<br />" + "第" + dg_SampleInfoData[i].num + "行：" + "导入成功";
+                                        $('#dg_SampleInfo').datagrid('updateRow', {
+                                            index: dg_SampleInfoData[i].num - 1,
+                                            row:
+                                                {
+                                                    State: '成功',
+                                                    Msg: dg_SampleInfoData[i].msg
+                                                }
+                                        });
+                                    }
+                                    else
+                                    {
+                                        bool=false;
+                                        msg = msg + "<br />" + "第" + dg_SampleInfoData[i].num + "行：" + dg_SampleInfoData[i].msg;
+                                            $('#dg_SampleInfo').datagrid('updateRow', {
+                                                index: dg_SampleInfoData[i].num-1,
+                                                row:
+                                                    {
+                                                        State: '<a href="#" onclick="ForSubmitSampleInfo()">重新提交</a>',
+                                                        Msg:"第" + dg_SampleInfoData[i].num + "行：" + dg_SampleInfoData[i].msg
+                                                    }
+                                            });
+                                    }
+                                }
+                                if(bool)
+                                {
+                                    clearForm();
+                                }
+                                $.messager.show({ title: '提示！', msg: '基本信息，诊断信息导入成功，样品导入记录：'+msg, showType: 'show' });
+                            }
+                            else
+                            {
+                                //样品信息全部没有返回
+                                $.messager.show({ title: '提示！', msg: '样品导入失败：请在样品处重新导入', showType: 'show' });
+                            }
+                        }
+                        else
+                        {
+                            $.messager.show({ title: '提示！', msg: '导入失败：' + clinicalInfoData.msg, showType: 'show' });
+                        }
                     }
-                    else if (data.success == "False") {
-                        $.messager.show({ title: '提示！', msg: '导入失败：' + data.msg, showType: 'show' });
-                        AddBaseInfoToForm("SEE");
-                        return;
+                    else
+                    {
+                        $.messager.show({ title: '提示！', msg: '导入失败：' + baseinfoData.msg, showType: 'show' });
                     }
+                    //if (data.success == "True") {
+                    //    //调用方法导入样本数据，需要传入当前的基本信息。。。。？
+                    //    //一次将数据提交到后台，导入之后返回状态为每一行数据改变状态--需要当前数据的行号
+                    //    $.messager.show({ title: '提示！', msg: '导入成功：' + data.msg, showType: 'show' });
+                    //    AddBaseInfoToForm("SEE");
+                    //    return;
+                    //}
+                    //else if (data.success == "False") {
+                    //    $.messager.show({ title: '提示！', msg: '导入失败：' + data.msg, showType: 'show' });
+                    //    AddBaseInfoToForm("SEE");
+                    //    return;
+                    //}
                 }
                 else { $.messager.alert('提示', '服务器未响应', 'error'); return; }
             }
@@ -407,8 +487,8 @@ function AddSampleInfoToDg() {
                 SampleType: from[0].value,
                 Volume: from[1].value,
                 Scount: from[2].value,
-                Organ: from[3].value,
-                OrganSubdivision: from[4].value
+                //Organ: from[3].value,
+                //OrganSubdivision: from[4].value
             }
         });
         //$('#sampleInfoFormToDg').form('clear');
@@ -417,4 +497,55 @@ function AddSampleInfoToDg() {
 }
 function clearSampleInfoAddForm() {
     $('#sampleInfoFormToDg').form('clear');
+}
+
+//提交单条样品
+function ForSubmitSampleInfo()
+{
+    var username = $.cookie('username');
+    var departments = $.cookie(username + 'department');
+    if (!departments) { $.messager.alert('提示', '必须选择科室', 'error'); return; }
+    var _baseinfo = getBaseInfoFormData();
+    //ClinicalInfoDg
+    var _ClinicalInfoDg = $('#ClinicalInfoDg').datagrid('getChecked');
+    var _sampleInfoForm = getSampleInfoFormData();
+    var _dg_SampleInfoDg = $('#dg_SampleInfo').datagrid('getSelected');
+    if (_dg_SampleInfoDg == null) { $.messager.alert('提示', '请选中提交行再进行提交', 'error'); return; };
+   // var =_dg_SampleInfoDg.State.ind
+    if (_dg_SampleInfoDg.State.indexOf("成功") > 0) { $.messager.alert('提示', '只能选取可以提交的数据，且每次只能一条！！', 'error'); return; }
+    if (_dg_SampleInfoDg.State.indexOf("重新提交") > 0)
+    {
+        var num = $('#dg_SampleInfo').datagrid('getRowIndex', $('#dg_SampleInfo').datagrid('getSelected')) + 1;
+        $.ajax({
+            type: 'post',
+            dataType: "json",
+            url: '/Fp_Ajax/SubmitData.aspx?action=posSingleData',
+            data: {
+                departments: departments,
+                baseinfo: _baseinfo,
+                clinicalInfoDg: _ClinicalInfoDg,
+                sampleInfoForm: _sampleInfoForm,
+                dg_SampleInfo: _dg_SampleInfoDg
+            },
+            onSubmit: function () { },
+            success: function (data) {
+                if (data) {
+                    if (data[0].success == "True")
+                    {
+                        msg = msg + "<br />" + "第" + data[0].num + "行：" + "导入成功";
+                        $('#dg_SampleInfo').datagrid('updateRow', {
+                            index: data[0].num - 1,
+                            row:
+                                {
+                                    State: '成功',
+                                    Msg: data[0].msg
+                                }
+                        });
+                    }
+                }
+                else { $.messager.alert('提示', '服务器未响应', 'error'); return; }
+            }
+        });
+    }
+
 }
