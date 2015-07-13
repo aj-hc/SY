@@ -127,14 +127,6 @@
                                         <input class="easyui-textbox" id="_100" name="_100" style="width: 484px;" /></td>
                                 </tr>
                                 <tr>
-                                    <td>取材日期：</td>
-                                    <td>
-                                        <input class="easyui-datebox" id="_103" name="_103" /></td>
-                                    <td>取材时段：</td>
-                                    <td>
-                                        <input class="easyui-combobox" id="_113" name="_113" style="width: 484px;" data-options="multiple:true"/></td>
-                                </tr>
-                                <tr>
                                     <td>取材时间：</td>
                                     <td>
                                         <input class="easyui-textbox" id="_104" name="_104" /></td>
@@ -157,6 +149,14 @@
                                     <td>备注：</td>
                                     <td>
                                         <input class="easyui-textbox" id="_112" name="_112" style="width: 484px" /></td>
+                                </tr>
+                                                                <tr>
+                                    <td>取材日期：</td>
+                                    <td>
+                                        <input class="easyui-datebox" id="_103" name="_103" /></td>
+<%--                                    <td>取材时段：</td>
+                                    <td>
+                                        <input class="easyui-combobox" id="_113" name="_113" style="width: 484px;" data-options="multiple:true"/></td>--%>
                                 </tr>
                             </table>
                         </div>
@@ -196,7 +196,7 @@
                         <td><input class="easyui-textbox" type="text" name="diseaseName" id="diseaseName" data-options="required:false"/></td>
                         </tr>
                         <tr>
-	    			    <td style="width:100px;">疾病描述:</td>
+	    			    <td style="width:100px;">疾病描述:</td>javascript:void(0)
                         <td><input class="easyui-textbox" name="description" id="description" data-options="required:false" style="height:60px"/></td>
                         </tr>
                     </table>
@@ -209,7 +209,7 @@
         </div>
 
     <%--样本信息录入框--%>
-    <div id="addSampleForm" class="easyui-window" title="添加样品信息" data-options="modal:true,closed:true,minimizable:false,maximizable:false,iconCls:'icon-add'" style="width:436px;height:299px;padding:10px;">
+    <div id="addSampleForm" class="easyui-window" title="添加样品信息" data-options="modal:true,closed:true,minimizable:false,maximizable:false,iconCls:'icon-add'" style="width:410px;height:299px;padding:5px;">
 		    <div style="padding:10px">
                 <form id="sampleInfoFormToDg" method="post">
                     <table>
@@ -217,10 +217,10 @@
 	    			        <td style="width:100px;">样品类型:</td>
 	    			        <td><input class="easyui-combobox" name="sampleTypeE" id="sampleTypeE" data-options="required:true,multiple:false,prompt:'请选择样品类型'"/></td>
                         </tr>
-                        <tr>
+<%--                        <tr>
 	    			        <td style="width:100px;">样品组:</td>
 	    			        <td><input class="easyui-combobox" name="sampleTypeE" id="SampleGroupE" data-options="required:false,multiple:true,prompt:'请选择样品组'"/></td>
-                        </tr>
+                        </tr>--%>
                         <tr>
 	    			        <td style="width:100px;">体积:</td>
 	    			        <td><input class="easyui-numberbox" name="volumeE" id="volumeE" data-options="required:false,prompt:'输入样品体积时请注意单位'"/></td>
@@ -229,14 +229,14 @@
 	    			        <td style="width:100px;">管数:</td>
                             <td><input class="easyui-numberbox" name="ScountE" id="ScountE" data-options="min:1,value:1,required:true,prompt:'请输入分管数'"/></td>
                         </tr>
-                        <tr>
+<%--                        <tr>
 	    			        <td style="width:100px;">脏器:</td>
 	    			        <td><input class="easyui-combobox" type="text" name="organE" id="organE" data-options="required:false"/></td>
                         </tr>
                         <tr>
 	    			        <td style="width:100px;">脏器细分:</td>
                             <td><input class="easyui-combobox" type="text" name="organsubdivisionE" id="organsubdivisionE" data-options="required:false"/></td>
-                        </tr>
+                        </tr>--%>
                     </table>
                 </form>
                 <div style="text-align:center;padding:5px;">

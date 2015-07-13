@@ -28,15 +28,6 @@ namespace RuRo.BLL
             ds = dal.GetSY_HC_GetDiagnoseInfo(model);
             for (int i = 0; i < ds.Tables[0].Rows.Count - 1; i++)
             {
-                switch (Convert.ToInt32(ds.Tables[0].Rows[i]["DiagnoseTypeFlag"])) 
-                {
-                    case 1: ds.Tables[0].Rows[i]["DiagnoseTypeFlag"] = "门诊诊断"; break;
-                    case 2: ds.Tables[0].Rows[i]["DiagnoseTypeFlag"] = "入院诊断"; break;
-                    case 3: ds.Tables[0].Rows[i]["DiagnoseTypeFlag"] = "出院主要诊断"; break;
-                    case 4: ds.Tables[0].Rows[i]["DiagnoseTypeFlag"] = "出院次要诊断"; break;
-                    case 12: ds.Tables[0].Rows[i]["DiagnoseTypeFlag"] = "病理诊断"; break;
-                    default: ds.Tables[0].Rows[i]["DiagnoseTypeFlag"] = "未知诊断"; break;
-                };
                 dt = Convert.ToDateTime(ds.Tables[0].Rows[i]["DiagnoseDateTime"]);
                 string strdate = dt.ToString("yyyy-MM-dd");
                 ds.Tables[0].Rows[i]["DiagnoseDateTime"] = strdate;
@@ -50,19 +41,22 @@ namespace RuRo.BLL
             }
             else 
             {
-                #region 按照SB信息科的要求，出院-入院-门诊 到时候不需要只要删除这个就OK 如果需要返回最新一条数据改一改就好
+                #region fuck
                 dv = ds.Tables[0].DefaultView;
-                dv.RowFilter = "DiagnoseDateTime ASC AND DiagnoseTypeFlag='出院主要诊断'";
+                dv.RowFilter = "DiagnoseTypeFlag=2";
+                dv.Sort = " DiagnoseDateTime ASC";
                 if (dv.Count == 0 || object.Equals(dv, null))
                 {
                     dv = new DataView();
                     dv = ds.Tables[0].DefaultView;
-                    dv.RowFilter = "DiagnoseDateTime ASC AND DiagnoseTypeFlag='入院诊断'";
+                    dv.RowFilter = "DiagnoseTypeFlag=1";
+                    dv.Sort = " DiagnoseDateTime ASC";
                     if (dv.Count == 0 || object.Equals(dv, null))
                     {
                         dv = new DataView();
                         dv = ds.Tables[0].DefaultView;
-                        dv.RowFilter = "DiagnoseDateTime ASC AND DiagnoseTypeFlag='门诊诊断'";
+                        dv.RowFilter = "DiagnoseTypeFlag=0";
+                        dv.Sort = " DiagnoseDateTime ASC";
                         if (dv.Count == 0 || object.Equals(dv, null))
                         {
                             res = "{\"ds\":[{\"msg\":\"无标准临床数据返回\"}]}";
@@ -101,8 +95,8 @@ namespace RuRo.BLL
             DataSet ds = new DataSet();
             DataView dv = new DataView();
             DataSet ds1 = new DataSet();
-            //ds = dal.GetSY_HC_GetEmployeeInfo();//获取正式
-            ds = dal.GetSY_HC_GetEmployeeInfoTest();//获取测试
+            ds = dal.GetSY_HC_GetEmployeeInfo();//获取正式
+            //ds = dal.GetSY_HC_GetEmployeeInfoTest();//获取测试
             dv = ds.Tables[0].DefaultView;
             for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
             {
@@ -113,7 +107,7 @@ namespace RuRo.BLL
             }
             ds.Tables[0].Columns.Remove("EmployeeID");
             ds.AcceptChanges();
-            if (par == ""){}
+            if (par == "") { return ""; }
             else
             {
                 if (RuRo.Common.UrlOper.IsChinaString(par) == true)
@@ -126,12 +120,12 @@ namespace RuRo.BLL
                     dv.RowFilter = "EmployeeNo like '" + par + "%'";
                     ds1.Tables.Add(dv.ToTable());
                 }
-               
+                string strobj = FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(ds1);
+                JObject obj = JObject.Parse(strobj);
+                string strjson = obj["ds"].ToString();
+                return strjson;
             }
-            string strobj = FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(ds1);
-            JObject obj = JObject.Parse(strobj);
-            string strjson = obj["ds"].ToString();
-            return strjson;
+
         }
         #endregion
 
@@ -156,20 +150,27 @@ namespace RuRo.BLL
         public string GetSY_HC_GetPatientInfoJson(RuRo.Model.FP_SY_HIS_IP_PublicInterface model)
         {
             DataSet ds = dal.GetSY_HC_GetPatientInfo(model);
-            if (ds.Tables[0].Rows.Count > 0)
+            DataView dv = new DataView();
+            DataSet ds1 = new DataSet();
+            dv = ds.Tables[0].DefaultView;
+            dv.Sort = "OutDate ASC";
+            //dv.RowFilter = "OutDate ASC";
+            ds1.Tables.Add(dv.ToTable());
+            ds1.AcceptChanges();
+            if (ds1.Tables[0].Rows.Count > 0)
             {
-                for (int i = 0; i < ds.Tables[0].Rows.Count - 1; i++)
+                for (int i = 0; i < ds1.Tables[0].Rows.Count - 1; i++)
                 {
-                    if (i == ds.Tables[0].Rows.Count - 1)
+                    if (i == ds1.Tables[0].Rows.Count - 1)
                     {
                         break;
                     }
-                    ds.Tables[0].Rows[i].Delete();
+                    ds1.Tables[0].Rows[i].Delete();
                 }
-                ds.AcceptChanges();
-                model.In_InPatientID = Convert.ToInt32(ds.Tables[0].Rows[0]["InPatientID"]);
-                model.In_CodeType = Convert.ToInt32(ds.Tables[0].Rows[0]["InPatientID"]);
-                string res = FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(ds);
+                ds1.AcceptChanges();
+                model.In_InPatientID = Convert.ToInt32(ds1.Tables[0].Rows[0]["InPatientID"]);
+                model.In_CodeType = Convert.ToInt32(ds1.Tables[0].Rows[0]["InPatientID"]);
+                string res = FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(ds1);
                 return res;
             }
             else
