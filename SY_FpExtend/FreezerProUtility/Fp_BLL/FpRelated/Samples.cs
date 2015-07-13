@@ -51,22 +51,20 @@ namespace FreezerProUtility.Fp_BLL
         /// <param name="count">管数</param>
         /// <param name="dataDic">数据字典</param>
         /// <returns></returns>
-        public static string Import_Sample(string url, string sample_type, string count, Dictionary<string, string> dataDic)
+        public static string Import_Sample(Fp_Common.UnameAndPwd up, string sample_type, string count, Dictionary<string, string> dataDic)
         {
             string username = Fp_Common.CookieHelper.GetCookieValue("username");
             string result = string.Empty;
-            string jsondata = string.Empty;
-
-            bool creat;
-            Box_Path box_path = CreatTemFreezerPath(url, out creat);
-           
+            bool check;
+            Box_Path box_path = CreatTemFreezerPath(up, out check);
+            if (check)
+            {
+                
+            }
             return result;
         }
-
-
-
         //创建盒子保存样本
-        private static string ImportSamplesToFp(string username,string password, string sample_type, string count, Box_Path box_path, Dictionary<string, string> dataDic)
+        private static string ImportSamplesToFp(Fp_Common.UnameAndPwd up, string sample_type, string count, Box_Path box_path, Dictionary<string, string> dataDic)
         {
             string jsonsampledata = string.Empty;
             List<Dictionary<string, string>> jsonDicList = new List<Dictionary<string, string>>();
@@ -75,6 +73,7 @@ namespace FreezerProUtility.Fp_BLL
             int kk = 1;
             Random rand = new Random();
             int ALIQUOT = rand.Next(1, 1000);
+            #region 创建样本信息字符串&json=
             if (int.TryParse(count, out kk))
             {
                 dataDic.Add("ALIQUOT", ALIQUOT.ToString());
@@ -83,17 +82,15 @@ namespace FreezerProUtility.Fp_BLL
                 dataDic.Add("Level2", box_path.Level2);//月
                 dataDic.Add("Level3", box_path.Level3);//日
                 create_storage = string.Format("{0},{1},{2},{3}", box_path.Freezer, box_path.Level1, box_path.Level2, box_path.Level3);
+                dataDic.Add("Sample Type", sample_type);
+                dataDic.Add("Box", box_path.Box);//袋子中不需要指定位置
                 if (kk == 1)
                 {
-                    dataDic.Add("Sample Type", sample_type);
-                    dataDic.Add("Box", box_path.Box);//袋子中不需要指定位置
                     //单条数据
                     jsonsampledata = FpJsonHelper.DictionaryToJsonString(dataDic);
                 }
                 else if (kk > 1 && kk < 500)
                 {
-                    dataDic.Add("Sample Type", sample_type);
-                    dataDic.Add("Box", box_path.Box);//袋子中不需要指定位置
                     for (int i = 0; i < kk; i++)
                     {
                         //扩展数据成多条
@@ -105,19 +102,28 @@ namespace FreezerProUtility.Fp_BLL
                     //多条数据
                     jsonsampledata = FpJsonHelper.DictionaryListToJsonString(jsonDicList);
                 }
-            }
-            string jsonData = string.Format("&create_storage={1}&box_type={2}&json={3}", create_storage, box_type, jsonsampledata);
-            string importRes = ImportSampleToFp(username, password, jsonData);
+            } 
+            #endregion
+            Dictionary<string, string> jsonDic = new Dictionary<string, string>();
+            jsonDic.Add("create_storage", create_storage);
+            jsonDic.Add("box_type", box_type);
+            jsonDic.Add("json", jsonsampledata);
+            string importRes = ImportSampleToFp(up,jsonDic);
             return importRes;
         }
 
         #endregion
 
         #region 获取样品类型集合 +  public List<SampleTypes>  GetAllSample_Types(string url)
-        public static List<SampleTypes> GetAll(string url)
+        public static List<SampleTypes> GetAll(Fp_Common.UnameAndPwd up)
         {
-            List<SampleTypes> sample_TypesList = Fp_DAL.DataWithFP.getdata<SampleTypes>(url, FpMethod.sample_types, "", "SampleTypes");
-            return sample_TypesList;
+            Dictionary<string, string> dic = new Dictionary<string, string>();
+            dic.Add("username", up.UserName);
+            dic.Add("password", up.PassWord);
+            dic.Add("method", Fp_Common.FpMethod.sample_types.ToString());
+            Fp_DAL.CallApi call = new Fp_DAL.CallApi(dic);
+            List<Fp_Model.SampleTypes> List = call.getdata<Fp_Model.SampleTypes>("SampleTypes");
+            return List;
         }
         #endregion
 
@@ -127,151 +133,65 @@ namespace FreezerProUtility.Fp_BLL
         /// </summary>
         /// <param name="url">带有username和password的url</param>
         /// <returns></returns>
-        public static Dictionary<string, string> GetAllIdAndNamesDic(string url)
+        public static Dictionary<string, string> GetAllIdAndNamesDic(Fp_Common.UnameAndPwd up)
         {
             Dictionary<string, string> dic = new Dictionary<string, string>();
-            List<SampleTypes> sample_TypesList = GetAll(url);
-            foreach (var item in sample_TypesList)
+            List<SampleTypes> list = GetAll(up);
+            if (list!=null&&list.Count>0)
             {
-                dic.Add(item.id, item.name);
+                foreach (var item in list)
+                {
+                    dic.Add(item.id, item.name);
+                }
             }
             return dic;
         }
         #endregion
 
         #region 获取样品类型根据名称 + public static SampleTypes GetSample_TypeByTypeName(string url, string name)
-        public static SampleTypes GetSample_TypeByTypeName(string url, string name)
+        public static SampleTypes GetBy(Fp_Common.UnameAndPwd up, string name)
         {
-            List<SampleTypes> sample_TypesList = GetAll(url);
-            SampleTypes sample = sample_TypesList.Where(a => a.name == name).FirstOrDefault();
+            List<SampleTypes> list = GetAll(up);
+            SampleTypes sample = new SampleTypes();
+            if (list != null && list.Count > 0)
+            {
+               sample = list.Where(a => a.name == name).FirstOrDefault();
+            }
             return sample;
         }
         #endregion
 
-
-
-        #region 导入数据到fp私有方法，包含直接导入和创建存储结构 +  private static string ImportSamples(string url, string sample_type, string json)
-        /// <summary>
-        /// 导入数据到fp私有方法，包含直接导入和创建存储结构
-        /// </summary>
-        /// <param name="url"></param>
-        /// <param name="sample_type"></param>
-        /// <param name="json"></param>
-        /// <returns></returns>
-        private static string ImportSamples(UnameAndPwd up ,string sample_type, string json)
-        {
-            string jsonResStr = string.Empty;
-            string box_type = "bag"; //默认10x10的盒子---将数据通过API导入数据到袋子中
-            bool check;
-            string connFpUrl = UrlHelper.CreatConnStr(up, FpMethod.import_samples, "", out check);
-            //bool creat = false;
-            FreezerProUtility.Fp_Model.Box_Path boxpath = new Box_Path();
-            //CreatTemFreezerPath(url, out creat);
-            if (check)
-            {
-                //需要创建盒子
-                //string Freezer = "";//TEM
-                //string Level1 = "";//username
-                //string Level2 = "";//月
-                //string Level3 = "";//日
-                //string Box = "";//盒子
-                //string Position = "";//位置
-
-
-            }
-            else
-            {
-                //不需要创建盒子
-
-            }
-
-            return jsonResStr;//导入样本最后的返回信息
-        }
-        #endregion
 
         private string ImportSamples(string url, string sample_type)
         {
             return "";
         }
 
-
-
         //第一步到指定位置查找空位
         //第二部找到位置就添加样本
         //第三部没好到就添加样本盒（样本盒名称怎么获取）--获取冰箱（根据名称）--->根据冰箱名获取冰箱id-->根据冰箱id获取冰箱分支---->根据用户名获取对应的分支id---->月份分支---->日分支id----->boxes获取当前分支下的所有盒子，判断盒子是否存在（根据名字判断盒子）
 
         //生成默认临时储存结构的方法--目的，查看对应位置是否存在可以存放样本的孔
-
-        #region 生成默认临时储存结构的方法 +  private static string CreatTemFreezerPath(string url)
-        /// <summary>
-        /// 生成默认临时储存结构的方法
-        /// </summary>
-        /// <param name="url"></param>
-        /// <returns>生成默认临时储存结构的方法Tem→username→month→day→1</returns>
-        private static string CreatTemFreezerPath(UnameAndPwd up)
-        {
-            //tem-->username-->month-->day(-->box)
-            string box_path = string.Empty;
-            string username = Fp_Common.CookieHelper.GetCookieValue("username");
-            string freezerName = "Tem";
-            if (!string.IsNullOrEmpty(username))
-            {
-                Fp_Model.Freezer freezer = Freezers.GetBy(url, freezerName);
-                string _path = string.Format("{0}→{1}→{2}月→{3}日", freezerName, username, DateTime.Now.Month, DateTime.Now.Date.ToString("dd"));//创建盒子路径
-                //获取次路径下的盒子
-                if (freezer != null)
-                {
-                    Fp_Model.Subdivision subdivision = Subdivisions.CheckBy(freezer.id, _path, url);
-                    if (subdivision.name.Contains("日"))
-                    {
-                        List<Fp_Model.Box> boxsList = Fp_BLL.Boxes.GetAll(url, subdivision.id);
-                        if (boxsList.Count > 0)
-                        {
-                            //当前节点下有盒子
-                            string maxBoxName = boxsList.OrderByDescending(a => a.name).FirstOrDefault().name;
-                            if (string.IsNullOrEmpty(maxBoxName))
-                            {
-                                box_path = string.Format("{0}→{1}→{2}月→{3}日→{4}", freezerName, username, DateTime.Now.Month, DateTime.Now.Date.ToString("dd"), maxBoxName);
-                            }
-                        }
-                        else
-                        {
-                            //当前节点下没盒子
-                            box_path = string.Format("{0}→{1}→{2}月→{3}日→{4}", freezerName, username, DateTime.Now.Month, DateTime.Now.Date.ToString("dd"), "1");
-                        }
-                    }
-                    else
-                    {
-
-                    }
-                }
-                else
-                {
-                    box_path = string.Format("{0}→{1}→{2}月→{3}日→{4}", freezerName, username, DateTime.Now.Month, DateTime.Now.Date.ToString("dd"), "1");
-                }
-            }
-            return box_path;
-        }
-        #endregion
-        private static Fp_Model.Box_Path CreatTemFreezerPath(string url, out bool creat)
+        private static Fp_Model.Box_Path CreatTemFreezerPath(Fp_Common.UnameAndPwd up, out bool creat)
         {
             FreezerProUtility.Fp_Model.Box_Path box_path = new Box_Path();
             ////Tem-->username-->month-->day(-->box)
             //string box_path = string.Empty;
             string username = Fp_Common.CookieHelper.GetCookieValue("username");
+            string department = Fp_Common.CookieHelper.GetCookieValue(username+"department");
             string freezerName = "Tem";
             if (!string.IsNullOrEmpty(username))
             {
-                Fp_Model.Freezer freezer = Freezers.GetBy(url, freezerName);
+                Fp_Model.Freezer freezer = Freezers.GetBy(up, freezerName);
 
                 string _path = string.Format("{0}→{1}→{2}月→{3}日", freezerName, username, DateTime.Now.Month, DateTime.Now.Date.ToString("dd"));//创建盒子路径
                 //获取次路径下的盒子
                 if (freezer != null)
                 {
-                    Fp_Model.Subdivision subdivision = Subdivisions.CheckBy(freezer.id, _path, url);
+                    Fp_Model.Subdivision subdivision = Subdivisions.CheckBy(up,freezer.id, _path);
                     if (subdivision.name.Contains("日"))
                     {
-                        List<Fp_Model.Box> boxsList = Fp_BLL.Boxes.GetAll(url, subdivision.id);
+                        List<Fp_Model.Box> boxsList = Fp_BLL.Boxes.GetAll(up, subdivision.id);
                         if (boxsList.Count > 0)
                         {
                             //日期节点下有盒子
@@ -339,47 +259,23 @@ namespace FreezerProUtility.Fp_BLL
             return box_path;
         }
 
-        #region 提交数据到fp +private static string ImportSampleToFp(string url, string jsonData)
-        /// <summary> 
-        /// 提交数据到fp
-        /// </summary>
-        /// <param name="url">链接地址</param>
-        /// <param name="jsonData">要提交的数据</param>
-        /// <returns>返回提交后的状态</returns>
-        private static string ImportSampleToFp(string url, string jsonData)
+        #region 提交数据到fp +private static string ImportSampleToFp(Fp_Common.UnameAndPwd up, Dictionary<string, string> jsonDic)
+        private static string ImportSampleToFp(Fp_Common.UnameAndPwd up, Dictionary<string, string> jsonDic)
         {
-            bool ckeck;
             string result = string.Empty;
-            string connFpUrl = UrlHelper.ConnectionUrlAndPar(url, FpMethod.import_samples, "", out  ckeck);
-            if (ckeck)
+            Dictionary<string, string> dic = new Dictionary<string, string>();
+            dic.Add("username", up.UserName);
+            dic.Add("password", up.PassWord);
+            dic.Add("method", FpMethod.import_samples.ToString());
+            if (jsonDic != null && jsonDic.Count > 0)
             {
-                //转换成功
-                result = Fp_DAL.DataWithFP.postDateToFp(connFpUrl, jsonData);
-
+                foreach (KeyValuePair<string, string> item in jsonDic)
+                {
+                    dic.Add(item.Key.Trim(), item.Value.Trim());
+                }
             }
-            return result;
-        }
-
-        /// <summary>
-        /// 使用账号密码提交数据
-        /// </summary>
-        /// <param name="username"></param>
-        /// <param name="password"></param>
-        /// <param name="jsonData">&json=[{数据}]</param>
-        /// <returns></returns>
-        private static string ImportSampleToFp(string username, string password,string jsonData)
-        {
-            bool ckeck;
-            string result = string.Empty;
-            string connFpUrl = UrlHelper.CreatConnStr(username,password, FpMethod.import_samples, "", out  ckeck);
-
-            if (ckeck)
-            {
-                string jsondata = string.Format("{0}&json={1}", connFpUrl, jsonData);
-                //转换成功
-                result = Fp_DAL.DataWithFP.postDateToFp(jsondata);
-
-            }
+            Fp_DAL.CallApi call = new Fp_DAL.CallApi(dic);
+            result = call.PostData();
             return result;
         }
         #endregion

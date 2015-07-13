@@ -9,15 +9,10 @@ namespace FreezerProUtility.Fp_Common
     {
         public string UserName { get; set; }
         public string PassWord { get; set; }
-        /// <summary>
-        /// username=ZH&password=123456
-        /// </summary>
-        public string FpConnUp { get; set; }
         public UnameAndPwd(string username,string password)
         {
             this.UserName = username;
             this.PassWord = password;
-            this.FpConnUp = string.Format("username={0}&password={1}");
         }
     }
 }

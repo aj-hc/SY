@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="WebTest1.aspx.cs" Inherits="RuRo.Web.TestData.WebTest1"  ViewStateEncryptionMode="Never" ViewStateMode="Disabled"%>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="WebTest1.aspx.cs" Inherits="RuRo.Web.TestData.WebTest1" ViewStateMode="Disabled" %>
 
 <!DOCTYPE html>
 
@@ -32,14 +32,14 @@
     </div>
         <div id="win"></div> --%>
     
-       url: <asp:TextBox ID="url" runat="server" Style="width: 100%"></asp:TextBox> <asp:CheckBoxList ID="met" runat="server">
-            <asp:ListItem Text="post" /><asp:ListItem Text="get" /></asp:CheckBoxList>
-        <br />
+       url:
+        <asp:TextBox ID="url" runat="server" Style="width: 100%"></asp:TextBox>
         data:
         <asp:TextBox ID="data" runat="server" Style="width: 100%; height: 300px;" TextMode="MultiLine"></asp:TextBox>
         <br />
         <asp:Button ID="Button1" runat="server" Text="提交" OnClick="Button1_Click" />
         <br />
-        结果:<asp:Label ID="res" runat="server" Text=""></asp:Label></form>
+        结果:<asp:Label ID="res" runat="server" Text=""></asp:Label>
+    </form>
 </body>
 </html>

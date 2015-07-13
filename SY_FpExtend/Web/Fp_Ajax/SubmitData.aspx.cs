@@ -11,7 +11,6 @@ namespace RuRo.Web.Fp_Ajax
 {
     public partial class SubmitData : System.Web.UI.Page
     {
-        Common.CreatFpUrl fpurl = new Common.CreatFpUrl(); //获取链接字符串对象
         string url = string.Empty;
         BLL.FP_LINKAGE_Bll fp_linkage = new BLL.FP_LINKAGE_Bll();
         Dictionary<string, string> sampleTypeIdAndNamedic = new Dictionary<string, string>();
@@ -20,22 +19,37 @@ namespace RuRo.Web.Fp_Ajax
         string departments = string.Empty;
         protected void Page_Load(object sender, EventArgs e)
         {
+            string username = Common.CookieHelper.GetCookieValue("username");
+            string pwd = Common.CookieHelper.GetCookieValue("password");
+            string password = string.Empty;
+            if (string.IsNullOrEmpty(pwd))
+            {
+                try
+                {
+                    password = Common.DEncrypt.DESEncrypt.Decrypt(pwd);
+                }
+                catch (Exception ex)
+                {
+                    Common.LogHelper.WriteError(ex);
+                    Response.Redirect("Login.aspx");
+                }
+            }
+            FreezerProUtility.Fp_Common.UnameAndPwd up = new FreezerProUtility.Fp_Common.UnameAndPwd(username, password);
 
             //页面第一次加载时初始化变量
             if (!IsPostBack)
             {
-                url = fpurl.FpUrl;
                 organIdAndNamedic = fp_linkage.GetOrganDic();
                 clinicalDiagnoseTypeFlagdic = PageConData.DiagnoseTypeFlagDic();
-                sampleTypeIdAndNamedic = FreezerProUtility.Fp_BLL.Samples.GetAllIdAndNamesDic(url);
+                sampleTypeIdAndNamedic = FreezerProUtility.Fp_BLL.Samples.GetAllIdAndNamesDic(up);
             }
             string action = Request.Params["action"].Trim();
             departments = Common.DEncrypt.DESEncrypt.Decrypt(Request.Params["departments"].Trim());
             if (action == "postPatientinfo")
             {
-                ImportPatientInfo();
+                ImportPatientInfo(up);
             }
-            if (action == "postSampleInfo")
+            if (action == "postSingleData")
             {
                 //string id=获取样本的行号
                 //使用方法提交样本数据到fp
@@ -43,7 +57,7 @@ namespace RuRo.Web.Fp_Ajax
             }
         }
 
-        private void ImportDataToFp()
+        private void ImportDataToFp(FreezerProUtility.Fp_Common.UnameAndPwd up)
         {
             //导入数据
             //第一步：导入样本源
@@ -84,7 +98,7 @@ namespace RuRo.Web.Fp_Ajax
             //导入样本源数据
             //检查样本源是否存在？？----无API操作
 
-            string resultImpSS = ImportSampleSource(MatchBaseInfoDic(baseInfoDic));
+            string resultImpSS = ImportSampleSource(MatchBaseInfoDic(baseInfoDic),up);
 
             if (FreezerProUtility.Fp_Common.FpJsonHelper.GetStrFromJsonStr("success", resultImpSS) == "True" || resultImpSS.Contains("should be unique."))
             {
@@ -100,7 +114,7 @@ namespace RuRo.Web.Fp_Ajax
                     }
                 }
                 //导入临床数据
-                string resultImpCl = ImportTestData(MatchClinicalDic(clinicalInfoDgDicList));
+                string resultImpCl = ImportTestData(MatchClinicalDic(clinicalInfoDgDicList),up);
                 if (resultImpCl.Contains("\"status\":\"DONE\""))
                 {
                     //导入成功--保存数据到本地数据库
@@ -128,7 +142,7 @@ namespace RuRo.Web.Fp_Ajax
             }
 
         }
-        private void ImportPatientInfo()
+        private void ImportPatientInfo(FreezerProUtility.Fp_Common.UnameAndPwd up)
         {
             //导入数据
             //第一步：导入样本源
@@ -164,7 +178,7 @@ namespace RuRo.Web.Fp_Ajax
 
             //导入样本源数据
             Dictionary<string, string> mathcBaseInfoDic = MatchBaseInfoDic(baseInfoDic);
-            string improtBaseInfoResult = ImportSampleSource(RemoveEmpty(mathcBaseInfoDic));
+            string improtBaseInfoResult = ImportSampleSource(RemoveEmpty(mathcBaseInfoDic),up);
 
             string success = FreezerProUtility.Fp_Common.FpJsonHelper.GetStrFromJsonStr("success", improtBaseInfoResult);
             string msg = FreezerProUtility.Fp_Common.FpJsonHelper.GetStrFromJsonStr("msg", improtBaseInfoResult);
@@ -188,7 +202,7 @@ namespace RuRo.Web.Fp_Ajax
                 List<Dictionary<string, string>> matchClinicalDic = MatchClinicalDic(clinicalInfoDgDicList);
                 if (matchClinicalDic.Count > 0)
                 {
-                    string improtTestDataResult = ImportTestData(matchClinicalDic);
+                    string improtTestDataResult = ImportTestData(matchClinicalDic,up);
                     if (improtTestDataResult.Contains("\"status\":\"DONE\""))
                     {
                         //导入成功--保存数据到本地数据库
@@ -239,7 +253,7 @@ namespace RuRo.Web.Fp_Ajax
                     Dictionary<string, string> matchSampleInfoDic = MatchSampleInfoDic(RemoveEmpty(sampleInfoDic));
                     Dictionary<string, string> addNameResDic = AddName(matchSampleInfoDic, baseInfoDic["Name"]);
                     //匹配完毕
-                    string importsampleres = ImportSamples(addNameResDic, item["SampleType"], item["Scount"]);
+                    string importsampleres = ImportSamples(addNameResDic, item["SampleType"], item["Scount"],up);
 
                 }
             }
@@ -657,9 +671,9 @@ namespace RuRo.Web.Fp_Ajax
         /// <param name="sample_type">样本类型</param>
         /// <param name="count">数量</param>
         /// <returns></returns>
-        private string ImportSamples(Dictionary<string, string> dataDic, string sample_type, string count)
+        private string ImportSamples(Dictionary<string, string> dataDic, string sample_type, string count,FreezerProUtility.Fp_Common.UnameAndPwd up)
         {
-            string result = FreezerProUtility.Fp_BLL.Samples.Import_Sample(url, sample_type, count, dataDic);
+            string result = FreezerProUtility.Fp_BLL.Samples.Import_Sample(up, sample_type, count, dataDic);
             return result;
         }
 
@@ -670,9 +684,9 @@ namespace RuRo.Web.Fp_Ajax
         /// </summary>
         /// <param name="dataDic"></param>
         /// <returns></returns>
-        private string ImportSampleSource(Dictionary<string, string> dataDic)
+        private string ImportSampleSource(Dictionary<string, string> dataDic, FreezerProUtility.Fp_Common.UnameAndPwd up)
         {
-            string result = FreezerProUtility.Fp_BLL.SampleSocrce.ImportSampleSource(url, "基本资料", dataDic);
+            string result = FreezerProUtility.Fp_BLL.SampleSocrce.ImportSampleSourceDataToFp(up, "基本资料", dataDic);
             return result;
         }
         #endregion
@@ -682,7 +696,7 @@ namespace RuRo.Web.Fp_Ajax
         /// </summary>
         /// <param name="dataDic"></param>
         /// <returns></returns>
-        private string ImportTestData(List<Dictionary<string, string>> dataDicList)
+        private string ImportTestData(List<Dictionary<string, string>> dataDicList,FreezerProUtility.Fp_Common.UnameAndPwd up)
         {
             string test_data_type = string.Empty;
             if (!string.IsNullOrEmpty(departments))
@@ -695,7 +709,7 @@ namespace RuRo.Web.Fp_Ajax
                 {
                 }
             }
-            string result = FreezerProUtility.Fp_BLL.TestData.ImportTestData(url, test_data_type, dataDicList);
+            string result = FreezerProUtility.Fp_BLL.TestData.ImportTestData(up, test_data_type, dataDicList);
             return result;
         }
         #endregion

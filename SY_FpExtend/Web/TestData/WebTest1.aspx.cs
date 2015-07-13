@@ -109,7 +109,7 @@ namespace RuRo.Web.TestData
             //}
             //Response.Write("ok");
             
-          TestImportSamples();
+          //TestImportSamples();
 
             // Response.Write(DateTime.Now + "<br/>" + DateTime.Now.Month + "<br/>" + DateTime.Now.Date.ToString("dd"));
         }
@@ -165,48 +165,31 @@ namespace RuRo.Web.TestData
 
         protected void Button1_Click(object sender, EventArgs e)
         {
-
+            //提交的底层方法！！！
             string u = url.Text.Trim();
             string d = data.Text.Trim();
-            string m = met.SelectedValue;
-            string r = "";
-            string requestContentType = "application/x-www-form-urlencoded";
-            string userAgent = "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)";
-
-            Dictionary<string, string> head = new Dictionary<string, string>();
-            Encoding requestEnc = Encoding.UTF8;
-            Common.WebClient web = new Common.WebClient();
-            web.Encoding = Encoding.UTF8;
-            web.Proxy = null;
-
-            // 
-
             HttpHelper http = new HttpHelper();
-            HttpItem item = new HttpItem();
-            HttpResult hres = new HttpResult();
-            item.ContentType = "application/x-www-form-urlencoded";
-            item.UserAgent = "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)";
-            item.URL = u;
-            item.Method = m;
-            item.Postdata = d;
-            item.PostDataType = PostDataType.String;
-            item.PostEncoding = Encoding.UTF8;
-            item.KeepAlive = false;
-            item.ProxyIp = "";
-
-
-            if (m == "post")
+            HttpItem item = new HttpItem()
             {
-                // r = GetResponseText(u, m, requestContentType, userAgent, head, d, requestEnc);
-                r = http.GetHtml(item).Html;
-            }
-            if (m == "get")
-            {
-                r = web.GetHtml(u);
-            }
-            res.Text = r;
-
-
+                URL =u,//URL     必需项       
+                Method = "post",//URL     可选项 默认为Get   
+                IsToLower = false,//得到的HTML代码是否转成小写     可选项默认转小写   
+                Cookie = "",//字符串Cookie     可选项   
+                Referer = "",//来源URL     可选项   
+                Postdata = d.ToString(),//Post数据     可选项GET时不需要写
+                PostEncoding =Encoding.UTF8 ,  
+                Timeout = 100000,//连接超时时间     可选项默认为100000    
+                ReadWriteTimeout = 30000,//写入Post数据超时时间     可选项默认为30000   
+                UserAgent = "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)",
+                ContentType = "application/x-www-form-urlencoded",//返回类型    可选项有默认值   
+                Allowautoredirect = true,//是否根据301跳转     可选项   
+                //CerPath = "d:\123.cer",//证书绝对路径     可选项不需要证书时可以不写这个参数   
+                //Connectionlimit = 1024,//最大连接数     可选项 默认为1024    
+                ProxyIp = "",//代理服务器ID     可选项 不需要代理 时可以不设置这三个参数    
+                ResultType = ResultType.String
+            };
+            HttpResult result = http.GetHtml(item);
+            res.Text = result.Html;
         }
 
 

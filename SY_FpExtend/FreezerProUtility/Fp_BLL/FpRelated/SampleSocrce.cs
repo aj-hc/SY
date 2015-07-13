@@ -1,190 +1,63 @@
-﻿using FreezerProUtility.Fp_Common;
-using FreezerProUtility.Fp_DAL;
-using FreezerProUtility.Fp_Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace FreezerProUtility.Fp_BLL
 {
     public class SampleSocrce
     {
-        string username, password;
-        //创建数据层对象
-        DataWithFP dataWithFP = new DataWithFP();
-
-        #region 获取Sample_Source_Types对象集合 + public List<SampleSourceTypes> Sample_Source_Types()
-        /// <summary>
-        /// 获取Sample_Source_Types对象集合
-        /// </summary>
-        /// <returns> 获取Sample_Source_Types对象集合</returns>
-        public List<SampleSourceTypes> Sample_Source_Types()
-        {
-            List<SampleSourceTypes> list_Sample_Source_Types = new List<SampleSourceTypes>() { };
-            string str_Json = dataWithFP.getDateFromFp(FpMethod.sample_source_types, "");
-            if (ValidationData.checkTotal(str_Json))
-            {
-                list_Sample_Source_Types = FpJsonHelper.JObjectToList<SampleSourceTypes>("SampleSourceTypes", str_Json);
-            }
-            return list_Sample_Source_Types;
-        }
-        #endregion
-
-        #region 获取指定名称的samplesource 对象 +public SampleSourceTypes GetSampleSourceTypeByTypeName(string typeName)
-        /// <summary>
-        /// 指定样本源类型名称获取样本源
-        /// </summary>
-        /// <param name="typeName">样本源类型名称</param>
-        /// <returns>样本源类型</returns>
-        public SampleSourceTypes GetSampleSourceTypeByTypeName(string typeName)
-        {
-            SampleSourceTypes sampleSourceType = new SampleSourceTypes();
-            if (Sample_Source_Types().Count > 0)
-            {
-                foreach (SampleSourceTypes item in Sample_Source_Types())
-                {
-                    if (item.name == typeName)
-                    {
-                        sampleSourceType = item;
-                        break;
-                    }
-                }
-            }
-            return sampleSourceType;
-        }
-        #endregion
-
-        #region 获取样本源类型及描述字典 +  public Dictionary<string, string> GetSampleSourceTypeNameAndDecToDic()
-        /// <summary>
-        /// 获取样本源类型及描述字典 
-        /// </summary>
-        /// <returns></returns>
-        public Dictionary<string, string> GetSampleSourceTypeNameAndDecToDic()
-        {
-            Dictionary<string, string> SampleSourceTypeNameAndDecDic = new Dictionary<string, string>();
-            if (Sample_Source_Types().Count > 0)
-            {
-                foreach (SampleSourceTypes item in Sample_Source_Types())
-                {
-                    SampleSourceTypeNameAndDecDic.Add(item.name, item.descr);
-                }
-            }
-            return SampleSourceTypeNameAndDecDic;
-        }
-        #endregion
-
-        #region 获取样本源类型中的字段 + public List<string> GetSampleSourceTypeFieldByTypeName(string typeName)
-
-
-        /// <summary>
-        /// 使用样本源类型名称获取样本源类型中的字段集合list<string>
-        /// </summary>
-        /// <param name="typeName">指定样本元类型名称</param>
-        /// <returns>字段集合</returns>
-        public List<string> GetSampleSourceTypeFieldByTypeName(string typeName)
-        {
-            List<string> sampleSourceTypeField = new List<string>();
-            if (GetSampleSourceTypeByTypeName(typeName) != null)
-            {
-                string fieldsStr = GetSampleSourceTypeByTypeName(typeName).fields;
-                if (fieldsStr != null)
-                {
-                    string[] fields = ((fieldsStr.Replace("<br>", "$")).Replace("</br>", "$")).Split('$');
-                    foreach (string item in fields)
-                    {
-                        if (!String.IsNullOrEmpty(item))
-                        {
-                            sampleSourceTypeField.Add(item);
-                        }
-                    }
-                }
-
-            }
-            return sampleSourceTypeField;
-        }
-
-        #endregion
-
-        #region 导入样本源 + public string ImportSampleSourceDataToFp(string sampleSourceTypeName, string sampleSourceFieldsJsonStr)
-        /// <summary>
-        /// 导入样本源
-        /// </summary>
-        /// <param name="sampleSourceTypeName">样品源类型名称</param>
-        /// <param name="sampleSourceFieldsJsonStr">样品源字段json字符串</param>
-        /// <returns></returns>
-        public string ImportSampleSourceDataToFp(string sampleSourceTypeName, string sampleSourceFieldsJsonStr)
-        {
-            //01.将字典转换成json格式的字符串
-            //02.将此字符串转换成Fp需要的格式
-            //03.调用数据层方法提交数据到Fp，并接受返回值
-            string result = dataWithFP.postDateToFp(FpMethod.import_sources, "&sample_source_type=" + sampleSourceTypeName + "&json=" + sampleSourceFieldsJsonStr);
-            return result;
-        }
-        #endregion
-
-        #region 根据id获取样品源信息 +public Sample_Source Get_Sample_Source_Info(int sample_source_id)
-        /// <summary>
-        /// 根据id获取样品源信息
-        /// </summary>
-        /// <param name="sample_source_id">样品源id</param>
-        /// <returns>返回 Sample_Source 对象</returns>
-        public Sample_Source Get_Sample_Source_Info(int sample_source_id)
-        {
-            Sample_Source samplesource = new Sample_Source();
-            string jsonStr = dataWithFP.postDateToFp(FpMethod.sample_source_info, string.Format("&id={0}", sample_source_id));
-            samplesource = FpJsonHelper.JsonStrToObject<Sample_Source>(jsonStr);
-            return samplesource;
-        }
-        #endregion
-
-
-        #region 获取样品源类型集合 +  public List<SampleTypes>  GetAllSample_Source_Types(string url)
-        public static List<SampleSourceTypes> GetAllSample_Source_Types(string url)
-        {
-            List<SampleSourceTypes> sample_TypesList = Fp_DAL.DataWithFP.getdata<SampleSourceTypes>(url, FpMethod.sample_source_types, "", "SampleSourceTypes");
-            return sample_TypesList;
-        }
-        #endregion
-        #region 获取所有样品源类型名称和id字典
-        /// <summary>
-        /// 获取所有样品源类型名称和id字典
-        /// </summary>
-        /// <param name="url">带有username和password的url</param>
-        /// <returns></returns>
-        public static Dictionary<string, string> GetAllSample_TypesNames(string url)
+        public static List<Fp_Model.SampleSourceTypes> GetAll(Fp_Common.UnameAndPwd up)
         {
             Dictionary<string, string> dic = new Dictionary<string, string>();
-            List<SampleSourceTypes> sample_TypesList = GetAllSample_Source_Types(url);
-            foreach (var item in sample_TypesList)
+            dic.Add("username", up.UserName);
+            dic.Add("password", up.PassWord);
+            dic.Add("method", Fp_Common.FpMethod.sample_source_types.ToString());
+            Fp_DAL.CallApi call = new Fp_DAL.CallApi(dic);
+            List<Fp_Model.SampleSourceTypes> List = call.getdata<Fp_Model.SampleSourceTypes>("SampleSourceTypes");
+            return List;
+        }
+
+        public Fp_Model.SampleSourceTypes GetSampleSourceTypeByTypeName(Fp_Common.UnameAndPwd up, string name)
+        {
+            List<Fp_Model.SampleSourceTypes> list = GetAll(up);
+            Fp_Model.SampleSourceTypes resObj = new Fp_Model.SampleSourceTypes();
+            if (list!=null&&list.Count>0)
             {
-                dic.Add(item.id, item.name);
+                resObj = list.Where<Fp_Model.SampleSourceTypes>(a => a.name == name).FirstOrDefault();
+            }
+            return resObj;
+        }
+
+        public static string ImportSampleSourceDataToFp(Fp_Common.UnameAndPwd up, string sampleSourceTypeName, Dictionary<string, string> jsonDic)
+        {
+            string result = string.Empty;
+            Dictionary<string, string> dic = new Dictionary<string, string>();
+            dic.Add("username", up.UserName);
+            dic.Add("password", up.PassWord);
+            dic.Add("method", Fp_Common.FpMethod.import_sources.ToString());
+            dic.Add("sample_source_type",sampleSourceTypeName);
+            if (jsonDic!=null&&jsonDic.Count>0)
+            {
+                dic.Add("json", Fp_Common.FpJsonHelper.DictionaryToJsonString(jsonDic));
+            }
+            Fp_DAL.CallApi call = new Fp_DAL.CallApi(dic);
+            return result;
+        }
+
+        public static Dictionary<string, string> GetAllIdAndNamesDic(Fp_Common.UnameAndPwd up)
+        {
+            Dictionary<string, string> dic = new Dictionary<string, string>();
+            List<FreezerProUtility.Fp_Model.SampleSourceTypes> list = GetAll(up);
+            if (list != null && list.Count > 0)
+            {
+                foreach (var item in list)
+                {
+                    dic.Add(item.id, item.name);
+                }
             }
             return dic;
         }
-        #endregion
-        public static string ImportSampleSource(string url, string sample_source_type, Dictionary<string, string> dataDic)
-        {
-            string result = string.Empty;
-            string jsondata = string.Empty;
-            jsondata = string.Format("&sample_source_type={0}&json={1}", sample_source_type, FpJsonHelper.DictionaryToJsonString(dataDic));
-            result = ImportSampleSourceToFp(url,jsondata);
-            return result;
-        }
-
-
-        private static string ImportSampleSourceToFp(string url, string jsonData)
-        {
-            bool ckeck;
-            string result = string.Empty;
-            string connFpUrl = UrlHelper.ConnectionUrlAndPar(url, FpMethod.import_sources, "", out  ckeck);
-            if (ckeck)
-            {
-                //转换成功
-                result = Fp_DAL.DataWithFP.postDateToFp(connFpUrl, jsonData);
-            }
-            return result;
-        }
-
 
         private static string CheckImportRes(string jsonResStr)
         {
