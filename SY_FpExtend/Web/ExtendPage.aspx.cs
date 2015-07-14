@@ -21,6 +21,25 @@ namespace RuRo.Web
                 {
                     Response.Redirect("Login.aspx");
                 }
+                string username = Common.CookieHelper.GetCookieValue("username");
+                string keshi = Common.CookieHelper.GetCookieValue(username + "department");
+                try
+                {
+                    keshi = Common.DEncrypt.DESEncrypt.Decrypt(keshi);
+                }
+                catch (Exception ex)
+                {
+                    Common.LogHelper.WriteError(ex);
+                    keshi = "";
+                }
+                if (keshi == "")
+                {
+                    lakeshi.Text = username;
+                }
+                else 
+                {
+                    lakeshi.Text = keshi + "/" + username;
+                }
             }
         }
     }

@@ -22,6 +22,7 @@
         <div class="easyui-panel">
             <div>
                 <a href="javascript:void(0)" id="loginOut" class="easyui-linkbutton" data-options="plain:true" style="position: absolute; right: 15px; top: 10px" onclick="loginOut()">注销</a><%--注销操作，清除cookie，关闭--%>
+                <asp:Label id="lakeshi" runat="server" Text=""></asp:Label>
                 <ul>
                     <li><b>查找患者</b></li>
                 </ul>
@@ -196,7 +197,7 @@
                         <td><input class="easyui-textbox" type="text" name="diseaseName" id="diseaseName" data-options="required:false"/></td>
                         </tr>
                         <tr>
-	    			    <td style="width:100px;">疾病描述:</td>javascript:void(0)
+	    			    <td style="width:100px;">疾病描述:</td>
                         <td><input class="easyui-textbox" name="description" id="description" data-options="required:false" style="height:60px"/></td>
                         </tr>
                     </table>
