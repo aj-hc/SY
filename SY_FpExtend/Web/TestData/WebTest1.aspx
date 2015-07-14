@@ -35,11 +35,14 @@
        url:
         <asp:TextBox ID="url" runat="server" Style="width: 100%"></asp:TextBox>
         data:
-        <asp:TextBox ID="data" runat="server" Style="width: 100%; height: 300px;" TextMode="MultiLine"></asp:TextBox>
+        <asp:TextBox ID="data" runat="server" Style="width: 100%; height: 150px;" TextMode="MultiLine"></asp:TextBox>
         <br />
         <asp:Button ID="Button1" runat="server" Text="提交" OnClick="Button1_Click" />
         <br />
         结果:<asp:Label ID="res" runat="server" Text=""></asp:Label>
+
+        <asp:Button ID="Button2" runat="server" Text="替换" OnClick="Button2_Click" />
+        <asp:TextBox ID="TextBox1" runat="server" Style="width: 100%; height: 150px;" TextMode="MultiLine"></asp:TextBox>
     </form>
 </body>
 </html>

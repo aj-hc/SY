@@ -78,11 +78,13 @@ function querybycode() {
                 return;
             }
         }
+        ajaxLoading();
         $.ajax({
             type: 'GET',
             url: '/Fp_Ajax/GetData.aspx?action=gethisdata&In_CodeType=' + In_CodeType + '&In_Code=' + In_Code,
             onSubmit: function () { },
             success: function (data) {
+                ajaxLoadEnd();
                 $('#In_Code').textbox('setValue','');
                 clearForm();
                 if (!data) { $.messager.alert('提示', '查询不到数据,请检查数据是否存在！', 'error')}
@@ -340,6 +342,8 @@ function postPatientInfo() {
             }
         }
         var _dg_SampleInfo = JSON.stringify(_dg_SampleInfoDg);
+
+        ajaxLoading();
         $.ajax({
             type: 'post',
             dataType: "json",
@@ -352,9 +356,9 @@ function postPatientInfo() {
                 dg_SampleInfo: _dg_SampleInfo
             },
             onSubmit: function () {
-
             },
             success: function (data) {
+                ajaxLoadEnd();
                 if (data) {
                     //var dataJson = $.parseJSON(data);
                     //var baseinfoData = data[0]._baseInfo;
@@ -558,4 +562,14 @@ function ForSubmitSampleInfo()
         });
     }
 
+}
+
+//采用jquery easyui loading css效果 
+function ajaxLoading() {
+    $("<div class=\"datagrid-mask\"></div>").css({ display: "block", width: "100%", height: $(window).height() }).appendTo("body");
+    $("<div class=\"datagrid-mask-msg\"></div>").html("正在处理，请稍候。。。").appendTo("body").css({ display: "block", left: ($(document.body).outerWidth(true) - 190) / 2, top: ($(window).height() - 45) / 2 });
+}
+function ajaxLoadEnd() {
+    $(".datagrid-mask").remove();
+    $(".datagrid-mask-msg").remove();
 }

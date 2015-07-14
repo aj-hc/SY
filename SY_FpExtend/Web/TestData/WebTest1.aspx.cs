@@ -219,5 +219,11 @@ namespace RuRo.Web.TestData
             }
         }
 
+        protected void Button2_Click(object sender, EventArgs e)
+        {
+            string resing = TextBox1.Text.Trim();
+            res.Text = resing.Replace("false", "true");
+        }
+
     }
 }

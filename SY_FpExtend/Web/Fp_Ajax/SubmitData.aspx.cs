@@ -188,7 +188,7 @@ namespace RuRo.Web.Fp_Ajax
 
             if (improtBaseInfoResult.Contains("true") || improtBaseInfoResult.Contains("should be unique."))
             {
-                improtBaseInfoResult.Replace("false", "true");
+                improtBaseInfoResult = improtBaseInfoResult.Replace("false", "true");
                 importResult.Add("_baseInfo", FreezerProUtility.Fp_Common.ConvertResStr.ConvertRes(improtBaseInfoResult));
                 //导入样品源成功
                 //导入临床数据
