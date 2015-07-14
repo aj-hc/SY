@@ -101,3 +101,8 @@ a,img{border:0;}
 .side ul li .sidetop{width:120px;height:15px;line-height:20px;display:inline-block;background:#000;opacity:0.8;filter:Alpha(opacity=80);transition:all 0.3s;}
 .side ul li .sidetop:hover{background:#192237;opacity:1;filter:Alpha(opacity=100);}
 .side ul li img{float:left;}
+#lakeshi 
+{
+
+   float:right;
+}

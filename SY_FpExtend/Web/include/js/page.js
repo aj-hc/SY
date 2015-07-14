@@ -105,16 +105,16 @@ $(function () {
                 // text: '添加',
                 iconCls: 'icon-add',
                 handler: function () {
-                  var rows= $('#dg_SampleInfo').datagrid('getRows');
-                  for (var i = 0; i < rows.length; i++)
-                  {
-                      var strstate = rows[i].State;
-                      if (strstate.indexOf("重新提交") > 0)
-                      {
-                          $.messager.alert('提示', '请把未提交的样本信息提交后再添加', 'error');
-                          return;
-                      }
-                   }
+                  //var rows= $('#dg_SampleInfo').datagrid('getRows');
+                  //for (var i = 0; i < rows.length; i++)
+                  //{
+                  //    var strstate = rows[i].State;
+                  //    if (strstate.indexOf("重新提交") > 0)
+                  //    {
+                  //        $.messager.alert('提示', '请把未提交的样本信息提交后再添加', 'error');
+                  //        return;
+                  //    }
+                  // }
                     $('#addSampleForm').window('open');
                 }
             }, '-',

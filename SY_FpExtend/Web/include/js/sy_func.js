@@ -368,28 +368,28 @@ function postPatientInfo() {
                     if (baseinfoData) {baseinfo = $.parseJSON(baseinfoData);}
                     if (clinicalInfoData) {clinicalInfo = $.parseJSON(clinicalInfoData);}
                     if (dg_SampleInfoData) {dg_SampleInfo = $.parseJSON(dg_SampleInfoData);}
-                    if (baseinfo.success == "true")
+                    if (baseinfo.success)
                     {
-                        if (clinicalInfo.success == "true")
+                        if (clinicalInfo.success)
                         {
-                            if (dg_SampleInfo.success == "true")
-                                {
-                                $.messager.show({ title: '提示！', msg: '导入成功：' + dg_SampleInfoData.msg, showType: 'show' });
-                    }
-                                    else
-                                    {
-                                $.messager.show({ title: '提示！', msg: '样本添加失败：' + dg_SampleInfoData.msg, showType: 'show' });
-                }
-                                    }
+                            if (dg_SampleInfo.success)
+                            {
+                                $.messager.show({ title: '提示！', msg: '导入成功：' + dg_SampleInfo.msg, showType: 'show' });
+                            }
                             else
                             {
-                            $.messager.show({ title: '提示！', msg: '临床信息导入失败：' + clinicalInfoData.msg, showType: 'show' });
+                                $.messager.show({ title: '提示！', msg: '样本添加失败：' + dg_SampleInfo.msg, showType: 'show' });
                             }
-                        }
+                         }
                         else
                         {
-                        $.messager.show({ title: '提示！', msg: '基本信息导入失败：' + baseinfoData.msg, showType: 'show' });
+                            $.messager.show({ title: '提示！', msg: '临床信息导入失败：' + clinicalInfo.msg, showType: 'show' });
                         }
+                     }
+                    else
+                    {
+                        $.messager.show({ title: '提示！', msg: '基本信息导入失败：' + baseinfo.msg, showType: 'show' });
+                    }
                     }
                 else { $.messager.alert('提示', '服务器未响应', 'error'); return; }
             }
