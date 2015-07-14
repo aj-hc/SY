@@ -132,7 +132,7 @@ function querybycode() {
                                 var ds = _ClinicalInfo.ds
                                 if (ds[0].msg) {
                                     $.messager.alert('提示', ds[0].msg);
-                                }
+                            }
                                 else
                                 {
                                     for (var i = 0; i < ds.length; i++) {
@@ -148,9 +148,9 @@ function querybycode() {
                                             default: _ClinicalInfo.ds[i].DiagnoseTypeFlag = "未知诊断"; break;
                                         };
                                     }
-                                    $('#ClinicalInfoDg').datagrid({ loadFilter: pagerFilter }).datagrid('loadData', ds).datagrid('reload');
-                                }
-                            }
+                            $('#ClinicalInfoDg').datagrid({ loadFilter: pagerFilter }).datagrid('loadData', ds).datagrid('reload');
+                        }
+                    }
                     }
                     //正式END
                 }
@@ -378,9 +378,9 @@ function postPatientInfo() {
                                                 {
                                                     State: '成功',
                                                     Msg: dg_SampleInfoData[i].msg
-                                                }
+                    }
                                         });
-                                    }
+                    }
                                     else
                                     {
                                         bool=false;
@@ -391,7 +391,7 @@ function postPatientInfo() {
                                                     {
                                                         State: '<a href="#" onclick="ForSubmitSampleInfo()">重新提交</a>',
                                                         Msg:"第" + dg_SampleInfoData[i].num + "行：" + dg_SampleInfoData[i].msg
-                                                    }
+                }
                                             });
                                     }
                                 }

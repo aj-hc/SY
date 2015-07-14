@@ -74,7 +74,7 @@ $(function () {
             //{ field: 'Organ', title: '器官', width: '20%', align: 'center' },
             //{ field: 'OrganSubdivision', title: '器官细分', width: '30%', align: 'center' },
             { field: 'State', title: '状态', width: '10%', align: 'center' },
-            { field: 'Msg', title: '消息', width: '10%', align: 'center' }
+            { field: 'Msg', title: '消息', width: '15%', align: 'center' }
         ]],
         tools: [
             {

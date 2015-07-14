@@ -12,33 +12,27 @@ namespace FreezerProUtility.Fp_BLL
     {
 
         //获取用户信息
-        private static List<User> GetUsers(string url)
+        private static List<User> GetAll(Fp_Common.UnameAndPwd up)
         {
-            List<User> usersList = DataWithFP.getdata<User>(url, Fp_Common.FpMethod.users, "", "Users");
-            return usersList;
+            Dictionary<string, string> dic = new Dictionary<string, string>();
+            dic.Add("username", up.UserName);
+            dic.Add("password", up.PassWord);
+            dic.Add("method", Fp_Common.FpMethod.users.ToString());
+            Fp_DAL.CallApi call = new CallApi(dic);
+            List<Fp_Model.User> list = call.getdata<Fp_Model.User>("Users");
+            return list;
         }
-        public static List<User> GetAllUser(string url)
+        public static User GetBy(Fp_Common.UnameAndPwd up, string name)
         {
-            return GetUsers(url);
+            List<User> list = GetAll(up);
+            if (list != null && list.Count > 0)
+            {
+                return list.Where(a => a.uesrname == name).FirstOrDefault();
+            }
+            else
+            {
+                return new User();
+            }
         }
-
-        /// <summary>
-        /// 根据登录名获取用户对象
-        /// </summary>
-        /// <param name="url">连接地址</param>
-        /// <param name="name">登录名</param>
-        /// <returns></returns>
-        public static User GetUsersBy(string url, string name)
-        {
-            List<User> Users = GetUsers(url);
-            return Users.Where(a => a.uesrname == name).FirstOrDefault();
-        }
-
-        //public static User GetUsersBy(string url,Expression<Func<User,bool>> predicate)
-        //{
-        //    List<User> Users = GetUsers(url);
-
-        //    return Users.Where(predicate).FirstOrDefault();
-        //}
     }
 }

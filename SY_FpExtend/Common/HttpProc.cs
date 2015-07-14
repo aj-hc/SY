@@ -237,7 +237,16 @@ namespace RuRo.Common
         /// <returns></returns>    
         private byte[] GetData(HttpWebRequest request)
         {
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+            //HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+            HttpWebResponse response;
+            try
+            {
+                response = (HttpWebResponse)request.GetResponse();
+            }
+            catch (WebException ex)
+            {
+                response = (HttpWebResponse)ex.Response;
+            }
             Stream stream = response.GetResponseStream();
             responseHeaders = response.Headers;
             //SaveCookiesToDisk();

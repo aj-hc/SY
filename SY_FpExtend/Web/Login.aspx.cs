@@ -130,7 +130,8 @@ namespace RuRo.Web
             }
             else
             {
-                FreezerProUtility.Fp_BLL.Token token = new FreezerProUtility.Fp_BLL.Token(username, password);
+                FreezerProUtility.Fp_Common.UnameAndPwd up = new FreezerProUtility.Fp_Common.UnameAndPwd(username, password);
+                FreezerProUtility.Fp_BLL.Token token = new FreezerProUtility.Fp_BLL.Token(up);
                 return token.checkAuth_Token();
             }
         }
@@ -144,7 +145,6 @@ namespace RuRo.Web
             Common.CookieHelper.SetCookie("username", username);
             //Common.CookieHelper.SetCookie("password", DEnPassword);
         }
-
         protected void txtUsername_TextChanged(object sender, EventArgs e)
         {
             //自动回发当前的用户名。

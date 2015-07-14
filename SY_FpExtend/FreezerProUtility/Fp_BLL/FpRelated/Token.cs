@@ -16,17 +16,20 @@ namespace FreezerProUtility.Fp_BLL
         /// </summary>
         /// <param name="username">用户名</param>
         /// <param name="password">密码</param>
-        public Token(string username, string password)
+        public Token(Fp_Common.UnameAndPwd up)
         {
-            UserName = username;
-            PassWord = password;
+            UserName = up.UserName;
+            PassWord = up.PassWord;
         }
         #endregion
         private string Get_Auth_Token()
         {
-            FpUrlMaker FpUrlMaker = new Fp_BLL.FpUrlMaker(UserName, PassWord);
-            string connFpUrl = string.Format("{0}&method={1}", FpUrlMaker.ConnFpUrl, Fp_Common.FpMethod.gen_token);
-            string result = DataWithFP.getDateFromFp(connFpUrl);
+            Dictionary<string, string> dic = new Dictionary<string, string>();
+            dic.Add("username",UserName);
+            dic.Add("password",PassWord);
+            dic.Add("method", Fp_Common.FpMethod.gen_token.ToString());
+            Fp_DAL.CallApi call = new CallApi(dic);
+            string result = call.GetData();
             return result;
         }
 

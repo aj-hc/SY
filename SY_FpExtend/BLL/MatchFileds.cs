@@ -35,7 +35,9 @@ namespace RuRo.BLL
             dic.Add("Volume", "Volume");
             dic.Add("Description", "Description");
             dic.Add("Sample Source", "Sample Source");
+            dic.Add("Sample Type", "Sample Type");
             dic.Add("Sample Group", "Sample Group");
+            dic.Add("ALIQUOT", "ALIQUOT");
             dic.Add("_109", "取材医护");
             dic.Add("_105", "取材名称");
             dic.Add("_110", "取材描述");

@@ -14,6 +14,23 @@ namespace RuRo.Web
         protected void Page_Load(object sender, EventArgs e)
         {
             Response.ContentType = "text/plain";
+            string username = Common.CookieHelper.GetCookieValue("username");
+            string pwd = Common.CookieHelper.GetCookieValue("password");
+            string password = string.Empty;
+            if (!string.IsNullOrEmpty(pwd))
+            {
+                try
+                {
+                    password = Common.DEncrypt.DESEncrypt.Decrypt(pwd);
+                }
+                catch (Exception ex)
+                {
+                    Common.LogHelper.WriteError(ex);
+                    Response.Redirect("Login.aspx");
+                }
+            }
+            FreezerProUtility.Fp_Common.UnameAndPwd up = new FreezerProUtility.Fp_Common.UnameAndPwd(username, password);
+
             string mark = Request.Params["conMarc"];
             switch (mark)
             {
@@ -25,19 +42,19 @@ namespace RuRo.Web
                 case "linkage": Response.Write(ReturnGet_Linkage()); break;
                 case "linkagefrom": Response.Write(ReturnGet_Linkage2()); break;
                 case "Employee": Response.Write(ReturnGet_Employee()); break;
-                case "SampleType": Response.Write(ReturnSampleType()); break;
+                case "SampleType": Response.Write(ReturnSampleType(up)); break;
                 case "departments": Response.Write(ReturnDepartments()); break;
-                case "SampleGroups": Response.Write(ReturnSampleGroups()); break;
+                case "SampleGroups": Response.Write(ReturnSampleGroups(up)); break;
                 default:
                     break;
             }
         }
 
-        private string ReturnSampleGroups()
+        private string ReturnSampleGroups(FreezerProUtility.Fp_Common.UnameAndPwd up)
         {
             Common.CreatFpUrl fpurl = new Common.CreatFpUrl();
             string url = fpurl.FpUrl;
-            Dictionary<string, string> dic = FreezerProUtility.Fp_BLL.SampleGroup.GetAllIdAndNamesDic(url);
+            Dictionary<string, string> dic = FreezerProUtility.Fp_BLL.SampleGroup.GetAllIdAndNameDic(up);
             List<Dictionary<string, string>> list = new List<Dictionary<string, string>>();
             if (dic.Count > 0)
             {
@@ -94,12 +111,12 @@ namespace RuRo.Web
         /// 样品类型数据
         /// </summary>
         /// <returns></returns>
-        private string ReturnSampleType()
+        private string ReturnSampleType(FreezerProUtility.Fp_Common.UnameAndPwd up)
         {
             //string res = "[{\"value\": \"0\",\"text\": \"正常组织-心研所\" },{\"value\": \"1\", \"text\": \"正常组织-肺癌所\"}, { \"value\": \"2\", \"text\": \"组织-心研所\"} , { \"value\": \"3\", \"text\": \"组织-肺癌所\"} ]";
             Common.CreatFpUrl fpurl = new Common.CreatFpUrl();
             string url = fpurl.FpUrl;
-            Dictionary<string, string> dic = FreezerProUtility.Fp_BLL.Samples.GetAllIdAndNamesDic(url);
+            Dictionary<string, string> dic = FreezerProUtility.Fp_BLL.Samples.GetAllIdAndNamesDic(up);
             List<Dictionary<string, string>> list = new List<Dictionary<string, string>>();
             if (dic.Count > 0)
             {
@@ -119,12 +136,12 @@ namespace RuRo.Web
         /// 样品类型数据
         /// </summary>
         /// <returns></returns>
-        private string ReturnSampleSocrceType()
+        private string ReturnSampleSocrceType(FreezerProUtility.Fp_Common.UnameAndPwd up)
         {
             //string res = "[{\"value\": \"0\",\"text\": \"基本信息-心研所\" },{\"value\": \"1\", \"text\": \"基本信息-肺癌所\"}]";
             Common.CreatFpUrl fpurl = new Common.CreatFpUrl();
             string url = fpurl.FpUrl;
-            Dictionary<string, string> dic = FreezerProUtility.Fp_BLL.SampleSocrce.GetAllSample_TypesNames(url);
+            Dictionary<string, string> dic = FreezerProUtility.Fp_BLL.SampleSocrce.GetAllIdAndNamesDic(up);
             List<Dictionary<string, string>> list = new List<Dictionary<string, string>>();
             if (dic.Count > 0)
             {
@@ -168,7 +185,7 @@ namespace RuRo.Web
             string res = "[{ \"value\": \"0\", \"text\": \"肺癌所\" }, { \"value\": \"1\", \"text\": \"心研所\" }]";
             return res;
         }
-        
+
         //private string ReturnSampleType()
         //{
         //    string url = Common.CreatFpUrl.FpUrl;

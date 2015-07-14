@@ -14,17 +14,18 @@ namespace FreezerProUtility.Fp_BLL
         /// <param name="test_data_type"></param>
         /// <param name="dataDic">需指定Sample Source</param>
         /// <returns></returns>
-        public static string ImportTestData(string url, string test_data_type, Dictionary<string, string> dataDic)
+        public static string ImportTestData(Fp_Common.UnameAndPwd up, string test_data_type, Dictionary<string, string> dataDic)
         {
             string result = string.Empty;
             string jsonDic = Fp_Common.FpJsonHelper.DictionaryToJsonString(dataDic); ;
             if (!string.IsNullOrEmpty(jsonDic))
             {
-                string jsonData = string.Format("&test_data_type={0}&json={1}", test_data_type, jsonDic);
-                result = ImportTestDataToFp(url, jsonData);
-
+                Dictionary<string, string> dic = new Dictionary<string, string>();
+                dic.Add("test_data_type", test_data_type);
+                dic.Add("json", jsonDic);
+                result = ImportTestDataToFp(up, dic);
             }
-            return "";
+            return result;
         }
         /// <summary>
         /// 导入多条临床数据
@@ -33,33 +34,52 @@ namespace FreezerProUtility.Fp_BLL
         /// <param name="test_data_type"></param>
         /// <param name="dataDicList">需指定Sample Source</param>
         /// <returns></returns>
-        public static string ImportTestData(string url, string test_data_type, List<Dictionary<string, string>> dataDicList)
+        public static string ImportTestData(Fp_Common.UnameAndPwd up, string test_data_type, List<Dictionary<string, string>> dataDicList)
         {
             string result = string.Empty;
             string jsonDicList = Fp_Common.FpJsonHelper.DictionaryListToJsonString(dataDicList);
             if (!string.IsNullOrEmpty(jsonDicList))
             {
+                Dictionary<string, string> dic = new Dictionary<string, string>();
+                dic.Add("test_data_type", test_data_type);
+                dic.Add("json", jsonDicList);
                 string jsonData = string.Format("&test_data_type={0}&json={1}", test_data_type, jsonDicList);
-                result = ImportTestDataToFp(url, jsonData);
+                result = ImportTestDataToFp(up, dic);
             }
             return result;
         }
-
-        private static string ImportTestDataToFp(string url, string jsonData)
+        private static string ImportTestDataToFp(Fp_Common.UnameAndPwd up, Dictionary<string, string> jsonDic)
         {
-            bool check;
             string result = string.Empty;
-            string connFpUrl = Fp_Common.UrlHelper.ConnectionUrlAndPar(url, Fp_Common.FpMethod.import_tests, "", out check);
-            if (check)
-            {   
-                //转换成功
-                result = Fp_DAL.DataWithFP.postDateToFp(connFpUrl, jsonData);
+            Dictionary<string, string> dic = new Dictionary<string, string>();
+            dic.Add("username", up.UserName);
+            dic.Add("password", up.PassWord);
+            dic.Add("method", Fp_Common.FpMethod.subdivisions.ToString());
+            if (jsonDic != null && jsonDic.Count > 0)
+            {
+                foreach (KeyValuePair<string, string> item in jsonDic)
+                {
+                    dic.Add(item.Key, item.Value);
+                }
             }
+            FreezerProUtility.Fp_DAL.CallApi call = new FreezerProUtility.Fp_DAL.CallApi(dic);
+            result = call.PostData();
             return result;
+        }
+
+        public static List<Fp_Model.Subdivision> GetAll(Fp_Common.UnameAndPwd up, string id)
+        {
+            Dictionary<string, string> dic = new Dictionary<string, string>();
+            dic.Add("username", up.UserName);
+            dic.Add("password", up.PassWord);
+            dic.Add("method", Fp_Common.FpMethod.subdivisions.ToString());
+            dic.Add("id", id);
+            FreezerProUtility.Fp_DAL.CallApi call = new FreezerProUtility.Fp_DAL.CallApi(dic);
+            List<Fp_Model.Subdivision> List = call.getdata<Fp_Model.Subdivision>("Subdivision");
+            return List;
         }
         private static string CheckRes(string jsonResStr)
         {
-
             return "";
         }
     }
