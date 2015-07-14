@@ -53,12 +53,6 @@ namespace RuRo.Web
         private void SetDepartment()
         {
             department.Width = 136;
-            //ListItem list = new ListItem("--请选择--", "0");
-            //ListItem list1 = new ListItem("心研所", "1");
-            //ListItem list2 = new ListItem("肺癌所", "2");
-            //department.Items.Add(list);
-            //department.Items.Add(list1);
-            //department.Items.Add(list2);
 
             ArrayList arrValue = new ArrayList();
             arrValue.Add("--请选择--");
