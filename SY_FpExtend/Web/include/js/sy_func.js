@@ -486,7 +486,7 @@ function AddSampleInfoToDg() {
             row: {
                 SampleType: from[0].value,
                 Volume: from[1].value,
-                Scount: from[2].value,
+                Scount: from[2].value
                 //Organ: from[3].value,
                 //OrganSubdivision: from[4].value
             }
