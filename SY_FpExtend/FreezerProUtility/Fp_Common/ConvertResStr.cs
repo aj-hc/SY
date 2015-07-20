@@ -29,6 +29,9 @@ namespace FreezerProUtility.Fp_Common
                 result = result.Replace("does not exist in your database", "不在数据库中");
                 result = result.Replace("should be unique", "必须唯一");
                 result = result.Replace("The value for User Field", "这个字段的值：");
+                result = result.Replace("Import Error at line", "导入错误在行：");
+                result = result.Replace("undefined", "无效");
+                result = result.Replace("`%' for nil:NilClass", "请查看权限");
                 return result.ToString().Trim();
             }
         }

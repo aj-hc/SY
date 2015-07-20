@@ -216,7 +216,6 @@ namespace RuRo.Web.Fp_Ajax
                 {
                     string res = "{\"success\":true,\"msg\":\"无临床数据需要导入\",\"message\":\"无临床数据需要导入\",\"status\":\"DONE\",\"job_id\":\"\"}";
                     importResult.Add("_clinicalInfo", res);
-
                 }
                 //导入样本数据
                 //调用方法导入样品
@@ -471,8 +470,14 @@ namespace RuRo.Web.Fp_Ajax
                 try
                 {
                     string value = Common.ReflectHelper.GetValue(sampleInfo, item.Name);
-                    sampleDic.Add(item.Name, value);
-
+                    if (string.IsNullOrEmpty(value))
+                    {
+                        sampleDic.Add(item.Name, value);
+                    }
+                    else
+                    {
+                        sampleDic.Add(item.Name, "");
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -574,12 +579,12 @@ namespace RuRo.Web.Fp_Ajax
             #endregion
             //添加当前样本类型,将id转换成汉字
             pageSampleDgDic.Add("SampleType", pageSampleDg.SampleType);
-            if (!string.IsNullOrEmpty(pageSampleDg.Organ) && !string.IsNullOrEmpty(pageSampleDg.OrganSubdivision))
-            {
-                string Organ = pageSampleDg.Organ;
-                string OrganSubdivision = pageSampleDg.OrganSubdivision;
-                pageSampleDgDic.Add("_117", Organ + ";" + OrganSubdivision);
-            }
+            //if (!string.IsNullOrEmpty(pageSampleDg.Organ) && !string.IsNullOrEmpty(pageSampleDg.OrganSubdivision))
+            //{
+            //    string Organ = pageSampleDg.Organ;
+            //    string OrganSubdivision = pageSampleDg.OrganSubdivision;
+            //    pageSampleDgDic.Add("_117", Organ + ";" + OrganSubdivision);
+            //}
             pageSampleDgDic.Add("Volume", pageSampleDg.Volume);
             pageSampleDgDic.Add("Scount", pageSampleDg.Scount.ToString());
             return pageSampleDgDic;

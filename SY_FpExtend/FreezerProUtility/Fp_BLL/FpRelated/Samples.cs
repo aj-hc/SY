@@ -68,6 +68,7 @@ namespace FreezerProUtility.Fp_BLL
             {
                 //需要创建盒子
                 result = ImportSamplesToFp(up, box_path, dataDicList);
+
             }
             else
             {
@@ -82,6 +83,7 @@ namespace FreezerProUtility.Fp_BLL
                 }
                 result = ImportSamplesToFp(up, box_path, dataDicList);
             }
+            
             return result;
         }
         //创建盒子保存样本
@@ -388,9 +390,13 @@ namespace FreezerProUtility.Fp_BLL
                 {
                     dataDic.Add("Level3", box_path.Level3);//日
                 }
-                if (!dataDic.ContainsKey("Box"))
+                if (dataDic.ContainsKey("Box"))
                 {
-                    dataDic.Add("Box", box_path.Box);//盒子
+                    dataDic["Box"]= box_path.Box;//盒子
+                }
+                else
+                {
+                    dataDic.Add("Box", box_path.Box);
                 }
             }
             jsonsampledata = FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(dataDicList);

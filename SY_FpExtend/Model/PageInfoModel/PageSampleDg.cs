@@ -8,10 +8,11 @@ namespace RuRo.Model.PageInfoModel
     public class PageSampleDg
     {
         public string SampleType { get; set; }
+        //public string SampleGroup { get; set; }
         public string Volume { get; set; }
         public int Scount { get; set; }
-        public string Organ { get; set; }
-        public string OrganSubdivision { get; set; }
+       // public string Organ { get; set; }
+       // public string OrganSubdivision { get; set; }
         public string State { get; set; }
         public string Msg { get; set; }
 

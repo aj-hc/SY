@@ -118,6 +118,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TB_SAMPLE_LOG.cs" />
     <Compile Include="FP_LINKAGE_Bll.cs" />
     <Compile Include="FP_SY_HIS_IP_PublicInterface_Bll.cs" />
     <Compile Include="MatchFileds.cs" />

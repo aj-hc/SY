@@ -533,13 +533,13 @@ var getDtaJsonDiagnoseTypeFlag = JSON.parse(getDiagnoseTypeFlagData);
 
 
 
-function prompt1() {
-    $.messager.prompt('My Title', 'Please type something', function (r) {
-        if (r) {
-            alert('you type: ' + r);
-        }
-    });
-}
+//function prompt1() {
+//    $.messager.prompt('My Title', 'Please type something', function (r) {
+//        if (r) {
+//            alert('you type: ' + r);
+//        }
+//    });
+//}
 
 //采用jquery easyui loading css效果 
 function ajaxLoading() {

@@ -21,8 +21,8 @@
     <TargetFrameworkProfile />
     <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication />
-    <IISExpressWindowsAuthentication />
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -76,6 +76,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Fp_Ajax\LogData.aspx" />
     <Content Include="include\js\jquery.cookie.js" />
     <Content Include="include\js\BindFuncToId.js" />
     <Content Include="include\jquery-easyui-1.4.3\easyloader.js" />
@@ -693,6 +694,13 @@
     </Compile>
     <Compile Include="Fp_Ajax\getjson.aspx.designer.cs">
       <DependentUpon>getjson.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Fp_Ajax\LogData.aspx.cs">
+      <DependentUpon>LogData.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Fp_Ajax\LogData.aspx.designer.cs">
+      <DependentUpon>LogData.aspx</DependentUpon>
     </Compile>
     <Compile Include="Fp_Ajax\PageConData.aspx.cs">
       <DependentUpon>PageConData.aspx</DependentUpon>
