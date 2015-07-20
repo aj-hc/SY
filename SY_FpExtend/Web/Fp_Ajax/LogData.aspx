@@ -1,0 +1,1 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="LogData.aspx.cs" Inherits="RuRo.Web.Fp_Ajax.LogData" %>
