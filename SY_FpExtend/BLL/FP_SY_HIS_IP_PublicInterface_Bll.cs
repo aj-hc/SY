@@ -12,7 +12,6 @@ namespace RuRo.BLL
     {
         private readonly RuRo.DAL.FP_SY_HIS_IP_PublicInterface dal = new RuRo.DAL.FP_SY_HIS_IP_PublicInterface();
 
-
         #region 门诊住院诊断信息
         /// <summary>
         /// 门诊住院诊断信息
@@ -197,5 +196,57 @@ namespace RuRo.BLL
             DataTable dt = new DataTable();
             return dal.GetSY_HC_GetEmployeeInfo();
         }
+
+        #region 添加信息访问到本地库
+        /// <summary>
+        /// 添加数据到ClinicalInfo表，记录
+        /// </summary>
+        /// <param name="ds"></param>
+        public void InsertClinicalInfo(DataSet ds)
+        {
+            DAL.ClinicalInfo dal = new DAL.ClinicalInfo();
+            Model.ClinicalInfo model = new Model.ClinicalInfo();
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                model.DiagnoseTypeFlag = ds.Tables[0].Rows[0]["DiagnoseTypeFlag"].ToString();
+                model.DiagnoseDateTime = Convert.ToDateTime(ds.Tables[0].Rows[0]["DiagnoseDateTime"]);
+                model.RegisterID = int.Parse(ds.Tables[0].Rows[0]["RegisterID"].ToString());
+                model.InPatientID = int.Parse(ds.Tables[0].Rows[0]["InPatientID"].ToString());
+                model.ICDCode = ds.Tables[0].Rows[0]["ICDCode"].ToString();
+                model.DiseaseName = ds.Tables[0].Rows[0]["DiseaseName"].ToString();
+                model.Description = ds.Tables[0].Rows[0]["Description"].ToString();
+                model.type = ds.Tables[0].Rows[0]["type"].ToString();
+                dal.Add(model);
+            }
+            else
+            {
+                //dal.Add(model); 数据为空暂不添加
+            }
+        }
+        /// <summary>
+        /// 添加数据到BaseInfo
+        /// </summary>
+        public void InsertBaseInfo(DataSet ds)
+        {
+            Model.BasedInfo baseinfo = new Model.BasedInfo();
+            baseinfo.PatientName = ds.Tables[0].Rows[0]["PatientName"].ToString();
+            baseinfo.IPSeqNoText = ds.Tables[0].Rows[0]["IPSeqNoText"].ToString();
+            baseinfo.PatientCardNo = ds.Tables[0].Rows[0]["PatientCardNo"].ToString();
+            baseinfo.SexFlag = ds.Tables[0].Rows[0]["SexFlag"].ToString();
+            baseinfo.Birthday = Convert.ToDateTime(ds.Tables[0].Rows[0]["Birthday"].ToString());
+            baseinfo.BloodTypeFlag = ds.Tables[0].Rows[0]["BloodTypeFlag"].ToString();
+            baseinfo.Phone = ds.Tables[0].Rows[0]["Phone"].ToString();
+            baseinfo.ContactPhone = ds.Tables[0].Rows[0]["ContactPhone"].ToString();
+            baseinfo.ContactPerson = ds.Tables[0].Rows[0]["ContactPerson"].ToString();
+            baseinfo.NativePlace = ds.Tables[0].Rows[0]["NativePlace"].ToString();
+            baseinfo.RegisterSeqNO = ds.Tables[0].Rows[0]["RegisterSeqNO"].ToString();
+            baseinfo.PatientID = Convert.ToInt32(ds.Tables[0].Rows[0]["PatientID"]);
+            baseinfo.RegisterID = Convert.ToInt32(ds.Tables[0].Rows[0]["RegisterID"]);
+            baseinfo.InPatientID = Convert.ToInt32(ds.Tables[0].Rows[0]["InPatientID"]);
+            DAL.BasedInfo baseinfo_dal = new DAL.BasedInfo();
+            baseinfo_dal.Add(baseinfo);
+        }
+        #endregion
+
     }
 }

@@ -62,9 +62,9 @@ namespace RuRo.DAL
 					new SqlParameter("@ContactPerson", SqlDbType.NVarChar,30),
 					new SqlParameter("@NativePlace", SqlDbType.NVarChar,20),
 					new SqlParameter("@RegisterSeqNO", SqlDbType.NVarChar,30),
-					new SqlParameter("@PatientID", SqlDbType.Int,4),
-					new SqlParameter("@RegisterID", SqlDbType.Int,4),
-					new SqlParameter("@InPatientID", SqlDbType.Int,4)};
+					new SqlParameter("@PatientID", SqlDbType.Int),
+					new SqlParameter("@RegisterID", SqlDbType.Int),
+					new SqlParameter("@InPatientID", SqlDbType.Int)};
 			parameters[0].Value = model.PatientName;
 			parameters[1].Value = model.IPSeqNoText;
 			parameters[2].Value = model.PatientCardNo;
@@ -79,7 +79,6 @@ namespace RuRo.DAL
 			parameters[11].Value = model.PatientID;
 			parameters[12].Value = model.RegisterID;
 			parameters[13].Value = model.InPatientID;
-
             object obj = DbHelperSQL_SY.GetSingleSY(strSql.ToString(), parameters);
 			if (obj == null)
 			{

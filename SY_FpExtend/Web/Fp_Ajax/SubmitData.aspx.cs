@@ -190,6 +190,7 @@ namespace RuRo.Web.Fp_Ajax
             {
                 improtBaseInfoResult = improtBaseInfoResult.Replace("false", "true");
                 importResult.Add("_baseInfo", FreezerProUtility.Fp_Common.ConvertResStr.ConvertRes(improtBaseInfoResult));
+
                 //导入样品源成功
                 //导入临床数据
                 if (clinicalInfoDgDicList.Count > 0)
@@ -277,11 +278,9 @@ namespace RuRo.Web.Fp_Ajax
             else
             {
                 //导入样本源失败
-
                 string res = "{\"success\":false,\"msg\":\"样品源导入失败,请检查数据\",\"message\":\"样品源导入失败,请检查数据\",\"status\":\"DONE\",\"job_id\":\"\"}";
                 importResult.Add("improtBaseInfoResult", res);
             }
-
             return FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(importResult);
         }
 
