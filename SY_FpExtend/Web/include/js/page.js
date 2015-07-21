@@ -246,7 +246,12 @@ $(function () {
         method: 'get',
         valueField: 'text',
         textField: 'text',
-        panelHeight: 'auto'
+        panelHeight: 'auto',
+        onSelect: function (rec) {
+            var text = $('#sampleTypeE').combobox('getValue');
+            if (text.indexOf("组织") > 0) { $('#volumeE').textbox('setValue', '500'); }
+            if (text.indexOf("血") > 0) { $('#volumeE').textbox('setValue', '400'); }
+        }
     });
 })
 ////样品组
@@ -336,44 +341,49 @@ $(function () {
 //    });
 //    return temp;
 //}
-
 //绑定采集人
-$(function () {
-    $('#_99').combobox({
-        editable: true,
-        panelHeight: '200px',
-        delay: '600',
-        valueField: 'EmployeeNo',
-        textField: 'EmployeeName',
-        onChange: function (newVal, oldVal) {
-            var faultAddr = encodeURI(newVal);
-            //faultAddr = encodeURI(faultAddr);  //需要通过两次编码
-            if (newVal == "" || newVal == oldVal) {
-                $('#_99').combobox('clear');
-                return;
-            }
-            else {
-                var url = '../Fp_Ajax/PageConData.aspx?conMarc=Employee&com=' + faultAddr;
-                $('#_99').combobox('reload', url);
-            }
-        },
-        onHidePanel: function () {
-            var o = $('#_99').combobox('getValue');//获取采集人的EmployeeNo
-            var url = '../Fp_Ajax/PageConData.aspx?conMarc=Employee&com=' + o;
-            var temp = getEmployee(url);
-            if (temp) {
-                var tempjson = JSON.parse(temp);
-                $('#_109').combobox({
-                    editable: true,
-                    data: tempjson,
-                    valueField: 'EmployeeNo',
-                    textField: 'EmployeeName'
-                });
-                $('#_109').combobox('setValue', tempjson.EmployeeName);
-            }
-        }
-    });
+$(function ()
+{
+    var user = $.cookie("username");
+    $('#_99').combobox('setValue', user);
 })
+////绑定采集人
+//$(function () {
+//    $('#_99').combobox({
+//        editable: true,
+//        panelHeight: '200px',
+//        delay: '600',
+//        valueField: 'EmployeeNo',
+//        textField: 'EmployeeName',
+//        onChange: function (newVal, oldVal) {
+//            var faultAddr = encodeURI(newVal);
+//            //faultAddr = encodeURI(faultAddr);  //需要通过两次编码
+//            if (newVal == "" || newVal == oldVal) {
+//                $('#_99').combobox('clear');
+//                return;
+//            }
+//            else {
+//                var url = '../Fp_Ajax/PageConData.aspx?conMarc=Employee&com=' + faultAddr;
+//                $('#_99').combobox('reload', url);
+//            }
+//        },
+//        onHidePanel: function () {
+//            var o = $('#_99').combobox('getValue');//获取采集人的EmployeeNo
+//            var url = '../Fp_Ajax/PageConData.aspx?conMarc=Employee&com=' + o;
+//            var temp = getEmployee(url);
+//            if (temp) {
+//                var tempjson = JSON.parse(temp);
+//                $('#_109').combobox({
+//                    editable: true,
+//                    data: tempjson,
+//                    valueField: 'EmployeeNo',
+//                    textField: 'EmployeeName'
+//                });
+//                $('#_109').combobox('setValue', tempjson.EmployeeName);
+//            }
+//        }
+//    });
+//})
 
 function getEmployee(Employeeurl) {
     var temp;

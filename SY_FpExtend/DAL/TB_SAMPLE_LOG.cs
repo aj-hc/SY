@@ -37,28 +37,28 @@ namespace RuRo.DAL
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("insert into TB_SAMPLE_LOG(");
-            strSql.Append("BASE_ID,CLINICAL_ID,SAMPLE_TYPE,SAMPLE_TIJI,SAMPLE_QTY,STATUS,MSG,LOG_DATE,LOG_UP)");
+            strSql.Append("BASE_ID,CLINICAL_ID,BASE_MSG,CLINICAL_MSG,MSG,STATE,LOG_DATE,type,LOG_UP)");
             strSql.Append(" values (");
-            strSql.Append("@BASE_ID,@CLINICAL_ID,@SAMPLE_TYPE,@SAMPLE_TIJI,@SAMPLE_QTY,@STATUS,@MSG,@LOG_DATE,@LOG_UP)");
+            strSql.Append("@BASE_ID,@CLINICAL_ID,@BASE_MSG,@CLINICAL_MSG,@MSG,@STATE,@LOG_DATE,@type,@LOG_UP)");
             strSql.Append(";select @@IDENTITY");
             SqlParameter[] parameters = {
 					new SqlParameter("@BASE_ID", SqlDbType.Int,4),
 					new SqlParameter("@CLINICAL_ID", SqlDbType.Int,4),
-					new SqlParameter("@SAMPLE_TYPE", SqlDbType.VarChar,50),
-					new SqlParameter("@SAMPLE_TIJI", SqlDbType.VarChar,50),
-					new SqlParameter("@SAMPLE_QTY", SqlDbType.Int,4),
-					new SqlParameter("@STATUS", SqlDbType.Char,10),
+					new SqlParameter("@BASE_MSG", SqlDbType.VarChar,100),
+					new SqlParameter("@CLINICAL_MSG", SqlDbType.VarChar,100),
 					new SqlParameter("@MSG", SqlDbType.VarChar,100),
+					new SqlParameter("@STATE", SqlDbType.NChar,10),
 					new SqlParameter("@LOG_DATE", SqlDbType.DateTime),
+					new SqlParameter("@type", SqlDbType.VarChar,50),
 					new SqlParameter("@LOG_UP", SqlDbType.VarChar,50)};
             parameters[0].Value = model.BASE_ID;
             parameters[1].Value = model.CLINICAL_ID;
-            parameters[2].Value = model.SAMPLE_TYPE;
-            parameters[3].Value = model.SAMPLE_TIJI;
-            parameters[4].Value = model.SAMPLE_QTY;
-            parameters[5].Value = model.STATUS;
-            parameters[6].Value = model.MSG;
-            parameters[7].Value = model.LOG_DATE;
+            parameters[2].Value = model.BASE_MSG;
+            parameters[3].Value = model.CLINICAL_MSG;
+            parameters[4].Value = model.MSG;
+            parameters[5].Value = model.STATE;
+            parameters[6].Value = model.LOG_DATE;
+            parameters[7].Value = model.type;
             parameters[8].Value = model.LOG_UP;
 
             object obj = DbHelperSQL_SY.GetSingleSY(strSql.ToString(), parameters);
@@ -80,33 +80,33 @@ namespace RuRo.DAL
             strSql.Append("update TB_SAMPLE_LOG set ");
             strSql.Append("BASE_ID=@BASE_ID,");
             strSql.Append("CLINICAL_ID=@CLINICAL_ID,");
-            strSql.Append("SAMPLE_TYPE=@SAMPLE_TYPE,");
-            strSql.Append("SAMPLE_TIJI=@SAMPLE_TIJI,");
-            strSql.Append("SAMPLE_QTY=@SAMPLE_QTY,");
-            strSql.Append("STATUS=@STATUS,");
+            strSql.Append("BASE_MSG=@BASE_MSG,");
+            strSql.Append("CLINICAL_MSG=@CLINICAL_MSG,");
             strSql.Append("MSG=@MSG,");
+            strSql.Append("STATE=@STATE,");
             strSql.Append("LOG_DATE=@LOG_DATE,");
+            strSql.Append("type=@type,");
             strSql.Append("LOG_UP=@LOG_UP");
             strSql.Append(" where LOG_ID=@LOG_ID");
             SqlParameter[] parameters = {
 					new SqlParameter("@BASE_ID", SqlDbType.Int,4),
 					new SqlParameter("@CLINICAL_ID", SqlDbType.Int,4),
-					new SqlParameter("@SAMPLE_TYPE", SqlDbType.VarChar,50),
-					new SqlParameter("@SAMPLE_TIJI", SqlDbType.VarChar,50),
-					new SqlParameter("@SAMPLE_QTY", SqlDbType.Int,4),
-					new SqlParameter("@STATUS", SqlDbType.Char,10),
+					new SqlParameter("@BASE_MSG", SqlDbType.VarChar,100),
+					new SqlParameter("@CLINICAL_MSG", SqlDbType.VarChar,100),
 					new SqlParameter("@MSG", SqlDbType.VarChar,100),
+					new SqlParameter("@STATE", SqlDbType.NChar,10),
 					new SqlParameter("@LOG_DATE", SqlDbType.DateTime),
+					new SqlParameter("@type", SqlDbType.VarChar,50),
 					new SqlParameter("@LOG_UP", SqlDbType.VarChar,50),
 					new SqlParameter("@LOG_ID", SqlDbType.Int,4)};
             parameters[0].Value = model.BASE_ID;
             parameters[1].Value = model.CLINICAL_ID;
-            parameters[2].Value = model.SAMPLE_TYPE;
-            parameters[3].Value = model.SAMPLE_TIJI;
-            parameters[4].Value = model.SAMPLE_QTY;
-            parameters[5].Value = model.STATUS;
-            parameters[6].Value = model.MSG;
-            parameters[7].Value = model.LOG_DATE;
+            parameters[2].Value = model.BASE_MSG;
+            parameters[3].Value = model.CLINICAL_MSG;
+            parameters[4].Value = model.MSG;
+            parameters[5].Value = model.STATE;
+            parameters[6].Value = model.LOG_DATE;
+            parameters[7].Value = model.type;
             parameters[8].Value = model.LOG_UP;
             parameters[9].Value = model.LOG_ID;
 
@@ -172,7 +172,7 @@ namespace RuRo.DAL
         {
 
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select  top 1 LOG_ID,BASE_ID,CLINICAL_ID,SAMPLE_TYPE,SAMPLE_TIJI,SAMPLE_QTY,STATUS,MSG,LOG_DATE,LOG_UP from TB_SAMPLE_LOG ");
+            strSql.Append("select  top 1 LOG_ID,BASE_ID,CLINICAL_ID,BASE_MSG,CLINICAL_MSG,MSG,STATE,LOG_DATE,type,LOG_UP from TB_SAMPLE_LOG ");
             strSql.Append(" where LOG_ID=@LOG_ID");
             SqlParameter[] parameters = {
 					new SqlParameter("@LOG_ID", SqlDbType.Int,4)
@@ -212,29 +212,29 @@ namespace RuRo.DAL
                 {
                     model.CLINICAL_ID = int.Parse(row["CLINICAL_ID"].ToString());
                 }
-                if (row["SAMPLE_TYPE"] != null)
+                if (row["BASE_MSG"] != null)
                 {
-                    model.SAMPLE_TYPE = row["SAMPLE_TYPE"].ToString();
+                    model.BASE_MSG = row["BASE_MSG"].ToString();
                 }
-                if (row["SAMPLE_TIJI"] != null)
+                if (row["CLINICAL_MSG"] != null)
                 {
-                    model.SAMPLE_TIJI = row["SAMPLE_TIJI"].ToString();
-                }
-                if (row["SAMPLE_QTY"] != null && row["SAMPLE_QTY"].ToString() != "")
-                {
-                    model.SAMPLE_QTY = int.Parse(row["SAMPLE_QTY"].ToString());
-                }
-                if (row["STATUS"] != null)
-                {
-                    model.STATUS = row["STATUS"].ToString();
+                    model.CLINICAL_MSG = row["CLINICAL_MSG"].ToString();
                 }
                 if (row["MSG"] != null)
                 {
                     model.MSG = row["MSG"].ToString();
                 }
+                if (row["STATE"] != null)
+                {
+                    model.STATE = row["STATE"].ToString();
+                }
                 if (row["LOG_DATE"] != null && row["LOG_DATE"].ToString() != "")
                 {
                     model.LOG_DATE = DateTime.Parse(row["LOG_DATE"].ToString());
+                }
+                if (row["type"] != null && row["type"].ToString() != "")
+                {
+                    model.type = row["type"].ToString();
                 }
                 if (row["LOG_UP"] != null)
                 {
@@ -250,7 +250,7 @@ namespace RuRo.DAL
         public DataSet GetList(string strWhere)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select LOG_ID,BASE_ID,CLINICAL_ID,SAMPLE_TYPE,SAMPLE_TIJI,SAMPLE_QTY,STATUS,MSG,LOG_DATE,LOG_UP ");
+            strSql.Append("select LOG_ID,BASE_ID,CLINICAL_ID,BASE_MSG,CLINICAL_MSG,MSG,STATE,LOG_DATE,type,LOG_UP ");
             strSql.Append(" FROM TB_SAMPLE_LOG ");
             if (strWhere.Trim() != "")
             {
@@ -270,7 +270,7 @@ namespace RuRo.DAL
             {
                 strSql.Append(" top " + Top.ToString());
             }
-            strSql.Append(" LOG_ID,BASE_ID,CLINICAL_ID,SAMPLE_TYPE,SAMPLE_TIJI,SAMPLE_QTY,STATUS,MSG,LOG_DATE,LOG_UP ");
+            strSql.Append(" LOG_ID,BASE_ID,CLINICAL_ID,BASE_MSG,CLINICAL_MSG,MSG,STATE,LOG_DATE,type,LOG_UP ");
             strSql.Append(" FROM TB_SAMPLE_LOG ");
             if (strWhere.Trim() != "")
             {

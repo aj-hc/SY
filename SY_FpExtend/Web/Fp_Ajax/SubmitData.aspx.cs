@@ -17,9 +17,10 @@ namespace RuRo.Web.Fp_Ajax
         Dictionary<string, string> organIdAndNamedic = new Dictionary<string, string>();
         Dictionary<string, string> clinicalDiagnoseTypeFlagdic = new Dictionary<string, string>();
         string departments = string.Empty;
+        string username;
         protected void Page_Load(object sender, EventArgs e)
         {
-            string username = Common.CookieHelper.GetCookieValue("username");
+            username = Common.CookieHelper.GetCookieValue("username");
             string pwd = Common.CookieHelper.GetCookieValue("password");
             string password = string.Empty;
             if (!string.IsNullOrEmpty(pwd))
@@ -167,6 +168,7 @@ namespace RuRo.Web.Fp_Ajax
             Dictionary<string, string> sampleInfoDic = GetSampleInfoDic();
             //获取页面上的临床信息Dg表单
             List<Dictionary<string, string>> clinicalInfoDgDicList = GetClinicalInfoDgDicList(baseInfoDic);
+            Dictionary<string, string> logDic = new Dictionary<string, string>();
 
             Dictionary<string, string> importResult = new Dictionary<string, string>();
             string PatientID = string.Empty;
@@ -179,20 +181,26 @@ namespace RuRo.Web.Fp_Ajax
             {
                 PatientName = baseInfoDic["PatientName"];
             }
+            string date = DateTime.Now.ToString(); 
             baseInfoDic.Add("Name", PatientID);
             baseInfoDic.Add("Description", PatientName);
+            logDic.Add("type", department);//添加科室到记录表
+            logDic.Add("LOG_UP", username);//添加登陆人员
+            logDic.Add("LOG_DATE", date);
+
+            //logDic.Add("LOG_DATE",);
 
             //导入样本源数据
             Dictionary<string, string> mathcBaseInfoDic = MatchBaseInfoDic(baseInfoDic);
             BLL.FP_SY_HIS_IP_PublicInterface_Bll bll = new BLL.FP_SY_HIS_IP_PublicInterface_Bll();
             string improtBaseInfoResult = ImportSampleSource(RemoveEmpty(mathcBaseInfoDic), up);
-
+            //Dictionary<string,string> baseDic = FreezerProUtility.Fp_Common.FpJsonHelper.JsonStrToDictionary<string, string>(improtBaseInfoResult);
             if (improtBaseInfoResult.Contains("true") || improtBaseInfoResult.Contains("should be unique."))
             {
                 bll.InsertBaseInfo(mathcBaseInfoDic);//保存添加的样品源到本地库
                 improtBaseInfoResult = improtBaseInfoResult.Replace("false", "true");
                 importResult.Add("_baseInfo", FreezerProUtility.Fp_Common.ConvertResStr.ConvertRes(improtBaseInfoResult));
-
+                logDic.Add("BASE_MSG", improtBaseInfoResult);//添加导入样品源信息
                 //导入样品源成功
                 //导入临床数据
                 if (clinicalInfoDgDicList.Count > 0)
@@ -214,11 +222,13 @@ namespace RuRo.Web.Fp_Ajax
                         SaveClinicalDicToLocalBase(clinicalInfoDgDicList, departments);
                     }
                     importResult.Add("_clinicalInfo", FreezerProUtility.Fp_Common.ConvertResStr.ConvertRes(improtTestDataResult));
+                    logDic.Add("CLINICAL_MSG", improtTestDataResult);//添加诊断类型
                 }
                 else
                 {
                     string res = "{\"success\":true,\"msg\":\"无临床数据需要导入\",\"message\":\"无临床数据需要导入\",\"status\":\"DONE\",\"job_id\":\"\"}";
                     importResult.Add("_clinicalInfo", res);
+                    logDic.Add("CLINICAL_MSG", "无临床数据需要导入");//添加诊断类型
                 }
                 //导入样本数据
                 //调用方法导入样品
@@ -275,6 +285,7 @@ namespace RuRo.Web.Fp_Ajax
                 }
                 string importSampleRes = FreezerProUtility.Fp_BLL.Samples.Import_Sample(up, department, dataDicList);
                 importResult.Add("_dg_SampleInfo", FreezerProUtility.Fp_Common.ConvertResStr.ConvertRes(importSampleRes));
+                logDic.Add("MSG", FreezerProUtility.Fp_Common.ConvertResStr.ConvertRes(importSampleRes));
                 #endregion
             }
             else
@@ -282,7 +293,9 @@ namespace RuRo.Web.Fp_Ajax
                 //导入样本源失败
                 string res = "{\"success\":false,\"msg\":\"样品源导入失败,请检查数据\",\"message\":\"样品源导入失败,请检查数据\",\"status\":\"DONE\",\"job_id\":\"\"}";
                 importResult.Add("improtBaseInfoResult", res);
+                logDic.Add("BASE_MSG", "样品源导入失败,请检查数据");//添加导入样品源信息
             }
+            bll.InsertLog(logDic);//记录状态到本地数据库
             return FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(importResult);
         }
 

@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Data;
-using Newtonsoft.Json;
-
+using System.Collections.Generic;
+using RuRo.Common;
+using RuRo.Model;
 namespace RuRo.BLL
 {
     /// <summary>
@@ -53,7 +51,7 @@ namespace RuRo.BLL
         /// </summary>
         public bool DeleteList(string LOG_IDlist)
         {
-            return dal.DeleteList(RuRo.Common.PageValidate.SafeLongFilter(LOG_IDlist, 0));
+            return dal.DeleteList(LOG_IDlist);
         }
 
         /// <summary>

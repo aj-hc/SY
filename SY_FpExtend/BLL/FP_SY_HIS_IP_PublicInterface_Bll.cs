@@ -232,7 +232,7 @@ namespace RuRo.BLL
             Model.BasedInfo baseinfo = new Model.BasedInfo();
             baseinfo.PatientName = dic["姓名"];
             baseinfo.IPSeqNoText = dic["住院号"];
-            baseinfo.PatientCardNo = dic["诊疗卡号"];
+            baseinfo.PatientCardNo = dic["就诊卡号"];
             baseinfo.SexFlag = dic["性别"];
             baseinfo.Birthday = Convert.ToDateTime(dic["出生日期"]);
             baseinfo.BloodTypeFlag = dic["血型"];
@@ -246,6 +246,18 @@ namespace RuRo.BLL
             baseinfo.InPatientID = Convert.ToInt32(dic["住院ID"]);
             DAL.BasedInfo baseinfo_dal = new DAL.BasedInfo();
             baseinfo_dal.Add(baseinfo);
+        }
+        public void InsertLog(Dictionary<string, string> dic) 
+        {
+            Model.TB_SAMPLE_LOG log = new Model.TB_SAMPLE_LOG();
+            log.type = dic["type"];
+            log.LOG_UP = dic["LOG_UP"];
+            log.LOG_DATE =Convert.ToDateTime(dic["LOG_DATE"]);
+            log.BASE_MSG = dic["BASE_MSG"].ToString();
+            log.CLINICAL_MSG = dic["CLINICAL_MSG"].ToString();
+            log.MSG = dic["MSG"].ToString();
+            TB_SAMPLE_LOG bllLog = new TB_SAMPLE_LOG();
+            bllLog.Add(log);
         }
         #endregion
 
