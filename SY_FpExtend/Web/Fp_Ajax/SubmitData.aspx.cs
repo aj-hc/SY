@@ -184,10 +184,12 @@ namespace RuRo.Web.Fp_Ajax
 
             //导入样本源数据
             Dictionary<string, string> mathcBaseInfoDic = MatchBaseInfoDic(baseInfoDic);
+            BLL.FP_SY_HIS_IP_PublicInterface_Bll bll = new BLL.FP_SY_HIS_IP_PublicInterface_Bll();
             string improtBaseInfoResult = ImportSampleSource(RemoveEmpty(mathcBaseInfoDic), up);
 
             if (improtBaseInfoResult.Contains("true") || improtBaseInfoResult.Contains("should be unique."))
             {
+                bll.InsertBaseInfo(mathcBaseInfoDic);//保存添加的样品源到本地库
                 improtBaseInfoResult = improtBaseInfoResult.Replace("false", "true");
                 importResult.Add("_baseInfo", FreezerProUtility.Fp_Common.ConvertResStr.ConvertRes(improtBaseInfoResult));
 
