@@ -20,7 +20,8 @@ namespace RuRo.Web
             }
             if (CheckLoginByCookie())
             {
-                Response.Redirect("ExtendPage.aspx");
+                //Response.Redirect("ExtendPage.aspx");
+                Response.Redirect("index.aspx");
             }
             //登陆
             //验证登陆
@@ -53,14 +54,12 @@ namespace RuRo.Web
         private void SetDepartment()
         {
             department.Width = 136;
-
             ArrayList arrValue = new ArrayList();
             arrValue.Add("--请选择--");
             arrValue.Add("心研所");
             arrValue.Add("肺癌所");
             //将数组绑定到DropDownList控件的DataSource属性
             department.DataSource = arrValue;
-
             department.DataBind();
             
         }
@@ -79,7 +78,8 @@ namespace RuRo.Web
                 LoginOut();
                 //重写cookie
                 WriteCookie(userName, passWord);
-                Response.Redirect("ExtendPage.aspx");
+                Response.Redirect("index.aspx");
+                //Response.Redirect("ExtendPage.aspx");
             }
             else
             {

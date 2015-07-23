@@ -1,21 +1,36 @@
-﻿$(function(){
-	InitLeftMenu();
-	tabClose();
-	tabCloseEven();
-})
-
+﻿$(function () {
+    InitLeftMenu();
+    tabClose();
+    tabCloseEven();
+});
+////前台弄过来的
+//var _menus = {
+//    "menus": [
+//         {
+//             "menuid": "1", "icon": "icon-sys", "menuname": "插件管理",
+//             "menus":
+//                 [
+//                     { "menuname": "导入样品", "icon": "icon-nav", "url": "ExtendPage.aspx" },
+//                     { "menuname": "知情同意书", "icon": "icon-nav", "url": "demo.html" }]
+//         }
+//    ]
+//};
+$(function () {
+    $('#loginOut').click(function () {
+        $.messager.confirm('系统提示', '您确定要退出本次登录吗?', function (r) {
+            if (r)
+            {
+                $.cookie('username', null);
+                $.cookie('password', null);
+                CloseWebPage();
+            }
+        });
+    })
+});
+//end
 //初始化左侧
 function InitLeftMenu()
 {
-    $(".easyui-accordion").empty();
-    var menulist = "";
-    $.each(_menus.menus, function (i, n) {
-        menulist += '<div title="' + n.menuname + '"  icon="' + n.icon + '" style="overflow:auto;">';
-        menulist += '<ul>';
-        $.each(n.menus, function (j, o) { menulist += '<li><div><a target="mainFrame" href="' + o.url + '" ><span class="icon ' + o.icon + '" ></span>' + o.menuname + '</a></div></li> '; })
-        menulist += '</ul></div>';
-    });
-	$(".easyui-accordion").append(menulist);
     $('.easyui-accordion li a').click(function ()
     {
 		var tabTitle = $(this).text();
@@ -44,13 +59,11 @@ function addTab(subtitle, url)
 	}
 	tabClose();
 }
-
 function createFrame(url)
 {
 	var s = '<iframe name="mainFrame" scrolling="auto" frameborder="0"  src="'+url+'" style="width:100%;height:100%;"></iframe>';
 	return s;
 }
-
 function tabClose()
 {
 	/*双击关闭TAB选项卡*/
@@ -121,26 +134,29 @@ function tabCloseEven()
 //弹出信息窗口 title:标题 msgString:提示信息 msgType:信息类型 [error,info,question,warning]
 function msgShow(title, msgString, msgType) {$.messager.alert(title, msgString, msgType);}
 
-function clockon() {
-    var now = new Date();
-    var year = now.getFullYear(); //getFullYear getYear
-    var month = now.getMonth();
-    var date = now.getDate();
-    var day = now.getDay();
-    var hour = now.getHours();
-    var minu = now.getMinutes();
-    var sec = now.getSeconds();
-    var week;
-    month = month + 1;
-    if (month < 10) month = "0" + month;
-    if (date < 10) date = "0" + date;
-    if (hour < 10) hour = "0" + hour;
-    if (minu < 10) minu = "0" + minu;
-    if (sec < 10) sec = "0" + sec;
-    var arr_week = new Array("星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六");
-    week = arr_week[day];
-    var time = "";
-    time = year + "年" + month + "月" + date + "日" + " " + hour + ":" + minu + ":" + sec + " " + week;
-    $("#bgclock").html(time);
-    var timer = setTimeout("clockon()", 200);
+//注销按钮
+function loginOut() {
+    $.messager.alert('提示', '确认注销？', 'error');
+    $.cookie('username', null);
+    $.cookie('password', null);
+    CloseWebPage();
+}
+
+function CloseWebPage() {
+    if (navigator.userAgent.indexOf("MSIE") > 0) {
+        if (navigator.userAgent.indexOf("MSIE 6.0") > 0) {
+            window.opener = null;
+            window.close();
+        } else {
+            window.open('', '_top');
+            window.top.close();
+        }
+    }
+    else if (navigator.userAgent.indexOf("Firefox") > 0) {
+        window.location.href = 'about:blank ';
+    } else {
+        window.opener = null;
+        window.open('', '_self', '');
+        window.close();
+    }
 }

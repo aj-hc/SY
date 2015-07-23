@@ -77,6 +77,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Fp_Ajax\LogData.aspx" />
+    <Content Include="Images\IndexImg\blocks.gif" />
+    <Content Include="Images\IndexImg\directory.png" />
+    <Content Include="Images\IndexImg\layout-browser-hd-bg.gif" />
+    <Content Include="Images\IndexImg\noscript.gif" />
+    <Content Include="Images\IndexImg\tabicons.png" />
     <Content Include="include\css\index.css" />
     <Content Include="include\jquery-easyui-1.4.3\outlook2.js" />
     <Content Include="include\js\jquery.cookie.js" />
@@ -453,6 +458,7 @@
     <Content Include="include\jquery-easyui-1.4.3\themes\metro\window.css" />
     <Content Include="include\jquery-easyui-1.4.3\themes\mobile.css" />
     <Content Include="index.aspx" />
+    <Content Include="informedFrom\informedFrom.aspx" />
     <Content Include="TestData\1.html" />
     <Content Include="Default.aspx" />
     <Content Include="Encrypt.aspx" />
@@ -763,6 +769,13 @@
     </Compile>
     <Compile Include="index.aspx.designer.cs">
       <DependentUpon>index.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="informedFrom\informedFrom.aspx.cs">
+      <DependentUpon>informedFrom.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="informedFrom\informedFrom.aspx.designer.cs">
+      <DependentUpon>informedFrom.aspx</DependentUpon>
     </Compile>
     <Compile Include="Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>

@@ -98,9 +98,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>
-                                    <img src="Images/Images/a_te01.gif" width="570" height="3">
-                                </td>
+                                <td><img src="Images/Images/a_te01.gif" width="570" height="3"></td>
                             </tr>
                             <tr>
                                 <td align="center" background="Images/Images/a_te02.gif">
@@ -144,10 +142,7 @@
                             <tr>
                                 <td>
                                     <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                                        <tr>
-                                            <td height="80" align="center">广东省人民医院
-                                            </td>
-                                        </tr>
+                                        <tr><td height="80" align="center">广东省人民医院</td></tr>
                                     </table>
                                 </td>
                             </tr>

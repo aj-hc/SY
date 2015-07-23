@@ -19,7 +19,8 @@ namespace RuRo.Web
                 //页面第一次加载
                 if (!login.CheckLoginByCookie())
                 {
-                    Response.Redirect("Login.aspx");
+                    //Response.Redirect("Login.aspx");
+                    Response.Redirect("index.aspx");
                 }
                 string username = Common.CookieHelper.GetCookieValue("username");
                 string keshi = Common.CookieHelper.GetCookieValue(username + "department");
@@ -32,14 +33,14 @@ namespace RuRo.Web
                     Common.LogHelper.WriteError(ex);
                     keshi = "";
                 }
-                if (keshi == "")
-                {
-                    lakeshi.Text = username;
-                }
-                else 
-                {
-                    lakeshi.Text = keshi + "/" + username;
-                }
+                //if (keshi == "")
+                //{
+                //    lakeshi.Text = username;
+                //}
+                //else 
+                //{
+                //    lakeshi.Text = keshi + "/" + username;
+                //}
             }
         }
     }
