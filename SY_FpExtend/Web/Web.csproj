@@ -77,6 +77,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Fp_Ajax\LogData.aspx" />
+    <Content Include="include\css\index.css" />
+    <Content Include="include\jquery-easyui-1.4.3\outlook2.js" />
     <Content Include="include\js\jquery.cookie.js" />
     <Content Include="include\js\BindFuncToId.js" />
     <Content Include="include\jquery-easyui-1.4.3\easyloader.js" />
@@ -450,6 +452,7 @@
     <Content Include="include\jquery-easyui-1.4.3\themes\metro\validatebox.css" />
     <Content Include="include\jquery-easyui-1.4.3\themes\metro\window.css" />
     <Content Include="include\jquery-easyui-1.4.3\themes\mobile.css" />
+    <Content Include="index.aspx" />
     <Content Include="TestData\1.html" />
     <Content Include="Default.aspx" />
     <Content Include="Encrypt.aspx" />
@@ -753,6 +756,13 @@
     </Compile>
     <Compile Include="ImportSample.aspx.designer.cs">
       <DependentUpon>ImportSample.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="index.aspx.cs">
+      <DependentUpon>index.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="index.aspx.designer.cs">
+      <DependentUpon>index.aspx</DependentUpon>
     </Compile>
     <Compile Include="Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>
