@@ -16,6 +16,7 @@ namespace RuRo.Web
             Response.ContentType = "text/plain";
             string username = Common.CookieHelper.GetCookieValue("username");
             string pwd = Common.CookieHelper.GetCookieValue("password");
+            string departments = Common.CookieHelper.GetCookieValue("departments");
             string password = string.Empty;
             if (!string.IsNullOrEmpty(pwd))
             {
@@ -42,9 +43,11 @@ namespace RuRo.Web
                 case "linkage": Response.Write(ReturnGet_Linkage()); break;
                 case "linkagefrom": Response.Write(ReturnGet_Linkage2()); break;
                 case "Employee": Response.Write(ReturnGet_Employee()); break;
-                case "SampleType": Response.Write(ReturnSampleType(up)); break;
+                case "SampleType": Response.Write(ReturnSampleType(up, username)); break;
                 case "departments": Response.Write(ReturnDepartments()); break;
                 case "SampleGroups": Response.Write(ReturnSampleGroups(up)); break;
+                case "SampleType_S": Response.Write(ReturnSampleType_S(up)); break;
+                case "SampleType_U": Response.Write(ReturnSampleType_U(up)); break;
                 default:
                     break;
             }
@@ -111,22 +114,61 @@ namespace RuRo.Web
         /// 样品类型数据
         /// </summary>
         /// <returns></returns>
-        private string ReturnSampleType(FreezerProUtility.Fp_Common.UnameAndPwd up)
+        private string ReturnSampleType(FreezerProUtility.Fp_Common.UnameAndPwd up,string user)
         {
             //string res = "[{\"value\": \"0\",\"text\": \"正常组织-心研所\" },{\"value\": \"1\", \"text\": \"正常组织-肺癌所\"}, { \"value\": \"2\", \"text\": \"组织-心研所\"} , { \"value\": \"3\", \"text\": \"组织-肺癌所\"} ]";
             Common.CreatFpUrl fpurl = new Common.CreatFpUrl();
             string url = fpurl.FpUrl;
             Dictionary<string, string> dic = FreezerProUtility.Fp_BLL.Samples.GetAllIdAndNamesDic(up);
+            
             List<Dictionary<string, string>> list = new List<Dictionary<string, string>>();
             if (dic.Count > 0)
             {
-                foreach (KeyValuePair<string, string> dd in dic)
+                #region 按照登陆科室不同选择
+                if (user == "admin")
                 {
-                    Dictionary<string, string> temdic = new Dictionary<string, string>();
-                    temdic.Add("value", dd.Key);
-                    temdic.Add("text", dd.Value);
-                    list.Add(temdic);
+                    foreach (KeyValuePair<string, string> dd in dic)
+                    {
+                        Dictionary<string, string> temdic = new Dictionary<string, string>();
+                        temdic.Add("value", dd.Key);
+                        temdic.Add("text", dd.Value);
+                        list.Add(temdic);
+                    }
                 }
+                else 
+                {
+                    if (user.Contains("XYS"))
+                    {
+                        foreach (KeyValuePair<string, string> dd in dic)
+                        {
+                            Dictionary<string, string> temdic = new Dictionary<string, string>();
+
+                            if (dd.Value.Contains("心研所"))
+                            {
+                                temdic.Add("value", dd.Key);
+                                temdic.Add("text", dd.Value);
+                                list.Add(temdic);
+                            }
+                        }
+                    }
+                    else 
+                    {
+                        foreach (KeyValuePair<string, string> dd in dic)
+                        {
+                            Dictionary<string, string> temdic = new Dictionary<string, string>();
+
+                            if (dd.Value.Contains("肺癌所"))
+                            {
+                                temdic.Add("value", dd.Key);
+                                temdic.Add("text", dd.Value);
+                                list.Add(temdic);
+                            }
+                        }
+                    }
+
+                }
+                #endregion
+
             }
             string json = FreezerProUtility.Fp_Common.FpJsonHelper.DictionaryListToJsonString(list);
             return json;
@@ -185,14 +227,76 @@ namespace RuRo.Web
             string res = "[{ \"value\": \"0\", \"text\": \"肺癌所\" }, { \"value\": \"1\", \"text\": \"心研所\" }]";
             return res;
         }
+        #region 读取样品来源
+        /// <summary>
+        /// 读取样品来源
+        /// </summary>
+        /// <param name="up"></param>
+        /// <returns></returns>
+        private string ReturnSampleType_S(FreezerProUtility.Fp_Common.UnameAndPwd up) 
+        {
+            Common.CreatFpUrl fpurl = new Common.CreatFpUrl();
+            string url = fpurl.FpUrl;
+            Dictionary<string, string> dic = FreezerProUtility.Fp_BLL.UserFields.GetAllIdAndNamesDic(up);
+            List<Dictionary<string, string>> list = new List<Dictionary<string, string>>();
+            if (dic.Count>0)
+            {
+                foreach (KeyValuePair<string, string> dd in dic)
+                {
+                    Dictionary<string, string> temdic = new Dictionary<string, string>();
+                    if (dd.Key=="样品来源")
+                    {
+                        String[] str = dd.Value.Split(new char[]{','});
+                        for (int i = 0; i < str.Length; i++)
+                        {
+                            temdic = new Dictionary<string, string>();
+                            temdic.Add("value", i.ToString());
+                            temdic.Add("text", str[i]);
+                            list.Add(temdic);
+                        }
 
-        //private string ReturnSampleType()
-        //{
-        //    string url = Common.CreatFpUrl.FpUrl;
-        //    Dictionary<string, string> dic = FreezerProUtility.Fp_BLL.Samples.GetAllSample_TypesNames(url);
-        //    string json = FreezerProUtility.Fp_Common.FpJsonHelper.DictionaryToJsonString(dic);
+                    }
+                }
+            }
+            string json = FreezerProUtility.Fp_Common.FpJsonHelper.DictionaryListToJsonString(list);
+            return json;
+        }
+        
+        #endregion
+        #region
+        /// <summary>
+        /// 读取样品来源
+        /// </summary>
+        /// <param name="up"></param>
+        /// <returns></returns>
+        private string ReturnSampleType_U(FreezerProUtility.Fp_Common.UnameAndPwd up) 
+        {
+            Common.CreatFpUrl fpurl = new Common.CreatFpUrl();
+            string url = fpurl.FpUrl;
+            Dictionary<string, string> dic = FreezerProUtility.Fp_BLL.UserFields.GetAllIdAndNamesDic(up);
+            List<Dictionary<string, string>> list = new List<Dictionary<string, string>>();
+            if (dic.Count>0)
+            {
+                foreach (KeyValuePair<string, string> dd in dic)
+                {
+                    Dictionary<string, string> temdic = new Dictionary<string, string>();
+                    if (dd.Key=="用途")
+                    {
+                        String[] str = dd.Value.Split(new char[]{','});
+                        for (int i = 0; i < str.Length; i++)
+                        {
+                            temdic = new Dictionary<string, string>();
+                            temdic.Add("value", i.ToString());
+                            temdic.Add("text", str[i]);
+                            list.Add(temdic);
+                        }
 
-        //    return json;
-        //}
+                    }
+                }
+            }
+            string json = FreezerProUtility.Fp_Common.FpJsonHelper.DictionaryListToJsonString(list);
+            return json;
+        }
+        #endregion
     }
 }

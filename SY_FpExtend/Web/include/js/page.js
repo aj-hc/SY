@@ -73,8 +73,8 @@ $(function () {
             { field: 'Scount', title: '管数', width: '5%', align: 'center' },
             //{ field: 'Organ', title: '器官', width: '20%', align: 'center' },
             //{ field: 'OrganSubdivision', title: '器官细分', width: '30%', align: 'center' },
-            { field: 'State', title: '状态', width: '10%', align: 'center' },
-            { field: 'Msg', title: '消息', width: '15%', align: 'center' }
+            { field: 'laiyuan', title: '样品来源', width: '10%', align: 'center',hidden:'false' },
+            { field: 'yongtu', title: '用途', width: '15%', align: 'center', hidden: 'false' }
         ]],
         tools: [
             {
@@ -252,6 +252,26 @@ $(function () {
             if (text.indexOf("组织") > 0) { $('#volumeE').textbox('setValue', '500'); }
             if (text.indexOf("血") > 0) { $('#volumeE').textbox('setValue', '400'); }
         }
+    });
+})
+//样品来源
+$(function () {
+    $('#sampleType_S').combobox({
+        url: '../Fp_Ajax/PageConData.aspx?conMarc=SampleType_S',
+        method: 'get',
+        valueField: 'text',
+        textField: 'text',
+        panelHeight: 'auto'
+    });
+})
+//用途
+$(function () {
+    $('#sampleType_U').combobox({
+        url: '../Fp_Ajax/PageConData.aspx?conMarc=SampleType_U',
+        method: 'get',
+        valueField: 'text',
+        textField: 'text',
+        panelHeight: 'auto'
     });
 })
 ////样品组

@@ -181,24 +181,24 @@
             <form id="setClinicalInfoDg" method="post">
                     <table>
                         <tr>
-	    			    <td style="width:100px;">诊断类型:</td>
-	    			    <td><input class="easyui-combobox" name="diagnoseTypeFlag" id="diagnoseTypeFlag" data-options="required:true,multiple:false,prompt:'请选择添加数据的诊断类型'"/></td>
+	    			        <td style="width:100px;">诊断类型:</td>
+	    			        <td><input class="easyui-combobox" name="diagnoseTypeFlag" id="diagnoseTypeFlag" data-options="required:true,multiple:false,prompt:'请选择添加数据的诊断类型'"/></td>
                         </tr>
                         <tr>
-	    			    <td style="width:100px;">诊断日期:</td>
-	    			    <td><input class="easyui-datebox" type="text" name="diagnoseDateTime" id="diagnoseDateTime" data-options="required:true,prompt:'请选择诊断日期'"/></td>
+	    			        <td style="width:100px;">诊断日期:</td>
+	    			        <td><input class="easyui-datebox" type="text" name="diagnoseDateTime" id="diagnoseDateTime" data-options="required:true,prompt:'请选择诊断日期'"/></td>
                         </tr>
                         <tr>
-	    			    <td style="width:100px;">ICD码:</td>
-	    			    <td><input class="easyui-textbox" type="text" name="icdcode" id="icdcode" data-options="required:false"/></td>
+	    			        <td style="width:100px;">ICD码:</td>
+	    			        <td><input class="easyui-textbox" type="text" name="icdcode" id="icdcode" data-options="required:false"/></td>
                         </tr>
                         <tr>
-	    			    <td style="width:100px;">疾病名称:</td>
-                        <td><input class="easyui-textbox" type="text" name="diseaseName" id="diseaseName" data-options="required:false"/></td>
+	    			        <td style="width:100px;">疾病名称:</td>
+                            <td><input class="easyui-textbox" type="text" name="diseaseName" id="diseaseName" data-options="required:false"/></td>
                         </tr>
                         <tr>
-	    			    <td style="width:100px;">疾病描述:</td>
-                        <td><input class="easyui-textbox" name="description" id="description" data-options="required:false" style="height:60px"/></td>
+	    			        <td style="width:100px;">疾病描述:</td>
+                            <td><input class="easyui-textbox" name="description" id="description" data-options="required:false" style="height:60px"/></td>
                         </tr>
                     </table>
                 </form>
@@ -224,11 +224,19 @@
                         </tr>--%>
                         <tr>
 	    			        <td style="width:100px;">体积:</td>
-	    			        <td><input class="easyui-numberbox" name="volumeE" id="volumeE" data-options="required:false,prompt:'输入样品体积时请注意单位'"/></td>
+	    			        <td><input class="easyui-numberbox" name="volumeE" id="volumeE" data-options="required:false,editable:false,prompt:'输入样品体积时请注意单位'"/></td>
                         </tr>
                         <tr>
 	    			        <td style="width:100px;">管数:</td>
                             <td><input class="easyui-numberbox" name="ScountE" id="ScountE" data-options="min:1,value:1,required:true,prompt:'请输入分管数'"/></td>
+                        </tr>
+                        <tr>
+	    			        <td style="width:100px;">样品来源:</td>
+                            <td><input class="easyui-combobox" name="sampleType_S" id="sampleType_S" data-options="required:true,editable:false,prompt:'请选择样品来源'"/></td>
+                        </tr>
+                        <tr>
+	    			        <td style="width:100px;">用途:</td>
+                            <td><input class="easyui-combobox" name="sampleType_U" id="sampleType_U" data-options="required:true,editable:false,prompt:'请选择用途'"/></td>
                         </tr>
 <%--                        <tr>
 	    			        <td style="width:100px;">脏器:</td>

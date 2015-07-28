@@ -36,8 +36,8 @@
 <body style="width: 100%; height: 100%">
     <%--嵌套页--%>
     <div id="main" style="width: 100%; height: 100%">
-        <div id="logo" style="width: 20%; height: 40px; position: absolute; top: 2px; left: 50px;">
-            <img src="../Images/LoGo.jpg" style="width: 190px; height: 40px; z-index: 100"></img></div>
+        <div id="logo" style="width: 100%; height: 40px; position: absolute; top: 2px; left: 50px;">
+            <img src="../Images/LoGo.jpg" style="width:80%; height: 38px; z-index: 100"></img></div>
         <iframe runat="server" id="FreezerPro" name="FreezerPro" frameborder="0" style="width: 100%; height: 100%;"></iframe>
 
         <form action="/" method="post" runat="server" id="from">
