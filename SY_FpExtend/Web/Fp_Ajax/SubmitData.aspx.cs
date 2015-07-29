@@ -511,7 +511,7 @@ namespace RuRo.Web.Fp_Ajax
                 try
                 {
                     string value = Common.ReflectHelper.GetValue(sampleInfo, item.Name);
-                    if (string.IsNullOrEmpty(value))
+                    if (!string.IsNullOrEmpty(value))
                     {
                         sampleDic.Add(item.Name, value);
                     }

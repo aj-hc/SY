@@ -28,11 +28,6 @@ namespace FreezerProUtility.Fp_DAL
             this.Url = System.Configuration.ConfigurationManager.AppSettings["FpUrl"];
             this.dataDic = datadic;
         }
-        internal CallApi(string url, Dictionary<string, string> datadic)
-        {
-            this.Url = url;
-            this.dataDic = datadic;
-        } 
         #endregion
 
         #region 方法
@@ -58,7 +53,8 @@ namespace FreezerProUtility.Fp_DAL
                 PostEncoding = Encoding.UTF8,  
                 Timeout = 100000,//连接超时时间     可选项默认为100000    
                 ReadWriteTimeout = 30000,//写入Post数据超时时间     可选项默认为30000   
-                UserAgent = "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)",//用户的浏览器类型，版本，操作系统     可选项有默认值   
+                UserAgent = "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)",//用户的浏览器类型，版本，操作系统     可选项有默认值
+
                 ContentType = "application/x-www-form-urlencoded",//返回类型    可选项有默认值   
                 Allowautoredirect = true,//是否根据301跳转     可选项   
                 //CerPath = "d:\123.cer",//证书绝对路径     可选项不需要证书时可以不写这个参数   

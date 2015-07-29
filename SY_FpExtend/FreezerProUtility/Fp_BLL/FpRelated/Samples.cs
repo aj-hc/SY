@@ -10,6 +10,7 @@ namespace FreezerProUtility.Fp_BLL
     public class Samples
     {
 
+        #region 导入样品方式
         //导入样品方式1
         //指定sample_type，box_path(","分割)，jsondata
 
@@ -28,7 +29,8 @@ namespace FreezerProUtility.Fp_BLL
         //导入样本方式6
         //创建存储结构盒子使用bag 导入失败创建新的bag
 
-        //综上所述：使用方式 1 +方式 4   非常规方式使用6
+        //综上所述：使用方式 1 +方式 4   非常规方式使用6 
+        #endregion
 
         public static string Import_Sample(Fp_Common.UnameAndPwd up, string department, string sample_type, string count, Dictionary<string, string> dataDic)
         {
@@ -330,7 +332,8 @@ namespace FreezerProUtility.Fp_BLL
             Dictionary<string, string> dic = new Dictionary<string, string>();
             dic.Add("username", up.UserName);
             dic.Add("password", up.PassWord);
-            dic.Add("method", FpMethod.import_samples.ToString());
+            //dic.Add("method", FpMethod.import_samples.ToString());
+            dic.Add("method", FpMethod.import_samples_bulk.ToString());
             if (jsonDic != null && jsonDic.Count > 0)
             {
                 foreach (KeyValuePair<string, string> item in jsonDic)

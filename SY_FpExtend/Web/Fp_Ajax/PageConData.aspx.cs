@@ -182,8 +182,8 @@ namespace RuRo.Web
         private string ReturnSampleSocrceType(FreezerProUtility.Fp_Common.UnameAndPwd up)
         {
             //string res = "[{\"value\": \"0\",\"text\": \"基本信息-心研所\" },{\"value\": \"1\", \"text\": \"基本信息-肺癌所\"}]";
-            Common.CreatFpUrl fpurl = new Common.CreatFpUrl();
-            string url = fpurl.FpUrl;
+            //Common.CreatFpUrl fpurl = new Common.CreatFpUrl();
+            //string url = fpurl.FpUrl;
             Dictionary<string, string> dic = FreezerProUtility.Fp_BLL.SampleSocrce.GetAllIdAndNamesDic(up);
             List<Dictionary<string, string>> list = new List<Dictionary<string, string>>();
             if (dic.Count > 0)
@@ -255,7 +255,6 @@ namespace RuRo.Web
                             temdic.Add("text", str[i]);
                             list.Add(temdic);
                         }
-
                     }
                 }
             }
