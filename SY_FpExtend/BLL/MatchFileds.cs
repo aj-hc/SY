@@ -54,7 +54,9 @@ namespace RuRo.BLL
             dic.Add("_99", "采集人");
             dic.Add("_100", "采集目的");
             dic.Add("_117", "脏器");
-
+            dic.Add("laiyuan", "样品来源");
+            dic.Add("yongtu", "用途");
+            dic.Add("Sample_group", "样品课题组");
             return dic;
         }
         public static Dictionary<string, string> ClinicalFiledsMatchDic()

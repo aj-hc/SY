@@ -74,7 +74,8 @@ $(function () {
             //{ field: 'Organ', title: '器官', width: '20%', align: 'center' },
             //{ field: 'OrganSubdivision', title: '器官细分', width: '30%', align: 'center' },
             { field: 'laiyuan', title: '样品来源', width: '10%', align: 'center',hidden:'false' },
-            { field: 'yongtu', title: '用途', width: '15%', align: 'center', hidden: 'false' }
+            { field: 'yongtu', title: '用途', width: '15%', align: 'center', hidden: 'false' },
+            { field: 'Sample_group', title: '样品组', width: '15%', align: 'center', hidden: 'false' }
         ]],
         tools: [
             {
@@ -249,10 +250,32 @@ $(function () {
         panelHeight: 'auto',
         onSelect: function (rec) {
             var text = $('#sampleTypeE').combobox('getValue');
-            if (text.indexOf("组织") > 0) { $('#volumeE').textbox('setValue', '500'); }
-            if (text.indexOf("血") > 0) { $('#volumeE').textbox('setValue', '400'); }
+            $('#volumeE').textbox('clear');
+            if (text.indexOf("组织") > 0) { $('#volumeE').textbox('setValue', '500'); text = "";return; }
+            if (text.indexOf("血") > 0) { $('#volumeE').textbox('setValue', '400'); text = ""; return; }
+            if (text.indexOf("细胞") > 0) { $('#volumeE').textbox('setValue', '300'); text = ""; return; }
+            if (text.indexOf("心耳") > 0) { $('#volumeE').textbox('setValue', '300'); text = ""; return; }
+            if (text.indexOf("上清") > 0) { $('#volumeE').textbox('setValue', '400'); text = ""; return; }
+            else
+            {
+                $('#volumeE').textbox('setValue', '400');
+            }
         }
     });
+})
+//样品组
+$(function () {
+    var username = $.cookie('username');
+    var keshi = $.cookie(username + 'department');
+    $.ajax({
+                type: 'get',
+                url: '../Fp_Ajax/PageConData.aspx?conMarc=SampleType_keti&keti=' + keshi,
+                async: false,
+                success: function (data)
+                {
+                    $('#SampleGroupE').combobox('setValue',data);
+                }
+            });
 })
 //样品来源
 $(function () {

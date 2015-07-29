@@ -48,6 +48,7 @@ namespace RuRo.Web
                 case "SampleGroups": Response.Write(ReturnSampleGroups(up)); break;
                 case "SampleType_S": Response.Write(ReturnSampleType_S(up)); break;
                 case "SampleType_U": Response.Write(ReturnSampleType_U(up)); break;
+                case "SampleType_keti": Response.Write(Returnketi()); break;
                 default:
                     break;
             }
@@ -296,6 +297,20 @@ namespace RuRo.Web
             }
             string json = FreezerProUtility.Fp_Common.FpJsonHelper.DictionaryListToJsonString(list);
             return json;
+        }
+
+        private string Returnketi()
+        {
+          string strDes = Request.Params["keti"];
+          string str = RuRo.Common.DEncrypt.DESEncrypt.Decrypt(strDes);
+          string res="";
+          switch (str)
+          {
+              case"心研所":res="XYS";break;
+              case "肺癌所": res = "FAS"; break;
+              default:break;
+          }
+          return res;
         }
         #endregion
     }

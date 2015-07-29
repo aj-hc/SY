@@ -67,9 +67,9 @@
 <body leftmargin="0" topmargin="0" marginheight="0" marginwidth="0">
 
     <form id="Form1" method="post" runat="server">
-        <div id="mianlogo" style="width: 20%; height: 40px; position: absolute; top: 110px; left: 190px;">
+<%--        <div id="mianlogo" style="width: 20%; height: 40px; position: absolute; top: 110px; left: 190px;">
             <img src="../Images/LoGo.jpg" style="width: 190px; height: 40px; z-index: 100"></img>
-        </div>
+        </div>--%>
         <br/>
         <br/>
         <br/>
@@ -87,18 +87,8 @@
                         <br/>
                         <table width="570" border="0" cellspacing="0" cellpadding="0">
                             <tr>
-                                <td>
-                                    <table cellspacing="0" cellpadding="0" width="570" border="0">
-                                        <tbody>
-                                            <tr>
-                                                <td width="245" height="80" align="center" valign="top"></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </td>
-                            </tr>
-                            <tr>
                                 <td><img src="Images/Images/a_te01.gif" width="570" height="3"></td>
+                                 <img src="../Images/LoGo.jpg" style="width: 550px; height: 40px; z-index: 100"></img>
                             </tr>
                             <tr>
                                 <td align="center" background="Images/Images/a_te02.gif">
@@ -142,7 +132,7 @@
                             <tr>
                                 <td>
                                     <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                                        <tr><td height="80" align="center">广东省人民医院</td></tr>
+                                        <tr><td height="80" align="center">广东省人民医院生物样本库</td></tr>
                                     </table>
                                 </td>
                             </tr>

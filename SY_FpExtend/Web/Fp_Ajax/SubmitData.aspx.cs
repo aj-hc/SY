@@ -245,6 +245,9 @@ namespace RuRo.Web.Fp_Ajax
                     string SampleSource = baseInfoDic["Name"];
                     string Scount = item["Scount"];
                     string SampleType = item["SampleType"];
+                    string laiyuan = item["laiyuan"];
+                    string yongtu = item["yongtu"];
+                    string Sample_group = item["Sample_group"];
                     if (sampleInfoDic.ContainsKey("ALIQUOT"))
                     {
                         sampleInfoDic["ALIQUOT"] = ALIQUOT.ToString();
@@ -276,6 +279,30 @@ namespace RuRo.Web.Fp_Ajax
                     else
                     {
                         sampleInfoDic.Add("Sample Type", SampleType);
+                    }
+                    if (sampleInfoDic.ContainsKey("laiyuan"))
+                    {
+                        sampleInfoDic["laiyuan"] = laiyuan;
+                    }
+                    else
+                    {
+                        sampleInfoDic.Add("laiyuan", laiyuan);
+                    }
+                    if (sampleInfoDic.ContainsKey("yongtu"))
+                    {
+                        sampleInfoDic["yongtu"] = yongtu;
+                    }
+                    else
+                    {
+                        sampleInfoDic.Add("yongtu", yongtu);
+                    }
+                    if (sampleInfoDic.ContainsKey("Sample_group"))
+                    {
+                        sampleInfoDic["Sample_group"] = Sample_group;
+                    }
+                    else
+                    {
+                        sampleInfoDic.Add("Sample_group", Sample_group);
                     }
                     Tem = FreezerProUtility.Fp_Common.FpJsonHelper.DeserializeObject<Dictionary<string, string>>(FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(MatchSampleInfoDic(RemoveEmpty(AddName(sampleInfoDic, PatientID)))));
                     for (int i = 0; i < int.Parse(Scount); i++)
@@ -601,6 +628,9 @@ namespace RuRo.Web.Fp_Ajax
             //}
             pageSampleDgDic.Add("Volume", pageSampleDg.Volume);
             pageSampleDgDic.Add("Scount", pageSampleDg.Scount.ToString());
+            pageSampleDgDic.Add("laiyuan", pageSampleDg.laiyuan);
+            pageSampleDgDic.Add("yongtu", pageSampleDg.yongtu);
+            pageSampleDgDic.Add("Sample_group", pageSampleDg.Sample_group);
             return pageSampleDgDic;
         }
         #endregion

@@ -450,11 +450,13 @@ function AddSampleInfoToDg() {
                 Volume: from[1].value,
                 Scount: from[2].value,
                 laiyuan:from[3].value,
-                yongtu:from[4].value
+                yongtu: from[4].value,
+                Sample_group: from[5].value
             }
         });
         $('#dg_SampleInfo').datagrid('showColumn', 'laiyuan');
         $('#dg_SampleInfo').datagrid('showColumn', 'yongtu');
+        $('#dg_SampleInfo').datagrid('showColumn', 'Sample_group');
     }
 }
 function clearSampleInfoAddForm() {
