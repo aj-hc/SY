@@ -14,15 +14,15 @@
 </head>
 <body>
         <div class="easyui-panel" title="知情同意书管理" style="width:800px;padding:30px 70px 50px 70px">
-            <form id="querybycodeform">
-                <div runat="server">
-                    查找方式：
-                    <input id="In_CodeType" class="easyui-combobox" name="querybycode" style="width: 200px;" data-options="prompt:'请选择条码类型',required:true" />
-                    <input id="In_Code" class="easyui-textbox" data-options="prompt:'请输入条码',required:true" />
-                    <a href="javascript:void(0)" id="btnGet" class="easyui-linkbutton" onclick="querybycode()">查询患者信息</a>
-                </div>
-            </form>
             <table>
+                <tr>
+                    <td>姓名：</td>
+                    <td><input class="easyui-textbox" name="_80" id="_80" data-options="required:true" /></td>
+                </tr>
+                <tr>
+                    <td style="display: none">患者ID：</td>
+                    <td style="display: none"><input class="easyui-textbox" name="PatientID" id="_91" data-options="required:true" /></td>
+                </tr>
                 <tr>
                     <td>读取知情同意书：</td>
                     <td><input class="easyui-filebox" 
@@ -38,8 +38,6 @@
                     <td><a href="javascript:void(0)" id="btnGet" class="easyui-linkbutton" onclick="">上传图片</a></td>
                 </tr>
             </table>
-                     
-            </>
         </div>
 </body>
 </html>

@@ -140,6 +140,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TB_CONSENT_FORM.cs" />
     <Compile Include="TB_SAMPLE_LOG.cs" />
     <Compile Include="FP_LINKAGE.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

@@ -96,6 +96,17 @@ function querybycode() {
                             var ds = obj._BaseInfo.ds;
                             //$("#BaseInfoForm").form("load", ds[0]);
                             AddBaseInfoToForm(ds[0]);
+                            var PName=$("#_80").textbox('getText');
+                            var PId=$("#_91").textbox('getText');;
+                            if (PName != "" || PId != "" || PName != null || PId != null)
+                            {
+                                GetConsentForm(PName,PId);
+                            }
+                            else
+                            {
+                                $.messager.alert('提示', '获取不到唯一标识码，请验证病人信息是否正确', 'error');
+                                return;
+                            }
                         }
                     }
                     if (obj._ClinicalInfo) {
@@ -124,6 +135,10 @@ function querybycode() {
                     //            return;
                     //        }
                     //        AddBaseInfoToForm(ds[0]);
+                    //        var PName = $("#_80").textbox('getText');
+                    //        var PId = $("#_91").textbox('getText');;
+                    //        if (PName != "" || PId != "" || PName != null || PId != null) {GetConsentForm(PName, PId);}
+                    //        else {$.messager.alert('提示', '获取不到唯一标识码，请验证病人信息是否正确', 'error');}
                     //    }
                     //}
                     //if (obj._ClinicalInfo)
@@ -159,6 +174,40 @@ function querybycode() {
             }
         });
     }
+}
+//查询是否存在知情同意书
+function GetConsentForm(name, id)
+{
+    var pname=encodeURI(name);//对中文进行转码
+    $.ajax({
+        type: 'post',
+        dataType: "json",
+        url: '/Fp_Ajax/GetData.aspx?action=getConsentForm&name=' + pname + '&uid=' + id,
+        success: function (data) {
+            if (data.ds == "[]" || data.ds == "" || data.ds == undefined || data.ds == null) {
+                $.messager.confirm('提示！', '患者没有知情同意书,是否添加', function (r) {
+                    $('#ConsentBook').combobox('clear');
+                    if (r) {
+
+                        window.open('ConsentForm.aspx?name=' + pname + '&uid=' + id, 'newwindow', 'height=600,width=900,top=0,left=0,toolbar=no,menubar=no,scrollbars=no,resizable=no, location=no,status=no');
+                    }
+                    else
+                    {}
+                });
+            } else
+            {
+                $('#ConsentBook').combobox('clear');
+                var _consent = data.ds;
+                $('#ConsentBook').combobox({
+                    data: _consent,
+                    method: 'get',
+                    valueField: 'Consent_From',
+                    textField: 'Consent_From',
+                    panelHeight: 'auto'
+                });
+            }
+        }
+    });
 }
 //清除控件值
 function clearForm() {
@@ -523,3 +572,4 @@ function ajaxLoadEnd() {
     $(".datagrid-mask").remove();
     $(".datagrid-mask-msg").remove();
 }
+

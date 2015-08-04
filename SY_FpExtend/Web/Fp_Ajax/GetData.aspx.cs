@@ -14,8 +14,6 @@ namespace RuRo.Web.Fp_Ajax
         {
             //获取页面传来的值
             string action = Request.Params["action"].ToString();
-            string In_CodeType = Request.Params["In_CodeType"].ToString();
-            string In_Code = Request.Params["In_Code"].ToString();
             string strPatientInfoJson = "";//患者门诊住院信息
             string strDiagnoseInfoJson = "";//门诊住院诊断信息
             //string strExamineRequestJson = "";//检验申请单信息
@@ -23,6 +21,8 @@ namespace RuRo.Web.Fp_Ajax
             //string strEmployeeInfoJson = "";//员工信息
             if (action == "gethisdata")
             {
+                string In_CodeType = Request.Params["In_CodeType"].ToString();
+                string In_Code = Request.Params["In_Code"].ToString();
                 if (string.IsNullOrEmpty(In_Code) || string.IsNullOrEmpty(In_CodeType) || In_Code == "" || In_CodeType == "") { }
                 else
                 {
@@ -66,6 +66,17 @@ namespace RuRo.Web.Fp_Ajax
                     } 
                     #endregion
                 }
+            }
+            if (action == "getConsentForm")
+            {
+                string name = Request.Params["name"].ToString();
+                string uid = Request.Params["uid"].ToString();
+                Model.TB_CONSENT_FORM consent = new Model.TB_CONSENT_FORM();
+                consent.PatientName = name;
+                consent.PatientID = Convert.ToInt32(uid);
+                BLL.TB_CONSENT_FORM bll = new TB_CONSENT_FORM();
+                string strJson=bll.GetTB_CONSENT_FORM_BLL(consent);
+                Response.Write(strJson);
             }
         }
 
