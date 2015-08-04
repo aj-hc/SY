@@ -459,6 +459,7 @@
     <Content Include="include\jquery-easyui-1.4.3\themes\metro\validatebox.css" />
     <Content Include="include\jquery-easyui-1.4.3\themes\metro\window.css" />
     <Content Include="include\jquery-easyui-1.4.3\themes\mobile.css" />
+    <Content Include="include\js\setDateJs.js" />
     <Content Include="index.aspx" />
     <Content Include="informedFrom\informedFrom.aspx" />
     <Content Include="TestData\1.html" />
@@ -666,6 +667,7 @@
     <Content Include="Login.aspx" />
     <Content Include="TestData\Fpfunction.js" />
     <Content Include="TestData\WebTest1.aspx" />
+    <Content Include="Text.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -772,6 +774,9 @@
     <Compile Include="ImportSample.aspx.designer.cs">
       <DependentUpon>ImportSample.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Fp_Ajax\getImg.ashx.cs">
+      <DependentUpon>getImg.ashx</DependentUpon>
+    </Compile>
     <Compile Include="index.aspx.cs">
       <DependentUpon>index.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -807,6 +812,13 @@
     </Compile>
     <Compile Include="TestData\WebTest1.aspx.designer.cs">
       <DependentUpon>WebTest1.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Text.aspx.cs">
+      <DependentUpon>Text.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Text.aspx.designer.cs">
+      <DependentUpon>Text.aspx</DependentUpon>
     </Compile>
     <Compile Include="ValidateCode.aspx.cs">
       <DependentUpon>ValidateCode.aspx</DependentUpon>
@@ -848,6 +860,7 @@
     <Content Include="ValidateCode.aspx" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Consentimg\" />
     <Folder Include="Error\AppError\" />
     <Folder Include="Error\AppExError\" />
   </ItemGroup>
@@ -861,6 +874,7 @@
     <Content Include="include\JSON\Employee.json" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Fp_Ajax\getImg.ashx" />
     <None Include="Properties\PublishProfiles\sy.pubxml" />
     <None Include="Properties\PublishProfiles\SY1.pubxml" />
   </ItemGroup>

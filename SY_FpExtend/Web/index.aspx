@@ -15,7 +15,7 @@
     <script src="include/jquery-easyui-1.4.3/outlook2.js"></script>
     <script src="include/js/jquery.cookie.js"></script>
 </head>
-<body class="easyui-layout" style="overflow-y: hidden"  scroll="no">
+<body class="easyui-layout" style="overflow-y: hidden"  scrolling="no" >
     <noscript>
         <div style=" position:absolute; z-index:100000; height:2046px;top:0px;left:0px; width:100%; background:white; text-align:center;">
             <img src="Images/IndexImg/noscript.gif" alt='抱歉，请开启脚本支持！'/>
@@ -26,12 +26,12 @@
             <asp:Label ID="laName" Text="" runat="server"></asp:Label>&nbsp;
             <a href="#" id="loginOut">安全退出</a>
         </span>
-        <span style="padding-left:10px; font-size: 16px; ">
+        <span style="padding-left:10px; font-size: 16px;">
             <img src="Images/IndexImg/blocks.gif" width="20" height="20" align="absmiddle" />广东省人民医院生物样品管理库
         </span>
     </div>
     <div region="south" split="true" style="height: 30px; background: #D2E0F2; ">
-        <div class="footer">安杰生物科技公司</div>
+        <div class="footer">广东省人民医院生物样品管理库</div>
     </div>
     <div region="west" split="true" title="导航菜单" style="width:180px;" id="west">
         <div class="easyui-accordion" fit="false" border="false"><!--  导航内容 -->
@@ -43,7 +43,7 @@
             </div>
         </div>
     </div>
-    <div id="mainPanle" region="center" style="background: #eee; overflow-y:hidden">
+    <div id="mainPanle" region="center" style="background: #eee; fit="true"">
         <div id="tabs" class="easyui-tabs"  fit="true" border="false" >
             <div title="欢迎使用" style="padding:20px;overflow:hidden;" id="home">
 				<h1>欢迎进入</h1>

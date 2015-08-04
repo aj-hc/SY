@@ -1,19 +1,16 @@
-﻿//验证图片为IMG文件
+﻿
 $(function () {
-    $('#file1').filebox({
-        onChange: function ()
+    var pname = $.cookie('pname');
+    var puid = $.cookie('uid');
+    if (pname == undefined ) { }
+    else
+    {
+        if (puid == undefined) { $.messager.alert('提示', '该患者没有唯一标识，请确认是否正确', 'error'); return; }
+        else
         {
-            var text = $('#file1').filebox('getText');
-            if (text.indexOf(".jpg") > 0 || text.indexOf(".JPG") > 0 || text.indexOf(".JPEG") > 0 || text.indexOf(".jpeg") > 0)
-            {
-                //document.write("<img src='" + text + "'/>");
-            }
-            else
-            {
-                $.messager.alert('错误', '图片格式必须为jpg', 'error');
-                $('#file1').filebox('setText','');
-            }
-            text = "";
+            $('#_80').textbox('setValue', getname);
+            $('#_91').textbox('setValue', getuid);
         }
-    });
+    }
 })
+

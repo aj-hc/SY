@@ -188,8 +188,9 @@ function GetConsentForm(name, id)
                 $.messager.confirm('提示！', '患者没有知情同意书,是否添加', function (r) {
                     $('#ConsentBook').combobox('clear');
                     if (r) {
-
-                        window.open('ConsentForm.aspx?name=' + pname + '&uid=' + id, 'newwindow', 'height=600,width=900,top=0,left=0,toolbar=no,menubar=no,scrollbars=no,resizable=no, location=no,status=no');
+                        $.cookie('pname', pname);
+                        $.cookie('uid', id);
+                        window.open('ConsentForm.aspx?', 'aa', 'height=600,width=900,top=0,left=0,toolbar=no,menubar=no,scrollbars=no,resizable=no, location=no,status=no');
                     }
                     else
                     {}

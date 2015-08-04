@@ -7,16 +7,15 @@ using System.Web.UI.WebControls;
 
 namespace RuRo.Web
 {
-	public partial class ConsentForm : System.Web.UI.Page
-	{
-		protected void Page_Load(object sender, EventArgs e)
-		{
-
-		}
-        protected void btnPost_Click(object sender, EventArgs e)
+    public partial class Text : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
         {
-            string strname = Request["_80"];//只能通过NAME标识控件
-            string struid = Request["PatientID"];
+
+        }
+
+        protected void Button1_Click(object sender, EventArgs e)
+        {
             for (int i = 0; i < Request.Files.Count; i++)
             {
                 HttpPostedFile file = Request.Files[i];
@@ -44,5 +43,5 @@ namespace RuRo.Web
                 }
             }
         }
-	}
+    }
 }
