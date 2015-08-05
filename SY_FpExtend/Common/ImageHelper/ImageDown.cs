@@ -3,7 +3,7 @@ using System.IO;
 using System.Net;
 using System.Text.RegularExpressions;
 
-namespace RuRo.Common
+namespace RuRo.Common.ImageHelper
 {
     /// <summary>  
     /// 图片下载  

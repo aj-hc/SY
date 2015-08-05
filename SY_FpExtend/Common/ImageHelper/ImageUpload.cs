@@ -4,7 +4,7 @@ using System.Web;
 using System.Web.UI.HtmlControls;  
 using System.Drawing;
 
-namespace RuRo.Common
+namespace RuRo.Common.ImageHelper
 {  
     /// <summary>  
     /// 文件类型  
