@@ -129,6 +129,7 @@
     <Reference Include="System.Data">
       <Name>System.Data</Name>
     </Reference>
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Web">
       <Name>System.Web</Name>
     </Reference>
@@ -139,6 +140,10 @@
   <ItemGroup>
     <Compile Include="CreatFpUrl.cs" />
     <Compile Include="HttpHelper.cs" />
+    <Compile Include="ImageHelper\ImageClass.cs" />
+    <Compile Include="ImageHelper\ImageDown.cs" />
+    <Compile Include="ImageHelper\ImageUpload.cs" />
+    <Compile Include="ImageHelper\PicDeal.cs" />
     <Compile Include="JavaScriptPlus.cs" />
     <Compile Include="CookieHelper.cs" />
     <Compile Include="DataTableHelper.cs" />

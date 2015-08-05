@@ -28,14 +28,16 @@
                     </tr>
                     <tr>
                         <td>读取知情同意书：</td>
-                        <td><asp:FileUpload ID="idFile" Width="150px" runat="server" /></td>
+                        <td><asp:FileUpload ID="idFile" Width="350px" runat="server" /></td>
                     </tr>
                     <tr>
                         <td>设置日期：</td>
                         <td><input class="easyui-datebox" name="fromdate" id="fromdate" data-options="required:true" /></td>
                     </tr>
                    <tr>
-                       <td><asp:Button ID="btnPost" runat="server" Text="上传图片" OnClick="btnPost_Click" /></td>
+                       <td><a href="javascript:void(0)" id="btnGet" class="easyui-linkbutton" onclick="checkfile()">上传图片</a></td>
+                       <td style="display: none"><img id="tempimg" dynsrc="" src="" style="display:none" />  </td>
+                       <%--<td><asp:Button ID="btnPost" runat="server" Text="上传图片" OnClick="btnPost_Click"  /></td>--%>
                    </tr>
                    <tr>
                         <asp:Image ID="Image1" runat="server"/> 
