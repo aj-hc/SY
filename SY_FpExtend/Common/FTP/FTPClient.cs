@@ -632,10 +632,11 @@ namespace RuRo.Common.FTP
         }  
   
   
-        /// <summary>  
-        /// 上传一个文件  
-        /// </summary>  
-        /// <param name="strFileName">本地文件名</param>  
+        /// <summary>
+        /// 上传一个文件
+        /// </summary>
+        /// <param name="strFileName">本地文件路径（记得包含名称）</param>
+        /// <param name="strGuid">文件名称</param>
         public void PutByGuid(string strFileName, string strGuid)  
         {  
             if (!bConnected)  
@@ -644,7 +645,7 @@ namespace RuRo.Common.FTP
             }  
             string str = strFileName.Substring(0, strFileName.LastIndexOf("\\"));  
             string strTypeName = strFileName.Substring(strFileName.LastIndexOf("."));  
-            strGuid = str + "\\" + strGuid;  
+            strGuid = str + "\\" + strGuid;
             System.IO.File.Copy(strFileName, strGuid);  
             System.IO.File.SetAttributes(strGuid, System.IO.FileAttributes.Normal);  
             Socket socketData = CreateDataSocket();  

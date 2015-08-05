@@ -70,6 +70,7 @@ namespace RuRo.Common.FTP
             }
         }
 
+
         /// <summary>
         /// 下载
         /// </summary>

@@ -137,8 +137,42 @@ namespace RuRo.Common.FTP
         /// <summary>    
         /// 获取当前目录下明细(包含文件和文件夹)    
         /// </summary>    
+        //public string[] GetFilesDetailList()
+        //{
+        //    try
+        //    {
+        //        StringBuilder result = new StringBuilder();
+        //        FtpWebRequest ftp;
+        //        ftp = (FtpWebRequest)FtpWebRequest.Create(new Uri(ftpURI));
+        //        ftp.Credentials = new NetworkCredential(ftpUserID, ftpPassword);
+        //        ftp.Method = WebRequestMethods.Ftp.ListDirectoryDetails;
+        //        WebResponse response = ftp.GetResponse();
+        //        StreamReader reader = new StreamReader(response.GetResponseStream());
+        //        string line = reader.ReadLine();
+        //        line = reader.ReadLine();
+        //        line = reader.ReadLine();
+        //        while (line != null)
+        //        {
+        //            result.Append(line);
+        //            result.Append("\n");
+        //            line = reader.ReadLine();
+        //        }
+        //        if (line != null)
+        //        {
+        //            result.Remove(result.ToString().LastIndexOf("\n"), 1);
+        //        }
+        //        reader.Close();
+        //        response.Close();
+        //        return result.ToString().Split('\n');
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception(ex.Message);
+        //    }
+        //}
         public string[] GetFilesDetailList()
         {
+            string[] downloadFiles;
             try
             {
                 StringBuilder result = new StringBuilder();
@@ -147,24 +181,27 @@ namespace RuRo.Common.FTP
                 ftp.Credentials = new NetworkCredential(ftpUserID, ftpPassword);
                 ftp.Method = WebRequestMethods.Ftp.ListDirectoryDetails;
                 WebResponse response = ftp.GetResponse();
-                StreamReader reader = new StreamReader(response.GetResponseStream());
+                StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.Default);
                 string line = reader.ReadLine();
-                line = reader.ReadLine();
-                line = reader.ReadLine();
                 while (line != null)
                 {
                     result.Append(line);
                     result.Append("\n");
                     line = reader.ReadLine();
                 }
-                result.Remove(result.ToString().LastIndexOf("\n"), 1);
+                if (line != null)
+                {
+                    result.Remove(result.ToString().LastIndexOf("\n"), 1);
+                }
                 reader.Close();
                 response.Close();
                 return result.ToString().Split('\n');
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                downloadFiles = null;
+                Insert_Standard_ErrorLog.Insert("FtpWeb", "GetFilesDetailList Error --> " + ex.Message);
+                return downloadFiles;
             }
         }
 
@@ -344,6 +381,36 @@ namespace RuRo.Common.FTP
                 ftpRemotePath += DirectoryName + "/";
             }
             ftpURI = "ftp://" + ftpServerIP + "/" + ftpRemotePath + "/";
+        }
+
+        /// <summary>
+        /// 获取当前目录下所有的文件夹列表(仅文件夹)
+        /// </summary>
+        /// <returns></returns>
+        public string[] GetDirectoryList()
+        {
+            string[] drectory = GetFilesDetailList();
+            string m = string.Empty;
+            foreach (string str in drectory)
+            {
+                int dirPos = str.IndexOf("<DIR>");
+                if (dirPos > 0)
+                {
+                    /*判断 Windows 风格*/
+                    m += str.Substring(dirPos + 5).Trim() + "\n";
+                }
+                //else if (str.Trim().Substring(0, 1).ToUpper() == "D")
+                //{
+                //    /*判断 Unix 风格*/
+                //    string dir = str.Substring(54).Trim();
+                //    if (dir != "." && dir != "..")
+                //    {
+                //        m += dir + "\n";
+                //    }
+                //}
+            }
+            char[] n = new char[] { '\n' };
+            return m.Split(n);
         }
     }
 }
