@@ -1,5 +1,4 @@
-﻿
-$(function () {
+﻿$(function () {
     var pname = $.cookie('pname');
     var puid = $.cookie('uid');
     if (pname == undefined ) { }
@@ -16,38 +15,41 @@ $(function () {
 function getImg()
 {
     var imgpath = document.getElementById("idFile").value;
-    if (imgpath.indexOf("jpg") > 0)
-    {
-        if (getFileSize(imgpath)) {
-
-        }
-        else
-        {
-            $.messager.alert('提示', '上传的文件不得大于1M', 'error');
-            return;
-        }
-        
-    }
+    var name = $('#_80').textbox('getText');
+    var uid = $('#_91').textbox('getText');
+    var date = $('#fromdate').datebox('getText');
+    //检测上传信息
+    if (uid=="") {$.messager.alert('提示', '患者唯一标识为空', 'error'); return;}
+    if (date=="") {$.messager.alert('提示', '日期为空', 'error'); return;}
+    if (imgpath == "") { $.messager.alert('提示', '图片格式为空', 'error'); return; }
+    if (name == "") { $.messager.alert('提示', '患者姓名为空', 'error'); return; }
     else
     {
-        $.messager.alert('提示', '只支持格式为JPG的图片格式', 'error'); return;
+        if (imgpath.indexOf("jpg") > 0 || imgpath.indexOf("jpeg") > 0) {
+            $.ajax({
+                type: "POST",
+                url: "/Fp_Ajax/getImg.ashx?uid=" + uid + "&timedate=" + date,
+                data: { imgPath: imgpath },
+                cache: false,
+                success: function (data) {
+                    $.messager.alert('提示', '上传成功');
+                    $("#imgDiv").empty();
+                    $("#imgDiv").html(data);
+                    $("#imgDiv").show();
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown)
+                {
+                    $.messager.alert('提示', '上传失败，请检查网络后重试', 'error'); return;
+                }
+            });
+        }
+        else {
+            $.messager.alert('提示', '只支持格式为JPG或JPEG的图片格式', 'error'); return;
+        }
     }
-
 }
 
-//判断图片大小
-function ckFileSize(path)
-{
-    //把附件当做图片处理放在缓冲区预加载
-    var file = new Image();
-    //设置附件的url
-    file.dynsrc = path;
-    //获取上传的文件的大小
-    var filesize = file.fileSize / 1024;
-    if (filesize > 3072) {  return false;}
-    return true;
 
-}
 
 var maxsize = 1024*900;//2M  
 var errMsg = "上传的附件文件不能超过1M！！！";  
@@ -67,7 +69,7 @@ function checkfile()
         if (browserCfg.firefox || browserCfg.chrome) { filesize = obj_file.files[0].size; }
         else if (browserCfg.ie) {
             var obj_img = document.getElementById('tempimg');  
-            obj_img.dynsrc=obj_file.value;  
+            obj_img.src = obj_file.value;
             filesize = obj_img.fileSize;  
         }else{  
             alert(tipMsg);  
@@ -78,8 +80,6 @@ function checkfile()
         else { alert("文件大小符合要求");  return;  }  
     }catch(e){  alert(e);  }  
 }
-
-
  var ImgObj=new Image();      //建立一个图像对象 
  var AllImgExt=".jpg|.jpeg|.gif|.bmp|.png|"//全部图片格式类型 
  var FileObj,ImgFileSize,ImgWidth,ImgHeight,FileExt,ErrMsg,FileMsg,HasCheked,IsImg//全局变量 图片相关属性 
@@ -126,10 +126,9 @@ function checkfile()
          else 
              ShowMsg(FileMsg,true); 
          } 
-    
-     ImgObj.onerror=function(){ErrMsg='\n图片格式不正确或者图片已损坏!'} 
+ImgObj.onerror=function(){ErrMsg='\n图片格式不正确或者图片已损坏!'} 
      
-     function ShowMsg(msg,tf) //显示提示信息 tf=true 显示文件信息 tf=false 显示错误信息 msg-信息内容 
+function ShowMsg(msg,tf) //显示提示信息 tf=true 显示文件信息 tf=false 显示错误信息 msg-信息内容 
          { 
              msg=msg.replace("\n","<li>"); 
              msg=msg.replace(/\n/gi,"<li>"); 
@@ -152,7 +151,7 @@ function checkfile()
                  } 
              } 
          
-         function CheckExt(obj) 
+function CheckExt(obj) 
              { 
                  ErrMsg=""; 
                  FileMsg=""; 

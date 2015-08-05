@@ -5,7 +5,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
 
-namespace RuRo.Common
+namespace RuRo.Common.ImageHelper
 {
     public class ImageClass
     {

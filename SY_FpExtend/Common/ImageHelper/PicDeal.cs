@@ -4,7 +4,7 @@ using System.Collections;
 using System.Drawing;
 using System.IO;
 
-namespace RuRo.Common
+namespace RuRo.Common.ImageHelper
 {
     /// <summary>  
     /// 枚举,生成缩略图模式  

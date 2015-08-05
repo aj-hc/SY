@@ -137,6 +137,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CreatFpUrl.cs" />
+    <Compile Include="Filehleper\FileOperateHelper.cs" />
+    <Compile Include="Filehleper\DirFileHelper.cs" />
+    <Compile Include="FTP\FTPClient.cs" />
+    <Compile Include="FTP\FTPHelper.cs" />
+    <Compile Include="FTP\FTPOperater.cs" />
+    <Compile Include="FTP\FtpWeb.cs" />
     <Compile Include="HttpHelper.cs" />
     <Compile Include="ImageHelper\ImageClass.cs" />
     <Compile Include="ImageHelper\ImageDown.cs" />
@@ -177,7 +183,7 @@
     <Compile Include="DEncrypt\RSACryption.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="INIFile.cs" />
+    <Compile Include="Filehleper\INIFile.cs" />
     <Compile Include="MessageBox.cs">
       <SubType>Code</SubType>
     </Compile>

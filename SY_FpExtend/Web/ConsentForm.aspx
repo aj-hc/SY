@@ -16,7 +16,7 @@
 </head>
 <body>
         <div class="easyui-panel" title="知情同意书管理" style="width:800px;padding:30px 70px 50px 70px">
-            <form id="form1" runat="server">
+           <form  enctype="multipart/form-data" method="post" runat="server">
                <table>
                     <tr>
                         <td>姓名：</td>
@@ -24,7 +24,7 @@
                     </tr>
                     <tr>
                         <td style="display: none">患者ID：</td>
-                        <td style="display: none"><input class="easyui-textbox" name="PatientID" id="_91" data-options="required:true" /></td>
+                        <td ><input class="easyui-textbox" name="PatientID" id="_91" data-options="required:true" /></td>
                     </tr>
                     <tr>
                         <td>读取知情同意书：</td>
@@ -35,12 +35,12 @@
                         <td><input class="easyui-datebox" name="fromdate" id="fromdate" data-options="required:true" /></td>
                     </tr>
                    <tr>
-                       <td><a href="javascript:void(0)" id="btnGet" class="easyui-linkbutton" onclick="checkfile()">上传图片</a></td>
+                       <td><a href="javascript:void(0)" id="btnGet" class="easyui-linkbutton" onclick="getImg()">上传图片</a></td>
                        <td style="display: none"><img id="tempimg" dynsrc="" src="" style="display:none" />  </td>
                        <%--<td><asp:Button ID="btnPost" runat="server" Text="上传图片" OnClick="btnPost_Click"  /></td>--%>
                    </tr>
                    <tr>
-                        <asp:Image ID="Image1" runat="server"/> 
+                        <div id="imgDiv"></div>
                    </tr>
             </table>
             </form>
