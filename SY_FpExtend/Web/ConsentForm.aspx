@@ -23,8 +23,8 @@
                         <td><input class="easyui-textbox" name="_80" id="_80" data-options="required:true" /></td>
                     </tr>
                     <tr>
-                        <td style="display: none">患者ID：</td>
-                        <td ><input class="easyui-textbox" name="PatientID" id="_91" data-options="required:true" /></td>
+                        <td>样品源名称：</td>
+                        <td ><input class="easyui-numberbox" name="PatientID" id="_91" data-options="required:true" /></td>
                     </tr>
                     <tr>
                         <td>读取知情同意书：</td>
@@ -32,15 +32,10 @@
                     </tr>
                     <tr>
                         <td>设置日期：</td>
-                        <td><input class="easyui-datebox" name="fromdate" id="fromdate" data-options="required:true" /></td>
+                        <td><input class="easyui-datebox" name="fromdate" id="fromdate" data-options="required:true,editable:false" /></td>
                     </tr>
                    <tr>
                        <td><a href="javascript:void(0)" id="btnGet" class="easyui-linkbutton" onclick="getImg()">上传图片</a></td>
-                       <td style="display: none"><img id="tempimg" dynsrc="" src="" style="display:none" />  </td>
-                       <%--<td><asp:Button ID="btnPost" runat="server" Text="上传图片" OnClick="btnPost_Click"  /></td>--%>
-                   </tr>
-                   <tr>
-                        <div id="imgDiv"></div>
                    </tr>
             </table>
             </form>

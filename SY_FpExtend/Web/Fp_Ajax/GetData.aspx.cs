@@ -69,8 +69,8 @@ namespace RuRo.Web.Fp_Ajax
             }
             if (action == "getConsentForm")
             {
-                string name = Request.Params["name"].ToString();
-                string uid = Request.Params["uid"].ToString();
+                string name = Request.Params["gname"].ToString();
+                string uid = Request.Params["guid"].ToString();
                 Model.TB_CONSENT_FORM consent = new Model.TB_CONSENT_FORM();
                 consent.PatientName = name;
                 consent.PatientID = Convert.ToInt32(uid);

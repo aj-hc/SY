@@ -33,7 +33,7 @@
     <div region="south" split="true" style="height: 30px; background: #D2E0F2; ">
         <div class="footer">广东省人民医院生物样品管理库</div>
     </div>
-    <div region="west" split="true" title="导航菜单" style="width:180px;" id="west">
+    <div region="west" split="true" title="导航菜单" style="width:180px;" id="nav">
         <div class="easyui-accordion" fit="false" border="false"><!--  导航内容 -->
             <div title="插件管理" data-options="iconCls:'icon-sys'" style="overflow:auto;padding:0px;">
                 <ul>

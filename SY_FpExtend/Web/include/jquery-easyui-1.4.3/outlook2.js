@@ -3,18 +3,7 @@
     tabClose();
     tabCloseEven();
 });
-////前台弄过来的
-//var _menus = {
-//    "menus": [
-//         {
-//             "menuid": "1", "icon": "icon-sys", "menuname": "插件管理",
-//             "menus":
-//                 [
-//                     { "menuname": "导入样品", "icon": "icon-nav", "url": "ExtendPage.aspx" },
-//                     { "menuname": "知情同意书", "icon": "icon-nav", "url": "demo.html" }]
-//         }
-//    ]
-//};
+//退出登录
 $(function () {
     $('#loginOut').click(function () {
         $.messager.confirm('系统提示', '您确定要退出本次登录吗?', function (r) {
@@ -27,7 +16,6 @@ $(function () {
         });
     })
 });
-//end
 //初始化左侧
 function InitLeftMenu()
 {
@@ -160,3 +148,4 @@ function CloseWebPage() {
         window.close();
     }
 }
+

@@ -22,7 +22,7 @@ namespace RuRo.DAL
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("insert into TB_CONSENT_FORM(");
-            strSql.Append("Path,PatientName,PatientID)");
+            strSql.Append("Path,PatientName,PatientID,Consent_From)");
             strSql.Append(" values (");
             strSql.Append("@Path,@PatientName,@PatientID,@Consent_From )");
             strSql.Append(";select @@IDENTITY");
@@ -291,7 +291,7 @@ namespace RuRo.DAL
         #endregion  BasicMethod
         #region  ExtensionMethod
         /// <summary>
-        /// 
+        /// 查询是否存在唯一标识
         /// </summary>
         /// <param name="name"></param>
         /// <param name="id"></param>
@@ -300,6 +300,21 @@ namespace RuRo.DAL
         {
             string strsql = "SELECT * FROM TB_CONSENT_FORM WHERE PatientName='" + model.PatientName + "' AND PatientID=" + model.PatientID;
             return DbHelperSQL_SY.QuerySY(strsql);
+        }
+        public string Sel_TB_CONSENT_FORM_Count(string uid, string consent_from) 
+        {
+            string strsql = "SELECT COUNT(*) FROM TB_CONSENT_FORM WHERE PatientID=" + uid + " AND Consent_From='" + consent_from+"'";
+            string mes = "";
+            DataSet ds=DbHelperSQL_SY.QuerySY(strsql);
+            mes=ds.Tables[0].Rows[0]["Column1"].ToString();
+            if (mes=="0")
+            {
+                return "";
+            }
+            else
+            {
+                return "数据已存在";
+            }
         }
         #endregion  ExtensionMethod
     }

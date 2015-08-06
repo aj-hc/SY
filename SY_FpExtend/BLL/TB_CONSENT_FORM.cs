@@ -167,6 +167,12 @@ namespace RuRo.BLL
             ds = dal.GetTB_CONSENT_FORM(model);
             return FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(ds);
         }
+        public string Sel_TB_CONSENT_FORM_Count_Bll(string patientID, string consent_from)
+        {
+            string str = "";
+            str = dal.Sel_TB_CONSENT_FORM_Count(patientID, consent_from);
+            return str;
+        }
         #endregion  ExtensionMethod
     }
 }

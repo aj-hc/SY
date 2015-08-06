@@ -33,14 +33,6 @@ namespace RuRo.Web
                     Common.LogHelper.WriteError(ex);
                     keshi = "";
                 }
-                //if (keshi == "")
-                //{
-                //    lakeshi.Text = username;
-                //}
-                //else 
-                //{
-                //    lakeshi.Text = keshi + "/" + username;
-                //}
             }
         }
     }
