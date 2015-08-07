@@ -16,19 +16,10 @@
 function getImg()
 {
     var imgpath = document.getElementById("idFile").value;
-    var pname = $.cookie('pname');
-    var puid = $.cookie('uid');
     var name = "";
     var uid = "";
-    if (pname == null | pname == "")
-    {
-        name = encodeURI($('#_80').textbox('getText'));
-    }
-    else
-    {
-        name = pname;
-    }
-    if (puid == null | puid == "") {uid = $('#_91').textbox('getText'); }else {uid = puid}
+    name = encodeURI($('#_80').textbox('getText'));
+    uid = $('#_91').textbox('getText');
     var date = $('#fromdate').datebox('getText');
     //检测上传信息
     if (uid=="") {$.messager.alert('提示', '患者唯一标识为空', 'error'); return;}
@@ -38,6 +29,7 @@ function getImg()
     else
     {
         if (imgpath.indexOf("jpg") > 0 || imgpath.indexOf("jpeg") > 0) {
+            ajaxLoading();
             $.ajax({
                 type: "POST",
                 url: "/Fp_Ajax/getImg.ashx?suid=" + uid + "&timedate=" + date+"&spname="+name,
@@ -45,6 +37,7 @@ function getImg()
                 cache: false,
                 success: function (data)
                 {
+                    ajaxLoadEnd();
                     $.messager.alert('提示', data);
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown)
@@ -56,4 +49,15 @@ function getImg()
         else {$.messager.alert('提示', '只支持格式为JPG或JPEG的图片格式', 'error'); return;}
     }
 }
+
+//采用jquery easyui loading css效果 
+function ajaxLoading() {
+    $("<div class=\"datagrid-mask\"></div>").css({ display: "block", width: "100%", height: $(window).height() }).appendTo("body");
+    $("<div class=\"datagrid-mask-msg\"></div>").html("正在处理，请稍候。。。").appendTo("body").css({ display: "block", left: ($(document.body).outerWidth(true) - 190) / 2, top: ($(window).height() - 45) / 2 });
+}
+function ajaxLoadEnd() {
+    $(".datagrid-mask").remove();
+    $(".datagrid-mask-msg").remove();
+}
+
                  

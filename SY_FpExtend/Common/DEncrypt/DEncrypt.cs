@@ -146,6 +146,23 @@ namespace RuRo.Common.DEncrypt
 		}  
   
 		#endregion
+        /// <summary>
+        /// 是否通过Base64加密验证
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public static bool IsBase64Formatted(string input)
+        {
+            try
+            {
+                Convert.FromBase64String(input);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
 		
 	}
 }

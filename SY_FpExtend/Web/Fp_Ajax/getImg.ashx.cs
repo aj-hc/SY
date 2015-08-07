@@ -119,7 +119,9 @@ namespace RuRo.Web.include.js
         public string Sel_Folder(string url,DateTime dt,string path,string imgname) 
         {
             string mes = "";
-            RuRo.Common.FTP.FTPHelper ftp = new Common.FTP.FTPHelper(url, "", "", "");
+            string struser = ConfigurationManager.AppSettings["FTPUser"];
+            string strpwd = ConfigurationManager.AppSettings["FTPPWD"];
+            RuRo.Common.FTP.FTPHelper ftp = new Common.FTP.FTPHelper(url, "", struser, strpwd);
             string year = dt.Year.ToString();
             string Month = dt.Month.ToString();
             string strMemu = year + "/" + Month;
@@ -198,6 +200,44 @@ namespace RuRo.Web.include.js
 
             
         }
+        /// <summary>
+        /// 获取FTP
+        /// </summary>
+        /// <returns></returns>
+        public Dictionary<string, string> GetFtpPathAndLogin() 
+        {
+            Dictionary<string, string> dic = new Dictionary<string, string>();
+            string strftp = RuRo.Common.DEncrypt.DESEncrypt.IsDesDecrypt(ConfigurationManager.AppSettings["FTPFolder"], "litianping");
+            string struser = RuRo.Common.DEncrypt.DESEncrypt.IsDesDecrypt(ConfigurationManager.AppSettings["FTPUser"], "litianping");
+            string strpwd = RuRo.Common.DEncrypt.DESEncrypt.IsDesDecrypt(ConfigurationManager.AppSettings["FTPPWD"], "litianping");
+            int InPort = Convert.ToInt32(ConfigurationManager.AppSettings["FTPPort"]);
+            if (strftp=="TMD")
+            {
+                dic.Add("FTPFolder", ConfigurationManager.AppSettings["FTPFolder"].ToString());
+            }
+            else
+            {
+                dic.Add("FTPFolder", strftp);
+            }
+            if (struser == "TMD")
+            {
+                dic.Add("FTPFolder", ConfigurationManager.AppSettings["FTPUser"].ToString());
+            }
+            else
+            {
+                dic.Add("FTPFolder", struser);
+            }
+            if (strpwd == "TMD")
+            {
+                dic.Add("FTPFolder", ConfigurationManager.AppSettings["FTPPWD"].ToString());
+            }
+            else
+            {
+                dic.Add("FTPFolder", strpwd);
+            }
+            return dic;
+            
+        }
         #endregion
 
         #region 写入临床数据
@@ -242,16 +282,22 @@ namespace RuRo.Web.include.js
                         //导入成功--保存数据到本地数据库
                         RuRo.Model.TB_CONSENT_FORM model = new Model.TB_CONSENT_FORM();
                         model.Path = datadic["图片网络链接地址"];
-                        model.PatientID =Convert.ToInt32(datadic["Sample Source"]);
+                        model.PatientID = Convert.ToInt32(datadic["Sample Source"]);
                         model.Consent_From = imgguid;
                         model.PatientName = PatientName;
                         RuRo.BLL.TB_CONSENT_FORM bll = new BLL.TB_CONSENT_FORM();
                         bll.Add(model);
                         RuRo.Common.CookieHelper.ClearCookie("uid");
                         RuRo.Common.CookieHelper.ClearCookie("pname");
-                        
+                        res = "导入知情同意书成功，图片地址:" + datadic["图片网络链接地址"];
+                        return res;
                     }
-                    res = "导入知情同意书成功，图片地址:" + datadic["图片网络链接地址"];
+                    else 
+                    {
+                        res = "系统不存在此样品源，图片已保存到FTP，请录入样品源后重新上传！";
+                        return res;
+                    }
+                   
                 }
                 else
                 {

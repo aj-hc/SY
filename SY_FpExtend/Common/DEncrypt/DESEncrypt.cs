@@ -88,7 +88,26 @@ namespace RuRo.Common.DEncrypt
 			cs.Write(inputByteArray,0,inputByteArray.Length); 
 			cs.FlushFinalBlock(); 
 			return Encoding.Default.GetString(ms.ToArray()); 
-		} 
+		}
+
+        /// <summary>
+        /// 判断字符串是否加密过
+        /// </summary>
+        /// <param name="Text">要判断的字符</param>
+        /// <param name="sKey">加密编码</param>
+        /// <returns></returns>
+        public static string IsDesDecrypt(string Text, string sKey) 
+        {
+            try
+            {
+               string streds= Decrypt(Text,sKey);
+               return streds;
+            }
+            catch 
+            {
+                return "TMD";
+            }
+        }
  
 		#endregion 
 

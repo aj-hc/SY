@@ -14,36 +14,7 @@
     <link href="include/css/index.css" rel="stylesheet" />
     <script src="include/jquery-easyui-1.4.3/outlook2.js"></script>
     <script src="include/js/jquery.cookie.js"></script>
-    <script type="text/javascript">
-	
-	 var _menus = {
-		                 "menus":[
-						           {"menuid":"1","icon":"icon-sys","menuname":"项目修改",
-							      "menus":[
-									{ "menuid": "12", "menuname": "网页",  "url": "ExtendPage.aspx" },
-									{ "menuid": "13", "menuname": "类",  "url": "ConsentForm.aspx" }
-								    ]},
-						{"menuid":"8","icon":"icon-sys","menuname":"项目设计",
-							"menus":[{"menuid":"21","menuname":"项目分析","icon":"icon-nav","url":"menu2/tree2.html"},
-									{"menuid":"22","menuname":"菜单","icon":"icon-nav","url":"demo1.html"}
-								]
-						},{"menuid":"56","icon":"icon-sys","menuname":"菜单",
-							"menus":[{"menuid":"31","menuname":"菜单","icon":"icon-nav","url":"demo1.html"},
-									{"menuid":"32","menuname":"菜单","icon":"icon-nav","url":"demo2.html"}
-								]
-						},{"menuid":"28","icon":"icon-sys","menuname":"菜单",
-							"menus":[{"menuid":"41","menuname":"菜单","icon":"icon-nav","url":"demo.html"},
-									{"menuid":"42","menuname":"菜单","icon":"icon-nav","url":"demo1.html"},
-									{"menuid":"43","menuname":"菜单","icon":"icon-nav","url":"demo2.html"}
-								]
-						},{"menuid":"39","icon":"icon-sys","menuname":"菜单",
-							"menus":[{"menuid":"51","menuname":"菜单","icon":"icon-nav","url":"demo.html"},
-									{"menuid":"52","menuname":"菜单","icon":"icon-nav","url":"demo1.html"},
-									{"menuid":"53","menuname":"菜单","icon":"icon-nav","url":"demo2.html"}
-								]
-						}
-				]};
-    </script>
+
 </head>
 <body class="easyui-layout" style="overflow-y: hidden"  scrolling="no" >
     <noscript>
@@ -51,33 +22,34 @@
             <img src="Images/IndexImg/noscript.gif" alt='抱歉，请开启脚本支持！'/>
         </div>
     </noscript>
-    <div region="north" split="true" border="false" style="overflow: hidden; height: 30px;background: url(Images/IndexImg/layout-browser-hd-bg.gif) #7f99be repeat-x center 50%;line-height: 20px;color: #fff; font-family: Verdana, 微软雅黑,黑体">
-        <span style="float:right; padding-right:20px;" class="head">
+    <!-- url(Images/IndexImg/layout-browser-hd-bg.gif)-->
+    <div region="north" split="true" border="false" style="overflow: hidden; height: 60px;background:  #fff repeat-x center 50%;color: #fff; font-family: Verdana, 微软雅黑,黑体">
+        <span style="padding-left:0px; ">
+            <img src="Images/LoGo.jpg" width="460px" height="100%" align="absmiddle" />
+        </span>
+        <span style="float:right; padding-right:20px;" class="head" index="100">
             <asp:Label ID="laName" Text="" runat="server"></asp:Label>&nbsp;
             <a href="#" id="loginOut">安全退出</a>
-        </span>
-        <span style="padding-left:10px; font-size: 16px;">
-            <img src="Images/IndexImg/blocks.gif" width="20" height="20" align="absmiddle" />广东省人民医院生物样品管理库
         </span>
     </div>
     <div region="south" split="true" style="height: 30px; background: #D2E0F2; ">
         <div class="footer">广东省人民医院生物样品管理库</div>
     </div>
     <div region="west" split="true" title="导航菜单" style="width:180px;" id="nav">
-        <div class="easyui-accordion" fit="false" border="false"><!--  导航内容 -->
+        <div id="nav" class="easyui-accordion" fit="false" border="false"><!--  导航内容 -->
             <div title="插件管理" data-options="iconCls:'icon-sys'" style="overflow:auto;padding:0px;">
                 <ul>
-                    <li><div><a target="mainFrame"   href="ExtendPage.aspx"><span></span>导入样品</a></div></li> 
-                    <li><div><a target="mainFrame"   href="ConsentForm.aspx"><span></span>知情同意书</a></div></li> 
+                    <li><div><a target="mainFrame"  rel="ExtendPage.aspx"  ><span></span>导入样品</a></div></li> 
+                    <li><div><a target="mainFrame"  rel="ConsentForm.aspx" ><span></span>知情同意书</a></div></li> 
                 </ul>
             </div>
         </div>
     </div>
-    <div id="mainPanle" region="center" style="background: #eee; fit="true"">
-        <div id="tabs" class="easyui-tabs"  fit="true" border="false"options="onSelect:getSelected()" >
-<%--            <div title="欢迎使用" style="padding:20px;overflow:hidden;" id="home">
+    <div id="mainPanle" region="center" style="background: #eee; ">
+        <div id="tabs" class="easyui-tabs"  fit="true" border="false">
+            <div title="欢迎使用" style="padding:20px;overflow:hidden;" id="home">
 				<h1>欢迎进入</h1>
-            </div>--%>
+            </div>
         </div>
     </div>
     <div id="mm" class="easyui-menu" style="width:150px;">

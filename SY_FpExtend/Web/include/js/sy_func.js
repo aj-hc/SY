@@ -185,7 +185,7 @@ function GetConsentForm(name, id)
         url: '/Fp_Ajax/GetData.aspx?action=getConsentForm&gname=' + pname + '&guid=' + id,
         success: function (data) {
             if (data.ds == "[]" || data.ds == "" || data.ds == undefined || data.ds == null) {
-                $.messager.confirm('提示！', '患者没有知情同意书,是否添加', function (r) {
+                $.messager.confirm('提示！', '患者没有知情同意书,是否添加！(仅支持样本库系统已存在样品源的情况下才能添加)', function (r) {
                     $('#ConsentBook').combobox('clear');
                     if (r) {
                         $.cookie('pname', pname);

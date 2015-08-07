@@ -16,9 +16,11 @@
         <br></br>
         <Label>密__码:</Label> <asp:TextBox ID="txtPwd" runat="server" TextMode="Password"></asp:TextBox>
         <br></br>
-        <Label>数据库:</Label> <asp:TextBox ID="txtSql" runat="server"></asp:TextBox>
+        <Label>数据库:</Label> <asp:TextBox ID="txtSql" runat="server"></asp:TextBox><Label>（FTP加密不填）</Label>
         <br></br>
-        <asp:Button runat="server" ID="ok" Text="翻滚吧！牛宝宝" OnClick="ok_Click" />
+        <asp:Button runat="server" ID="ok" Text="生成数据库加密" OnClick="ok_Click" />
+        <br></br>
+        <asp:Button runat="server" ID="Button1" Text="生成FTP加密" OnClick="Button1_Click"  />
         <div></div>
         <br></br>
         <asp:TextBox runat="server" ID="txtEncrypt" TextMode="MultiLine" Height="131px" Width="388px"></asp:TextBox>

@@ -88,7 +88,7 @@
                         <table width="570" border="0" cellspacing="0" cellpadding="0">
                             <tr>
                                 <td><img src="Images/Images/a_te01.gif" width="570" height="3"></td>
-                                 <img src="../Images/LoGo.jpg" style="width: 550px; height: 40px; z-index: 100"></img>
+                                <img src="../Images/LoGo.jpg" style="width: 400px; height: 50px; z-index: 100;float:left; padding-left:30px"></img>
                             </tr>
                             <tr>
                                 <td align="center" background="Images/Images/a_te02.gif">

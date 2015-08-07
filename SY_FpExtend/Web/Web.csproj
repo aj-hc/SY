@@ -77,6 +77,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ConsentForm.aspx" />
+    <Content Include="Consentimg\新建文本文档.txt" />
+    <Content Include="Error\AppError\新建文本文档.txt" />
+    <Content Include="Error\AppExError\新建文本文档.txt" />
     <Content Include="Fp_Ajax\LogData.aspx" />
     <Content Include="Images\IndexImg\blocks.gif" />
     <Content Include="Images\IndexImg\directory.png" />
@@ -85,7 +88,6 @@
     <Content Include="Images\IndexImg\tabicons.png" />
     <Content Include="include\css\index.css" />
     <Content Include="include\jquery-easyui-1.4.3\outlook2.js" />
-    <Content Include="include\jquery-easyui-1.4.3\outlook3.js" />
     <Content Include="include\js\consentFormPage.js" />
     <Content Include="include\js\jquery.cookie.js" />
     <Content Include="include\js\BindFuncToId.js" />
@@ -860,11 +862,7 @@
     <Content Include="MasterPage.master" />
     <Content Include="ValidateCode.aspx" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Consentimg\" />
-    <Folder Include="Error\AppError\" />
-    <Folder Include="Error\AppExError\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="Images\Images\MenuImg\Thumbs.db" />
   </ItemGroup>

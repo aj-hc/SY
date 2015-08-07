@@ -20,7 +20,7 @@ namespace RuRo.Web
                 if (!login.CheckLoginByCookie())
                 {
                     //Response.Redirect("Login.aspx");
-                    Response.Redirect("index.aspx");
+                    //Response.Redirect("index.aspx");
                 }
                 string username = Common.CookieHelper.GetCookieValue("username");
                 string keshi = Common.CookieHelper.GetCookieValue(username + "department");

@@ -22,9 +22,10 @@ function InitLeftMenu()
     $('.easyui-accordion li a').click(function ()
     {
 		var tabTitle = $(this).text();
-		var url = $(this).attr("href");
+		//var url = $(this).attr("href");
+        var url = $(this).attr("rel");
 		addTab(tabTitle,url);
-		$('.easyui-accordion li div').removeClass("selected");
+		$('.easyui-accordion div ul li div').removeClass("selected");
 		$(this).parent().addClass("selected");
 	}).hover(function(){$(this).parent().addClass("hover");},function(){$(this).parent().removeClass("hover");});
 	$(".easyui-accordion").accordion();
@@ -37,7 +38,7 @@ function addTab(subtitle, url)
 			title:subtitle,
 			content:createFrame(url),
 			closable:true
-			//width:$('#mainPanle').width()-10,
+		    //width:$('#mainPanle').width()-10, createFrame(url),
 			//height:$('#mainPanle').height()-26
 		});
     }
@@ -50,8 +51,7 @@ function addTab(subtitle, url)
 }
 function createFrame(url)
 {
-   // name = "mainFrame"
-	var s = '<iframe scrolling="no" frameborder="0"  src="'+url+'" style="width:100%;height:100%;"></iframe>';
+    var s = '<iframe scrolling="yes"  name = "mainFrame" frameborder="0"  src="' + url + '" style="width:100%;height:98%;"></iframe>';
 	return s;
 }
 function tabClose()
