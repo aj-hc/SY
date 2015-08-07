@@ -85,6 +85,7 @@
     <Content Include="Images\IndexImg\tabicons.png" />
     <Content Include="include\css\index.css" />
     <Content Include="include\jquery-easyui-1.4.3\outlook2.js" />
+    <Content Include="include\jquery-easyui-1.4.3\outlook3.js" />
     <Content Include="include\js\consentFormPage.js" />
     <Content Include="include\js\jquery.cookie.js" />
     <Content Include="include\js\BindFuncToId.js" />

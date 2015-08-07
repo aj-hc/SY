@@ -14,6 +14,36 @@
     <link href="include/css/index.css" rel="stylesheet" />
     <script src="include/jquery-easyui-1.4.3/outlook2.js"></script>
     <script src="include/js/jquery.cookie.js"></script>
+    <script type="text/javascript">
+	
+	 var _menus = {
+		                 "menus":[
+						           {"menuid":"1","icon":"icon-sys","menuname":"项目修改",
+							      "menus":[
+									{ "menuid": "12", "menuname": "网页",  "url": "ExtendPage.aspx" },
+									{ "menuid": "13", "menuname": "类",  "url": "ConsentForm.aspx" }
+								    ]},
+						{"menuid":"8","icon":"icon-sys","menuname":"项目设计",
+							"menus":[{"menuid":"21","menuname":"项目分析","icon":"icon-nav","url":"menu2/tree2.html"},
+									{"menuid":"22","menuname":"菜单","icon":"icon-nav","url":"demo1.html"}
+								]
+						},{"menuid":"56","icon":"icon-sys","menuname":"菜单",
+							"menus":[{"menuid":"31","menuname":"菜单","icon":"icon-nav","url":"demo1.html"},
+									{"menuid":"32","menuname":"菜单","icon":"icon-nav","url":"demo2.html"}
+								]
+						},{"menuid":"28","icon":"icon-sys","menuname":"菜单",
+							"menus":[{"menuid":"41","menuname":"菜单","icon":"icon-nav","url":"demo.html"},
+									{"menuid":"42","menuname":"菜单","icon":"icon-nav","url":"demo1.html"},
+									{"menuid":"43","menuname":"菜单","icon":"icon-nav","url":"demo2.html"}
+								]
+						},{"menuid":"39","icon":"icon-sys","menuname":"菜单",
+							"menus":[{"menuid":"51","menuname":"菜单","icon":"icon-nav","url":"demo.html"},
+									{"menuid":"52","menuname":"菜单","icon":"icon-nav","url":"demo1.html"},
+									{"menuid":"53","menuname":"菜单","icon":"icon-nav","url":"demo2.html"}
+								]
+						}
+				]};
+    </script>
 </head>
 <body class="easyui-layout" style="overflow-y: hidden"  scrolling="no" >
     <noscript>
@@ -37,18 +67,30 @@
         <div class="easyui-accordion" fit="false" border="false"><!--  导航内容 -->
             <div title="插件管理" data-options="iconCls:'icon-sys'" style="overflow:auto;padding:0px;">
                 <ul>
-                    <li><div><a target="mainFrame" href="ExtendPage.aspx"><span></span>导入样品</a></div></li> 
-                    <li><div><a target="mainFrame" href="ConsentForm.aspx"><span></span>知情同意书</a></div></li> 
+                    <li><div><a target="mainFrame"   href="ExtendPage.aspx"><span></span>导入样品</a></div></li> 
+                    <li><div><a target="mainFrame"   href="ConsentForm.aspx"><span></span>知情同意书</a></div></li> 
                 </ul>
             </div>
         </div>
     </div>
     <div id="mainPanle" region="center" style="background: #eee; fit="true"">
-        <div id="tabs" class="easyui-tabs"  fit="true" border="false" >
-            <div title="欢迎使用" style="padding:20px;overflow:hidden;" id="home">
+        <div id="tabs" class="easyui-tabs"  fit="true" border="false"options="onSelect:getSelected()" >
+<%--            <div title="欢迎使用" style="padding:20px;overflow:hidden;" id="home">
 				<h1>欢迎进入</h1>
-            </div>
+            </div>--%>
         </div>
+    </div>
+    <div id="mm" class="easyui-menu" style="width:150px;">
+      <div id="mm-tabupdate">刷新</div>
+      <div class="menu-sep"></div>
+      <div id="mm-tabclose">关闭</div>
+      <div id="mm-tabcloseall">全部关闭</div>
+      <div id="mm-tabcloseother">除此之外全部关闭</div>
+      <div class="menu-sep"></div>
+      <div id="mm-tabcloseright">当前页右侧全部关闭</div>
+      <div id="mm-tabcloseleft">当前页左侧全部关闭</div>
+      <div class="menu-sep"></div>
+      <div id="mm-exit">退出</div>
     </div>
 </body>
 </html>

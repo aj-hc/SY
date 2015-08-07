@@ -36,20 +36,22 @@ function addTab(subtitle, url)
 		$('#tabs').tabs('add',{
 			title:subtitle,
 			content:createFrame(url),
-			closable:true,
-			width:$('#mainPanle').width()-10,
-			height:$('#mainPanle').height()-26
+			closable:true
+			//width:$('#mainPanle').width()-10,
+			//height:$('#mainPanle').height()-26
 		});
     }
     else
     {
-		$('#tabs').tabs('select',subtitle);
+        $('#tabs').tabs('select', subtitle);
+        $('#mm-tabupdate').click();
 	}
 	tabClose();
 }
 function createFrame(url)
 {
-	var s = '<iframe name="mainFrame" scrolling="auto" frameborder="0"  src="'+url+'" style="width:100%;height:100%;"></iframe>';
+   // name = "mainFrame"
+	var s = '<iframe scrolling="no" frameborder="0"  src="'+url+'" style="width:100%;height:100%;"></iframe>';
 	return s;
 }
 function tabClose()
