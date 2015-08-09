@@ -65,8 +65,7 @@ namespace RuRo.Web.include.js
                     {
                         map.Save(savePath);
                         map.Clone();
-                        string url = ConfigurationManager.AppSettings["FTPFolder"];
-                        mes = Sel_Folder(url, dt, savePath, imgName);
+                        mes = Sel_Folder(dt, savePath, imgName);
                         if (mes.Contains("ftp"))
                         {
                             //写入Freezerpro文件和数据库
@@ -116,17 +115,20 @@ namespace RuRo.Web.include.js
         /// <param name="path">图片保存在服务端的路径</param>
         /// <param name="strGuid">图片名称</param>
         /// <returns></returns>
-        public string Sel_Folder(string url,DateTime dt,string path,string imgname) 
+        public string Sel_Folder(DateTime dt,string path,string imgname) 
         {
             string mes = "";
-            string struser = ConfigurationManager.AppSettings["FTPUser"];
-            string strpwd = ConfigurationManager.AppSettings["FTPPWD"];
+            Dictionary<string, string> dic = new Dictionary<string, string>();
+            dic = GetFtpPathAndLogin();
+            string url = dic["FTPFolder"];
+            string struser = dic["FTPUser"];
+            string strpwd = dic["FTPPWD"];
             RuRo.Common.FTP.FTPHelper ftp = new Common.FTP.FTPHelper(url, "", struser, strpwd);
             string year = dt.Year.ToString();
             string Month = dt.Month.ToString();
             string strMemu = year + "/" + Month;
             string[] YearFolder = ftp.GetDirectoryList();
-            if (Get_FolderForBool(year, YearFolder))//判断是否存在年份命名的文件夹，没有则创建
+            if (Get_FolderForBool(year, YearFolder))//判断是否存在年份命名的文件夹，没有则创建//没有返回true
             {
                 ftp.MakeDir(year);//创建文件夹
                 #region 判断所属的月份是否存在并操作
@@ -179,26 +181,22 @@ namespace RuRo.Web.include.js
             string mes = "";
             try
             {
-                string strftp = ConfigurationManager.AppSettings["FTPFolder"];
-                string struser = ConfigurationManager.AppSettings["FTPUser"];
-                string strpwd = ConfigurationManager.AppSettings["FTPPWD"];
-                int InPort = Convert.ToInt32(ConfigurationManager.AppSettings["FTPPort"]);
+                Dictionary<string, string> dic = new Dictionary<string, string>();
+                dic = GetFtpPathAndLogin();
                 RuRo.Common.FTP.FTPClient ftpc = new Common.FTP.FTPClient();
-                ftpc.RemoteHost = strftp;
-                ftpc.RemoteUser = struser;
-                ftpc.RemotePass = strpwd;
-                ftpc.RemotePort = InPort;
+                ftpc.RemoteHost = dic["FTPFolder"];
+                ftpc.RemoteUser = dic["FTPUser"];
+                ftpc.RemotePass = dic["FTPPWD"];
+                ftpc.RemotePort = Convert.ToInt32(dic["FTPPort"]);
                 ftpc.RemotePath = strMemu;
                 ftpc.PutByGuid(path, imgname);
-                mes ="ftp://"+ strftp+"/"+strMemu + imgname;
+                mes = "ftp://" + dic["FTPFolder"] + "/" + strMemu + imgname;
                 return mes;
             }
-            catch(Exception ex) 
+            catch (Exception ex)
             {
-                return ex.ToString() ;
+                return ex.ToString();
             }
-
-            
         }
         /// <summary>
         /// 获取FTP
@@ -210,8 +208,8 @@ namespace RuRo.Web.include.js
             string strftp = RuRo.Common.DEncrypt.DESEncrypt.IsDesDecrypt(ConfigurationManager.AppSettings["FTPFolder"], "litianping");
             string struser = RuRo.Common.DEncrypt.DESEncrypt.IsDesDecrypt(ConfigurationManager.AppSettings["FTPUser"], "litianping");
             string strpwd = RuRo.Common.DEncrypt.DESEncrypt.IsDesDecrypt(ConfigurationManager.AppSettings["FTPPWD"], "litianping");
-            int InPort = Convert.ToInt32(ConfigurationManager.AppSettings["FTPPort"]);
-            if (strftp=="TMD")
+            int InPort = Convert.ToInt32(ConfigurationManager.AppSettings["FTPPort"].ToString());
+            if (strftp == "TMD")
             {
                 dic.Add("FTPFolder", ConfigurationManager.AppSettings["FTPFolder"].ToString());
             }
@@ -221,22 +219,22 @@ namespace RuRo.Web.include.js
             }
             if (struser == "TMD")
             {
-                dic.Add("FTPFolder", ConfigurationManager.AppSettings["FTPUser"].ToString());
+                dic.Add("FTPUser", ConfigurationManager.AppSettings["FTPUser"].ToString());
             }
             else
             {
-                dic.Add("FTPFolder", struser);
+                dic.Add("FTPUser", struser);
             }
             if (strpwd == "TMD")
             {
-                dic.Add("FTPFolder", ConfigurationManager.AppSettings["FTPPWD"].ToString());
+                dic.Add("FTPPWD", ConfigurationManager.AppSettings["FTPPWD"].ToString());
             }
             else
             {
-                dic.Add("FTPFolder", strpwd);
+                dic.Add("FTPPWD", strpwd);
             }
+            dic.Add("FTPPort", InPort.ToString());
             return dic;
-            
         }
         #endregion
 
