@@ -31,6 +31,44 @@
         //        $(this).find(".sidebox").stop().animate({ "width": "45px" }, 200).css({ "opacity": "0.9", "filter": "Alpha(opacity=80)", "background": "192237" })
         //    });
         //});
+        //检测浏览器
+        function getBrowserInfo() {
+            var agent = navigator.userAgent.toLowerCase();
+            var regStr_ie = /msie [\d.]+;/gi;
+            var regStr_ff = /firefox\/[\d.]+/gi
+            var regStr_chrome = /chrome\/[\d.]+/gi;
+            var regStr_saf = /safari\/[\d.]+/gi;
+            //IE
+            if (agent.indexOf("msie") > 0) {
+                return "请使用谷歌浏览器";
+            }
+
+            //firefox
+            if (agent.indexOf("firefox") > 0) {
+                return "请使用谷歌浏览器";
+                //return agent.match(regStr_ff);
+            }
+
+            //Chrome
+            if (agent.indexOf("chrome") > 0) {
+                return "请使用谷歌浏览器"
+            }
+
+            //Safari
+            if (agent.indexOf("safari") > 0 && agent.indexOf("chrome") < 0) {
+                return "请使用谷歌浏览器";
+            }
+
+        }
+        var browser = getBrowserInfo();
+        if (browser == undefined || browser=="") {}
+        else
+        {
+            alert("<a href=\"chome/24.0.1312.56 _chrome_installer.exe\" id=\"dd\" ><div class=\"sidebox\">kkk</div></a>");
+            //var verinfo = (browser + "").replace(/[^0-9.]/ig, "");
+            //alert(verinfo);
+        }
+
     </script>
 </head>
 <body style="width: 100%; height: 100%">

@@ -76,6 +76,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="chome\ChromeStandaloneSetup 21.0.1180.89.exe" />
     <Content Include="ConsentForm.aspx" />
     <Content Include="Consentimg\新建文本文档.txt" />
     <Content Include="Error\AppError\新建文本文档.txt" />
@@ -465,6 +466,7 @@
     <Content Include="include\js\setDateJs.js" />
     <Content Include="index.aspx" />
     <Content Include="informedFrom\informedFrom.aspx" />
+    <Content Include="chome\24.0.1312.56 _chrome_installer.exe" />
     <Content Include="TestData\1.html" />
     <Content Include="Default.aspx" />
     <Content Include="Encrypt.aspx" />

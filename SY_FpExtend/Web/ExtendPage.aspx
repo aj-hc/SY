@@ -83,8 +83,8 @@
                                         <input class="easyui-textbox" name="NativePlace" id="_89" data-options="required:false" /></td>
                                     <td>门诊流水号：</td>
                                     <td><input class="easyui-textbox" name="RegisterSeqNO" id="_90" data-options="required:false" /></td>
-                                    <td>知情同意书编码：</td>
-                                    <td><input class="easyui-combobox" name="ConsentBook" id="ConsentBook" data-options="required:false" /></td>
+                                    <%--<td>知情同意书编码：</td>
+                                    <td><input class="easyui-combobox" name="ConsentBook" id="ConsentBook" data-options="required:false" /></td>--%>
                                     <td style="display: none">患者ID：</td>
                                     <td style="display: none">
                                         <input class="easyui-textbox" name="PatientID" id="_91" data-options="required:true" /></td>

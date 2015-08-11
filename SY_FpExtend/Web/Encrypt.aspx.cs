@@ -26,6 +26,8 @@ namespace RuRo.Web
             string user = RuRo.Common.DEncrypt.DESEncrypt.Encrypt(txtUser.Text.Trim(), "litianping"); 
             string pwd = RuRo.Common.DEncrypt.DESEncrypt.Encrypt(txtPwd.Text.Trim(), "litianping");
             txtEncrypt.Text = "FTP路径：" + path + "\n 账号：" + user + "\n 密码："+pwd;
+            string str = "FTP路径：" + path + "\n 账号：" + user + "\n 密码：" + pwd;
+            
         }
     }
 }
