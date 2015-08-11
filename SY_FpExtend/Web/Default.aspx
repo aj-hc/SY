@@ -40,23 +40,23 @@
             var regStr_saf = /safari\/[\d.]+/gi;
             //IE
             if (agent.indexOf("msie") > 0) {
-                return "请使用谷歌浏览器";
+                return "IE";
             }
 
             //firefox
             if (agent.indexOf("firefox") > 0) {
-                return "请使用谷歌浏览器";
+                return "";
                 //return agent.match(regStr_ff);
             }
 
             //Chrome
             if (agent.indexOf("chrome") > 0) {
-                return "请使用谷歌浏览器"
+                return "";
             }
 
             //Safari
             if (agent.indexOf("safari") > 0 && agent.indexOf("chrome") < 0) {
-                return "请使用谷歌浏览器";
+                return "IE";
             }
 
         }
@@ -64,7 +64,17 @@
         if (browser == undefined || browser=="") {}
         else
         {
-            alert("<a href=\"chome/24.0.1312.56 _chrome_installer.exe\" id=\"dd\" ><div class=\"sidebox\">kkk</div></a>");
+            if (browser == "IE") {
+                $.messager.confirm('提示！', '浏览器版本过低，是否下载谷歌浏览器，是：下载，否：退出', function (r) {
+                    if (r) {
+                        window.open("page.html", "newwindow", "height=100,width=400,toolbar=no,menubar=no,scrollbars=no,resizable=no, location=no,status=no");
+                    }
+                    else { window.close();}
+                });
+
+            }
+
+           
             //var verinfo = (browser + "").replace(/[^0-9.]/ig, "");
             //alert(verinfo);
         }
