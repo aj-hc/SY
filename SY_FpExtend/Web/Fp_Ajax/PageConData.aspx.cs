@@ -48,7 +48,7 @@ namespace RuRo.Web
                 case "SampleGroups": Response.Write(ReturnSampleGroups(up)); break;
                 case "SampleType_S": Response.Write(ReturnSampleType_S(up)); break;
                 case "SampleType_U": Response.Write(ReturnSampleType_U(up)); break;
-                case "SampleType_keti": Response.Write(Returnketi()); break;
+                case "SampleType_keti": Response.Write(Returnketi(up)); break;
                 default:
                     break;
             }
@@ -298,18 +298,44 @@ namespace RuRo.Web
             return json;
         }
 
-        private string Returnketi()
+        private string Returnketi(FreezerProUtility.Fp_Common.UnameAndPwd up)
         {
-          string strDes = Request.Params["keti"];
-          string str = RuRo.Common.DEncrypt.DESEncrypt.Decrypt(strDes);
-          string res="";
-          switch (str)
-          {
-              case"心研所":res="XYS";break;
-              case "肺癌所": res = "FAS"; break;
-              default:break;
-          }
-          return res;
+            Common.CreatFpUrl fpurl = new Common.CreatFpUrl();
+            string url = fpurl.FpUrl;
+            Dictionary<string, string> dic = FreezerProUtility.Fp_BLL.UserFields.GetAllIdAndNamesDic(up);
+            List<Dictionary<string, string>> list = new List<Dictionary<string, string>>();
+            if (dic.Count > 0)
+            {
+                foreach (KeyValuePair<string, string> dd in dic)
+                {
+                    Dictionary<string, string> temdic = new Dictionary<string, string>();
+                    if (dd.Key == "样品课题组")
+                    {
+                        String[] str = dd.Value.Split(new char[] { ',' });
+                        for (int i = 0; i < str.Length; i++)
+                        {
+                            temdic = new Dictionary<string, string>();
+                            temdic.Add("value", i.ToString());
+                            temdic.Add("text", str[i]);
+
+                            list.Add(temdic);
+                        }
+
+                    }
+                }
+            }
+            string json = FreezerProUtility.Fp_Common.FpJsonHelper.DictionaryListToJsonString(list);
+            return json;
+          //string strDes = Request.Params["keti"];
+          //string str = RuRo.Common.DEncrypt.DESEncrypt.Decrypt(strDes);
+          //string res="";
+          //switch (str)
+          //{
+          //    case"心研所":res="XYS";break;
+          //    case "肺癌所": res = "FAS"; break;
+          //    default:break;
+          //}
+          //return res;
         }
         #endregion
     }
