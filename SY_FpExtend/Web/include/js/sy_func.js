@@ -92,7 +92,7 @@ function querybycode() {
                             var ds = obj._BaseInfo.ds;
                             //$("#BaseInfoForm").form("load", ds[0]);
                             AddBaseInfoToForm(ds[0]);
-                            var PName = $("#_80").textbox('getText');
+                            var PName=$("#_80").textbox('getText');
                             var PId = $("#_91").textbox('getText');
                             //查询是否存在知情同意书
                             //if (PName != "" || PId != "" || PName != null || PId != null)
@@ -116,8 +116,8 @@ function querybycode() {
                             $('#ClinicalInfoDg').datagrid({ loadFilter: pagerFilter }).datagrid('loadData', ds).datagrid('reload');
                         }
                     }
-                    // 测试end
-                    ////将数据转换成json对象 正式
+                    //测试end
+                    //将数据转换成json对象 正式
                     //var obj = $.parseJSON(data);
                     //$('#In_Code').textbox('clear');
                     //if (obj._BaseInfo)
@@ -167,7 +167,7 @@ function querybycode() {
                     //    }
                     //}
                     //}
-                    ////正式END
+                    //正式END
                 }
             }
         });
@@ -456,6 +456,10 @@ function clearsetClinicalInfoDg() {
 }
 //添加样本信息到Dg
 function AddSampleInfoToDg() {
+    var SampleGroupEtext = $('SampleGroupE').textbox('getText');
+    if (SampleGroupEtext=="") {
+        $.messager.alert('提示', '样品课题组不能为空', 'error'); return;
+    }
     var isValid = $('#sampleInfoFormToDg').form('validate');
     if (isValid) {
         var from = $('#sampleInfoFormToDg').serializeArray();

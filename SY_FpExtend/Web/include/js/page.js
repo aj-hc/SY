@@ -267,15 +267,24 @@ $(function () {
 $(function () {
     var username = $.cookie('username');
     var keshi = $.cookie(username + 'department');
-    $.ajax({
-                type: 'get',
-                url: '../Fp_Ajax/PageConData.aspx?conMarc=SampleType_keti&keti=' + keshi,
-                async: false,
-                success: function (data)
-                {
-                    $('#SampleGroupE').combobox('setValue',data);
-                }
-            });
+
+    $('#SampleGroupE').combobox({
+        url: '../Fp_Ajax/PageConData.aspx?conMarc=SampleType_keti&keti=' + keshi,
+        method: 'get',
+        valueField: 'text',
+        textField: 'text',
+        panelHeight: 'auto'
+    });
+    //$.ajax({
+    //            type: 'get',
+    //            url: '../Fp_Ajax/PageConData.aspx?conMarc=SampleType_keti&keti=' + keshi,
+    //            method: 'get',
+    //            //async: false,
+    //            //success: function (data)
+    //            //{
+    //            //    $('#SampleGroupE').combobox('setValue',data);
+    //            //}
+    //        });
 })
 //样品来源
 $(function () {

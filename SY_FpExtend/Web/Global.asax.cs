@@ -79,18 +79,18 @@ namespace RuRo.Web
 		protected void Application_AuthenticateRequest(Object sender, EventArgs e)
 		{
 		}
-		protected void Application_Error(Object sender, EventArgs e)
-		{
+        protected void Application_Error(Object sender, EventArgs e)
+        {
             // 在出现未处理的错误时运行的代码
             Exception objErr = Server.GetLastError().GetBaseException();
             //记录出现错误的IP地址
             string strIP = Request.UserHostAddress;
             string err = "Ip【" + strIP + "】" + Environment.NewLine + "Error in【" + Request.Url.ToString() +
-                               "】" + Environment.NewLine + "Error Message【" + objErr.Message.ToString() + "】" + "Error InnerException【" + objErr.InnerException.ToString() + "】" + "Error TargetSite【" + objErr.TargetSite.ToString() + "】" + "Error Source【" + objErr.Source.ToString() + "】";
+                               "】" + Environment.NewLine + "Error Message【" + objErr.Message.ToString() + "】" + "Error TargetSite【" + objErr.TargetSite.ToString() + "】" + "Error Source【" + objErr.Source.ToString() + "】";
             //记录错误
             WriteError(err);
-			
-		}
+        }
+
 		protected void Session_End(Object sender, EventArgs e)
 		{		
 			

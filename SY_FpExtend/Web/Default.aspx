@@ -73,10 +73,6 @@
                 });
 
             }
-
-           
-            //var verinfo = (browser + "").replace(/[^0-9.]/ig, "");
-            //alert(verinfo);
         }
 
     </script>

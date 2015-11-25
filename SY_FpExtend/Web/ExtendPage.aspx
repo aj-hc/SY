@@ -236,8 +236,8 @@
                             <td><input class="easyui-combobox" name="sampleType_U" id="sampleType_U" data-options="required:true,editable:false,prompt:'请选择用途'"/></td>
                         </tr>
                         <tr>
-	    			        <td style="width:100px;">样品组:</td>
-	    			        <td><input class="easyui-combobox" name="SampleGroupE" id="SampleGroupE" data-options="required:false,multiple:true,prompt:'请选择样品组'"/></td>
+	    			        <td style="width:100px;">样品课题组:</td>
+	    			        <td><input class="easyui-combobox" name="SampleGroupE" id="SampleGroupE" data-options="required:false,editable:false,multiple:false,prompt:'请选择样品组'"/></td>
                         </tr>
 <%--                        <tr>
 	    			        <td style="width:100px;">脏器:</td>
