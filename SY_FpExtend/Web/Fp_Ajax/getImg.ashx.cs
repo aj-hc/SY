@@ -24,22 +24,23 @@ namespace RuRo.Web.include.js
             string strUid = context.Request.Params["suid"].ToString();
             string strName = context.Request.Params["spname"].ToString();
             string strdate = context.Request.Params["timedate"].ToString();
-            int InWidth = Convert.ToInt32(ConfigurationManager.AppSettings["ImgWidth"]);
-            int InHeight = Convert.ToInt32(ConfigurationManager.AppSettings["ImgHeight"]);
+            //int InWidth = Convert.ToInt32(ConfigurationManager.AppSettings["ImgWidth"]);
+            //int InHeight = Convert.ToInt32(ConfigurationManager.AppSettings["ImgHeight"]);
             Dictionary<string, string> dicdata = new Dictionary<string, string>();
             string path = "Consentimg\\";
-            Bitmap map = new Bitmap(filePath);
+            //Bitmap map = new Bitmap(filePath);
+
             string mes = "";
-            if (strUid==""||strdate=="")
+            if (strUid == "" || strdate == "")
             {
                 mes = "请检查日期是否选择";
                 context.Response.Write(mes);
             }
-            if (map.Width > InWidth || map.Height > InHeight)//判断图片大小
-            {
-                mes = "图片宽不能超过750像素，高不能超过1024像素";
-                context.Response.Write(mes);
-            }
+            //if (map.Width > InWidth || map.Height > InHeight)//判断图片大小
+            //{
+            //    mes = "图片宽不能超过750像素，高不能超过1024像素";
+            //    context.Response.Write(mes);
+            //}
             else
             {
                 #region 上传
@@ -52,7 +53,7 @@ namespace RuRo.Web.include.js
                     string fileName = Path.GetFileName(filePath);
                     string[] SplitFileName = fileName.Split('.');
                     string mapPath = context.Server.MapPath("~");
-                    string savePath = mapPath + "\\" + path + strUid + date+"1" + "." + SplitFileName[1];//设置路径+（文件名称：path + strUid + date +"."+ SplitFileName[1]）
+                    string savePath = mapPath + "\\" + path + strUid + date + "1" + "." + SplitFileName[1];//设置路径+（文件名称：path + strUid + date +"."+ SplitFileName[1]）
                     string imgName = strUid + date + "." + SplitFileName[1];//获取文件名称
                     string imgGuid = strUid + date;//生成唯一标识
                     //判断数据是否存在
@@ -63,8 +64,21 @@ namespace RuRo.Web.include.js
                     string strJson = bll.Sel_TB_CONSENT_FORM_Count_Bll(strUid, imgGuid);
                     if (strJson == "")
                     {
-                        map.Save(savePath);
-                        map.Clone();
+                        try
+                        {
+                            Bitmap map = new Bitmap(filePath);
+                            //map.Save(savePath);
+                         long quality =long.Parse(System.Configuration.ConfigurationManager.AppSettings["ImgQuality"]);
+                            Common.ImageHelper.ImageClass img = new Common.ImageHelper.ImageClass();
+                            //压缩图片并保存
+                            img.Compress(filePath, savePath, map.Width, map.Height,quality);
+                            //map.Clone();
+                            map.Dispose();
+                        }
+                        catch (System.Exception ex)
+                        {
+                            Common.LogHelper.WriteError(ex);
+                        }
                         mes = Sel_Folder(dt, savePath, imgName);
                         if (mes.Contains("ftp"))
                         {
@@ -75,12 +89,14 @@ namespace RuRo.Web.include.js
                         }
                         else
                         {
-                            context.Response.Write(mes);
-                            context.Response.End();
+                            //写日志
                             RuRo.Model.TB_SAMPLE_LOG log_model = new Model.TB_SAMPLE_LOG();
-                            log_model.MSG ="知情同意书管理："+ mes;
+                            log_model.MSG = "知情同意书管理：" + mes;
                             RuRo.BLL.TB_SAMPLE_LOG log_bll = new BLL.TB_SAMPLE_LOG();
                             log_bll.Add(log_model);
+                            //返回消息
+                            context.Response.Write(mes);
+                            context.Response.End();
                         }
                     }
                     else
@@ -89,9 +105,9 @@ namespace RuRo.Web.include.js
                         context.Response.Write(mes);
                     }
                     #endregion
-                   //将图片保存到FTP操作
+                    //将图片保存到FTP操作
                 }
-                catch (Exception e) 
+                catch (Exception e)
                 {
                     mes = e.ToString();
                     context.Response.Write(mes);
@@ -115,7 +131,7 @@ namespace RuRo.Web.include.js
         /// <param name="path">图片保存在服务端的路径</param>
         /// <param name="strGuid">图片名称</param>
         /// <returns></returns>
-        public string Sel_Folder(DateTime dt,string path,string imgname) 
+        public string Sel_Folder(DateTime dt, string path, string imgname)
         {
             string mes = "";
             Dictionary<string, string> dic = new Dictionary<string, string>();
@@ -132,7 +148,7 @@ namespace RuRo.Web.include.js
             {
                 ftp.MakeDir(year);//创建文件夹
                 #region 判断所属的月份是否存在并操作
-                ftp.GotoDirectory(year,true);//进入年份目录
+                ftp.GotoDirectory(year, true);//进入年份目录
                 string[] MonthFolder = ftp.GetDirectoryList();
                 if (Get_FolderForBool(Month, MonthFolder))
                 {
@@ -140,7 +156,7 @@ namespace RuRo.Web.include.js
                     mes = PostImg(path, imgname, strMemu + "/");//上传到FTP
                     return mes;
                 }
-                else 
+                else
                 {
                     mes = PostImg(path, imgname, strMemu + "/");//上传到FTP
                     return mes;
@@ -155,7 +171,7 @@ namespace RuRo.Web.include.js
                 if (Get_FolderForBool(Month, MonthFolder))
                 {
                     ftp.MakeDir(Month);
-                    mes = PostImg(path, imgname, strMemu+"/");//上传到FTP
+                    mes = PostImg(path, imgname, strMemu + "/");//上传到FTP
                     return mes;
                 }
                 else
@@ -165,7 +181,7 @@ namespace RuRo.Web.include.js
                 }
                 #endregion
             }
-            
+
         }
 
         /// <summary>
@@ -175,7 +191,7 @@ namespace RuRo.Web.include.js
         /// <param name="imgname">本地文件名称</param>
         /// <param name="strMemu">存放子目录</param>
         /// <returns></returns>
-        public string PostImg(string path, string imgname, string strMemu) 
+        public string PostImg(string path, string imgname, string strMemu)
         {
             //获取FTP地址，账号，密码
             string mes = "";
@@ -202,7 +218,7 @@ namespace RuRo.Web.include.js
         /// 获取FTP
         /// </summary>
         /// <returns></returns>
-        public Dictionary<string, string> GetFtpPathAndLogin() 
+        public Dictionary<string, string> GetFtpPathAndLogin()
         {
             Dictionary<string, string> dic = new Dictionary<string, string>();
             string strftp = RuRo.Common.DEncrypt.DESEncrypt.IsDesDecrypt(ConfigurationManager.AppSettings["FTPFolder"], "litianping");
@@ -246,11 +262,11 @@ namespace RuRo.Web.include.js
         /// <param name="datadic"></param>
         /// <param name="imgguid"></param>
         /// <returns></returns>
-        public string Import_TestData(Dictionary<string, string> datadic, string imgguid, string PatientName) 
+        public string Import_TestData(Dictionary<string, string> datadic, string imgguid, string PatientName)
         {
             string res = "";
             //获取账号密码
-            string  username = Common.CookieHelper.GetCookieValue("username");
+            string username = Common.CookieHelper.GetCookieValue("username");
             string pwd = Common.CookieHelper.GetCookieValue("password");
             string password = string.Empty;
             if (!string.IsNullOrEmpty(pwd))
@@ -269,7 +285,7 @@ namespace RuRo.Web.include.js
             Dictionary<string, string> logDic = new Dictionary<string, string>();//操作日志记录
             Dictionary<string, string> importResult = new Dictionary<string, string>();//返回信息
             List<Dictionary<string, string>> dataDicList = new List<Dictionary<string, string>>();//存放临床数据
-            if (datadic.Count>0)
+            if (datadic.Count > 0)
             {
                 dataDicList.Add(datadic);
                 if (dataDicList.Count > 0)
@@ -290,12 +306,12 @@ namespace RuRo.Web.include.js
                         res = "导入知情同意书成功，图片地址:" + datadic["图片网络链接地址"];
                         return res;
                     }
-                    else 
+                    else
                     {
                         res = "系统不存在此样品源，图片已保存到FTP，请录入样品源后重新上传！";
                         return res;
                     }
-                   
+
                 }
                 else
                 {
@@ -313,7 +329,7 @@ namespace RuRo.Web.include.js
         /// <param name="uid">样品源的名称</param>
         /// <param name="path">存放在FTP的路径</param>
         /// <returns></returns>
-        public Dictionary<string, string> Set_dataDic(string uid,string path) 
+        public Dictionary<string, string> Set_dataDic(string uid, string path)
         {
             Dictionary<string, string> dic = new Dictionary<string, string>();
             dic.Add("Sample Source", uid);

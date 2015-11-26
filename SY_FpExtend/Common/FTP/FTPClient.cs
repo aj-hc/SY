@@ -646,7 +646,7 @@ namespace RuRo.Common.FTP
             string str = strFileName.Substring(0, strFileName.LastIndexOf("\\"));  
             string strTypeName = strFileName.Substring(strFileName.LastIndexOf("."));  
             strGuid = str + "\\" + strGuid;
-            System.IO.File.Copy(strFileName, strGuid);  
+            System.IO.File.Copy(strFileName, strGuid);
             System.IO.File.SetAttributes(strGuid, System.IO.FileAttributes.Normal);  
             Socket socketData = CreateDataSocket();  
             SendCommand("STOR " + Path.GetFileName(strGuid));  

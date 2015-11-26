@@ -541,6 +541,41 @@ namespace RuRo.Common.ImageHelper
                 return false;
             }
         }
+        public bool Compress(string oldfile, string newfile, int w, int h, long Qty)
+        {
+            try
+            {
+                Image img = Image.FromFile(oldfile);  //将解码后的image图像赋值给img
+                Bitmap bmb = new Bitmap(w, h);  //创建一个宽w长h的位图（画布）
+                Graphics grap = Graphics.FromImage(bmb); //将要绘制的位图定义为grap。grap继承bmb
+                grap.DrawImage(img, new Rectangle(0, 0, w, h)); //用Rectangle指定一个区域，将img内Rectangle所指定的区域绘制到bmb
+                EncoderParameter p = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, Qty);
+                //EncoderParameter用于存放所有关于当前图片的修改，
+                //Quality为图片质量参数，Quality 类别指定图像的压缩级别，在用于构造 EncoderParameter 时，质量类别的有用值范围为从 0 到 100。 
+                //指定的数值越低，压缩越高，因此图像的质量越低。 值为 0 时，图像的质量最差；值为 100 时，图像的质量最佳
+
+                EncoderParameters ps = new EncoderParameters(1);
+                //EncoderParameters是EncoderParameter类的集合数组
+                ps.Param[0] = p;   //将EncoderParameter中的值传递给EncoderParameters
+                bmb.Save(newfile, GetCodecInfo("image/jpeg"), ps);
+                bmb.Dispose();
+                img.Dispose();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        private ImageCodecInfo GetCodecInfo(string mimeType) //ImageCodecInfo类的作用是确定文件格式，返回值为格式编码
+        {
+            ImageCodecInfo[] CodecInfo = ImageCodecInfo.GetImageEncoders(); //将所有格式的编码信息赋给CodecInfo数组
+            foreach (ImageCodecInfo ici in CodecInfo) //定义一个编码器型参数ici，并建立循环
+            {
+                if (ici.MimeType == mimeType) return ici; //返回传递进来的格式的编码
+            }
+            return null;
+        }
         #endregion
 
         #region 图片灰度化
