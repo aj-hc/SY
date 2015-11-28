@@ -73,6 +73,9 @@ namespace RuRo.Web.include.js
                         }
                         //上传到指定的FTP空间
                         mes = Sel_Folder(dt, savePath, imgName, host);
+                        dicdata = Set_dataDic(strUid, mes);
+                        mes = Import_TestData(dicdata, imgGuid, strName);
+                        context.Response.Write(mes);
                         if (mes.Contains("Download"))
                         {
                             //写入Freezerpro文件和数据库
@@ -196,9 +199,10 @@ namespace RuRo.Web.include.js
                 RuRo.Common.FTP.FTPHelper ftpf = new Common.FTP.FTPHelper(dic["FTPFolder2"], strMemu, dic["FTPUser"], dic["FTPPWD"]);
                 ftpf.Upload(path);
                 string date = dt.ToString("yyyy-MM-dd");
-                mes = CreatDownUrl(imgname, date);
+                mes =CreatDownUrl(imgname, date);
                 //mes = "https://" + host + "/Download.aspx?imgname=" + imgname + "&imgdate=" + date;
                 //mes = "ftp://" + dic["FTPFolder"] + "/" + strMemu + imgname;
+                mes = "http://localhost:3448/Download.aspx?imgdate=2015-01-01&imgname=1";
                 return mes;
             }
             catch (Exception ex)
@@ -346,7 +350,7 @@ namespace RuRo.Web.include.js
         {
             Dictionary<string, string> dic = new Dictionary<string, string>();
             dic.Add("Sample Source", uid);
-            dic.Add("图片网络链接地址", path);
+            dic.Add("图片网络链接地址1", path);
             //dic.Add("NIMABI", path);
             return dic;
         }
@@ -420,7 +424,7 @@ namespace RuRo.Web.include.js
         {
             string url = System.Configuration.ConfigurationManager.AppSettings["host"];
             string page = "Download.aspx";
-            string strDownUrl = string.Format("{0}/Download.aspx?imgname={1}&imgdate={2}", url, name, date);
+            string strDownUrl = string.Format(@"{0}/Download.aspx?imgname={1}&imgdate={2}", url, name, date);
             return strDownUrl;
         }
         #endregion
