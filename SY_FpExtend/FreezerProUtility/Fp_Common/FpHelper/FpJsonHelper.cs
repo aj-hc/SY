@@ -134,20 +134,22 @@ namespace FreezerProUtility.Fp_Common
 
         public static string DictionaryListToJsonString(List<Dictionary<string, string>> listDic)
         {
-            StringBuilder result = new StringBuilder();
-            result.Append("[");
-            foreach (Dictionary<string, string> item in listDic)
-            {
-                result.Append(DictionaryToJsonString(item));
-                if (!result.ToString().Trim().EndsWith(","))//判断结尾是不是“，”号
-                {
-                    result.Append(",");
-                }
-            }
-            result.Remove(result.Length - 1, 1).Append("]");
-
+            //StringBuilder result = new StringBuilder();
+            //result.Append("[");
+            //foreach (Dictionary<string, string> item in listDic)
+            //{
+            //    result.Append(DictionaryToJsonString(item));
+            //    if (!result.ToString().Trim().EndsWith(","))//判断结尾是不是“，”号
+            //    {
+            //        result.Append(",");
+            //    }
             //}
-            return result.ToString();
+            //result.Remove(result.Length - 1, 1).Append("]");
+
+            ////}
+            //return result.ToString();
+            string reslut = JsonConvert.SerializeObject(listDic, Formatting.Indented);
+            return reslut;
         }
         /// <summary>
         /// 将返回的JSON格式的字符串对象转换成对象
