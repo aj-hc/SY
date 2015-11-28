@@ -15,18 +15,25 @@ namespace RuRo.Web
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            string strImgName = Request["imgname"].ToString();
-            string strDate = Request["imgdate"].ToString();
-            //string strImgName = "100065631620151111.jpg";
-            //string strDate = "2015-11-01";
-            Dictionary<string, string> dic = new Dictionary<string, string>();
-            dic = GetFtpPathAndLogin();
-            RuRo.Common.FTP.FTPHelper ftpc = new Common.FTP.FTPHelper(dic["FTPFolder2"], "", dic["FTPUser"], dic["FTPPWD"]);
-            Stream stream = ftpc.DownloadInfo(strImgName);
-            byte[] byteImg = StreamToBytes(stream).ToArray();//将图片转化为二进制流输出
-            Response.ContentType = "image/jpeg";//设定格式
-            Response.BinaryWrite(byteImg);//打印出来
-            Response.End();//结束坑爹
+            try
+            {
+                string strImgName = Request["imgname"].ToString();
+                string strDate = Request["imgdate"].ToString();
+                DateTime dt = Convert.ToDateTime(strDate);
+                string strpath = dt.ToString("yyyy/MM");
+                Dictionary<string, string> dic = new Dictionary<string, string>();
+                dic = GetFtpPathAndLogin();
+                RuRo.Common.FTP.FTPHelper ftpc = new Common.FTP.FTPHelper(dic["FTPFolder2"], strpath, dic["FTPUser"], dic["FTPPWD"]);
+                Stream stream = ftpc.DownloadInfo(strImgName);
+                byte[] byteImg = StreamToBytes(stream).ToArray();//将图片转化为二进制流输出
+                Response.ContentType = "image/jpeg";//设定格式
+                Response.BinaryWrite(byteImg);//打印出来
+                Response.End();//结束坑爹的
+            }
+            catch (Exception ex) 
+            {
+                Response.Write("查询有误，请检查网络");
+            }
         }
 
         /// <summary>
@@ -114,6 +121,6 @@ namespace RuRo.Web
         {
 
         }
-        
+
     }
 }

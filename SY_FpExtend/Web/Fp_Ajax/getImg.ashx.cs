@@ -25,23 +25,14 @@ namespace RuRo.Web.include.js
             string strName = context.Request.Params["spname"].ToString();
             string strdate = context.Request.Params["timedate"].ToString();
             string host = context.Request.Url.Host;
-            //int InWidth = Convert.ToInt32(ConfigurationManager.AppSettings["ImgWidth"]);
-            //int InHeight = Convert.ToInt32(ConfigurationManager.AppSettings["ImgHeight"]);
             Dictionary<string, string> dicdata = new Dictionary<string, string>();
             string path = @"Consentimg\";
-            //Bitmap map = new Bitmap(filePath);
-
             string mes = "";
             if (strUid == "" || strdate == "")
             {
                 mes = "请检查日期是否选择";
                 context.Response.Write(mes);
             }
-            //if (map.Width > InWidth || map.Height > InHeight)//判断图片大小
-            //{
-            //    mes = "图片宽不能超过750像素，高不能超过1024像素";
-            //    context.Response.Write(mes);
-            //}
             else
             {
                 #region 上传
@@ -81,8 +72,8 @@ namespace RuRo.Web.include.js
                             Common.LogHelper.WriteError(ex);
                         }
                         //上传到指定的FTP空间
-                        mes = Sel_Folder(dt, savePath, imgName);
-                        if (mes.Contains("ftp"))
+                        mes = Sel_Folder(dt, savePath, imgName, host);
+                        if (mes.Contains(host))
                         {
                             //写入Freezerpro文件和数据库
                             dicdata = Set_dataDic(strUid, mes);
@@ -132,8 +123,9 @@ namespace RuRo.Web.include.js
         /// <param name="dt">前台传来的日期</param>
         /// <param name="path">图片保存在服务端的路径</param>
         /// <param name="strGuid">图片名称</param>
+        /// <param name="host">网页主机名称</host>
         /// <returns></returns>
-        public string Sel_Folder(DateTime dt, string path, string imgname)
+        public string Sel_Folder(DateTime dt, string path, string imgname,string host)
         {
             string mes = "";
             Dictionary<string, string> dic = new Dictionary<string, string>();
@@ -155,12 +147,12 @@ namespace RuRo.Web.include.js
                 if (Get_FolderForBool(Month, MonthFolder))
                 {
                     ftp.MakeDir(Month);
-                    mes = PostImg(path, imgname, strMemu + "/");//上传到FTP
+                    mes = PostImg(path, imgname, strMemu + "/", host, dt);//上传图片到FTP，并返回访问字符串
                     return mes;
                 }
                 else
                 {
-                    mes = PostImg(path, imgname, strMemu + "/");//上传到FTP
+                    mes = PostImg(path, imgname, strMemu + "/", host, dt);//上传图片到FTP，并返回访问字符串
                     return mes;
                 }
                 #endregion
@@ -173,12 +165,12 @@ namespace RuRo.Web.include.js
                 if (Get_FolderForBool(Month, MonthFolder))
                 {
                     ftp.MakeDir(Month);
-                    mes = PostImg(path, imgname, strMemu + "/");//上传到FTP
+                    mes = PostImg(path, imgname, strMemu + "/", host,dt);//上传图片到FTP，并返回访问字符串
                     return mes;
                 }
                 else
                 {
-                    mes = PostImg(path, imgname, strMemu + "/");//上传到FTP
+                    mes = PostImg(path, imgname, strMemu + "/", host, dt);//上传图片到FTP，并返回访问字符串
                     return mes;
                 }
                 #endregion
@@ -193,7 +185,7 @@ namespace RuRo.Web.include.js
         /// <param name="imgname">本地文件名称</param>
         /// <param name="strMemu">存放子目录</param>
         /// <returns></returns>
-        public string PostImg(string path, string imgname, string strMemu)
+        public string PostImg(string path, string imgname, string strMemu,string host,DateTime dt)
         {
             //获取FTP地址，账号，密码
             string mes = "";
@@ -201,17 +193,20 @@ namespace RuRo.Web.include.js
             {
                 Dictionary<string, string> dic = new Dictionary<string, string>();
                 dic = GetFtpPathAndLogin();
-                RuRo.Common.FTP.FTPClient ftpc = new Common.FTP.FTPClient();
-                ftpc.RemoteHost = dic["FTPFolder"];
-                ftpc.RemoteUser = dic["FTPUser"];
-                ftpc.RemotePass = dic["FTPPWD"];
-                ftpc.RemotePort = Convert.ToInt32(dic["FTPPort"]);
-                ftpc.RemotePath = strMemu;
+                RuRo.Common.FTP.FTPHelper ftpf = new Common.FTP.FTPHelper(dic["FTPFolder2"], strMemu,dic["FTPUser"], dic["FTPPWD"]);
+                ftpf.Upload(path);
+                //RuRo.Common.FTP.FTPClient ftpc = new Common.FTP.FTPClient();
+                //ftpc.RemoteHost = dic["FTPFolder"];
+                //ftpc.RemoteUser = dic["FTPUser"];
+                //ftpc.RemotePass = dic["FTPPWD"];
+                //ftpc.RemotePort = Convert.ToInt32(dic["FTPPort"]);
+                //ftpc.RemotePath = strMemu;
+               // ftpc.Put(path);
+                string date = dt.ToString("yyyy-MM");
                 //ftpc.PutByGuid(path, imgname);
-                ftpc.Put(path);
-                //string host = Request.Url.Host;
-                
-                mes = "ftp://" + dic["FTPFolder"] + "/" + strMemu + imgname;
+
+                mes ="@"+ host + "/Download.aspx?imgname=" + imgname + "&imgdate=" + date;
+                //mes = "ftp://" + dic["FTPFolder"] + "/" + strMemu + imgname;
                 return mes;
             }
             catch (Exception ex)
