@@ -24,10 +24,11 @@ namespace RuRo.Web.include.js
             string strUid = context.Request.Params["suid"].ToString();
             string strName = context.Request.Params["spname"].ToString();
             string strdate = context.Request.Params["timedate"].ToString();
+            string host = context.Request.Url.Host;
             //int InWidth = Convert.ToInt32(ConfigurationManager.AppSettings["ImgWidth"]);
             //int InHeight = Convert.ToInt32(ConfigurationManager.AppSettings["ImgHeight"]);
             Dictionary<string, string> dicdata = new Dictionary<string, string>();
-            string path = "Consentimg\\";
+            string path = @"Consentimg\";
             //Bitmap map = new Bitmap(filePath);
 
             string mes = "";
@@ -53,7 +54,7 @@ namespace RuRo.Web.include.js
                     string fileName = Path.GetFileName(filePath);
                     string[] SplitFileName = fileName.Split('.');
                     string mapPath = context.Server.MapPath("~");
-                    string savePath = mapPath + "\\" + path + strUid + date + "1" + "." + SplitFileName[1];//设置路径+（文件名称：path + strUid + date +"."+ SplitFileName[1]）
+                    string savePath = mapPath + "\\" + path + strUid + date + "." + SplitFileName[1];//设置路径+（文件名称：path + strUid + date +"."+ SplitFileName[1]）
                     string imgName = strUid + date + "." + SplitFileName[1];//获取文件名称
                     string imgGuid = strUid + date;//生成唯一标识
                     //判断数据是否存在
@@ -68,10 +69,10 @@ namespace RuRo.Web.include.js
                         {
                             Bitmap map = new Bitmap(filePath);
                             //map.Save(savePath);
-                         long quality =long.Parse(System.Configuration.ConfigurationManager.AppSettings["ImgQuality"]);
+                            long quality = long.Parse(System.Configuration.ConfigurationManager.AppSettings["ImgQuality"]);
                             Common.ImageHelper.ImageClass img = new Common.ImageHelper.ImageClass();
                             //压缩图片并保存
-                            img.Compress(filePath, savePath, map.Width, map.Height,quality);
+                            img.Compress(filePath, savePath, map.Width, map.Height, quality);
                             //map.Clone();
                             map.Dispose();
                         }
@@ -79,6 +80,7 @@ namespace RuRo.Web.include.js
                         {
                             Common.LogHelper.WriteError(ex);
                         }
+                        //上传到指定的FTP空间
                         mes = Sel_Folder(dt, savePath, imgName);
                         if (mes.Contains("ftp"))
                         {
@@ -136,7 +138,7 @@ namespace RuRo.Web.include.js
             string mes = "";
             Dictionary<string, string> dic = new Dictionary<string, string>();
             dic = GetFtpPathAndLogin();
-            string url = dic["FTPFolder"];
+            string url = dic["FTPFolder2"];
             string struser = dic["FTPUser"];
             string strpwd = dic["FTPPWD"];
             RuRo.Common.FTP.FTPHelper ftp = new Common.FTP.FTPHelper(url, "", struser, strpwd);
@@ -205,13 +207,28 @@ namespace RuRo.Web.include.js
                 ftpc.RemotePass = dic["FTPPWD"];
                 ftpc.RemotePort = Convert.ToInt32(dic["FTPPort"]);
                 ftpc.RemotePath = strMemu;
-                ftpc.PutByGuid(path, imgname);
+                //ftpc.PutByGuid(path, imgname);
+                ftpc.Put(path);
+                //string host = Request.Url.Host;
+                
                 mes = "ftp://" + dic["FTPFolder"] + "/" + strMemu + imgname;
                 return mes;
             }
             catch (Exception ex)
             {
-                return ex.ToString();
+                string strex = ex.ToString();
+                if (strex.Contains("已经存在"))
+                {
+                    return "该文件已经存在";
+                }
+                if (strex.Contains("另外进程"))
+                {
+                    return "请关闭该文件再上传";
+                }
+                else
+                {
+                    return ex.ToString();
+                }
             }
         }
         /// <summary>
@@ -222,6 +239,7 @@ namespace RuRo.Web.include.js
         {
             Dictionary<string, string> dic = new Dictionary<string, string>();
             string strftp = RuRo.Common.DEncrypt.DESEncrypt.IsDesDecrypt(ConfigurationManager.AppSettings["FTPFolder"], "litianping");
+            string strftp2 = RuRo.Common.DEncrypt.DESEncrypt.IsDesDecrypt(ConfigurationManager.AppSettings["FTPFolder2"], "litianping");
             string struser = RuRo.Common.DEncrypt.DESEncrypt.IsDesDecrypt(ConfigurationManager.AppSettings["FTPUser"], "litianping");
             string strpwd = RuRo.Common.DEncrypt.DESEncrypt.IsDesDecrypt(ConfigurationManager.AppSettings["FTPPWD"], "litianping");
             int InPort = Convert.ToInt32(ConfigurationManager.AppSettings["FTPPort"].ToString());
@@ -232,6 +250,14 @@ namespace RuRo.Web.include.js
             else
             {
                 dic.Add("FTPFolder", strftp);
+            }
+            if (strftp2 == "TMD")
+            {
+                dic.Add("FTPFolder2", ConfigurationManager.AppSettings["FTPFolder2"].ToString());
+            }
+            else
+            {
+                dic.Add("FTPFolder2", strftp2);
             }
             if (struser == "TMD")
             {

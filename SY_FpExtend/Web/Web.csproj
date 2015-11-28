@@ -79,6 +79,7 @@
     <Content Include="chome\ChromeStandaloneSetup 21.0.1180.89.exe" />
     <Content Include="ConsentForm.aspx" />
     <Content Include="Consentimg\新建文本文档.txt" />
+    <Content Include="Download.aspx" />
     <Content Include="Error\AppError\新建文本文档.txt" />
     <Content Include="Error\AppExError\新建文本文档.txt" />
     <Content Include="Fp_Ajax\LogData.aspx" />
@@ -88,6 +89,7 @@
     <Content Include="Images\IndexImg\layout-browser-hd-bg.gif" />
     <Content Include="Images\IndexImg\noscript.gif" />
     <Content Include="Images\IndexImg\tabicons.png" />
+    <Content Include="ImgDow.aspx" />
     <Content Include="include\css\index.css" />
     <Content Include="include\jquery-easyui-1.4.3\outlook2.js" />
     <Content Include="include\js\consentFormPage.js" />
@@ -693,6 +695,13 @@
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Download.aspx.cs">
+      <DependentUpon>Download.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Download.aspx.designer.cs">
+      <DependentUpon>Download.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Encrypt.aspx.cs">
       <DependentUpon>Encrypt.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -706,6 +715,9 @@
     </Compile>
     <Compile Include="ExtendPage.aspx.designer.cs">
       <DependentUpon>ExtendPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Fp_Ajax\DowImg.ashx.cs">
+      <DependentUpon>DowImg.ashx</DependentUpon>
     </Compile>
     <Compile Include="Fp_Ajax\GetData.aspx.cs">
       <DependentUpon>GetData.aspx</DependentUpon>
@@ -772,6 +784,13 @@
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="ImgDow.aspx.cs">
+      <DependentUpon>ImgDow.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ImgDow.aspx.designer.cs">
+      <DependentUpon>ImgDow.aspx</DependentUpon>
     </Compile>
     <Compile Include="ImportSample.aspx.cs">
       <DependentUpon>ImportSample.aspx</DependentUpon>
@@ -865,7 +884,9 @@
     <Content Include="MasterPage.master" />
     <Content Include="ValidateCode.aspx" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="IIII\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="Images\Images\MenuImg\Thumbs.db" />
   </ItemGroup>
@@ -877,6 +898,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Fp_Ajax\getImg.ashx" />
+    <Content Include="Fp_Ajax\DowImg.ashx" />
     <None Include="Properties\PublishProfiles\sy.pubxml" />
     <None Include="Properties\PublishProfiles\SY1.pubxml" />
   </ItemGroup>

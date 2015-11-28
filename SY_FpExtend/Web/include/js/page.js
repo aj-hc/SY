@@ -593,16 +593,6 @@ var Diagnoseurl = '../Fp_Ajax/PageConData.aspx?conMarc=DiagnoseTypeFlag';
 var getDiagnoseTypeFlagData = getDiagnoseTypeFlagJsonurl(Diagnoseurl);
 var getDtaJsonDiagnoseTypeFlag = JSON.parse(getDiagnoseTypeFlagData);
 
-
-
-//function prompt1() {
-//    $.messager.prompt('My Title', 'Please type something', function (r) {
-//        if (r) {
-//            alert('you type: ' + r);
-//        }
-//    });
-//}
-
 //采用jquery easyui loading css效果 
 function ajaxLoading() {
     $("<div class=\"datagrid-mask\"></div>").css({ display: "block", width: "100%", height: $(window).height() }).appendTo("body");

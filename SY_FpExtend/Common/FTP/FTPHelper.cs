@@ -97,7 +97,9 @@ namespace RuRo.Common.FTP
                     readCount = ftpStream.Read(buffer, 0, bufferSize);
                 }
                 ftpStream.Close();
+                ftpStream.Dispose();
                 outputStream.Close();
+                outputStream.Dispose();
                 response.Close();
             }
             catch (Exception ex)
@@ -105,6 +107,33 @@ namespace RuRo.Common.FTP
                 throw new Exception(ex.Message);
             }
         }
+       /// <summary>
+        /// 下载文件并保存为Stream
+       /// </summary>
+       /// <param name="fileName">要下载的文件名</param>
+       /// <returns></returns>
+        public Stream DownloadInfo(string fileName) 
+        {
+            try
+            {
+                FtpWebRequest reqFTP;
+                reqFTP = (FtpWebRequest)FtpWebRequest.Create(new Uri(ftpURI + fileName));
+                reqFTP.Credentials = new NetworkCredential(ftpUserID, ftpPassword);
+                reqFTP.Method = WebRequestMethods.Ftp.DownloadFile;
+                reqFTP.UseBinary = true;
+                FtpWebResponse response = (FtpWebResponse)reqFTP.GetResponse();
+                Stream ftpStream = response.GetResponseStream();
+                return ftpStream;
+            }
+            catch(Exception ex)
+            {
+                //Stream stream = null;
+                //return stream;
+                throw new Exception(ex.Message);
+            }
+         
+        }
+
 
         /// <summary>    
         /// 删除文件    

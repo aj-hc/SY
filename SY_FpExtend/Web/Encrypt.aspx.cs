@@ -16,8 +16,11 @@ namespace RuRo.Web
 
         protected void ok_Click(object sender, EventArgs e)
         {
+            //string strPP = "C7858DB550DCB5F335580D4F9628066F7579DE0866A0DC7609FE656A87A31203C3DEE08FDEDD5825BAF4040A622DCFC9F71CCD2A0525AAF607FAD2B5357A16EFB872D1B6F8C135C08C041C8F84E21F4E";
+            //txtEncrypt.Text = RuRo.Common.DEncrypt.DESEncrypt.Decrypt(strPP, "litianping");
             string strDes = "server=" + txtFuWu.Text.Trim() + ";database=" + txtSql.Text.Trim() + ";uid=" + txtUser.Text.Trim() + ";pwd=" + txtPwd.Text.Trim();
             txtEncrypt.Text = RuRo.Common.DEncrypt.DESEncrypt.Encrypt(strDes, "litianping");
+
         }
 
         protected void Button1_Click(object sender, EventArgs e)

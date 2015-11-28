@@ -120,6 +120,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Download.cs" />
     <Compile Include="TB_CONSENT_FORM.cs" />
     <Compile Include="TB_SAMPLE_LOG.cs" />
     <Compile Include="FP_LINKAGE_Bll.cs" />

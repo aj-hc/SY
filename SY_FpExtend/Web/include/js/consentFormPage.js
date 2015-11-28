@@ -50,6 +50,23 @@ function getImg()
     }
 }
 
+function dowImga()
+{
+    $.ajax({
+        type: "POST",
+        url: "/Fp_Ajax/DowImg.ashx?imgname=100065631620151111.jpg&imgdate=2015-11-01",
+        //data: { imgname: imgdate },
+        cache: false,
+        success: function (data) {
+            $.messager.alert('提示', data);
+           
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            $.messager.alert('提示', '上传失败，请检查网络后重试', 'error'); return;
+        }
+    });
+}
+
 //采用jquery easyui loading css效果 
 function ajaxLoading() {
     $("<div class=\"datagrid-mask\"></div>").css({ display: "block", width: "100%", height: $(window).height() }).appendTo("body");
