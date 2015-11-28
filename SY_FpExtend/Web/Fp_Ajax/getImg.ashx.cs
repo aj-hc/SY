@@ -73,7 +73,7 @@ namespace RuRo.Web.include.js
                         }
                         //上传到指定的FTP空间
                         mes = Sel_Folder(dt, savePath, imgName, host);
-                        if (mes.Contains(host))
+                        if (mes.Contains("Download"))
                         {
                             //写入Freezerpro文件和数据库
                             dicdata = Set_dataDic(strUid, mes);
@@ -125,7 +125,7 @@ namespace RuRo.Web.include.js
         /// <param name="strGuid">图片名称</param>
         /// <param name="host">网页主机名称</host>
         /// <returns></returns>
-        public string Sel_Folder(DateTime dt, string path, string imgname,string host)
+        public string Sel_Folder(DateTime dt, string path, string imgname, string host)
         {
             string mes = "";
             Dictionary<string, string> dic = new Dictionary<string, string>();
@@ -165,7 +165,7 @@ namespace RuRo.Web.include.js
                 if (Get_FolderForBool(Month, MonthFolder))
                 {
                     ftp.MakeDir(Month);
-                    mes = PostImg(path, imgname, strMemu + "/", host,dt);//上传图片到FTP，并返回访问字符串
+                    mes = PostImg(path, imgname, strMemu + "/", host, dt);//上传图片到FTP，并返回访问字符串
                     return mes;
                 }
                 else
@@ -185,7 +185,7 @@ namespace RuRo.Web.include.js
         /// <param name="imgname">本地文件名称</param>
         /// <param name="strMemu">存放子目录</param>
         /// <returns></returns>
-        public string PostImg(string path, string imgname, string strMemu,string host,DateTime dt)
+        public string PostImg(string path, string imgname, string strMemu, string host, DateTime dt)
         {
             //获取FTP地址，账号，密码
             string mes = "";
@@ -193,19 +193,11 @@ namespace RuRo.Web.include.js
             {
                 Dictionary<string, string> dic = new Dictionary<string, string>();
                 dic = GetFtpPathAndLogin();
-                RuRo.Common.FTP.FTPHelper ftpf = new Common.FTP.FTPHelper(dic["FTPFolder2"], strMemu,dic["FTPUser"], dic["FTPPWD"]);
+                RuRo.Common.FTP.FTPHelper ftpf = new Common.FTP.FTPHelper(dic["FTPFolder2"], strMemu, dic["FTPUser"], dic["FTPPWD"]);
                 ftpf.Upload(path);
-                //RuRo.Common.FTP.FTPClient ftpc = new Common.FTP.FTPClient();
-                //ftpc.RemoteHost = dic["FTPFolder"];
-                //ftpc.RemoteUser = dic["FTPUser"];
-                //ftpc.RemotePass = dic["FTPPWD"];
-                //ftpc.RemotePort = Convert.ToInt32(dic["FTPPort"]);
-                //ftpc.RemotePath = strMemu;
-               // ftpc.Put(path);
-                string date = dt.ToString("yyyy-MM");
-                //ftpc.PutByGuid(path, imgname);
-
-                mes ="@"+ host + "/Download.aspx?imgname=" + imgname + "&imgdate=" + date;
+                string date = dt.ToString("yyyy-MM-dd");
+                mes = CreatDownUrl(imgname, date);
+                //mes = "https://" + host + "/Download.aspx?imgname=" + imgname + "&imgdate=" + date;
                 //mes = "ftp://" + dic["FTPFolder"] + "/" + strMemu + imgname;
                 return mes;
             }
@@ -355,6 +347,7 @@ namespace RuRo.Web.include.js
             Dictionary<string, string> dic = new Dictionary<string, string>();
             dic.Add("Sample Source", uid);
             dic.Add("图片网络链接地址", path);
+            //dic.Add("NIMABI", path);
             return dic;
         }
         #endregion
@@ -422,6 +415,14 @@ namespace RuRo.Web.include.js
             return true;
         }
         #endregion
+
+        public string CreatDownUrl(string name,string date)
+        {
+            string url = System.Configuration.ConfigurationManager.AppSettings["host"];
+            string page = "Download.aspx";
+            string strDownUrl = string.Format("{0}/Download.aspx?imgname={1}&imgdate={2}", url, name, date);
+            return strDownUrl;
+        }
         #endregion
 
     }

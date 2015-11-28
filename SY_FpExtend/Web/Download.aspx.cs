@@ -20,7 +20,7 @@ namespace RuRo.Web
                 string strImgName = Request["imgname"].ToString();
                 string strDate = Request["imgdate"].ToString();
                 DateTime dt = Convert.ToDateTime(strDate);
-                string strpath = dt.ToString("yyyy/MM");
+                string strpath = dt.Year + "/" + dt.Month;
                 Dictionary<string, string> dic = new Dictionary<string, string>();
                 dic = GetFtpPathAndLogin();
                 RuRo.Common.FTP.FTPHelper ftpc = new Common.FTP.FTPHelper(dic["FTPFolder2"], strpath, dic["FTPUser"], dic["FTPPWD"]);
