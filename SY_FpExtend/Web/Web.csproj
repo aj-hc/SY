@@ -78,7 +78,6 @@
   <ItemGroup>
     <Content Include="chome\ChromeStandaloneSetup 21.0.1180.89.exe" />
     <Content Include="ConsentForm.aspx" />
-    <Content Include="Consentimg\新建文本文档.txt" />
     <Content Include="Download.aspx" />
     <Content Include="Error\AppError\新建文本文档.txt" />
     <Content Include="Error\AppExError\新建文本文档.txt" />
@@ -674,6 +673,7 @@
     <Content Include="include\js\sy_func.js" />
     <Content Include="Login.aspx" />
     <Content Include="TestData\Fpfunction.js" />
+    <Content Include="TestData\ImportTestData.aspx" />
     <Content Include="TestData\WebTest1.aspx" />
     <Content Include="Text.aspx" />
     <Content Include="Web.config">
@@ -831,6 +831,13 @@
       <DependentUpon>MasterPage.master</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestData\ImportTestData.aspx.cs">
+      <DependentUpon>ImportTestData.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TestData\ImportTestData.aspx.designer.cs">
+      <DependentUpon>ImportTestData.aspx</DependentUpon>
+    </Compile>
     <Compile Include="TestData\WebTest1.aspx.cs">
       <DependentUpon>WebTest1.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -885,6 +892,7 @@
     <Content Include="ValidateCode.aspx" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Consentimg\" />
     <Folder Include="IIII\" />
   </ItemGroup>
   <ItemGroup>

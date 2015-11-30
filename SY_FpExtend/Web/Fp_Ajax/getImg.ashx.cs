@@ -24,9 +24,14 @@ namespace RuRo.Web.include.js
             string strUid = context.Request.Params["suid"].ToString();
             string strName = context.Request.Params["spname"].ToString();
             string strdate = context.Request.Params["timedate"].ToString();
-            string host = context.Request.Url.Host;
+            string keshi = GetKeshi();
+            string strPy = keshicode(keshi);//将科室转化
+            Dictionary<string, string> dickeshi = new Dictionary<string, string>();
+            dickeshi.Add("keshi", keshi);
+            dickeshi.Add("SP", strPy);
             Dictionary<string, string> dicdata = new Dictionary<string, string>();
             string path = @"Consentimg\";
+            RuRo.Common.Filehleper.DirFileHelper.CreateDir(path);
             string mes = "";
             if (strUid == "" || strdate == "")
             {
@@ -45,13 +50,10 @@ namespace RuRo.Web.include.js
                     string fileName = Path.GetFileName(filePath);
                     string[] SplitFileName = fileName.Split('.');
                     string mapPath = context.Server.MapPath("~");
-                    string savePath = mapPath + "\\" + path + strUid + date + "." + SplitFileName[1];//设置路径+（文件名称：path + strUid + date +"."+ SplitFileName[1]）
-                    string imgName = strUid + date + "." + SplitFileName[1];//获取文件名称
-                    string imgGuid = strUid + date;//生成唯一标识
+                    string savePath = mapPath + @"\" + path + dickeshi["SP"].ToString() + "_" + strUid + "-" + date + "." + SplitFileName[1];//设置路径+（文件名称：path + strUid + date +"."+ SplitFileName[1]）
+                    string imgName = dickeshi["SP"].ToString() + "_" + strUid + "-" + date + "." + SplitFileName[1];//获取文件名称
+                    string imgGuid = dickeshi["SP"].ToString() + "_" + strUid + "-" + date;//生成唯一标识
                     //判断数据是否存在
-                    Model.TB_CONSENT_FORM consent = new Model.TB_CONSENT_FORM();
-                    consent.PatientName = strName;
-                    consent.PatientID = Convert.ToInt32(strUid);
                     BLL.TB_CONSENT_FORM bll = new BLL.TB_CONSENT_FORM();
                     string strJson = bll.Sel_TB_CONSENT_FORM_Count_Bll(strUid, imgGuid);
                     if (strJson == "")
@@ -72,19 +74,23 @@ namespace RuRo.Web.include.js
                             Common.LogHelper.WriteError(ex);
                         }
                         //上传到指定的FTP空间
-                        mes = Sel_Folder(dt, savePath, imgName, host);
-                        dicdata = Set_dataDic(strUid, mes);
-                        mes = Import_TestData(dicdata, imgGuid, strName);
-                        context.Response.Write(mes);
+                        mes = Sel_Folder(dt, savePath, imgName, dickeshi);
                         if (mes.Contains("Download"))
                         {
                             //写入Freezerpro文件和数据库
                             dicdata = Set_dataDic(strUid, mes);
-                            mes = Import_TestData(dicdata, imgGuid, strName);
+                            mes = Import_TestData(dicdata, imgGuid, strName,dickeshi["keshi"].ToString());
+                            //清空Consentimg目录下的图片
+                            if (RuRo.Common.Filehleper.DirFileHelper.IsExistDirectory(mapPath + "\\" + path))
+                            {
+                                RuRo.Common.Filehleper.DirFileHelper.DeleteDirectory(mapPath + "\\" + path);
+                            }
                             context.Response.Write(mes);
                         }
                         else
                         {
+                            //context.Response.Write(mes);
+                            //context.Response.End();
                             //写日志
                             RuRo.Model.TB_SAMPLE_LOG log_model = new Model.TB_SAMPLE_LOG();
                             log_model.MSG = "知情同意书管理：" + mes;
@@ -111,13 +117,7 @@ namespace RuRo.Web.include.js
                 #endregion
             }
         }
-        public bool IsReusable
-        {
-            get
-            {
-                return false;
-            }
-        }
+
         #region FTP操作
         /// <summary>
         /// 上传到指定的FTP空间
@@ -128,56 +128,105 @@ namespace RuRo.Web.include.js
         /// <param name="strGuid">图片名称</param>
         /// <param name="host">网页主机名称</host>
         /// <returns></returns>
-        public string Sel_Folder(DateTime dt, string path, string imgname, string host)
+        public string Sel_Folder(DateTime dt, string path, string imgname, Dictionary<string,string> dickeshi)
         {
             string mes = "";
             Dictionary<string, string> dic = new Dictionary<string, string>();
-            dic = GetFtpPathAndLogin();
+           // dic = GetFtpPathAndLogin();
+            dic = RuRo.BLL.TB_CONSENT_FORM.FtpPathAndLogin();
             string url = dic["FTPFolder2"];
             string struser = dic["FTPUser"];
             string strpwd = dic["FTPPWD"];
             RuRo.Common.FTP.FTPHelper ftp = new Common.FTP.FTPHelper(url, "", struser, strpwd);
             string year = dt.Year.ToString();
             string Month = dt.Month.ToString();
-            string strMemu = year + "/" + Month;
-            string[] YearFolder = ftp.GetDirectoryList();
-            if (Get_FolderForBool(year, YearFolder))//判断是否存在年份命名的文件夹，没有则创建//没有返回true
+            string strMemu = dickeshi["SP"].ToString()+ "/" + year + "/" + Month;
+            string[] YearFolder = ftp.GetDirectoryList();//获取所有文件夹列表
+            string[] Folders = ftp.GetFilesDetailList();//获取所有文件夹列表
+            if (Get_FolderForBool(dickeshi["SP"].ToString(), YearFolder))//判断是否存在科室文件夹
             {
-                ftp.MakeDir(year);//创建文件夹
-                #region 判断所属的月份是否存在并操作
-                ftp.GotoDirectory(year, true);//进入年份目录
-                string[] MonthFolder = ftp.GetDirectoryList();
-                if (Get_FolderForBool(Month, MonthFolder))
+                ftp.MakeDir(dickeshi["SP"].ToString());//创建文件夹
+                ftp.GotoDirectory(dickeshi["SP"].ToString(), true);//进入科室目录
+                if (Get_FolderForBool(year, YearFolder))//判断是否存在年份命名的文件夹，没有则创建//没有返回true
                 {
-                    ftp.MakeDir(Month);
-                    mes = PostImg(path, imgname, strMemu + "/", host, dt);//上传图片到FTP，并返回访问字符串
-                    return mes;
+                    ftp.MakeDir(year);//创建文件夹
+                    #region 判断所属的月份是否存在并操作
+                    ftp.GotoDirectory(dickeshi["SP"].ToString() + "/" + year, true);//进入年份目录
+                    string[] MonthFolder = ftp.GetDirectoryList();
+                    if (Get_FolderForBool(Month, MonthFolder))
+                    {
+                        ftp.MakeDir(Month);
+                        mes = PostImg(path,imgname, strMemu + "/", dt);//上传图片到FTP，并返回访问字符串
+                        return mes;
+                    }
+                    else
+                    {
+                        mes = PostImg(path, imgname, strMemu + "/", dt);//上传图片到FTP，并返回访问字符串
+                        return mes;
+                    }
+                    #endregion
                 }
                 else
                 {
-                    mes = PostImg(path, imgname, strMemu + "/", host, dt);//上传图片到FTP，并返回访问字符串
-                    return mes;
+                    #region 判断所属的月份是否存在并操作
+                    ftp.GotoDirectory(dickeshi["SP"].ToString() + "/" + year, true);//进入年份目录
+                    string[] MonthFolder = ftp.GetDirectoryList();
+                    if (Get_FolderForBool(Month, MonthFolder))
+                    {
+                        ftp.MakeDir(Month);
+                        mes = PostImg(path, imgname, strMemu + "/", dt);//上传图片到FTP，并返回访问字符串
+                        return mes;
+                    }
+                    else
+                    {
+                        mes = PostImg(path, imgname, strMemu + "/", dt);//上传图片到FTP，并返回访问字符串
+                        return mes;
+                    }
+                    #endregion
                 }
-                #endregion
             }
-            else
+            else 
             {
-                #region 判断所属的月份是否存在并操作
-                ftp.GotoDirectory(year, true);//进入子目录
-                string[] MonthFolder = ftp.GetDirectoryList();
-                if (Get_FolderForBool(Month, MonthFolder))
+                ftp.GotoDirectory(dickeshi["SP"].ToString(), true);//进入科室目录
+                if (Get_FolderForBool(year, YearFolder))//判断是否存在年份命名的文件夹，没有则创建//没有返回true
                 {
-                    ftp.MakeDir(Month);
-                    mes = PostImg(path, imgname, strMemu + "/", host, dt);//上传图片到FTP，并返回访问字符串
-                    return mes;
+                    ftp.MakeDir(year);//创建文件夹
+                    #region 判断所属的月份是否存在并操作
+                    ftp.GotoDirectory(year, true);//进入年份目录
+                    string[] MonthFolder = ftp.GetDirectoryList();
+                    if (Get_FolderForBool(Month, MonthFolder))
+                    {
+                        ftp.MakeDir(Month);
+                        mes = PostImg(path, imgname, strMemu + "/", dt);//上传图片到FTP，并返回访问字符串
+                        return mes;
+                    }
+                    else
+                    {
+                        mes = PostImg(path, imgname, strMemu + "/", dt);//上传图片到FTP，并返回访问字符串
+                        return mes;
+                    }
+                    #endregion
                 }
                 else
                 {
-                    mes = PostImg(path, imgname, strMemu + "/", host, dt);//上传图片到FTP，并返回访问字符串
-                    return mes;
+                    #region 判断所属的月份是否存在并操作
+                    ftp.GotoDirectory(year, true);//进入子目录
+                    string[] MonthFolder = ftp.GetDirectoryList();
+                    if (Get_FolderForBool(Month, MonthFolder))
+                    {
+                        ftp.MakeDir(Month);
+                        mes = PostImg(path, imgname, strMemu + "/", dt);//上传图片到FTP，并返回访问字符串
+                        return mes;
+                    }
+                    else
+                    {
+                        mes = PostImg(path, imgname, strMemu + "/", dt);//上传图片到FTP，并返回访问字符串
+                        return mes;
+                    }
+                    #endregion
                 }
-                #endregion
             }
+
 
         }
 
@@ -188,21 +237,22 @@ namespace RuRo.Web.include.js
         /// <param name="imgname">本地文件名称</param>
         /// <param name="strMemu">存放子目录</param>
         /// <returns></returns>
-        public string PostImg(string path, string imgname, string strMemu, string host, DateTime dt)
+        public string PostImg(string path, string imgname, string strMemu, DateTime dt)
         {
             //获取FTP地址，账号，密码
             string mes = "";
             try
             {
                 Dictionary<string, string> dic = new Dictionary<string, string>();
-                dic = GetFtpPathAndLogin();
+                //dic = GetFtpPathAndLogin();
+                dic = RuRo.BLL.TB_CONSENT_FORM.FtpPathAndLogin();
                 RuRo.Common.FTP.FTPHelper ftpf = new Common.FTP.FTPHelper(dic["FTPFolder2"], strMemu, dic["FTPUser"], dic["FTPPWD"]);
                 ftpf.Upload(path);
                 string date = dt.ToString("yyyy-MM-dd");
-                mes =CreatDownUrl(imgname, date);
+                mes = CreatDownUrl(imgname);
                 //mes = "https://" + host + "/Download.aspx?imgname=" + imgname + "&imgdate=" + date;
                 //mes = "ftp://" + dic["FTPFolder"] + "/" + strMemu + imgname;
-                mes = "http://localhost:3448/Download.aspx?imgdate=2015-01-01&imgname=1";
+                //mes = "http://localhost:3448/Download.aspx?imgname=XYS_2065459-20151101.jpg";
                 return mes;
             }
             catch (Exception ex)
@@ -279,26 +329,10 @@ namespace RuRo.Web.include.js
         /// <param name="datadic"></param>
         /// <param name="imgguid"></param>
         /// <returns></returns>
-        public string Import_TestData(Dictionary<string, string> datadic, string imgguid, string PatientName)
+        public string Import_TestData(Dictionary<string, string> datadic, string imgguid, string PatientName, string keshi)
         {
             string res = "";
             //获取账号密码
-            string username = Common.CookieHelper.GetCookieValue("username");
-            string pwd = Common.CookieHelper.GetCookieValue("password");
-            string password = string.Empty;
-            if (!string.IsNullOrEmpty(pwd))
-            {
-                try
-                {
-                    password = Common.DEncrypt.DESEncrypt.Decrypt(pwd);
-                }
-                catch (Exception ex)
-                {
-                    Common.LogHelper.WriteError(ex);
-                    HttpContext.Current.Response.Redirect("Login.aspx");
-                }
-            }
-            FreezerProUtility.Fp_Common.UnameAndPwd up = new FreezerProUtility.Fp_Common.UnameAndPwd(username, password);//存放登陆账号密码
             Dictionary<string, string> logDic = new Dictionary<string, string>();//操作日志记录
             Dictionary<string, string> importResult = new Dictionary<string, string>();//返回信息
             List<Dictionary<string, string>> dataDicList = new List<Dictionary<string, string>>();//存放临床数据
@@ -307,7 +341,8 @@ namespace RuRo.Web.include.js
                 dataDicList.Add(datadic);
                 if (dataDicList.Count > 0)
                 {
-                    string improtTestDataResult = ImportTestData(dataDicList, up);
+                    FreezerProUtility.Fp_Common.UnameAndPwd up = GetUp();
+                    string improtTestDataResult = ImportTestData(dataDicList, up, keshi);
                     if (improtTestDataResult.Contains("\"status\":\"DONE\"") && improtTestDataResult.Contains("\"success\":true,"))
                     {
                         //导入成功--保存数据到本地数据库
@@ -337,6 +372,49 @@ namespace RuRo.Web.include.js
             }
             return res;
         }
+        #region 读取科室和登陆up
+        public FreezerProUtility.Fp_Common.UnameAndPwd GetUp()
+        {
+            string username = Common.CookieHelper.GetCookieValue("username");
+            string pwd = Common.CookieHelper.GetCookieValue("password");
+            string keshi = Common.CookieHelper.GetCookieValue(username + "department");
+            string password = string.Empty;
+            if (!string.IsNullOrEmpty(pwd))
+            {
+                try
+                {
+                    password = Common.DEncrypt.DESEncrypt.Decrypt(pwd);
+                }
+                catch (Exception ex)
+                {
+                    Common.LogHelper.WriteError(ex);
+                    HttpContext.Current.Response.Redirect("Login.aspx");
+                }
+            }
+            FreezerProUtility.Fp_Common.UnameAndPwd up = new FreezerProUtility.Fp_Common.UnameAndPwd(username, password);//存放登陆账号密码
+            return up;
+        }
+        public string GetKeshi()
+        {
+            string username = Common.CookieHelper.GetCookieValue("username");
+            string pwd = Common.CookieHelper.GetCookieValue("password");
+            string keshi = Common.CookieHelper.GetCookieValue(username + "department");
+            string k = string.Empty;
+            if (!string.IsNullOrEmpty(keshi))
+            {
+                try
+                {
+                    k = Common.DEncrypt.DESEncrypt.Decrypt(keshi);
+                }
+                catch (Exception ex)
+                {
+                    Common.LogHelper.WriteError(ex);
+                    HttpContext.Current.Response.Redirect("Login.aspx");
+                }
+            }
+            return k;
+        }
+        #endregion
         #endregion
 
         #region 把信息添加到字典中
@@ -350,7 +428,7 @@ namespace RuRo.Web.include.js
         {
             Dictionary<string, string> dic = new Dictionary<string, string>();
             dic.Add("Sample Source", uid);
-            dic.Add("图片网络链接地址1", path);
+            dic.Add("图片网络链接地址", path);
             //dic.Add("NIMABI", path);
             return dic;
         }
@@ -362,9 +440,9 @@ namespace RuRo.Web.include.js
         /// </summary>
         /// <param name="dataDic"></param>
         /// <returns></returns>
-        private string ImportTestData(List<Dictionary<string, string>> dataDicList, FreezerProUtility.Fp_Common.UnameAndPwd up)
+        private string ImportTestData(List<Dictionary<string, string>> dataDicList, FreezerProUtility.Fp_Common.UnameAndPwd up, string keshi)
         {
-            string test_data_type = "知情同意书管理";
+            string test_data_type = "知情同意书管理"+"-"+ keshi;
             string result = FreezerProUtility.Fp_BLL.TestData.ImportTestData(up, test_data_type, dataDicList);
             return result;
         }
@@ -420,14 +498,42 @@ namespace RuRo.Web.include.js
         }
         #endregion
 
-        public string CreatDownUrl(string name,string date)
+        /// <summary>
+        /// 创建访问图片URL
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public string CreatDownUrl(string name)
         {
-            string url = System.Configuration.ConfigurationManager.AppSettings["host"];
+            //string[] SplitFileName = name.Split('.');
+            string url = System.Configuration.ConfigurationManager.AppSettings["host"];//读取发布包的页面路径
             string page = "Download.aspx";
-            string strDownUrl = string.Format(@"{0}/Download.aspx?imgname={1}&imgdate={2}", url, name, date);
+            string strDownUrl = string.Format(@"{0}/Download.aspx?imgname={1}", url, name);
             return strDownUrl;
         }
+
+        public string keshicode(string keshi) 
+        {
+            if (keshi=="心研所")
+            {
+                return "XYS";
+            }
+            else
+            {
+                return "FAS";
+            }
+        }
+
         #endregion
+
+
+        public bool IsReusable
+        {
+            get
+            {
+                return false;
+            }
+        }
 
     }
 }

@@ -17,12 +17,17 @@ namespace RuRo.Web
         {
             try
             {
+                //http://localhost:3448/Download.aspx?imgname=XYS_2065459-20151101.jpg
                 string strImgName = Request["imgname"].ToString();
-                string strDate = Request["imgdate"].ToString();
-                DateTime dt = Convert.ToDateTime(strDate);
-                string strpath = dt.Year + "/" + dt.Month;
+                //获取传入路径
+                string[] SplitFileName = strImgName.Split('-');//根据-分为两半
+                string[] Filedate = SplitFileName[1].Split('.');//取日期部分
+                string[] SplitFileCode = strImgName.Split('_');//取所属科室部分
+                DateTime dt = DateTime.ParseExact(Filedate[0], "yyyyMMdd", null);
+                string strpath =SplitFileCode[0]+"/"+ dt.Year + "/" + dt.Month;
                 Dictionary<string, string> dic = new Dictionary<string, string>();
-                dic = GetFtpPathAndLogin();
+                //dic =GetFtpPathAndLogin();
+                dic=RuRo.BLL.TB_CONSENT_FORM.FtpPathAndLogin();
                 RuRo.Common.FTP.FTPHelper ftpc = new Common.FTP.FTPHelper(dic["FTPFolder2"], strpath, dic["FTPUser"], dic["FTPPWD"]);
                 Stream stream = ftpc.DownloadInfo(strImgName);
                 byte[] byteImg = StreamToBytes(stream).ToArray();//将图片转化为二进制流输出
@@ -32,7 +37,7 @@ namespace RuRo.Web
             }
             catch (Exception ex) 
             {
-                Response.Write("查询有误，请检查网络");
+                Response.Write("未找到文件");
             }
         }
 

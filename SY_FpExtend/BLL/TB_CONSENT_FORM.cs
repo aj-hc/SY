@@ -3,6 +3,7 @@ using System.Data;
 using System.Collections.Generic;
 using RuRo.Common;
 using RuRo.Model;
+using System.Configuration;
 namespace RuRo.BLL
 {
     /// <summary>
@@ -161,7 +162,7 @@ namespace RuRo.BLL
         /// </summary>
         /// <param name="model"></param>
         /// <returns>Json</returns>
-        public string GetTB_CONSENT_FORM_BLL(RuRo.Model.TB_CONSENT_FORM model) 
+        public string GetTB_CONSENT_FORM_BLL(RuRo.Model.TB_CONSENT_FORM model)
         {
             DataSet ds = new DataSet();
             ds = dal.GetTB_CONSENT_FORM(model);
@@ -172,6 +173,63 @@ namespace RuRo.BLL
             string str = "";
             str = dal.Sel_TB_CONSENT_FORM_Count(patientID, consent_from);
             return str;
+        }
+
+        /// <summary>
+        /// 获取FTP
+        /// </summary>
+        /// <returns></returns>
+        public static Dictionary<string, string> FtpPathAndLogin()
+        {
+            Dictionary<string, string> dic = new Dictionary<string, string>();
+            string strftp = RuRo.Common.DEncrypt.DESEncrypt.IsDesDecrypt(ConfigurationManager.AppSettings["FTPFolder"], "litianping");
+            string strftp2 = RuRo.Common.DEncrypt.DESEncrypt.IsDesDecrypt(ConfigurationManager.AppSettings["FTPFolder2"], "litianping");
+            string struser = RuRo.Common.DEncrypt.DESEncrypt.IsDesDecrypt(ConfigurationManager.AppSettings["FTPUser"], "litianping");
+            string strpwd = RuRo.Common.DEncrypt.DESEncrypt.IsDesDecrypt(ConfigurationManager.AppSettings["FTPPWD"], "litianping");
+            //string strhost = RuRo.Common.DEncrypt.DESEncrypt.IsDesDecrypt(ConfigurationManager.AppSettings["SaveImgPath"], "litianping");
+            int InPort = Convert.ToInt32(ConfigurationManager.AppSettings["FTPPort"].ToString());
+            if (strftp == "TMD")
+            {
+                dic.Add("FTPFolder", ConfigurationManager.AppSettings["FTPFolder"].ToString());
+            }
+            else
+            {
+                dic.Add("FTPFolder", strftp);
+            }
+            if (strftp2 == "TMD")
+            {
+                dic.Add("FTPFolder2", ConfigurationManager.AppSettings["FTPFolder2"].ToString());
+            }
+            else
+            {
+                dic.Add("FTPFolder2", strftp2);
+            }
+            if (struser == "TMD")
+            {
+                dic.Add("FTPUser", ConfigurationManager.AppSettings["FTPUser"].ToString());
+            }
+            else
+            {
+                dic.Add("FTPUser", struser);
+            }
+            if (strpwd == "TMD")
+            {
+                dic.Add("FTPPWD", ConfigurationManager.AppSettings["FTPPWD"].ToString());
+            }
+            else
+            {
+                dic.Add("FTPPWD", strpwd);
+            }
+            //if (strpwd == "TMD")
+            //{
+            //    dic.Add("SaveImgPath", ConfigurationManager.AppSettings["SaveImgPath"].ToString());
+            //}
+            //else
+            //{
+            //    dic.Add("SaveImgPath", strpwd);
+            //}
+            dic.Add("FTPPort", InPort.ToString());
+            return dic;
         }
         #endregion  ExtensionMethod
     }
