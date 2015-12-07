@@ -12,34 +12,39 @@
     <link href="../include/jquery-easyui-1.4.3/themes/icon.css" rel="stylesheet" />
     <script src="include/js/consentFormPage.js"></script>
     <script src="include/js/setDateJs.js"></script>
+    <script src="include/jquery-easyui-1.4.3/jquery.form.js"></script>
     <title>上传知情同意书</title>
 </head>
 <body>
-        <div class="easyui-panel" title="知情同意书管理" style="width:800px;padding:30px 70px 50px 70px">
-           <form  enctype="multipart/form-data" method="post" runat="server">
-               <table>
-                    <tr>
-                        <td>姓名：</td>
-                        <td><input class="easyui-textbox" name="_80" id="_80" data-options="required:true" /></td>
-                    </tr>
-                    <tr>
-                        <td>样品源名称：</td>
-                        <td ><input class="easyui-numberbox" name="PatientID" id="_91" data-options="required:true" /></td>
-                    </tr>
-                    <tr>
-                        <td>读取知情同意书：</td>
-                        <td><asp:FileUpload ID="idFile" Width="350px" runat="server" /></td>
-                    </tr>
-                    <tr>
-                        <td>设置日期：</td>
-                        <td><input class="easyui-datebox" name="fromdate" id="fromdate" data-options="required:true,editable:false" /></td>
-                    </tr>
-                   <tr>
-                       <td><a href="javascript:void(0)" id="btnGet" class="easyui-linkbutton" onclick="getImg()">上传图片</a></td>
-                   </tr>
+    <div class="easyui-panel" title="知情同意书管理" style="width: 800px; padding: 30px 70px 50px 70px">
+        <form enctype="multipart/form-data" method="post" runat="server">
+            <table>
+                <tr>
+                    <td>姓名：</td>
+                    <td>
+                        <input class="easyui-textbox" name="txtname" id="txtname" data-options="required:true"  /></td>
+                </tr>
+                <tr>
+                    <td>样品源名称：</td>
+                    <td>
+                        <input class="easyui-numberbox" name="txtPatientID" id="txtPatientID" data-options="required:true" /></td>
+                </tr>
+                <tr>
+                    <td>读取知情同意书：</td>
+                    <td>
+                        <asp:FileUpload ID="idFile" Width="350px" runat="server" /></td>
+                </tr>
+                <tr>
+                    <td>设置日期：</td>
+                    <td>
+                        <input class="easyui-datebox" name="fromdate" id="fromdate" data-options="required:true,editable:false" /></td>
+                </tr>
+                <tr>
+                <%--<td><a href="javascript:void(0)" id="btnGet" class="easyui-linkbutton" onclick="getImg()">上传图片</a></td>--%>
+                     <td> <asp:Button ID="ImgNoOK" runat="server" Text="上传图片" OnClick="ImgNoOK_Click" /></td>
+                </tr>
             </table>
-            </form>
-
-        </div>
+        </form>
+    </div>
 </body>
 </html>

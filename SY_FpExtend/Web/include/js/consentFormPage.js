@@ -18,8 +18,8 @@ function getImg()
     var imgpath = document.getElementById("idFile").value;
     var name = "";
     var uid = "";
-    name = encodeURI($('#_80').textbox('getText'));
-    uid = $('#_91').textbox('getText');
+    name = encodeURI($('#txtname').textbox('getText'));
+    uid = $('#txtPatientID').textbox('getText');
     var date = $('#fromdate').datebox('getText');
     //检测上传信息
     if (uid=="") {$.messager.alert('提示', '患者唯一标识为空', 'error'); return;}
@@ -30,6 +30,8 @@ function getImg()
     {
         if (imgpath.indexOf("jpg") > 0 || imgpath.indexOf("jpeg") > 0) {
             ajaxLoading();
+            $.ajax({});//上传图片到服务器
+            //后台判断
             $.ajax({
                 type: "POST",
                 url: "/Fp_Ajax/getImg.ashx?suid=" + uid + "&timedate=" + date+"&spname="+name,

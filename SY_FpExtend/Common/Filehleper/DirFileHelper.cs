@@ -234,6 +234,15 @@ namespace RuRo.Common.Filehleper
             if (File.Exists(System.Web.HttpContext.Current.Request.PhysicalApplicationPath + file))
                 File.Delete(System.Web.HttpContext.Current.Request.PhysicalApplicationPath + file);
         }
+        /// <summary>  
+        /// 删除文件  
+        /// </summary>  
+        /// <param name="file">要删除的文件路径和名称,需要绝对路径</param>  
+        public static void DeleteFilePath(string file)
+        {
+            if (File.Exists(file))
+                File.Delete(file);
+        }
         #endregion
 
         #region 创建文件
@@ -716,9 +725,9 @@ namespace RuRo.Common.Filehleper
                 string[] fileNames = GetFileNames(directoryPath);
                 for (int i = 0; i < fileNames.Length; i++)
                 {
-                    DeleteFile(fileNames[i]);
+                    //DeleteFile(fileNames[i]);
+                    DeleteFilePath(fileNames[i]);
                 }
-
                 //删除目录中所有的子目录  
                 string[] directoryNames = GetDirectories(directoryPath);
                 for (int i = 0; i < directoryNames.Length; i++)

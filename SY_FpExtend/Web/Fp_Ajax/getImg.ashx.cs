@@ -7,7 +7,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web;
-using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web.UI;
+using System.Web.UI.WebControls;
 
 namespace RuRo.Web.include.js
 {
@@ -16,11 +19,18 @@ namespace RuRo.Web.include.js
     /// </summary>
     public class getImg : IHttpHandler
     {
+        //存放FTP的话把这个加到文件里面
+        //<add key="FTPFolder" value="192.168.1.101"/>
+        //<add key="FTPFolder2" value="192.168.1.101:23"/>
+        //<add key="FTPUser" value="admin"/>
+        //<add key="FTPPWD" value="admin123"/>
+        //<add key="FTPPort" value="23"/>
         public void ProcessRequest(HttpContext context)
         {
             //不知道为什么获取不到
             //HttpPostedFile file = context.Request.Files["userFile"];
-            string filePath = context.Request["imgPath"];
+            #region 获取基本参数
+            string filePath = context.Request["imgpath"];
             string strUid = context.Request.Params["suid"].ToString();
             string strName = context.Request.Params["spname"].ToString();
             string strdate = context.Request.Params["timedate"].ToString();
@@ -29,8 +39,13 @@ namespace RuRo.Web.include.js
             Dictionary<string, string> dickeshi = new Dictionary<string, string>();
             dickeshi.Add("keshi", keshi);
             dickeshi.Add("SP", strPy);
+            //FileUpload myfile = new FileUpload();
+
+            HttpPostedFile myfile = context.Request.Files["imgpath"];
+            #endregion
             Dictionary<string, string> dicdata = new Dictionary<string, string>();
             string path = @"Consentimg\";
+            myfile.SaveAs(path);
             RuRo.Common.Filehleper.DirFileHelper.CreateDir(path);
             string mes = "";
             if (strUid == "" || strdate == "")
@@ -71,15 +86,16 @@ namespace RuRo.Web.include.js
                         }
                         catch (System.Exception ex)
                         {
-                            Common.LogHelper.WriteError(ex);
+                            Common.LogHelper.WriteError("MAP文件未找到");
                         }
+
                         //上传到指定的FTP空间
                         mes = Sel_Folder(dt, savePath, imgName, dickeshi);
                         if (mes.Contains("Download"))
                         {
                             //写入Freezerpro文件和数据库
                             dicdata = Set_dataDic(strUid, mes);
-                            mes = Import_TestData(dicdata, imgGuid, strName,dickeshi["keshi"].ToString());
+                            mes = Import_TestData(dicdata, imgGuid, strName, dickeshi["keshi"].ToString());
                             //清空Consentimg目录下的图片
                             if (RuRo.Common.Filehleper.DirFileHelper.IsExistDirectory(mapPath + "\\" + path))
                             {
@@ -128,11 +144,11 @@ namespace RuRo.Web.include.js
         /// <param name="strGuid">图片名称</param>
         /// <param name="host">网页主机名称</host>
         /// <returns></returns>
-        public string Sel_Folder(DateTime dt, string path, string imgname, Dictionary<string,string> dickeshi)
+        public string Sel_Folder(DateTime dt, string path, string imgname, Dictionary<string, string> dickeshi)
         {
             string mes = "";
             Dictionary<string, string> dic = new Dictionary<string, string>();
-           // dic = GetFtpPathAndLogin();
+            // dic = GetFtpPathAndLogin();
             dic = RuRo.BLL.TB_CONSENT_FORM.FtpPathAndLogin();
             string url = dic["FTPFolder2"];
             string struser = dic["FTPUser"];
@@ -140,7 +156,7 @@ namespace RuRo.Web.include.js
             RuRo.Common.FTP.FTPHelper ftp = new Common.FTP.FTPHelper(url, "", struser, strpwd);
             string year = dt.Year.ToString();
             string Month = dt.Month.ToString();
-            string strMemu = dickeshi["SP"].ToString()+ "/" + year + "/" + Month;
+            string strMemu = dickeshi["SP"].ToString() + "/" + year + "/" + Month;
             string[] YearFolder = ftp.GetDirectoryList();//获取所有文件夹列表
             string[] Folders = ftp.GetFilesDetailList();//获取所有文件夹列表
             if (Get_FolderForBool(dickeshi["SP"].ToString(), YearFolder))//判断是否存在科室文件夹
@@ -156,7 +172,7 @@ namespace RuRo.Web.include.js
                     if (Get_FolderForBool(Month, MonthFolder))
                     {
                         ftp.MakeDir(Month);
-                        mes = PostImg(path,imgname, strMemu + "/", dt);//上传图片到FTP，并返回访问字符串
+                        mes = PostImg(path, imgname, strMemu + "/", dt);//上传图片到FTP，并返回访问字符串
                         return mes;
                     }
                     else
@@ -185,7 +201,7 @@ namespace RuRo.Web.include.js
                     #endregion
                 }
             }
-            else 
+            else
             {
                 ftp.GotoDirectory(dickeshi["SP"].ToString(), true);//进入科室目录
                 if (Get_FolderForBool(year, YearFolder))//判断是否存在年份命名的文件夹，没有则创建//没有返回true
@@ -442,7 +458,7 @@ namespace RuRo.Web.include.js
         /// <returns></returns>
         private string ImportTestData(List<Dictionary<string, string>> dataDicList, FreezerProUtility.Fp_Common.UnameAndPwd up, string keshi)
         {
-            string test_data_type = "知情同意书管理"+"-"+ keshi;
+            string test_data_type = "知情同意书管理" + "-" + keshi;
             string result = FreezerProUtility.Fp_BLL.TestData.ImportTestData(up, test_data_type, dataDicList);
             return result;
         }
@@ -512,9 +528,9 @@ namespace RuRo.Web.include.js
             return strDownUrl;
         }
 
-        public string keshicode(string keshi) 
+        public string keshicode(string keshi)
         {
-            if (keshi=="心研所")
+            if (keshi == "心研所")
             {
                 return "XYS";
             }

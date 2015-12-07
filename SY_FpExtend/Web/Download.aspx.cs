@@ -17,23 +17,29 @@ namespace RuRo.Web
         {
             try
             {
-                //http://localhost:3448/Download.aspx?imgname=XYS_2065459-20151101.jpg
-                string strImgName = Request["imgname"].ToString();
-                //获取传入路径
-                string[] SplitFileName = strImgName.Split('-');//根据-分为两半
-                string[] Filedate = SplitFileName[1].Split('.');//取日期部分
-                string[] SplitFileCode = strImgName.Split('_');//取所属科室部分
-                DateTime dt = DateTime.ParseExact(Filedate[0], "yyyyMMdd", null);
-                string strpath =SplitFileCode[0]+"/"+ dt.Year + "/" + dt.Month;
-                Dictionary<string, string> dic = new Dictionary<string, string>();
-                //dic =GetFtpPathAndLogin();
-                dic=RuRo.BLL.TB_CONSENT_FORM.FtpPathAndLogin();
-                RuRo.Common.FTP.FTPHelper ftpc = new Common.FTP.FTPHelper(dic["FTPFolder2"], strpath, dic["FTPUser"], dic["FTPPWD"]);
-                Stream stream = ftpc.DownloadInfo(strImgName);
-                byte[] byteImg = StreamToBytes(stream).ToArray();//将图片转化为二进制流输出
-                Response.ContentType = "image/jpeg";//设定格式
-                Response.BinaryWrite(byteImg);//打印出来
-                Response.End();//结束坑爹的
+                ////http://localhost:3448/Download.aspx?imgname=XYS_2065459-20151101.jpg
+                //string strImgName = Request["imgname"].ToString();
+                ////获取传入路径
+                //string[] SplitFileName = strImgName.Split('-');//根据-分为两半
+                //string[] Filedate = SplitFileName[1].Split('.');//取日期部分
+                //string[] SplitFileCode = strImgName.Split('_');//取所属科室部分
+                //DateTime dt = DateTime.ParseExact(Filedate[0], "yyyyMMdd", null);
+                //string strpath =SplitFileCode[0]+"/"+ dt.Year + "/" + dt.Month;
+                //Dictionary<string, string> dic = new Dictionary<string, string>();
+                ////dic =GetFtpPathAndLogin();
+                //dic=RuRo.BLL.TB_CONSENT_FORM.FtpPathAndLogin();
+                //RuRo.Common.FTP.FTPHelper ftpc = new Common.FTP.FTPHelper(dic["FTPFolder2"], strpath, dic["FTPUser"], dic["FTPPWD"]);
+                //Stream stream = ftpc.DownloadInfo(strImgName);
+                //byte[] byteImg = StreamToBytes(stream).ToArray();//将图片转化为二进制流输出
+                //Response.ContentType = "image/jpeg";//设定格式
+                //Response.BinaryWrite(byteImg);//打印出来
+                //Response.End();//结束坑爹的
+
+                string src = Context.Request.Params["id"];
+                //yong id chaxun src
+                //src = ~/riwen/1.jpg
+                src = "http://www.szlddb.com/templets/default/images/logo_gz.gif";
+                img.ImageUrl = src;
             }
             catch (Exception ex) 
             {

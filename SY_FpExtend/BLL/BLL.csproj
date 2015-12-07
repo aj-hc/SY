@@ -123,6 +123,7 @@
   <ItemGroup>
     <Compile Include="Download.cs" />
     <Compile Include="TB_CONSENT_FORM.cs" />
+    <Compile Include="TB_IMGPATH.cs" />
     <Compile Include="TB_SAMPLE_LOG.cs" />
     <Compile Include="FP_LINKAGE_Bll.cs" />
     <Compile Include="FP_SY_HIS_IP_PublicInterface_Bll.cs" />

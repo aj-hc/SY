@@ -28,9 +28,17 @@ namespace RuRo.Web
             string path = RuRo.Common.DEncrypt.DESEncrypt.Encrypt(txtFuWu.Text.Trim(), "litianping");
             string user = RuRo.Common.DEncrypt.DESEncrypt.Encrypt(txtUser.Text.Trim(), "litianping"); 
             string pwd = RuRo.Common.DEncrypt.DESEncrypt.Encrypt(txtPwd.Text.Trim(), "litianping");
+            txtEncrypt.Text = "";
             txtEncrypt.Text = "FTP路径：" + path + "\n 账号：" + user + "\n 密码："+pwd;
             string str = "FTP路径：" + path + "\n 账号：" + user + "\n 密码：" + pwd;
             
+        }
+
+        protected void Button2_Click(object sender, EventArgs e)
+        {
+            string str = RuRo.Common.DEncrypt.DESEncrypt.Decrypt(txtEncrypt.Text.Trim(), "litianping");
+            txtEncrypt.Text = "";
+            txtEncrypt.Text = str;
         }
     }
 }

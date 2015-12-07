@@ -21,6 +21,7 @@
         <asp:Button runat="server" ID="ok" Text="生成数据库加密" OnClick="ok_Click" />
         <br></br>
         <asp:Button runat="server" ID="Button1" Text="生成FTP加密" OnClick="Button1_Click"  />
+        <asp:Button runat="server" ID="Button2" Text="解密数据库连接" OnClick="Button2_Click"  />
         <div></div>
         <br></br>
         <asp:TextBox runat="server" ID="txtEncrypt" TextMode="MultiLine" Height="131px" Width="388px"></asp:TextBox>
