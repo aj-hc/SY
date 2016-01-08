@@ -175,6 +175,7 @@
             <div id="footer" style="padding: 5px; margin: 10px" data-options="region:'south',">
                 <a href="javascript:void(0)" class="easyui-linkbutton" id="submit" style="width: auto" onclick="postPatientInfo()">导入信息</a>
                 <a href="javascript:void(0)" class="easyui-linkbutton" id="cancleSubmit" style="width: auto" onclick="CloseWebPage()">取消导入</a>
+                <%-- <a href="javascript:void(0)" class="easyui-linkbutton" id="cancleSubmit" style="width: auto" onclick="Cleardg_SampleInfo()">清空样品信息</a>--%>
             </div>
         </div>
         <!--临床信息录入框 -->
@@ -229,7 +230,7 @@
                         <tr>
                             <td style="width: 100px;">体积:</td>
                             <td>
-                                <input class="easyui-numberbox" name="volumeE" id="volumeE" data-options="required:false,editable:false,prompt:'输入样品体积时请注意单位'" /></td>
+                                <input class="easyui-numberbox" name="volumeE" id="volumeE" data-options="required:false,editable:true,prompt:'输入样品体积时请注意单位'" /></td>
                         </tr>
                         <tr>
                             <td style="width: 100px;">管数:</td>

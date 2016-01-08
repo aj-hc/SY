@@ -251,15 +251,16 @@ $(function () {
         onSelect: function (rec) {
             var text = $('#sampleTypeE').combobox('getValue');
             $('#volumeE').textbox('clear');
-            if (text.indexOf("组织") > 0) { $('#volumeE').textbox('setValue', '500'); text = "";return; }
-            if (text.indexOf("血") > 0) { $('#volumeE').textbox('setValue', '400'); text = ""; return; }
-            if (text.indexOf("细胞") > 0) { $('#volumeE').textbox('setValue', '300'); text = ""; return; }
-            if (text.indexOf("心耳") > 0) { $('#volumeE').textbox('setValue', '300'); text = ""; return; }
-            if (text.indexOf("上清") > 0) { $('#volumeE').textbox('setValue', '400'); text = ""; return; }
-            else
-            {
-                $('#volumeE').textbox('setValue', '400');
-            }
+            $('#volumeE').textbox('setValue', '0');
+            //if (text.indexOf("组织") > 0) { $('#volumeE').textbox('setValue', '500'); text = "";return; }
+            //if (text.indexOf("血") > 0) { $('#volumeE').textbox('setValue', '400'); text = ""; return; }
+            //if (text.indexOf("细胞") > 0) { $('#volumeE').textbox('setValue', '300'); text = ""; return; }
+            //if (text.indexOf("心耳") > 0) { $('#volumeE').textbox('setValue', '300'); text = ""; return; }
+            //if (text.indexOf("上清") > 0) { $('#volumeE').textbox('setValue', '400'); text = ""; return; }
+            //else
+            //{
+            //    $('#volumeE').textbox('setValue', '400');
+            //}
         }
     });
 })

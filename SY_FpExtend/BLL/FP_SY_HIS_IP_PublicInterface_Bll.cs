@@ -36,50 +36,51 @@ namespace RuRo.BLL
             if (res == "{\"ds\":[]}")
             {
                 res = "{\"ds\":[{\"msg\":\"临床数据为空\"}]}";
-                return res;
             }
-            else 
-            {
-                #region fuck
-                dv = ds.Tables[0].DefaultView;
-                dv.RowFilter = "DiagnoseTypeFlag=2";
-                dv.Sort = " DiagnoseDateTime ASC";
-                if (dv.Count == 0 || object.Equals(dv, null))
-                {
-                    dv = new DataView();
-                    dv = ds.Tables[0].DefaultView;
-                    dv.RowFilter = "DiagnoseTypeFlag=1";
-                    dv.Sort = " DiagnoseDateTime ASC";
-                    if (dv.Count == 0 || object.Equals(dv, null))
-                    {
-                        dv = new DataView();
-                        dv = ds.Tables[0].DefaultView;
-                        dv.RowFilter = "DiagnoseTypeFlag=0";
-                        dv.Sort = " DiagnoseDateTime ASC";
-                        if (dv.Count == 0 || object.Equals(dv, null))
-                        {
-                            res = "{\"ds\":[{\"msg\":\"无标准临床数据返回\"}]}";
-                        }
-                        else 
-                        {
-                            ds1.Tables.Add(dv.ToTable());
-                            res = FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(ds1);
-                        }
-                    }
-                    else 
-                    {
-                        ds1.Tables.Add(dv.ToTable());
-                        res = FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(ds1);
-                    }
-                }
-                else 
-                {
-                    ds1.Tables.Add(dv.ToTable());
-                    res = FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(ds1);
-                }
-                #endregion
-                return res;
-            }
+            //else 
+            //{
+            //    res = FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(ds);
+            //    #region fuck
+            //    dv = ds.Tables[0].DefaultView;
+            //    dv.RowFilter = "DiagnoseTypeFlag=2";
+            //    dv.Sort = " DiagnoseDateTime ASC";
+            //    if (dv.Count == 0 || object.Equals(dv, null))
+            //    {
+            //        dv = new DataView();
+            //        dv = ds.Tables[0].DefaultView;
+            //        dv.RowFilter = "DiagnoseTypeFlag=1";
+            //        dv.Sort = " DiagnoseDateTime ASC";
+            //        if (dv.Count == 0 || object.Equals(dv, null))
+            //        {
+            //            dv = new DataView();
+            //            dv = ds.Tables[0].DefaultView;
+            //            dv.RowFilter = "DiagnoseTypeFlag=0";
+            //            dv.Sort = " DiagnoseDateTime ASC";
+            //            if (dv.Count == 0 || object.Equals(dv, null))
+            //            {
+            //                res = "{\"ds\":[{\"msg\":\"无标准临床数据返回\"}]}";
+            //            }
+            //            else 
+            //            {
+            //                ds1.Tables.Add(dv.ToTable());
+            //                res = FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(ds1);
+            //            }
+            //        }
+            //        else 
+            //        {
+            //            ds1.Tables.Add(dv.ToTable());
+            //            res = FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(ds1);
+            //        }
+            //    }
+            //    else 
+            //    {
+            //        ds1.Tables.Add(dv.ToTable());
+            //        res = FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(ds1);
+            //    }
+            //    #endregion
+                
+            //}
+            return res;
         }
         #endregion
 
@@ -168,7 +169,7 @@ namespace RuRo.BLL
                 }
                 ds1.AcceptChanges();
                 model.In_InPatientID = Convert.ToInt32(ds1.Tables[0].Rows[0]["InPatientID"]);
-                model.In_CodeType = Convert.ToInt32(ds1.Tables[0].Rows[0]["InPatientID"]);
+                model.In_RegisterID = Convert.ToInt32(ds1.Tables[0].Rows[0]["RegisterID"]);
                 string res = FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(ds1);
                 return res;
             }
