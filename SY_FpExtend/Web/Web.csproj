@@ -909,7 +909,6 @@
     <Content Include="Fp_Ajax\getImg.ashx" />
     <Content Include="Fp_Ajax\DowImg.ashx" />
     <None Include="Properties\PublishProfiles\sy.pubxml" />
-    <None Include="Properties\PublishProfiles\SY1.pubxml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
