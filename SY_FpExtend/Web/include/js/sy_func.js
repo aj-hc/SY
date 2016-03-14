@@ -91,6 +91,7 @@ function querybycode() {
                             AddBaseInfoToForm(ds[0]);
                             var PName=$("#_80").textbox('getText');
                             var PId = $("#_91").textbox('getText');
+                            $("#txtPatientID").textbox('setValue', PId);
                             //查询是否存在知情同意书X
                             //if (PName != "" || PId != "" || PName != null || PId != null)
                             //{

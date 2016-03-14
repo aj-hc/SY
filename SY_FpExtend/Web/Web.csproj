@@ -674,7 +674,6 @@
     <Content Include="Login.aspx" />
     <Content Include="TestData\Fpfunction.js" />
     <Content Include="TestData\ImportTestData.aspx" />
-    <Content Include="TestData\WebForm1.aspx" />
     <Content Include="TestData\WebTest1.aspx" />
     <Content Include="Text.aspx" />
     <Content Include="Web.config">
@@ -831,13 +830,6 @@
     </Compile>
     <Compile Include="TestData\ImportTestData.aspx.designer.cs">
       <DependentUpon>ImportTestData.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="TestData\WebForm1.aspx.cs">
-      <DependentUpon>WebForm1.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="TestData\WebForm1.aspx.designer.cs">
-      <DependentUpon>WebForm1.aspx</DependentUpon>
     </Compile>
     <Compile Include="TestData\WebTest1.aspx.cs">
       <DependentUpon>WebTest1.aspx</DependentUpon>

@@ -36,7 +36,6 @@ namespace RuRo.Web.Fp_Ajax
                 }
             }
             FreezerProUtility.Fp_Common.UnameAndPwd up = new FreezerProUtility.Fp_Common.UnameAndPwd(username, password);
-
             //页面第一次加载时初始化变量
             if (!IsPostBack)
             {

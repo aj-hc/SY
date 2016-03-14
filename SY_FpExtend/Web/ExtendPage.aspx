@@ -15,6 +15,7 @@
     <script src="include/js/sy_func.js"></script>
     <script src="include/js/page.js"></script>
     <script src="include/js/BindFuncToId.js"></script>
+    <script src="include/js/consentFormPage.js"></script>
     <title>样品录入</title>
 </head>
 <body style="overflow: auto;">
@@ -108,7 +109,7 @@
                     <%--2、临床信息详细信息展现--%>
                     <%--3、单独导入临床信息操作--%>
                     <div class="easyui-panel">
-                        <div id="ClinicalInfoDg" style="height: 105px; width: 100%"></div>
+                        <div id="ClinicalInfoDg" style="height: 205px; width: 100%"></div>
                     </div>
                 </form>
             </div>
@@ -268,5 +269,37 @@
                 </div>
             </div>
         </div>
+
+        <!--知情同意书管理-->
+        <div class="easyui-panel" title="知情同意书管理" style="width: 800px; padding: 30px 70px 50px 70px">
+        <form enctype="multipart/form-data" method="post" runat="server">
+            <table>
+                <tr>
+                    <td>姓名：</td>
+                    <td>
+                        <input class="easyui-textbox" name="txtname" id="txtname" data-options="required:true"  /></td>
+                </tr>
+                <tr>
+                    <td>样品源名称：</td>
+                    <td>
+                        <input class="easyui-numberbox" name="txtPatientID" id="txtPatientID" data-options="required:true" /></td>
+                </tr>
+                <tr>
+                    <td>读取知情同意书：</td>
+                    <td>
+                        <asp:FileUpload ID="idFile" Width="350px" runat="server" /></td>
+                </tr>
+                <tr>
+                    <td>设置日期：</td>
+                    <td>
+                        <input class="easyui-datebox" name="fromdate" id="fromdate" data-options="required:true,editable:false" /></td>
+                </tr>
+                <tr>
+                <%--<td><a href="javascript:void(0)" id="btnGet" class="easyui-linkbutton" onclick="getImg()">上传图片</a></td>--%>
+                     <td> <asp:Button ID="ImgNoOK" runat="server" Text="上传图片" OnClick="ImgNoOK_Click" /></td>
+                </tr>
+            </table>
+        </form>
+    </div>
 </body>
 </html>
