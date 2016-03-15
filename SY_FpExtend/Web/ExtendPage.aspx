@@ -15,7 +15,10 @@
     <script src="include/js/sy_func.js"></script>
     <script src="include/js/page.js"></script>
     <script src="include/js/BindFuncToId.js"></script>
+    <!--知情同意书 -->
     <script src="include/js/consentFormPage.js"></script>
+    <script src="include/js/setDateJs.js"></script>
+    <script src="include/jquery-easyui-1.4.3/jquery.form.js"></script>
     <title>样品录入</title>
 </head>
 <body style="overflow: auto;">
@@ -225,33 +228,27 @@
                     <table>
                         <tr>
                             <td style="width: 100px;">样品类型:</td>
-                            <td>
-                                <input class="easyui-combobox" name="sampleTypeE" id="sampleTypeE" data-options="required:true,multiple:false,prompt:'请选择样品类型'" /></td>
+                            <td ><input class="easyui-combobox" name="sampleTypeE" id="sampleTypeE" data-options="required:true,multiple:false,prompt:'请选择样品类型'" /></td>
                         </tr>
                         <tr>
                             <td style="width: 100px;">体积:</td>
-                            <td>
-                                <input class="easyui-numberbox" name="volumeE" id="volumeE" data-options="required:false,editable:true,prompt:'输入样品体积时请注意单位'" /></td>
+                            <td><input class="easyui-numberbox" name="volumeE" id="volumeE" data-options="required:false,editable:true,prompt:'输入样品体积时请注意单位'" /></td>
                         </tr>
                         <tr>
                             <td style="width: 100px;">管数:</td>
-                            <td>
-                                <input class="easyui-numberbox" name="ScountE" id="ScountE" data-options="min:1,value:1,required:true,prompt:'请输入分管数'" /></td>
+                            <td><input class="easyui-numberbox" name="ScountE" id="ScountE" data-options="min:1,value:1,required:true,prompt:'请输入分管数'" /></td>
                         </tr>
                         <tr>
                             <td style="width: 100px;">样品来源:</td>
-                            <td>
-                                <input class="easyui-combobox" name="sampleType_S" id="sampleType_S" data-options="required:true,editable:false,prompt:'请选择样品来源'" /></td>
+                            <td><input class="easyui-combobox" name="sampleType_S" id="sampleType_S" data-options="required:true,editable:false,prompt:'请选择样品来源'" /></td>
                         </tr>
                         <tr>
                             <td style="width: 100px;">用途:</td>
-                            <td>
-                                <input class="easyui-combobox" name="sampleType_U" id="sampleType_U" data-options="required:true,editable:false,prompt:'请选择用途'" /></td>
+                            <td><input class="easyui-combobox" name="sampleType_U" id="sampleType_U" data-options="required:true,editable:false,prompt:'请选择用途'" /></td>
                         </tr>
                         <tr>
                             <td style="width: 100px;">样品课题组:</td>
-                            <td>
-                                <input class="easyui-combobox" name="SampleGroupE" id="SampleGroupE" data-options="required:false,editable:false,multiple:false,prompt:'请选择样品组'" /></td>
+                            <td><input class="easyui-combobox" name="SampleGroupE" id="SampleGroupE" data-options="required:false,editable:false,multiple:false,prompt:'请选择样品组'" /></td>
                         </tr>
                         <%--                        <tr>
 	    			        <td style="width:100px;">脏器:</td>
@@ -271,34 +268,35 @@
         </div>
 
         <!--知情同意书管理-->
-        <div class="easyui-panel" title="知情同意书管理" style="width: 800px; padding: 30px 70px 50px 70px">
+        <div class="easyui-panel" title="知情同意书管理" style="width: 900px; padding: 1px;">
         <form enctype="multipart/form-data" method="post" runat="server">
             <table>
                 <tr>
                     <td>姓名：</td>
-                    <td>
-                        <input class="easyui-textbox" name="txtname" id="txtname" data-options="required:true"  /></td>
+                    <td style="float:left"><input class="easyui-textbox" name="txtname" id="txtname" data-options="required:true"  /></td>
                 </tr>
                 <tr>
                     <td>样品源名称：</td>
-                    <td>
+                    <td style="float:left">
                         <input class="easyui-numberbox" name="txtPatientID" id="txtPatientID" data-options="required:true" /></td>
                 </tr>
                 <tr>
                     <td>读取知情同意书：</td>
-                    <td>
-                        <asp:FileUpload ID="idFile" Width="350px" runat="server" /></td>
+                    <td style="float:left"><asp:FileUpload ID="idFile" Width="350px" runat="server" /></td>
+                    
                 </tr>
                 <tr>
-                    <td>设置日期：</td>
-                    <td>
-                        <input class="easyui-datebox" name="fromdate" id="fromdate" data-options="required:true,editable:false" /></td>
+                    <td>上传日期：</td>
+                    <td style="float:left"><input class="easyui-datebox" name="fromdate" id="fromdate" data-options="required:true,editable:false" /></td>
                 </tr>
                 <tr>
-                <%--<td><a href="javascript:void(0)" id="btnGet" class="easyui-linkbutton" onclick="getImg()">上传图片</a></td>--%>
-                     <td> <asp:Button ID="ImgNoOK" runat="server" Text="上传图片" OnClick="ImgNoOK_Click" /></td>
+                   <%-- <td><a href="javascript:void(0)" id="btnGet" class="easyui-linkbutton" onclick="getImg()">上传图片</a></td>--%>
+                    <td></td>
+                    <td style="float:left"><asp:Button ID="ImgNoOK" runat="server" Text="上传图片" OnClick="ImgNoOK_Click" /> </td>
                 </tr>
             </table>
+            
+            
         </form>
     </div>
 </body>

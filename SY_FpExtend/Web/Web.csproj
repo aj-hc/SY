@@ -81,6 +81,7 @@
     <Content Include="Download.aspx" />
     <Content Include="Error\AppError\新建文本文档.txt" />
     <Content Include="Error\AppExError\新建文本文档.txt" />
+    <Content Include="Fp_Ajax\DownImg.aspx" />
     <Content Include="Fp_Ajax\LogData.aspx" />
     <Content Include="HtmlPage1.html" />
     <Content Include="Images\IndexImg\blocks.gif" />
@@ -718,6 +719,13 @@
     </Compile>
     <Compile Include="Fp_Ajax\DowImg.ashx.cs">
       <DependentUpon>DowImg.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Fp_Ajax\DownImg.aspx.cs">
+      <DependentUpon>DownImg.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Fp_Ajax\DownImg.aspx.designer.cs">
+      <DependentUpon>DownImg.aspx</DependentUpon>
     </Compile>
     <Compile Include="Fp_Ajax\GetData.aspx.cs">
       <DependentUpon>GetData.aspx</DependentUpon>

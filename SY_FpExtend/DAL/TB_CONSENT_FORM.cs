@@ -22,20 +22,22 @@ namespace RuRo.DAL
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("insert into TB_CONSENT_FORM(");
-            strSql.Append("Path,PatientName,PatientID,Consent_From)");
+            strSql.Append("Path,PatientName,PatientID,Consent_From,date)");
             strSql.Append(" values (");
-            strSql.Append("@Path,@PatientName,@PatientID,@Consent_From )");
+            strSql.Append("@Path,@PatientName,@PatientID,@Consent_From,@date)");
             strSql.Append(";select @@IDENTITY");
             SqlParameter[] parameters = {
 					new SqlParameter("@Path", SqlDbType.NVarChar,200),
 					new SqlParameter("@PatientName", SqlDbType.VarChar,50),
 					new SqlParameter("@PatientID", SqlDbType.Int,4),
-                    new SqlParameter("@Consent_From", SqlDbType.NVarChar,150)
+                    new SqlParameter("@Consent_From", SqlDbType.NVarChar,150),
+                     new SqlParameter("@date",SqlDbType.DateTime)
                                         };
             parameters[0].Value = model.Path;
             parameters[1].Value = model.PatientName;
             parameters[2].Value = model.PatientID;
             parameters[3].Value = model.Consent_From;
+            parameters[4].Value = model.Date;
             object obj = DbHelperSQL_SY.GetSingleSY(strSql.ToString(), parameters);
             if (obj == null)
             {
