@@ -92,22 +92,12 @@ namespace RuRo.Web
                         if (msg.Contains("成功"))
                         {
                             RuRo.Common.Filehleper.DirFileHelper.ClearDirectory(newstrpath);//删除文件夹下面的文件
-                            //返回消息
-                            //RuRo.Model.TB_SAMPLE_LOG log_model = new Model.TB_SAMPLE_LOG();//记录日志
-                            //log_model.MSG = "知情同意书管理：" + msg;
-                            //RuRo.BLL.TB_SAMPLE_LOG log_bll = new BLL.TB_SAMPLE_LOG();
-                            //log_bll.Add(log_model);
                             Response.Write("<script type='text/javascript'>alert('" + msg + "');</script>");
                         }
                         else
                         {
                             RuRo.Common.Filehleper.DirFileHelper.DeleteFile(mes);
                             RuRo.Common.Filehleper.DirFileHelper.ClearDirectory(newstrpath);//删除文件夹下面的文件
-                            //返回消息
-                            //RuRo.Model.TB_SAMPLE_LOG log_model = new Model.TB_SAMPLE_LOG();//记录日志
-                            //log_model.MSG = "知情同意书管理：" + msg;
-                            //RuRo.BLL.TB_SAMPLE_LOG log_bll = new BLL.TB_SAMPLE_LOG();
-                            //log_bll.Add(log_model);
                             Response.Write("<script type='text/javascript'>alert('" + msg + "');</script>");
                         }
                     }

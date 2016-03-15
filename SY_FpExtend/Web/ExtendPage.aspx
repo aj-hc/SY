@@ -19,6 +19,7 @@
     <script src="include/js/consentFormPage.js"></script>
     <script src="include/js/setDateJs.js"></script>
     <script src="include/jquery-easyui-1.4.3/jquery.form.js"></script>
+    <script src="include/js/ajaxfileupload.js"></script>
     <title>样品录入</title>
 </head>
 <body style="overflow: auto;">
