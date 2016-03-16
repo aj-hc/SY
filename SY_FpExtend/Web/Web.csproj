@@ -90,6 +90,7 @@
     <Content Include="Images\IndexImg\noscript.gif" />
     <Content Include="Images\IndexImg\tabicons.png" />
     <Content Include="include\css\index.css" />
+    <Content Include="include\css\uploadify.css" />
     <Content Include="include\jquery-easyui-1.4.3\jquery.form.js" />
     <Content Include="include\jquery-easyui-1.4.3\outlook2.js" />
     <Content Include="include\js\consentFormPage.js" />
@@ -466,6 +467,7 @@
     <Content Include="include\jquery-easyui-1.4.3\themes\metro\validatebox.css" />
     <Content Include="include\jquery-easyui-1.4.3\themes\metro\window.css" />
     <Content Include="include\jquery-easyui-1.4.3\themes\mobile.css" />
+    <Content Include="include\js\jquery.uploadify.min.js" />
     <Content Include="include\js\setDateJs.js" />
     <Content Include="index.aspx" />
     <Content Include="informedFrom\informedFrom.aspx" />
@@ -676,6 +678,7 @@
     <Content Include="TestData\Fpfunction.js" />
     <Content Include="TestData\ImportTestData.aspx" />
     <Content Include="TestData\WebTest1.aspx" />
+    <Content Include="TESTUP.aspx" />
     <Content Include="Text.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -762,6 +765,9 @@
     <Compile Include="Fp_Ajax\SubmitData.aspx.designer.cs">
       <DependentUpon>SubmitData.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Fp_Ajax\UploadHandler.ashx.cs">
+      <DependentUpon>UploadHandler.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Fp_ExtendPage\BasedInfoTest.aspx.cs">
       <DependentUpon>BasedInfoTest.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -846,6 +852,13 @@
     <Compile Include="TestData\WebTest1.aspx.designer.cs">
       <DependentUpon>WebTest1.aspx</DependentUpon>
     </Compile>
+    <Compile Include="TESTUP.aspx.cs">
+      <DependentUpon>TESTUP.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TESTUP.aspx.designer.cs">
+      <DependentUpon>TESTUP.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Text.aspx.cs">
       <DependentUpon>Text.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -908,6 +921,7 @@
   <ItemGroup>
     <Content Include="Fp_Ajax\getImg.ashx" />
     <Content Include="Fp_Ajax\DowImg.ashx" />
+    <Content Include="Fp_Ajax\UploadHandler.ashx" />
     <None Include="Properties\PublishProfiles\sy.pubxml" />
   </ItemGroup>
   <PropertyGroup>

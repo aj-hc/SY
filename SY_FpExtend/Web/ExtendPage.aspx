@@ -19,7 +19,8 @@
     <script src="include/js/consentFormPage.js"></script>
     <script src="include/js/setDateJs.js"></script>
     <script src="include/jquery-easyui-1.4.3/jquery.form.js"></script>
-    <script src="include/js/ajaxfileupload.js"></script>
+    <script src="include/js/jquery.uploadify.min.js"></script>
+    <link href="include/css/uploadify.css" rel="stylesheet" />
     <title>样品录入</title>
 </head>
 <body style="overflow: auto;">
@@ -293,11 +294,9 @@
                 <tr>
                    <%-- <td><a href="javascript:void(0)" id="btnGet" class="easyui-linkbutton" onclick="getImg()">上传图片</a></td>--%>
                     <td></td>
-                    <td style="float:left"><asp:Button ID="ImgNoOK" runat="server" Text="上传图片" OnClick="ImgNoOK_Click" /> </td>
+                   <%-- <td style="float:left"><asp:Button ID="ImgNoOK" runat="server" Text="上传图片" OnClick="ImgNoOK_Click" /> </td>--%>
                 </tr>
             </table>
-            
-            
         </form>
     </div>
 </body>
