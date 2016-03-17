@@ -91,8 +91,8 @@
     <Content Include="Images\IndexImg\tabicons.png" />
     <Content Include="include\css\index.css" />
     <Content Include="include\css\uploadify.css" />
-    <Content Include="include\jquery-easyui-1.4.3\jquery.form.js" />
     <Content Include="include\jquery-easyui-1.4.3\outlook2.js" />
+    <Content Include="include\js\ajaxfileupload.js" />
     <Content Include="include\js\consentFormPage.js" />
     <Content Include="include\js\jquery.cookie.js" />
     <Content Include="include\js\BindFuncToId.js" />
@@ -678,7 +678,6 @@
     <Content Include="TestData\Fpfunction.js" />
     <Content Include="TestData\ImportTestData.aspx" />
     <Content Include="TestData\WebTest1.aspx" />
-    <Content Include="TESTUP.aspx" />
     <Content Include="Text.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -852,13 +851,6 @@
     <Compile Include="TestData\WebTest1.aspx.designer.cs">
       <DependentUpon>WebTest1.aspx</DependentUpon>
     </Compile>
-    <Compile Include="TESTUP.aspx.cs">
-      <DependentUpon>TESTUP.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="TESTUP.aspx.designer.cs">
-      <DependentUpon>TESTUP.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Text.aspx.cs">
       <DependentUpon>Text.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -908,12 +900,6 @@
   <ItemGroup>
     <Folder Include="Consentimg\" />
     <Folder Include="IIII\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Images\Images\MenuImg\Thumbs.db" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Images\Images\Thumbs.db" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="include\JSON\Employee.json" />

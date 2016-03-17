@@ -16,11 +16,9 @@
     <script src="include/js/page.js"></script>
     <script src="include/js/BindFuncToId.js"></script>
     <!--知情同意书 -->
+    <script src="include/js/ajaxfileupload.js"></script>
     <script src="include/js/consentFormPage.js"></script>
     <script src="include/js/setDateJs.js"></script>
-    <script src="include/jquery-easyui-1.4.3/jquery.form.js"></script>
-    <script src="include/js/jquery.uploadify.min.js"></script>
-    <link href="include/css/uploadify.css" rel="stylesheet" />
     <title>样品录入</title>
 </head>
 <body style="overflow: auto;">
@@ -284,8 +282,8 @@
                 </tr>
                 <tr>
                     <td>读取知情同意书：</td>
-                    <td style="float:left"><asp:FileUpload ID="idFile" Width="350px" runat="server" /></td>
-                    
+                    <%--<td style="float:left"><asp:FileUpload ID="idFile" Width="350px" runat="server" /></td>--%>
+                    <td><input type="file" id="IdFile" name="IdFile" style="width:300px"></td>
                 </tr>
                 <tr>
                     <td>上传日期：</td>
@@ -293,7 +291,7 @@
                 </tr>
                 <tr>
                    <%-- <td><a href="javascript:void(0)" id="btnGet" class="easyui-linkbutton" onclick="getImg()">上传图片</a></td>--%>
-                    <td></td>
+                   <td><a href="javascript:void(0)" id="btnGet" class="easyui-linkbutton" onclick="ajaxFileUpload()">上传图片</a></td>
                    <%-- <td style="float:left"><asp:Button ID="ImgNoOK" runat="server" Text="上传图片" OnClick="ImgNoOK_Click" /> </td>--%>
                 </tr>
             </table>

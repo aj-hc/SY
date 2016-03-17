@@ -53,11 +53,11 @@ namespace RuRo.Web
                 }
                 //把图片上传到指定的文件夹，返回信息
                 string mes = PostImg(newstrpath);
-                if (mes.Contains(this.idFile.FileName))
+                if (mes.Contains(""))
                 {
                     mes = "";
                     //读取图片处理并保存到指定的文件夹中,并返回路径和图片名称；
-                    mes = HandleImg(newstrpath + idFile.FileName, dickeshi["SP"], strUid, strdate, ref newimgName);
+                    mes = HandleImg(newstrpath + "", dickeshi["SP"], strUid, strdate, ref newimgName);
                     //添加到Freezerpro诊断信息中
                     Dictionary<string, string> dicdata = new Dictionary<string, string>();//匹配传入系统的数据
                     if (mes.Contains(newimgName))
@@ -228,7 +228,8 @@ namespace RuRo.Web
                 Bitmap map = new Bitmap(path);
                 string savePathName = @"Consentimg\";
                 string savePath = Server.MapPath("~/Consentimg/");
-                string[] geshi = this.idFile.FileName.Split('.');
+                //string[] geshi = this.idFile.FileName.Split('.');
+                string[] geshi = null;
                 DateTime dt = Convert.ToDateTime(date);
                 string Random = IntRandom();
                 imgname = keshi + "_" + uid + "-" + dt.ToString("yyyyMMdd") + "_" + Random + "." + geshi[1];
@@ -304,47 +305,48 @@ namespace RuRo.Web
         /// <returns></returns>
         public string PostImg(string path)
         {
-            Boolean fileOk = false;
-            string mes = "";
-            if (this.idFile.HasFile)
-            {
-                //取得文件的扩展名,并转换成小写
-                string fileExtension = System.IO.Path.GetExtension(idFile.FileName);
-                //获取可以上传的格式
-                //string[] allowExtension = { ".jpg", ".gif", ".txt", ".xls",".jpeg","JPG","JPEG" };
-                string strallowExtension = System.Configuration.ConfigurationManager.AppSettings["allowExtension"];
-                string[] allowExtension = strallowExtension.Split('|');
-                for (int i = 0; i < allowExtension.Length; i++)
-                {
-                    if (fileExtension.Contains(allowExtension[i]))
-                    {
-                        fileOk = true;
-                        break;
-                    }
-                }
-                if (idFile.PostedFile.ContentLength > 2048000)
-                {
-                    fileOk = false;
-                    mes = "文件超过1M";
-                }
-                if (fileOk)
-                {
-                    try
-                    {
-                        idFile.PostedFile.SaveAs(path + idFile.FileName);
-                        mes = path + idFile.FileName;
-                    }
-                    catch (Exception ex)
-                    {
-                        mes = "文件上传错误";
-                    }
-                }
-            }
-            else
-            {
-                mes = "上传路径有误";
-            }
-            return mes;
+            //Boolean fileOk = false;
+            //string mes = "";
+            //if (this.idFile.HasFile)
+            //{
+            //    //取得文件的扩展名,并转换成小写
+            //    string fileExtension = System.IO.Path.GetExtension(idFile.FileName);
+            //    //获取可以上传的格式
+            //    //string[] allowExtension = { ".jpg", ".gif", ".txt", ".xls",".jpeg","JPG","JPEG" };
+            //    string strallowExtension = System.Configuration.ConfigurationManager.AppSettings["allowExtension"];
+            //    string[] allowExtension = strallowExtension.Split('|');
+            //    for (int i = 0; i < allowExtension.Length; i++)
+            //    {
+            //        if (fileExtension.Contains(allowExtension[i]))
+            //        {
+            //            fileOk = true;
+            //            break;
+            //        }
+            //    }
+            //    if (idFile.PostedFile.ContentLength > 2048000)
+            //    {
+            //        fileOk = false;
+            //        mes = "文件超过1M";
+            //    }
+            //    if (fileOk)
+            //    {
+            //        try
+            //        {
+            //            idFile.PostedFile.SaveAs(path + idFile.FileName);
+            //            mes = path + idFile.FileName;
+            //        }
+            //        catch (Exception ex)
+            //        {
+            //            mes = "文件上传错误";
+            //        }
+            //    }
+            //}
+            //else
+            //{
+            //    mes = "上传路径有误";
+            //}
+            //return mes;
+            return "";
         }
         #endregion
 
