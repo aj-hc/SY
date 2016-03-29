@@ -319,41 +319,6 @@ namespace FreezerProUtility.Fp_Common
         /// </summary>
         vials_sample
     }
-    //public  class GetDateFromFp
-    //{
-    //    Config config = new Config();//配置对象
-    //    WebClient webclient = new WebClient();//创建浏览器对象
-    //    private string  Method(Common method,string uriExtend,string postDate)//和Fp数据交换的方法
-    //    {
-    //        string result = "";
-    //        result = webclient.Post(config.URI, string.Format("username={0}&password={1}&method={2}&{3}",config.UserName,config.PassWord,method,uriExtend) + postDate);
-    //        return result;
-    //    }
-
-    //    //单独写方法获取数据和提交数据
-    //    //01.user
-    //    //02.userfields
-    //    private string Getuserfields()
-    //    {
-    //        return FpUnicodeHelper.ConvertUnicodeStringToChinese(Method(Common.userfields, "", ""));
-    //    }
-    //    public List<Model.UserFields> UserFields()
-    //    {
-    //        return FpJsonHelper.JObjectToList<Model.UserFields>("UserFields", Getuserfields());
-    //    }
-
-    //    //03.samplesourcetype
-    //    private string GetSampleSourceType()
-    //    {
-    //        return FpUnicodeHelper.ConvertUnicodeStringToChinese(Method(Common.sample_source_types,"",""));
-    //    }
-    //    //04.roles
-    //    //05.import_source
-    //    //06.updte_source
-
-    //    //生成界面的方法：获取类型、字段
-    //    //根据字段类型生成不同的文本框类型并绑定数据
-    //} 
     #endregion
 
 

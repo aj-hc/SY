@@ -14,6 +14,7 @@ namespace RuRo.Model
         private string _path;
         private string _patientname;
         private string _consent_From;
+        private DateTime _date;
         
         private int _patientid;
 
@@ -56,6 +57,11 @@ namespace RuRo.Model
         {
             set { _consent_From = value; }
             get { return _consent_From; }
+        }
+        public DateTime Date
+        {
+            set { _date = value; }
+            get { return _date; }
         }
         #endregion Model
 

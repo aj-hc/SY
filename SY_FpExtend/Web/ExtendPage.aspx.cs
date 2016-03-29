@@ -6,6 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using RuRo.BLL;
 using RuRo.Model;
+using System.Drawing;
 
 namespace RuRo.Web
 {

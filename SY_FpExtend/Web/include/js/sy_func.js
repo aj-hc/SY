@@ -351,9 +351,6 @@ function postPatientInfo() {
         var _baseinfo = getBaseInfoFormData();
         //ClinicalInfoDg
         var _ClinicalInfoDg = $('#ClinicalInfoDg').datagrid('getChecked');
-        //if (_ClinicalInfoDg.length <= 0) {
-        //    $.messager.alert('提示', '未选择诊断信息或诊断信息为空', 'error'); return;
-        //}
         if (_ClinicalInfoDg) {
             for (var i = 0; i < _ClinicalInfoDg.length - 1; i++) {
                 if (_ClinicalInfoDg[i].DiagnoseDateTime == "") { $.messager.alert('提示', '请选择诊断日期', 'error'); return; }
@@ -362,9 +359,6 @@ function postPatientInfo() {
         var rowClinicalInfoDg = JSON.stringify(_ClinicalInfoDg);
         var _sampleInfoForm = getSampleInfoFormData();
         var _dg_SampleInfoDg = $('#dg_SampleInfo').datagrid('getRows');
-        //if (!_dg_SampleInfoDg || _dg_SampleInfoDg == '[]' || _dg_SampleInfoDg.length <= 0) {
-        //    $.messager.alert('提示', '请添加样本信息', 'error'); return;
-        //}
         if (_dg_SampleInfoDg.length > 0) {
             for (var i = 0; i < _dg_SampleInfoDg.length; i++) {
                 _dg_SampleInfoDg[i].num = i + 1;
@@ -401,6 +395,15 @@ function postPatientInfo() {
                     if (baseinfo.success) {
                         if (clinicalInfo.success) {
                             if (dg_SampleInfo.success) {
+                                //查询是否存在知情同意书
+                                //赋值
+                                $('#txtPatientID').textbox('clear');
+                                $('#txtname').textbox('clear');
+                                var patientID = $('#_91').textbox('getText');
+                                var txtname = $('#_80').textbox('getText');
+                                $('#txtPatientID').textbox('setValue', patientID);
+                                $('#txtname').textbox('setValue', txtname);
+                                //加个提示
                                 $.messager.show({ title: '提示！', msg: '导入成功：' + dg_SampleInfo.msg, showType: 'show' });
                             }
                             else {
