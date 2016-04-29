@@ -17,11 +17,25 @@
     <script type="text/javascript">
         //初始化win弹窗在显示器中央
         function doimport() {
+            var browser = getBrowserInfo();
+            alert(browser);
+            if (browser == undefined || browser == "") { }
+            else
+            {
+                if (browser == "IE") {
+                    $.messager.confirm('提示！', '请使用谷歌浏览器打开系统，是否下载谷歌浏览器？是：下载，否：退出', function (r) {
+                        if (r) {
+                            window.open("page.html", "newwindow", "height=100,width=400,toolbar=no,menubar=no,scrollbars=no,resizable=no, location=no,status=no");
+                        }
+                        else { window.close(); }
+                    });
+                }
+            }
             var width = 970;
             var height = 650;
             var l = Math.round((window.screen.width - width) / 2);
             var t = Math.round((window.screen.height - height) / 2);
-            window.open('Login.aspx', 'newwindow', 'height=' + height + ', width=' + width + ', top=' + t + ',left=' + l + ',toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no')
+            window.open('Login.aspx', 'newwindow', 'height=' + height + ', width=' + width + ', top=' + t + ',left=' + l + ',toolbar=no, menubar=no, scrollbars=no, resizable=yes,location=no, status=no')
         }
         //$(function () {
         //    $(".side").css({ 'width': '24px', 'padding-right': '5px' });
@@ -59,20 +73,6 @@
                 return "IE";
             }
 
-        }
-        var browser = getBrowserInfo();
-        if (browser == undefined || browser=="") {}
-        else
-        {
-            if (browser == "IE") {
-                $.messager.confirm('提示！', '浏览器版本过低，是否下载谷歌浏览器，是：下载，否：退出', function (r) {
-                    if (r) {
-                        window.open("page.html", "newwindow", "height=100,width=400,toolbar=no,menubar=no,scrollbars=no,resizable=no, location=no,status=no");
-                    }
-                    else { window.close();}
-                });
-
-            }
         }
 
     </script>
