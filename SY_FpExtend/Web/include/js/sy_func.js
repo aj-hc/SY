@@ -83,95 +83,95 @@ function querybycode() {
                 if (!data) { $.messager.alert('提示', '查询不到数据,请检查数据是否存在！', 'error') }
                 else {
                     //测试代码
-                    var obj = $.parseJSON(data);
-                    if (obj._BaseInfo) {
-                        if (obj._BaseInfo.ds) {
-                            var ds = obj._BaseInfo.ds;
-                            //$("#BaseInfoForm").form("load", ds[0]);
-                            AddBaseInfoToForm(ds[0]);
-                            var PName=$("#_80").textbox('getText');
-                            var PId = $("#_91").textbox('getText');
-                            //查询是否存在知情同意书X
-                            //if (PName != "" || PId != "" || PName != null || PId != null)
-                            //{
-                            //    GetConsentForm(PName,PId);
-                            //}
-                            //else
-                            //{
-                            //    $.messager.alert('提示', '获取不到唯一标识码，请验证病人信息是否正确', 'error');
-                            //    return;
-                            //}
-                        }
-                    }
-                    if (obj._ClinicalInfo) {
-                        if (obj._ClinicalInfo.ds) {
-                            for (var i = 0; i < obj._ClinicalInfo.ds.length ; i++) {
-                                var text = obj._ClinicalInfo.ds[i].DiagnoseDateTime.substring(0, 10);
-                                obj._ClinicalInfo.ds[i].DiagnoseDateTime = text;
-                                switch (obj._ClinicalInfo.ds[i].DiagnoseTypeFlag) {
-                                    case 0: obj._ClinicalInfo.ds[i].DiagnoseTypeFlag = "门诊诊断"; break;
-                                    case 1: obj._ClinicalInfo.ds[i].DiagnoseTypeFlag = "入院诊断"; break;
-                                    case 2: obj._ClinicalInfo.ds[i].DiagnoseTypeFlag = "出院主要诊断"; break;
-                                    case 3: obj._ClinicalInfo.ds[i].DiagnoseTypeFlag = "出院次要诊断"; break;
-                                    case 12: obj._ClinicalInfo.ds[i].DiagnoseTypeFlag = "病理诊断"; break;
-                                    default: obj._ClinicalInfo.ds[i].DiagnoseTypeFlag = "未知诊断"; break;
-                                };
-                            }
-                            var ds = obj._ClinicalInfo.ds
-                            $('#ClinicalInfoDg').datagrid({ loadFilter: pagerFilter }).datagrid('loadData', ds).datagrid('reload');
-                        }
-                    }
-                    //测试end
-                    //将数据转换成json对象 正式
                     //var obj = $.parseJSON(data);
-                    //$('#In_Code').textbox('clear');
-                    //if (obj._BaseInfo)
-                    //{
-                    //    var _BaseInfo = $.parseJSON(obj._BaseInfo);
-                    //    if (_BaseInfo.ds)
-                    //    {
-                    //        var ds = _BaseInfo.ds;
-                    //        if(ds[0]==undefined)
-                    //        {
-                    //            $.messager.alert('提示', '查询不到数据,请检查数据是否存在！', 'error');
-                    //            return;
-                    //        }
+                    //if (obj._BaseInfo) {
+                    //    if (obj._BaseInfo.ds) {
+                    //        var ds = obj._BaseInfo.ds;
+                    //        //$("#BaseInfoForm").form("load", ds[0]);
                     //        AddBaseInfoToForm(ds[0]);
-                    //        var PName = $("#_80").textbox('getText');
+                    //        var PName=$("#_80").textbox('getText');
                     //        var PId = $("#_91").textbox('getText');
-                    ////        查询是否存在知情同意书
-                    ////        if (PName != "" || PId != "" || PName != null || PId != null) {GetConsentForm(PName, PId);}
-                    ////        else {$.messager.alert('提示', '获取不到唯一标识码，请验证病人信息是否正确', 'error');}
+                    //        //查询是否存在知情同意书X
+                    //        //if (PName != "" || PId != "" || PName != null || PId != null)
+                    //        //{
+                    //        //    GetConsentForm(PName,PId);
+                    //        //}
+                    //        //else
+                    //        //{
+                    //        //    $.messager.alert('提示', '获取不到唯一标识码，请验证病人信息是否正确', 'error');
+                    //        //    return;
+                    //        //}
                     //    }
                     //}
-                    //if (obj._ClinicalInfo)
-                    //{
-                    //    var _ClinicalInfo = $.parseJSON(obj._ClinicalInfo);
-
-                    //        if (_ClinicalInfo.ds) {
-                    //            var ds = _ClinicalInfo.ds
-                    //            if (ds[0].msg) {
-                    //                $.messager.alert('提示', ds[0].msg);
+                    //if (obj._ClinicalInfo) {
+                    //    if (obj._ClinicalInfo.ds) {
+                    //        for (var i = 0; i < obj._ClinicalInfo.ds.length ; i++) {
+                    //            var text = obj._ClinicalInfo.ds[i].DiagnoseDateTime.substring(0, 10);
+                    //            obj._ClinicalInfo.ds[i].DiagnoseDateTime = text;
+                    //            switch (obj._ClinicalInfo.ds[i].DiagnoseTypeFlag) {
+                    //                case 0: obj._ClinicalInfo.ds[i].DiagnoseTypeFlag = "门诊诊断"; break;
+                    //                case 1: obj._ClinicalInfo.ds[i].DiagnoseTypeFlag = "入院诊断"; break;
+                    //                case 2: obj._ClinicalInfo.ds[i].DiagnoseTypeFlag = "出院主要诊断"; break;
+                    //                case 3: obj._ClinicalInfo.ds[i].DiagnoseTypeFlag = "出院次要诊断"; break;
+                    //                case 12: obj._ClinicalInfo.ds[i].DiagnoseTypeFlag = "病理诊断"; break;
+                    //                default: obj._ClinicalInfo.ds[i].DiagnoseTypeFlag = "未知诊断"; break;
+                    //            };
                     //        }
-                    //            else
-                    //            {
-                    //                for (var i = 0; i < ds.length; i++) {
-                    //                    var text = _ClinicalInfo.ds[i].DiagnoseDateTime.substring(0, 10);
-                    //                    _ClinicalInfo.ds[i].DiagnoseDateTime = text; 
-                    //                    switch (_ClinicalInfo.ds[i].DiagnoseTypeFlag)
-                    //                    {
-                    //                        case 0: _ClinicalInfo.ds[i].DiagnoseTypeFlag = "门诊诊断"; break;
-                    //                        case 1: _ClinicalInfo.ds[i].DiagnoseTypeFlag = "入院诊断"; break;
-                    //                        case 2: _ClinicalInfo.ds[i].DiagnoseTypeFlag = "出院主要诊断"; break;
-                    //                        case 3: _ClinicalInfo.ds[i].DiagnoseTypeFlag = "出院次要诊断"; break;
-                    //                        case 12: _ClinicalInfo.ds[i].DiagnoseTypeFlag = "病理诊断"; break;
-                    //                        default: _ClinicalInfo.ds[i].DiagnoseTypeFlag = "未知诊断"; break;
-                    //                    };
-                    //                }
+                    //        var ds = obj._ClinicalInfo.ds
                     //        $('#ClinicalInfoDg').datagrid({ loadFilter: pagerFilter }).datagrid('loadData', ds).datagrid('reload');
                     //    }
                     //}
-                    //}
+                    //测试end
+                    //将数据转换成json对象 正式
+                    var obj = $.parseJSON(data);
+                    $('#In_Code').textbox('clear');
+                    if (obj._BaseInfo)
+                    {
+                        var _BaseInfo = $.parseJSON(obj._BaseInfo);
+                        if (_BaseInfo.ds)
+                        {
+                            var ds = _BaseInfo.ds;
+                            if(ds[0]==undefined)
+                            {
+                                $.messager.alert('提示', '查询不到数据,请检查数据是否存在！', 'error');
+                                return;
+                            }
+                            AddBaseInfoToForm(ds[0]);
+                            var PName = $("#_80").textbox('getText');
+                            var PId = $("#_91").textbox('getText');
+                    //        查询是否存在知情同意书
+                    //        if (PName != "" || PId != "" || PName != null || PId != null) {GetConsentForm(PName, PId);}
+                    //        else {$.messager.alert('提示', '获取不到唯一标识码，请验证病人信息是否正确', 'error');}
+                        }
+                    }
+                    if (obj._ClinicalInfo)
+                    {
+                        var _ClinicalInfo = $.parseJSON(obj._ClinicalInfo);
+
+                            if (_ClinicalInfo.ds) {
+                                var ds = _ClinicalInfo.ds
+                                if (ds[0].msg) {
+                                    $.messager.alert('提示', ds[0].msg);
+                            }
+                                else
+                                {
+                                    for (var i = 0; i < ds.length; i++) {
+                                        var text = _ClinicalInfo.ds[i].DiagnoseDateTime.substring(0, 10);
+                                        _ClinicalInfo.ds[i].DiagnoseDateTime = text; 
+                                        switch (_ClinicalInfo.ds[i].DiagnoseTypeFlag)
+                                        {
+                                            case 0: _ClinicalInfo.ds[i].DiagnoseTypeFlag = "门诊诊断"; break;
+                                            case 1: _ClinicalInfo.ds[i].DiagnoseTypeFlag = "入院诊断"; break;
+                                            case 2: _ClinicalInfo.ds[i].DiagnoseTypeFlag = "出院主要诊断"; break;
+                                            case 3: _ClinicalInfo.ds[i].DiagnoseTypeFlag = "出院次要诊断"; break;
+                                            case 12: _ClinicalInfo.ds[i].DiagnoseTypeFlag = "病理诊断"; break;
+                                            default: _ClinicalInfo.ds[i].DiagnoseTypeFlag = "未知诊断"; break;
+                                        };
+                                    }
+                            $('#ClinicalInfoDg').datagrid({ loadFilter: pagerFilter }).datagrid('loadData', ds).datagrid('reload');
+                        }
+                    }
+                    }
                     //正式END
                 }
             }
