@@ -18,7 +18,6 @@
         //初始化win弹窗在显示器中央
         function doimport() {
             var browser = getBrowserInfo();
-            alert(browser);
             if (browser == undefined || browser == "") { }
             else
             {
@@ -56,23 +55,19 @@
             if (agent.indexOf("msie") > 0) {
                 return "IE";
             }
-
             //firefox
             if (agent.indexOf("firefox") > 0) {
                 return "";
                 //return agent.match(regStr_ff);
             }
-
             //Chrome
             if (agent.indexOf("chrome") > 0) {
                 return "";
             }
-
             //Safari
             if (agent.indexOf("safari") > 0 && agent.indexOf("chrome") < 0) {
                 return "IE";
             }
-
         }
 
     </script>

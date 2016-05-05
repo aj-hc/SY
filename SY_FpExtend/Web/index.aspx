@@ -40,7 +40,7 @@
             <div title="插件管理" data-options="iconCls:'icon-sys'" style="overflow:auto;padding:0px;">
                 <ul>
                     <li><div><a target="mainFrame"  rel="ExtendPage.aspx"  ><span></span>导入样品</a></div></li> 
-                   <%--<li><div><a target="mainFrame"  rel="ConsentForm.aspx" ><span></span>知情同意书</a></div></li>--%>
+                   <li><div><a target="mainFrame"  rel="\Pages\FieldSetting.aspx" ><span></span>字段设定</a></div></li>
                 </ul>
             </div>
         </div>

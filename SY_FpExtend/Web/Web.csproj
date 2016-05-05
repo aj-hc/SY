@@ -469,16 +469,17 @@
     <Content Include="include\jquery-easyui-1.4.3\themes\mobile.css" />
     <Content Include="include\js\jquery.uploadify.min.js" />
     <Content Include="include\js\setDateJs.js" />
+    <Content Include="include\js\SettingPages.js" />
     <Content Include="index.aspx" />
     <Content Include="informedFrom\informedFrom.aspx" />
     <Content Include="chome\24.0.1312.56 _chrome_installer.exe" />
+    <Content Include="Pages\FieldSetting.aspx" />
     <Content Include="TestData\1.html" />
     <Content Include="Default.aspx" />
     <Content Include="Encrypt.aspx" />
     <Content Include="ExtendPage.aspx" />
     <Content Include="Fp_Ajax\Fp_Ajax.txt" />
     <Content Include="Fp_Ajax\GetData.aspx" />
-    <Content Include="Fp_Ajax\getjson.aspx" />
     <Content Include="Fp_Ajax\PageConData.aspx" />
     <Content Include="Fp_Ajax\SubmitData.aspx" />
     <Content Include="Fp_ExtendPage\00.Fp_ExtendPage备注.txt" />
@@ -736,13 +737,6 @@
     <Compile Include="Fp_Ajax\GetData.aspx.designer.cs">
       <DependentUpon>GetData.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Fp_Ajax\getjson.aspx.cs">
-      <DependentUpon>getjson.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Fp_Ajax\getjson.aspx.designer.cs">
-      <DependentUpon>getjson.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Fp_Ajax\LogData.aspx.cs">
       <DependentUpon>LogData.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -835,6 +829,13 @@
     </Compile>
     <Compile Include="MasterPage.master.designer.cs">
       <DependentUpon>MasterPage.master</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\FieldSetting.aspx.cs">
+      <DependentUpon>FieldSetting.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\FieldSetting.aspx.designer.cs">
+      <DependentUpon>FieldSetting.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestData\ImportTestData.aspx.cs">

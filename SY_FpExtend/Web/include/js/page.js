@@ -142,7 +142,6 @@ $(function () {
         }
     });
 })
-
 //给In_CodeType下拉框绑定值
 $(function () {
     var username = $.cookie('username');

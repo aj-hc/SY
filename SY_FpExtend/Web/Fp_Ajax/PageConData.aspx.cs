@@ -49,9 +49,48 @@ namespace RuRo.Web
                 case "SampleType_S": Response.Write(ReturnSampleType_S(up)); break;
                 case "SampleType_U": Response.Write(ReturnSampleType_U(up)); break;
                 case "SampleType_keti": Response.Write(Returnketi(up)); break;
+                case "ComSetting": Response.Write(ReturnComSetting()); break;
+                case "CurrentDepartments": Response.Write(ReturnCurrentDepartments()); break;
                 default:
                     break;
             }
+        }
+
+        /// <summary>
+        /// 返回当前科室
+        /// </summary>
+        /// <returns></returns>
+        private string ReturnCurrentDepartments()
+        {
+            string StrDepartments = "";
+            string username = Common.CookieHelper.GetCookieValue("username");
+            string keshi = Common.CookieHelper.GetCookieValue(username + "department");
+            try
+            {
+                keshi = Common.DEncrypt.DESEncrypt.Decrypt(keshi);
+            }
+            catch (Exception ex)
+            {
+                Common.LogHelper.WriteError(ex);
+                keshi = "";
+            }
+            if (keshi != "")
+            {
+                StrDepartments = keshi;
+            }
+            return StrDepartments;
+        }
+
+        /// <summary>
+        /// 返回字段设定
+        /// </summary>
+        /// <returns></returns>
+        private string ReturnComSetting()
+        {
+            string res = "[{\"ComSetting\": \"采集人\",\"text\": \"采集人\" },{\"ComSetting\": \"采集目的\", \"text\": \"采集目的\"}, " +
+                "{\"ComSetting\": \"取材时段\", \"text\": \"取材时段\"},{\"ComSetting\": \"采集目的\",\"text\": \"采集目的\" }," +
+                "{\"ComSetting\": \"研究方案\", \"text\": \"研究方案\"}, { \"ComSetting\": \"取材名称\", \"text\": \"取材名称\"} ]";
+            return res;
         }
 
         private string ReturnSampleGroups(FreezerProUtility.Fp_Common.UnameAndPwd up)
@@ -115,13 +154,13 @@ namespace RuRo.Web
         /// 样品类型数据
         /// </summary>
         /// <returns></returns>
-        private string ReturnSampleType(FreezerProUtility.Fp_Common.UnameAndPwd up,string user)
+        private string ReturnSampleType(FreezerProUtility.Fp_Common.UnameAndPwd up, string user)
         {
             //string res = "[{\"value\": \"0\",\"text\": \"正常组织-心研所\" },{\"value\": \"1\", \"text\": \"正常组织-肺癌所\"}, { \"value\": \"2\", \"text\": \"组织-心研所\"} , { \"value\": \"3\", \"text\": \"组织-肺癌所\"} ]";
             Common.CreatFpUrl fpurl = new Common.CreatFpUrl();
             string url = fpurl.FpUrl;
             Dictionary<string, string> dic = FreezerProUtility.Fp_BLL.Samples.GetAllIdAndNamesDic(up);
-            
+
             List<Dictionary<string, string>> list = new List<Dictionary<string, string>>();
             if (dic.Count > 0)
             {
@@ -136,7 +175,7 @@ namespace RuRo.Web
                         list.Add(temdic);
                     }
                 }
-                else 
+                else
                 {
                     if (user.Contains("XYS"))
                     {
@@ -152,7 +191,7 @@ namespace RuRo.Web
                             }
                         }
                     }
-                    else 
+                    else
                     {
                         foreach (KeyValuePair<string, string> dd in dic)
                         {
@@ -234,20 +273,20 @@ namespace RuRo.Web
         /// </summary>
         /// <param name="up"></param>
         /// <returns></returns>
-        private string ReturnSampleType_S(FreezerProUtility.Fp_Common.UnameAndPwd up) 
+        private string ReturnSampleType_S(FreezerProUtility.Fp_Common.UnameAndPwd up)
         {
             Common.CreatFpUrl fpurl = new Common.CreatFpUrl();
             string url = fpurl.FpUrl;
             Dictionary<string, string> dic = FreezerProUtility.Fp_BLL.UserFields.GetAllIdAndNamesDic(up);
             List<Dictionary<string, string>> list = new List<Dictionary<string, string>>();
-            if (dic.Count>0)
+            if (dic.Count > 0)
             {
                 foreach (KeyValuePair<string, string> dd in dic)
                 {
                     Dictionary<string, string> temdic = new Dictionary<string, string>();
-                    if (dd.Key=="样品来源")
+                    if (dd.Key == "样品来源")
                     {
-                        String[] str = dd.Value.Split(new char[]{','});
+                        String[] str = dd.Value.Split(new char[] { ',' });
                         for (int i = 0; i < str.Length; i++)
                         {
                             temdic = new Dictionary<string, string>();
@@ -261,28 +300,29 @@ namespace RuRo.Web
             string json = FreezerProUtility.Fp_Common.FpJsonHelper.DictionaryListToJsonString(list);
             return json;
         }
-        
+
         #endregion
+
         #region
         /// <summary>
         /// 读取样品来源
         /// </summary>
         /// <param name="up"></param>
         /// <returns></returns>
-        private string ReturnSampleType_U(FreezerProUtility.Fp_Common.UnameAndPwd up) 
+        private string ReturnSampleType_U(FreezerProUtility.Fp_Common.UnameAndPwd up)
         {
             Common.CreatFpUrl fpurl = new Common.CreatFpUrl();
             string url = fpurl.FpUrl;
             Dictionary<string, string> dic = FreezerProUtility.Fp_BLL.UserFields.GetAllIdAndNamesDic(up);
             List<Dictionary<string, string>> list = new List<Dictionary<string, string>>();
-            if (dic.Count>0)
+            if (dic.Count > 0)
             {
                 foreach (KeyValuePair<string, string> dd in dic)
                 {
                     Dictionary<string, string> temdic = new Dictionary<string, string>();
-                    if (dd.Key=="用途")
+                    if (dd.Key == "用途")
                     {
-                        String[] str = dd.Value.Split(new char[]{','});
+                        String[] str = dd.Value.Split(new char[] { ',' });
                         for (int i = 0; i < str.Length; i++)
                         {
                             temdic = new Dictionary<string, string>();
@@ -320,23 +360,24 @@ namespace RuRo.Web
 
                             list.Add(temdic);
                         }
-
                     }
                 }
             }
             string json = FreezerProUtility.Fp_Common.FpJsonHelper.DictionaryListToJsonString(list);
             return json;
-          //string strDes = Request.Params["keti"];
-          //string str = RuRo.Common.DEncrypt.DESEncrypt.Decrypt(strDes);
-          //string res="";
-          //switch (str)
-          //{
-          //    case"心研所":res="XYS";break;
-          //    case "肺癌所": res = "FAS"; break;
-          //    default:break;
-          //}
-          //return res;
+            //string strDes = Request.Params["keti"];
+            //string str = RuRo.Common.DEncrypt.DESEncrypt.Decrypt(strDes);
+            //string res="";
+            //switch (str)
+            //{
+            //    case"心研所":res="XYS";break;
+            //    case "肺癌所": res = "FAS"; break;
+            //    default:break;
+            //}
+            //return res;
         }
         #endregion
+
+
     }
 }
