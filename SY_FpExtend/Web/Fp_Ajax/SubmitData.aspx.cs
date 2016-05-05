@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Data;
 
 namespace RuRo.Web.Fp_Ajax
 {
@@ -16,7 +17,7 @@ namespace RuRo.Web.Fp_Ajax
         Dictionary<string, string> sampleTypeIdAndNamedic = new Dictionary<string, string>();
         Dictionary<string, string> organIdAndNamedic = new Dictionary<string, string>();
         Dictionary<string, string> clinicalDiagnoseTypeFlagdic = new Dictionary<string, string>();
-        string departments = string.Empty;
+        string departments = string.Empty;//获取当前科室
         string username;
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -66,8 +67,59 @@ namespace RuRo.Web.Fp_Ajax
             if (action == "getConsentForm")
             {
                 string result = GetConsentFormInfo(up, departments);
-                 Response.Write(result);
+                Response.Write(result);
             }
+            if (action == "postSetting")
+            {
+                string result = AddSetting(departments);
+                Response.Write(result);
+            }
+        }
+        /// <summary>
+        /// 添加新的字段类型
+        /// </summary>
+        /// <param name="departments"></param>
+        /// <returns></returns>
+        private string AddSetting(string departments)
+        {
+            string strSettingValue = Request.Form["SettingValue"].ToString();
+            string strDefaultValue = Request.Form["DefaultValue"].ToString();
+            string strDefaultTime = Request.Form["DefaultTime"].ToString();
+            string result = "";
+            BLL.TB_SETTING_VALUE bll = new BLL.TB_SETTING_VALUE();
+            Model.TB_SETTING_VALUE model = new Model.TB_SETTING_VALUE();
+            model.SETTING_TYPE = strSettingValue;
+            model.SETTING_VALUE = strDefaultValue;
+            if (strDefaultTime != "")
+            {
+                model.ADD_TIME = Convert.ToDateTime(strDefaultTime);
+            }
+            if (departments == "")
+            {
+                result = "未获取到当前科室，请重新登陆";
+            }
+            else
+            {
+                model.DEPARTMENTS = departments;
+                DataSet ds = bll.GetList("SETTING_TYPE='" + model.SETTING_TYPE + "' AND SETTING_VALUE='" + model.SETTING_VALUE + "' AND DEPARTMENTS='" + model.DEPARTMENTS + "'");
+                if (ds.Tables[0].Rows.Count == 0)
+                {
+                    int count = bll.Add(model);
+                    if (count > 0)
+                    {
+                        result = "添加成功";
+                    }
+                    else
+                    {
+                        result = "添加失败";
+                    }
+                }
+                else
+                {
+                    result = "该数据已经存在";
+                }
+            }
+            return result;
         }
         private string ImportPatientInfo(FreezerProUtility.Fp_Common.UnameAndPwd up, string department)
         {
@@ -101,7 +153,7 @@ namespace RuRo.Web.Fp_Ajax
             {
                 PatientName = baseInfoDic["PatientName"];
             }
-            string date = DateTime.Now.ToString(); 
+            string date = DateTime.Now.ToString();
             baseInfoDic.Add("Name", PatientID);
             baseInfoDic.Add("Description", PatientName);
             logDic.Add("type", department);//添加科室到记录表
@@ -160,7 +212,7 @@ namespace RuRo.Web.Fp_Ajax
                 List<Dictionary<string, string>> dataDicList = new List<Dictionary<string, string>>();
                 int ALIQUOT = 1;
                 //判断样品数据是否存在
-                if (sampleInfoDgDicList.Count>0)
+                if (sampleInfoDgDicList.Count > 0)
                 {
                     foreach (Dictionary<string, string> item in sampleInfoDgDicList)
                     {
@@ -243,7 +295,7 @@ namespace RuRo.Web.Fp_Ajax
                 else
                 {
                     string res = "{\"success\":true,\"msg\":\"未导入样本数据\",\"message\":\"未导入样本数据\",\"status\":\"DONE\",\"job_id\":\"\"}";
-                    logDic.Add("MSG","未导入样本数据");
+                    logDic.Add("MSG", "未导入样本数据");
                     importResult.Add("_dg_SampleInfo", res);
                 }
                 #endregion
@@ -260,13 +312,13 @@ namespace RuRo.Web.Fp_Ajax
         }
 
         //查询诊断信息是否存在知情同意书
-        private string GetConsentFormInfo(FreezerProUtility.Fp_Common.UnameAndPwd up, string department) 
+        private string GetConsentFormInfo(FreezerProUtility.Fp_Common.UnameAndPwd up, string department)
         {
             string strpatientID = Request.Form["patientID"].ToString();
             string result = "";
-            if (strpatientID==""||strpatientID==null)
+            if (strpatientID == "" || strpatientID == null)
             {
-                
+
             }
             else
             {

@@ -751,6 +751,9 @@
     <Compile Include="Fp_Ajax\PageConData.aspx.designer.cs">
       <DependentUpon>PageConData.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Fp_Ajax\PageConDataTest.ashx.cs">
+      <DependentUpon>PageConDataTest.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Fp_Ajax\SubmitData.aspx.cs">
       <DependentUpon>SubmitData.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -909,6 +912,7 @@
     <Content Include="Fp_Ajax\getImg.ashx" />
     <Content Include="Fp_Ajax\DowImg.ashx" />
     <Content Include="Fp_Ajax\UploadHandler.ashx" />
+    <Content Include="Fp_Ajax\PageConDataTest.ashx" />
     <None Include="Properties\PublishProfiles\sy.pubxml" />
   </ItemGroup>
   <PropertyGroup>

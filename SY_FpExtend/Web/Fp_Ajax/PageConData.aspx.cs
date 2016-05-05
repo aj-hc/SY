@@ -50,21 +50,49 @@ namespace RuRo.Web
                 case "SampleType_U": Response.Write(ReturnSampleType_U(up)); break;
                 case "SampleType_keti": Response.Write(Returnketi(up)); break;
                 case "ComSetting": Response.Write(ReturnComSetting()); break;
-                case "CurrentDepartments": Response.Write(ReturnCurrentDepartments()); break;
+                case "QuerySetting": Response.Write(ReturnQuerySetting()); break;
                 default:
                     break;
             }
+        }
+        /// <summary>
+        /// 查询设定字段
+        /// </summary>
+        /// <returns></returns>
+        private string ReturnQuerySetting() 
+        {
+            string strJson = "";//返回的JSON
+            List<Dictionary<string, string>> list = new List<Dictionary<string, string>>();//存放数据
+            Dictionary<string, string> dic = new Dictionary<string, string>();//数据转换
+            string username = Common.CookieHelper.GetCookieValue("username");
+            string keshi = Common.CookieHelper.GetCookieValue(username + "department");
+            string type = Request.Params["valueType"].ToString().Trim();
+            BLL.TB_SETTING_VALUE bll = new BLL.TB_SETTING_VALUE();
+            //判断数据是否存在
+            DataSet ds = bll.GetList("SETTING_TYPE='" + type + "' AND DEPARTMENTS='" + DecryptDepartments (keshi)+ "'");
+            if (ds.Tables[0].Rows.Count>0)
+            {
+               //数据转换为JSON
+                for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                {
+                    dic = new Dictionary<string, string>();
+                    dic.Add("value", ds.Tables[0].Rows[i]["SETTING_VALUE"].ToString());
+                    dic.Add("text", ds.Tables[0].Rows[i]["SETTING_VALUE"].ToString());
+                    list.Add(dic);
+                }
+                strJson = FreezerProUtility.Fp_Common.FpJsonHelper.DictionaryListToJsonString(list);
+            }
+            return strJson;
+          
         }
 
         /// <summary>
         /// 返回当前科室
         /// </summary>
         /// <returns></returns>
-        private string ReturnCurrentDepartments()
+        private string DecryptDepartments(string keshi)
         {
             string StrDepartments = "";
-            string username = Common.CookieHelper.GetCookieValue("username");
-            string keshi = Common.CookieHelper.GetCookieValue(username + "department");
             try
             {
                 keshi = Common.DEncrypt.DESEncrypt.Decrypt(keshi);
@@ -87,9 +115,9 @@ namespace RuRo.Web
         /// <returns></returns>
         private string ReturnComSetting()
         {
-            string res = "[{\"ComSetting\": \"采集人\",\"text\": \"采集人\" },{\"ComSetting\": \"采集目的\", \"text\": \"采集目的\"}, " +
-                "{\"ComSetting\": \"取材时段\", \"text\": \"取材时段\"},{\"ComSetting\": \"采集目的\",\"text\": \"采集目的\" }," +
-                "{\"ComSetting\": \"研究方案\", \"text\": \"研究方案\"}, { \"ComSetting\": \"取材名称\", \"text\": \"取材名称\"} ]";
+            string res = "[{\"ComSetting\": \"lur\",\"text\": \"录入人\" },{\"ComSetting\": \"cjmd\", \"text\": \"采集目的\"}, " +
+                "{\"ComSetting\": \"qcsd\", \"text\": \"取材时段\"},{\"ComSetting\": \"cjmd\",\"text\": \"采集目的\" }," +
+                "{\"ComSetting\": \"yjfa\", \"text\": \"研究方案\"}, { \"ComSetting\": \"qcmc\", \"text\": \"取材名称\"} ]";
             return res;
         }
 

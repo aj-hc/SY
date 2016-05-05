@@ -160,7 +160,7 @@
                             <div id="SampleInfoDiv" runat="server">
                                 <table>
                                     <tr>
-                                        <td>采集人：</td>
+                                        <td>录入人：</td>
                                         <td>
                                             <input class="easyui-combobox" id="_99" name="_99" style="width: 110px;" /></td>
                                         <td>采集目的：</td>

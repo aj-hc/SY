@@ -45,30 +45,63 @@ $(function () {
         url: '../Fp_Ajax/PageConData.aspx?conMarc=ComSetting',
         panelHeight: 'auto'
     });
-})
-//添加信息
-function AddSetting()
+});
+//查询设定
+function QuerySetting()
 {
-    var SettingValue = $('#ComSetting').combobox('')
-}
-
-
-//加载科室的方式
-function getCurrentDepartments()
-{
-    var CurrentDepartments = "";
+    
+    var SettingValue = $('#ComSetting').combobox('getValue');
     $.ajax({
         type: 'post',
         dataType: "json",
-        url: '../Fp_Ajax/PageConData.aspx?conMarc=CurrentDepartments',
+        url: '../Fp_Ajax/PageConData.aspx?conMarc=QuerySetting',
+        data: {SettingValue: SettingValue},
         success: function (data) {
-            if (data != "")
-            {
-                CurrentDepartments = data;
+            if (data != "") {
+                $.messager.alert('提示', data);
             }
-            else { $.messager.alert('提示', '未获取到当前科室，请重新登陆', 'error'); return; }
+            else { $.messager.alert('提示', '未检测到添加信息', 'error'); return; }
         }
     });
-    return CurrentDepartments;
+}
+//添加信息
+function AddSetting()
+{
+    var username = $.cookie('username');
+    var departments = $.cookie(username + 'department');
+    //var Department = getCurrentDepartments();
+    var SettingValue = $('#ComSetting').combobox('getValue');
+    if (SettingValue == "") { $.messager.alert('提示', '添加的字段类型为空', 'error'); return; }
+    var DefaultValue = $('#DefaultValue').textbox('getValue');
+    var DefaultTime = $('#DefaultTime').textbox('getValue');
+    //ajaxLoading();
+    $.ajax({
+        type: 'post',
+        dataType: "json",
+        url: '../Fp_Ajax/SubmitData.aspx?action=postSetting',
+        data: {
+            SettingValue: SettingValue,
+            DefaultValue: DefaultValue,
+            DefaultTime: DefaultTime,
+            departments: departments
+        },
+        success: function (data) {
+            //ajaxLoadEnd();
+            $.messager.alert('提示', data);
+        }
+    });
+}
+//清除添加页面
+function cleardg_GetSetting() {
+    $('#cleardg_GetSetting').form('clear');
+}
+//采用jquery easyui loading css效果 
+function ajaxLoading() {
+    $("<div class=\"datagrid-mask\"></div>").css({ display: "block", width: "100%", height: $(window).height() }).appendTo("body");
+    $("<div class=\"datagrid-mask-msg\"></div>").html("正在处理，请稍候。。。").appendTo("body").css({ display: "block", left: ($(document.body).outerWidth(true) - 190) / 2, top: ($(window).height() - 45) / 2 });
+}
+function ajaxLoadEnd() {
+    $(".datagrid-mask").remove();
+    $(".datagrid-mask-msg").remove();
 }
 

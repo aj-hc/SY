@@ -157,6 +157,7 @@
     <Compile Include="FP_Users.cs" />
     <Compile Include="SurgeryInfo.cs" />
     <Compile Include="FP_SY_HIS_IP_PublicInterface.cs" />
+    <Compile Include="TB_SETTING_VALUE.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

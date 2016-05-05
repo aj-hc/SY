@@ -140,6 +140,7 @@
     <Compile Include="Fp_UserFields_Match.cs" />
     <Compile Include="FP_Users.cs" />
     <Compile Include="SurgeryInfo.cs" />
+    <Compile Include="TB_SETTING_VALUE.cs" />
     <Compile Include="TestData\GetHtml.cs" />
     <Compile Include="TestData\PostDataToHis.cs" />
     <Compile Include="TestData\Sample.cs" />

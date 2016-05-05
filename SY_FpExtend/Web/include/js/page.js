@@ -391,14 +391,40 @@ $(function () {
 //        datatype: 'json',
 //        success: function (responseData) { temp = responseData; }
 //    });
-//    return temp;
+//    return temp;  
 //}
-//绑定采集人
+//绑定信息录入人
 $(function ()
 {
-    var user = $.cookie("username");
-    $('#_99').combobox('setValue', user);
+    $('#_99').combobox({
+        url: '../Fp_Ajax/PageConDataTest.ashx?conMarc=QuerySetting&valueType=lur',
+        method: 'get',
+        valueField: 'text',
+        textField: 'text',
+        panelHeight: 'auto',
+        onChange: function (newVal, oldVal) {
+            if (newVal != null)
+            {
+                var url = '../Fp_Ajax/PageConDataTest.ashx?conMarc=QuerySetting&valueType=lur';
+                $('#_99').combobox('reload',url);
+            }
+           
+                        //var faultAddr = encodeURI(newVal);
+                        ////faultAddr = encodeURI(faultAddr);  //需要通过两次编码
+                        //if (newVal == "" || newVal == oldVal) {
+                        //    $('#_99').combobox('clear');
+                        //    return;
+                        //}
+                        //else {
+                        //    var url = '../Fp_Ajax/PageConData.aspx?conMarc=QuerySetting&valueType=lur';
+                        //    $('#_99').combobox('reload', url);
+                        //}
+                    }
+    });
+    //var user = $.cookie("username");
+    //$('#_99').combobox('setValue', user);
 })
+
 ////绑定采集人
 //$(function () {
 //    $('#_99').combobox({

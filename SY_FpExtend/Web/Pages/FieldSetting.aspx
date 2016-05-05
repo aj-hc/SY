@@ -23,7 +23,7 @@
             </div>
             <div runat="server">
                 字段名称：<input class="easyui-combobox" id="ComSetting" name="ComSetting" style="width: 110px;" />
-                <a href="javascript:void(0)" id="btnGet" class="easyui-linkbutton" onclick="querybycode()">查询</a>
+                <a href="javascript:void(0)" id="btnGet" class="easyui-linkbutton" onclick="QuerySetting()">查询</a>
             </div>
         </div>
         <form id="connent">
@@ -39,10 +39,6 @@
                             <td style="width: 100px;">所属字段:</td>
                             <td><input class="easyui-textbox" type="text" name="SettingValue" id="SettingValue" data-options="required:false" /></td>
                         </tr>
-                        <tr hidden="true">
-                            <td style="width: 100px;">科室:</td>
-                            <td><input class="easyui-textbox" name="Department" id="Department" data-options="required:true,multiple:false" /></td>
-                        </tr>
                         <tr>
                             <td style="width: 100px;">添加默认值:</td>
                             <td><input class="easyui-textbox" type="text" name="DefaultValue" id="DefaultValue" data-options="required:false" /></td>
@@ -55,7 +51,7 @@
                 </form>
                 <div style="text-align: center; padding: 5px;">
                     <a href="javascript:void(0)" class="easyui-linkbutton" onclick="AddSetting()" style="margin: 8px">添加</a>
-                    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearsetClinicalInfoDg()" style="margin: 8px">清除</a>
+                    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="cleardg_GetSetting()" style="margin: 8px">清除</a>
                 </div>
             </div>
         </div>

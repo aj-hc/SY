@@ -214,8 +214,6 @@ function GetConsentForm(name, id) {
 function clearForm() {
     $('#BaseInfoForm').form('clear');
     $('#ClinicalInfoDg').datagrid('loadData', { total: 0, rows: [] });
-    $('#dg_SampleInfo').datagrid('loadData', { total: 0, rows: [] });
-    
 }
 
 //绑定数据到基本信息数据框
@@ -543,7 +541,6 @@ function ForSubmitSampleInfo() {
     }
 
 }
-
 //采用jquery easyui loading css效果 
 function ajaxLoading() {
     $("<div class=\"datagrid-mask\"></div>").css({ display: "block", width: "100%", height: $(window).height() }).appendTo("body");
