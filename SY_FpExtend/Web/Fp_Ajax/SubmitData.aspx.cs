@@ -69,6 +69,7 @@ namespace RuRo.Web.Fp_Ajax
                 string result = GetConsentFormInfo(up, departments);
                 Response.Write(result);
             }
+            //设定页面 添加设定
             if (action == "postSetting")
             {
                 string result = AddSetting(departments);

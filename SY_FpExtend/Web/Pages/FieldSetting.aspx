@@ -23,7 +23,7 @@
             </div>
             <div runat="server">
                 字段名称：<input class="easyui-combobox" id="ComSetting" name="ComSetting" style="width: 110px;" />
-                <a href="javascript:void(0)" id="btnGet" class="easyui-linkbutton" onclick="QuerySetting()">查询</a>
+                <a href="javascript:void(0)" id="btnGet" class="easyui-linkbutton" onclick="QuerySettingByCom()">查询</a>
             </div>
         </div>
         <form id="connent">

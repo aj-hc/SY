@@ -109,35 +109,7 @@
                         </form>
                     </div>
                 </div>
-                <div class="easyui-panel" style="width: 310px; height:153px; float: left; position:absolute; left:589px ;top:59px;">
-                     <b>知情同意书：</b>
-                    <form enctype="multipart/form-data" method="post" runat="server">
-                        <table>
-                            <tr>
-                                <%--<td style="width:80px">姓名：</td>--%>
-                                <td style="float: left"><input class="easyui-textbox" name="txtname" id="txtname" hidden="hidden" data-options="required:true" style="width: 110px;" /></td>
-                            </tr>
-                            <tr>
-                                <%--<td>样品源名称：</td>--%>
-                                <td style="float: left"><input class="easyui-numberbox" name="txtPatientID" id="txtPatientID" data-options="required:true" style="width: 110px;" /></td>
-                            </tr>
-                            <tr>
-                                <td>上传文件：</td>
-                                <%--<td style="float:left"><asp:FileUpload ID="idFile" Width="350px" runat="server" /></td>--%>
-                                <td><input type="file" id="IdFile" name="IdFile" style="width: 150px"></td>
-                            </tr>
-                            <tr>
-                                <td>上传日期：</td>
-                                <td style="float: left"><input class="easyui-datebox" name="fromdate" id="fromdate" data-options="required:true,editable:false" style="width: 110px" /></td>
-                            </tr>
-                            <tr>
-                                <%-- <td><a href="javascript:void(0)" id="btnGet" class="easyui-linkbutton" onclick="getImg()">上传图片</a></td>--%>
-                                <td><a href="javascript:void(0)" id="btnGet" class="easyui-linkbutton" onclick="ajaxFileUpload()">上传图片</a></td>
-                                <%-- <td style="float:left"><asp:Button ID="ImgNoOK" runat="server" Text="上传图片" OnClick="ImgNoOK_Click" /> </td>--%>
-                            </tr>
-                        </table>
-                    </form>
-                </div>
+             <!--charu-->
             </div>
             <div class="h"></div>
             <div style="width: 900px; float: left;">
@@ -165,7 +137,7 @@
                                             <input class="easyui-combobox" id="_99" name="_99" style="width: 110px;" /></td>
                                         <td>采集目的：</td>
                                         <td>
-                                            <input class="easyui-textbox" id="_100" name="_100" style="width: 200px;" /></td>
+                                            <input class="easyui-combobox" id="_100" name="_100" style="width: 200px;" /></td>
                                     </tr>
                                     <tr>
                                         <td>取材时间：</td>
@@ -311,36 +283,31 @@
 
     <!--知情同意书管理-->
     <div class="easyui-panel" title="知情同意书管理" style="width: 500px; padding: 1px;">
-        <%--   <form enctype="multipart/form-data" method="post" runat="server">
+        <form enctype="multipart/form-data" method="post" runat="server">
             <table>
                 <tr>
                     <td>姓名：</td>
-                    <td style="float: left">
-                        <input class="easyui-textbox" name="txtname" id="txtname" data-options="required:true" style="width: 110px;" /></td>
+                    <td style="float: left"><input class="easyui-textbox" name="txtname" id="txtname" data-options="required:true" style="width: 110px;" /></td>
                     <td>样品源名称：</td>
-                    <td style="float: left">
-                        <input class="easyui-numberbox" name="txtPatientID" id="txtPatientID" data-options="required:true" style="width: 110px;" /></td>
-                </tr>
-                <tr>
+                    <td style="float: left"><input class="easyui-numberbox" name="txtPatientID" id="txtPatientID" data-options="required:true" style="width: 110px;" /></td>
                 </tr>
                 <tr>
                     <td>上传文件：</td>
-                    <%--<td style="float:left"><asp:FileUpload ID="idFile" Width="350px" runat="server" /></td>--%>
-        <td>
-            <input type="file" id="IdFile" name="IdFile" style="width: 150px"></td>
-        <td>上传日期：</td>
-        <td style="float: left">
-            <input class="easyui-datebox" name="fromdate" id="fromdate" data-options="required:true,editable:false" style="width: 150px" /></td>
-        </tr>
+                    <td>
+                        <input type="file" id="IdFile" name="IdFile" style="width: 150px"></td>
+                    <td>上传日期：</td>
+                    <td style="float: left">
+                        <input class="easyui-datebox" name="fromdate" id="fromdate" data-options="required:true,editable:false" style="width: 150px" /></td>
+                </tr>
                 <tr>
                 </tr>
-        <tr>
-            <%-- <td><a href="javascript:void(0)" id="btnGet" class="easyui-linkbutton" onclick="getImg()">上传图片</a></td>--%>
-            <td><a href="javascript:void(0)" id="btnGet" class="easyui-linkbutton" onclick="ajaxFileUpload()">上传图片</a></td>
-            <%-- <td style="float:left"><asp:Button ID="ImgNoOK" runat="server" Text="上传图片" OnClick="ImgNoOK_Click" /> </td>--%>
-        </tr>
-        </table>
-        </form>--%>
+                <tr>
+                    <%-- <td><a href="javascript:void(0)" id="btnGet" class="easyui-linkbutton" onclick="getImg()">上传图片</a></td>--%>
+                    <td><a href="javascript:void(0)" id="btnGet" class="easyui-linkbutton" onclick="ajaxFileUpload()">上传图片</a></td>
+                    <%-- <td style="float:left"><asp:Button ID="ImgNoOK" runat="server" Text="上传图片" OnClick="ImgNoOK_Click" /> </td>--%>
+                </tr>
+            </table>
+        </form>
     </div>
 </body>
 </html>

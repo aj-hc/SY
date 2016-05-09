@@ -56,7 +56,7 @@ namespace RuRo.Web
             }
         }
         /// <summary>
-        /// 查询设定字段
+        /// 显示设定字段
         /// </summary>
         /// <returns></returns>
         private string ReturnQuerySetting() 
@@ -90,7 +90,7 @@ namespace RuRo.Web
         /// 返回当前科室
         /// </summary>
         /// <returns></returns>
-        private string DecryptDepartments(string keshi)
+        public static string DecryptDepartments(string keshi)
         {
             string StrDepartments = "";
             try

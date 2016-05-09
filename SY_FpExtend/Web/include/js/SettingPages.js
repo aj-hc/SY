@@ -6,10 +6,9 @@ $(function () {
         title: '设定表单',
         columns: [[
             { field: 'ck', checkbox: true, width: '5%' },
-            { field: 'DefaultValue', title: '默认值', width: '20%', editor: { type: 'validatebox', options: { required: false } } },
-            { field: 'DefaultTime', title: '添加日期', width: '15%', sortable: true, editor: { type: 'datebox', options: { required: false } } },
-            { field: 'Department', title: '所属科室', width: '15%', align: 'center', sortable: true, editor: { type: 'validatebox', options: { required: false } } },
-            { field: 'SettingValue', title: '所属字段', width: '15%', align: 'center', sortable: true, editor: { type: 'validatebox', options: { required: false } } },
+            { field: 'SETTING_VALUE', title: '默认值', width: '20%', editor: { type: 'validatebox', options: { required: false } } },
+            { field: 'ADD_TIME', title: '添加日期', width: '15%', sortable: true, editor: { type: 'datebox', options: { required: false } } },
+            { field: 'DEPARTMENTS', title: '所属科室', width: '15%', align: 'center', sortable: true, editor: { type: 'validatebox', options: { required: false } } }
         ]],
         singleSelect: false,
         fitColumns: true,
@@ -23,13 +22,20 @@ $(function () {
         }, '-', {
             //text: '删除',
             iconCls: 'icon-remove', handler: function () {
-                var row = $dg_GetSetting.datagrid('getChecked');
-                for (var i = 0; i < row.length; i++) {
-                    var rowIndex = $dg_GetSetting.datagrid('getRowIndex', row[i]);
-                    $dg_GetSetting.datagrid('deleteRow', rowIndex);
-                }
-                $("#dg_GetSetting").datagrid("clearSelections");
-                editRow == undefined;
+                $.messager.confirm('确认对话框', '确认删除吗？', function (r) {
+                    if (r) {
+                        var setting_id = new Array();
+                        var row = $dg_GetSetting.datagrid('getChecked');
+                        for (var i = 0; i < row.length; i++) {
+                            var rowIndex = $dg_GetSetting.datagrid('getRowIndex', row[i]);
+                            setting_id.push(row[i].SETTING_ID);
+                            $dg_GetSetting.datagrid('deleteRow', rowIndex);
+                        }
+                        DelSetting(setting_id);
+                        $("#dg_GetSetting").datagrid("clearSelections");
+                        editRow == undefined;
+                    }
+                });
             }
         }
         ]
@@ -47,20 +53,21 @@ $(function () {
     });
 });
 //查询设定
-function QuerySetting()
+function QuerySettingByCom()
 {
     
     var SettingValue = $('#ComSetting').combobox('getValue');
     $.ajax({
         type: 'post',
         dataType: "json",
-        url: '../Fp_Ajax/PageConData.aspx?conMarc=QuerySetting',
-        data: {SettingValue: SettingValue},
+        url: '../Fp_Ajax/GetData.aspx?action=QuerySettingByCom',
+        data: { valueType: SettingValue },
         success: function (data) {
             if (data != "") {
-                $.messager.alert('提示', data);
+                var ds = data.ds;
+                $("#dg_GetSetting").datagrid("loadData", ds);
             }
-            else { $.messager.alert('提示', '未检测到添加信息', 'error'); return; }
+            else { $.messager.alert('提示', '未检测到该自定义字段的信息', 'error'); return; }
         }
     });
 }
@@ -77,7 +84,7 @@ function AddSetting()
     //ajaxLoading();
     $.ajax({
         type: 'post',
-        dataType: "json",
+        dataType: "text",
         url: '../Fp_Ajax/SubmitData.aspx?action=postSetting',
         data: {
             SettingValue: SettingValue,
@@ -88,6 +95,24 @@ function AddSetting()
         success: function (data) {
             //ajaxLoadEnd();
             $.messager.alert('提示', data);
+        }
+    });
+}
+//删除方法
+function DelSetting(settingID)
+{
+    var _list = [];
+    for (var i = 0; i < settingID.length; i++) {
+        _list[i] = settingID[i];
+    }
+    $.ajax({
+        type: 'post',
+        url: '../Fp_Ajax/GetData.aspx?action=DelSetting',
+        dataType: "text",
+        data: { "settingID": _list },
+        traditional: true,
+        success: function (Retundata) {
+            $.messager.alert('提示', Retundata);
         }
     });
 }
