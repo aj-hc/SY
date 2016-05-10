@@ -367,6 +367,11 @@ namespace RuRo.Web.Fp_Ajax
             FreezerProUtility.Fp_Common.UnameAndPwd up = new FreezerProUtility.Fp_Common.UnameAndPwd(username, password);//存放登陆账号密码
             return up;
         }
+
+        /// <summary>
+        /// 获取当前科室
+        /// </summary>
+        /// <returns></returns>
         public string GetKeshi()
         {
             string username = Common.CookieHelper.GetCookieValue("username");

@@ -280,9 +280,8 @@
             </div>
         </div>
     </div>
-
     <!--知情同意书管理-->
-    <div class="easyui-panel" title="知情同意书管理" style="width: 500px; padding: 1px;">
+    <div class="easyui-panel" title="知情同意书管理" style="width: 900px; padding: 1px;">
         <form enctype="multipart/form-data" method="post" runat="server">
             <table>
                 <tr>
@@ -293,18 +292,15 @@
                 </tr>
                 <tr>
                     <td>上传文件：</td>
-                    <td>
-                        <input type="file" id="IdFile" name="IdFile" style="width: 150px"></td>
+                    <td style="float: left"><input type="file" id="IdFile" name="IdFile" style="width: 150px"></td>
                     <td>上传日期：</td>
-                    <td style="float: left">
-                        <input class="easyui-datebox" name="fromdate" id="fromdate" data-options="required:true,editable:false" style="width: 150px" /></td>
+                    <td style="float: left"><input class="easyui-datebox" name="fromdate" id="fromdate" data-options="required:true,editable:false" style="width: 150px" /></td>
                 </tr>
                 <tr>
-                </tr>
-                <tr>
-                    <%-- <td><a href="javascript:void(0)" id="btnGet" class="easyui-linkbutton" onclick="getImg()">上传图片</a></td>--%>
-                    <td><a href="javascript:void(0)" id="btnGet" class="easyui-linkbutton" onclick="ajaxFileUpload()">上传图片</a></td>
-                    <%-- <td style="float:left"><asp:Button ID="ImgNoOK" runat="server" Text="上传图片" OnClick="ImgNoOK_Click" /> </td>--%>
+                    <td></td>
+                    <td><a href="javascript:void(0)" id="btnGet" class="easyui-linkbutton" style="width: 50px; height:30px" onclick="ajaxFileUpload()">上传</a>
+                        &nbsp;注：请在导入信息后上传知情同意书
+                    </td>
                 </tr>
             </table>
         </form>
