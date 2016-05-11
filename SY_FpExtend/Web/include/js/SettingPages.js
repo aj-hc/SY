@@ -55,8 +55,8 @@ $(function () {
 //查询设定
 function QuerySettingByCom()
 {
-    
     var SettingValue = $('#ComSetting').combobox('getValue');
+    $('#dg_GetSetting').datagrid('loadData', { total: 0, rows: [] });
     $.ajax({
         type: 'post',
         dataType: "json",

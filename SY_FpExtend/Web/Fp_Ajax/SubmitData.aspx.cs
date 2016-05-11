@@ -868,30 +868,30 @@ namespace RuRo.Web.Fp_Ajax
                 }
                 try
                 {
-
-                    if (name == "_113")
-                    {
-                        //多选下拉框
-                        Type type = t.GetType();
-                        try
-                        {
-                            PropertyInfo property = type.GetProperty(name);
-                            string str = property.GetValue(t, null).ToString();
-                            if (!string.IsNullOrEmpty(str))
-                            {
-                                value += ";" + str;
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            Common.LogHelper.WriteError(ex);
-                        }
-                        Common.ReflectHelper.SetValue(t, name, value);
-                    }
-                    else
-                    {
-                        Common.ReflectHelper.SetValue(t, name, value);
-                    }
+                    Common.ReflectHelper.SetValue(t, name, value);
+                    //if (name == "_113")
+                    //{
+                    //    //多选下拉框
+                    //    Type type = t.GetType();
+                    //    try
+                    //    {
+                    //        PropertyInfo property = type.GetProperty(name);
+                    //        string str = property.GetValue(t, null).ToString();
+                    //        if (!string.IsNullOrEmpty(str))
+                    //        {
+                    //            value += ";" + str;
+                    //        }
+                    //    }
+                    //    catch (Exception ex)
+                    //    {
+                    //        Common.LogHelper.WriteError(ex);
+                    //    }
+                    //    Common.ReflectHelper.SetValue(t, name, value);
+                    //}
+                    //else
+                    //{
+                    //    Common.ReflectHelper.SetValue(t, name, value);
+                    //}
                 }
                 catch (Exception ex)
                 {
