@@ -440,7 +440,7 @@ function getSampleInfoFormData() {
     for (var i = 0; i < sampleInfo.length; i++) {
         if (sampleInfo[i].name == "_113") {
             if (str113 != "") {
-                str113 = str113 + ";" + sampleInfo[i].value
+                str113 = str113 + "%3b" + sampleInfo[i].value
             }
             else {
                 str113 = sampleInfo[i].value;
@@ -496,7 +496,7 @@ function AddSampleInfoToDg() {
     var IntvolumeE = $('#volumeE').textbox('getText');
     var IntScountE = $('#ScountE').textbox('getText');
     if (!checkRate(IntvolumeE, IntScountE)) {
-        $.messager.alert('提示', '体积和管数必须为数字', 'error'); return;
+        $.messager.alert('提示', '体积和管数必须为数字，且管数必须为整数', 'error'); return;
     }
     if (SampleGroupEtext == "") {
         $.messager.alert('提示', '样品课题组不能为空', 'error'); return;
@@ -518,6 +518,7 @@ function AddSampleInfoToDg() {
         $('#dg_SampleInfo').datagrid('showColumn', 'laiyuan');
         $('#dg_SampleInfo').datagrid('showColumn', 'yongtu');
         $('#dg_SampleInfo').datagrid('showColumn', 'Sample_group');
+        $.messager.alert('提示', '添加成功');
     }
 }
 //清除信息

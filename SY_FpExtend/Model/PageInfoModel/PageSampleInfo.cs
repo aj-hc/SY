@@ -16,7 +16,7 @@ namespace RuRo.Model.PageInfoModel
         //取材日期：
         public string _103 { get; set; }
         //取材时段：
-        //public string _113 { get; set; }
+        public string _113 { get; set; }
         //取材时间：
         public string _104 { get; set; }
         //取材描述：

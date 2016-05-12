@@ -332,8 +332,8 @@ namespace FreezerProUtility.Fp_BLL
             Dictionary<string, string> dic = new Dictionary<string, string>();
             dic.Add("username", up.UserName);
             dic.Add("password", up.PassWord);
-            //dic.Add("method", FpMethod.import_samples.ToString());
-            dic.Add("method", FpMethod.import_samples_bulk.ToString());
+            dic.Add("method", FpMethod.import_samples.ToString());
+            //dic.Add("method", FpMethod.import_samples_bulk.ToString());
             if (jsonDic != null && jsonDic.Count > 0)
             {
                 foreach (KeyValuePair<string, string> item in jsonDic)

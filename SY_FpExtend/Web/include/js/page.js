@@ -242,7 +242,6 @@ $(function () {
         }
     });
 })
-
 //绑定采集目的
 $(function () {
     $('#_100').combobox({
@@ -260,10 +259,9 @@ $(function () {
         }
     });
 })
-
 //绑定取材医护
 $(function () {
-    $('#_100').combobox({
+    $('#_109').combobox({
         url: '../Fp_Ajax/PageConData.aspx?conMarc=QuerySetting&valueType=qcyh',
         method: 'get',
         valueField: 'text',
@@ -273,12 +271,11 @@ $(function () {
             if (newValue != null) {
                 var Num = MathRand();
                 var Newurl = '../Fp_Ajax/PageConData.aspx?conMarc=QuerySetting&valueType=qcyh&num=' + Num;
-                $('#_100').combobox('reload', Newurl);
+                $('#_109').combobox('reload', Newurl);
             }
         }
     });
 })
-
 //研究方案
 $(function () {
     $('#_102').combobox({
@@ -296,17 +293,21 @@ $(function () {
         }
     });
 })
-
 //取材时段
 $(function () {
     $('#_113').combobox({
-        url: '../Fp_Ajax/PageConData.aspx?conMarc=SamplingMethod',
-        required:false,
-        multiple: true,
+        url: '../Fp_Ajax/PageConData.aspx?conMarc=QuerySetting&valueType=qcsd',
         method: 'get',
-        valueField: 'samplingMethod',
+        valueField: 'text',
         textField: 'text',
-        panelHeight: 'auto'
+        panelHeight: 'auto',
+        onChange: function (newValue, oldValue) {
+            if (newValue != null) {
+                var Num = MathRand();
+                var Newurl = '../Fp_Ajax/PageConData.aspx?conMarc=QuerySetting&valueType=qcsd&num=' + Num;
+                $('#_113').combobox('reload', Newurl);
+            }
+        }
     });
 })
 

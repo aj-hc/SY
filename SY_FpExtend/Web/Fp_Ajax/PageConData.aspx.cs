@@ -116,8 +116,8 @@ namespace RuRo.Web
         private string ReturnComSetting()
         {
             string res = "[{\"ComSetting\": \"lur\",\"text\": \"录入人\" },{\"ComSetting\": \"cjmd\", \"text\": \"采集目的\"}, " +
-                "{\"ComSetting\": \"qcsd\", \"text\": \"取材时段\"},{\"ComSetting\": \"cjmd\",\"text\": \"采集目的\" }," +
-                "{\"ComSetting\": \"yjfa\", \"text\": \"研究方案\"}, { \"ComSetting\": \"qcmc\", \"text\": \"取材名称\"} ]";
+                "{\"ComSetting\": \"qcyh\", \"text\": \"取材医护\"}," +
+                "{\"ComSetting\": \"yjfa\", \"text\": \"研究方案\"}, { \"ComSetting\": \"qcsd\", \"text\": \"取材时段\"} ]";
             return res;
         }
 
