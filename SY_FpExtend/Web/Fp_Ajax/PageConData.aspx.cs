@@ -188,12 +188,12 @@ namespace RuRo.Web
             Common.CreatFpUrl fpurl = new Common.CreatFpUrl();
             string url = fpurl.FpUrl;
             Dictionary<string, string> dic = FreezerProUtility.Fp_BLL.Samples.GetAllIdAndNamesDic(up);
-
             List<Dictionary<string, string>> list = new List<Dictionary<string, string>>();
+            string struser = user.ToUpper();
             if (dic.Count > 0)
             {
                 #region 按照登陆科室不同选择
-                if (user == "admin")
+                if (struser == "ADMIN")
                 {
                     foreach (KeyValuePair<string, string> dd in dic)
                     {
@@ -205,7 +205,8 @@ namespace RuRo.Web
                 }
                 else
                 {
-                    if (user.Contains("XYS"))
+                    
+                    if (struser.Contains("XYS"))
                     {
                         foreach (KeyValuePair<string, string> dd in dic)
                         {

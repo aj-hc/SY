@@ -8,9 +8,9 @@ $(function () {
         title: '临床信息',
         columns: [[
             { field: 'ck', checkbox: true, width: '5%' },
-            { field: 'DiagnoseTypeFlag', title: '诊断类型', width: '20%', editor: { type: 'validatebox', options: { required: false } } },
+            { field: 'DiagnoseTypeFlag', title: '诊断类型', width: '12%', editor: { type: 'validatebox', options: { required: false } } },
             { field: 'DiagnoseDateTime', title: '诊断日期', width: '15%', sortable: true, editor: { type: 'datebox', options: { required: false } } },
-            { field: 'ICDCode', title: 'ICD码', width: '15%', align: 'center', sortable: true, editor: { type: 'validatebox', options: { required: false } } },
+            { field: 'ICDCode', title: 'ICD码', width: '20%', align: 'center', sortable: true, editor: { type: 'validatebox', options: { required: false } } },
             { field: 'DiseaseName', title: '疾病名称', width: '20%', align: 'center', sortable: true, editor: { type: 'validatebox', options: { required: false } } },
             { field: 'Description', title: '疾病描述', width: '20%', align: 'center', editor: { type: 'validatebox', options: { required: false } } },
         ]],
@@ -339,16 +339,57 @@ $(function () {
             var text = $('#sampleTypeE').combobox('getValue');
             $('#volumeE').textbox('clear');
             $('#volumeE').textbox('setValue', '0');
-            //if (text.indexOf("组织") > 0) { $('#volumeE').textbox('setValue', '500'); text = "";return; }
-            //if (text.indexOf("血") > 0) { $('#volumeE').textbox('setValue', '400'); text = ""; return; }
-            //if (text.indexOf("细胞") > 0) { $('#volumeE').textbox('setValue', '300'); text = ""; return; }
-            //if (text.indexOf("心耳") > 0) { $('#volumeE').textbox('setValue', '300'); text = ""; return; }
-            //if (text.indexOf("上清") > 0) { $('#volumeE').textbox('setValue', '400'); text = ""; return; }
-            //else
-            //{
-            //    $('#volumeE').textbox('setValue', '400');
-            //}
         }
+    });
+})
+//体积
+$(function () {
+    $('#volumeE').combobox({
+        valueField: 'value',
+        textField: 'text',
+        multiple:false,
+        data: [{
+            value: '500',
+            text: '500'
+        },{
+            value: '400',
+            text: '400'
+        },{
+            value: '300',
+            text: '300'
+        }, {
+            value: '200',
+            text: '200'
+        }, {
+            value: '100',
+            text: '100'
+        }],
+        panelHeight: 'auto'
+    });
+})
+//管数
+$(function () {
+    $('#ScountE').combobox({
+        valueField: 'value',
+        textField: 'text',
+        multiple: false,
+        data: [{
+            value: '5',
+            text: '5'
+        }, {
+            value: '4',
+            text: '4'
+        }, {
+            value: '3',
+            text: '3'
+        }, {
+            value: '2',
+            text: '2'
+        }, {
+            value: '1',
+            text: '1'
+        }],
+        panelHeight: 'auto'
     });
 })
 //样品来源
@@ -394,7 +435,6 @@ $(function () {
     //            //}
     //        });
 })
-
 /*------------------样品信息添加框 end--------------------------- */
 
 /*------------------辅助--------------------------- */

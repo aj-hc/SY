@@ -220,70 +220,18 @@ namespace RuRo.Web.Fp_Ajax
                         Dictionary<string, string> Tem = new Dictionary<string, string>();
                         //循环dg行！
                         ALIQUOT += 2;
-                        string Volume = item["Volume"];
-                        string SampleSource = baseInfoDic["Name"];
+                        Dictionary<string, string>.KeyCollection dickeyname = item.Keys;//获取添加数据的键值
+                        foreach (string keyname in dickeyname)//读取键值名称
+                        {
+                            string itemvalue = item[keyname].ToString();
+                            sampleInfoDic.Add(keyname, itemvalue);
+                        }
+                        //因前台在后台重新赋值
                         string Scount = item["Scount"];
-                        string SampleType = item["SampleType"];
-                        string laiyuan = item["laiyuan"];
-                        string yongtu = item["yongtu"];
-                        string Sample_group = item["Sample_group"];
-                        if (sampleInfoDic.ContainsKey("ALIQUOT"))
-                        {
-                            sampleInfoDic["ALIQUOT"] = ALIQUOT.ToString();
-                        }
-                        else
-                        {
-                            sampleInfoDic.Add("ALIQUOT", ALIQUOT.ToString());
-                        }
-                        if (sampleInfoDic.ContainsKey("Volume"))
-                        {
-                            sampleInfoDic["Volume"] = Volume;
-                        }
-                        else
-                        {
-                            sampleInfoDic.Add("Volume", Volume);
-                        }
-                        if (sampleInfoDic.ContainsKey("Sample Source"))
-                        {
-                            sampleInfoDic["Sample Source"] = SampleSource;
-                        }
-                        else
-                        {
-                            sampleInfoDic.Add("Sample Source", SampleSource);
-                        }
-                        if (sampleInfoDic.ContainsKey("Sample Type"))
-                        {
-                            sampleInfoDic["Sample Type"] = SampleType;
-                        }
-                        else
-                        {
-                            sampleInfoDic.Add("Sample Type", SampleType);
-                        }
-                        if (sampleInfoDic.ContainsKey("laiyuan"))
-                        {
-                            sampleInfoDic["laiyuan"] = laiyuan;
-                        }
-                        else
-                        {
-                            sampleInfoDic.Add("laiyuan", laiyuan);
-                        }
-                        if (sampleInfoDic.ContainsKey("yongtu"))
-                        {
-                            sampleInfoDic["yongtu"] = yongtu;
-                        }
-                        else
-                        {
-                            sampleInfoDic.Add("yongtu", yongtu);
-                        }
-                        if (sampleInfoDic.ContainsKey("Sample_group"))
-                        {
-                            sampleInfoDic["Sample_group"] = Sample_group;
-                        }
-                        else
-                        {
-                            sampleInfoDic.Add("Sample_group", Sample_group);
-                        }
-                        Tem = FreezerProUtility.Fp_Common.FpJsonHelper.DeserializeObject<Dictionary<string, string>>(FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(MatchSampleInfoDic(RemoveEmpty(AddName(sampleInfoDic, PatientID)))));
+                        string strSampleType = item["SampleType"];
+                        sampleInfoDic.Add("Sample Source",PatientID);
+                        sampleInfoDic.Add("Sample Type",strSampleType);
+                        Tem = FreezerProUtility.Fp_Common.FpJsonHelper.DeserializeObject<Dictionary<string, string>>(FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(MatchSampleInfoDic(RemoveEmpty(AddName(sampleInfoDic, PatientID, PatientName)))));
                         for (int i = 0; i < int.Parse(Scount); i++)
                         {
                             dataDicList.Add(Tem);
@@ -904,10 +852,11 @@ namespace RuRo.Web.Fp_Ajax
         }
         #endregion
 
-        private Dictionary<string, string> AddName(Dictionary<string, string> dic, string name)
+        private Dictionary<string, string> AddName(Dictionary<string, string> dic, string name, string PatientName)
         {
             Dictionary<string, string> resDic = new Dictionary<string, string>();
             resDic.Add("Name", name);
+            resDic.Add("Description", PatientName);
             foreach (KeyValuePair<string, string> item in dic)
             {
                 if (item.Key == "Name")

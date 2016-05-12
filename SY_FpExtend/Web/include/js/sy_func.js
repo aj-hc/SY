@@ -89,18 +89,18 @@ function querybycode() {
                             var ds = obj._BaseInfo.ds;
                             //$("#BaseInfoForm").form("load", ds[0]);
                             AddBaseInfoToForm(ds[0]);
-                            var PName=$("#_80").textbox('getText');
+                            var PName = $("#_80").textbox('getText');
                             var PId = $("#_91").textbox('getText');
-                            //查询是否存在知情同意书X
-                            if (PName != "" || PId != "" || PName != null || PId != null)
-                            {
-                                GetConsentForm(PName,PId);
-                            }
-                            else
-                            {
-                                $.messager.alert('提示', '获取不到唯一标识码，请验证病人信息是否正确', 'error');
-                                return;
-                            }
+                            ////查询是否存在知情同意书X
+                            //if (PName != "" || PId != "" || PName != null || PId != null)
+                            //{
+                            //    GetConsentForm(PName,PId);
+                            //}
+                            //else
+                            //{
+                            //    $.messager.alert('提示', '获取不到唯一标识码，请验证病人信息是否正确', 'error');
+                            //    return;
+                            //}
                         }
                     }
                     if (obj._ClinicalInfo) {
@@ -134,11 +134,11 @@ function querybycode() {
                     //            return;
                     //        }
                     //        AddBaseInfoToForm(ds[0]);
-                    //        var PName = $("#_80").textbox('getText');
-                    //        var PId = $("#_91").textbox('getText');
-                    //        //查询是否存在知情同意书
-                    //        if (PName != "" || PId != "" || PName != null || PId != null) { GetConsentForm(PName, PId); }
-                    //        else { $.messager.alert('提示', '获取不到唯一标识码，请验证病人信息是否正确', 'error'); }
+                    ////        var PName = $("#_80").textbox('getText');
+                    ////        var PId = $("#_91").textbox('getText');
+                    ////        //查询是否存在知情同意书
+                    ////        if (PName != "" || PId != "" || PName != null || PId != null) { GetConsentForm(PName, PId); }
+                    ////        else { $.messager.alert('提示', '获取不到唯一标识码，请验证病人信息是否正确', 'error'); }
                     //    }
                     //}
                     //if (obj._ClinicalInfo) {
@@ -174,6 +174,7 @@ function querybycode() {
 }
 //查询是否存在知情同意书
 function GetConsentForm(name, id) {
+    var IstConsentForm = false;
     var pname = encodeURI(name);//对中文进行转码
     $.ajax({
         type: 'post',
@@ -181,7 +182,7 @@ function GetConsentForm(name, id) {
         url: '/Fp_Ajax/GetData.aspx?action=getConsentForm&gname=' + pname + '&guid=' + id,
         success: function (data) {
             if (data.ds == "[]" || data.ds == "" || data.ds == undefined || data.ds == null) {
-                $.messager.alert('提示', '患者没有知情同意书');
+                IstConsentForm = false;
                 //$.messager.confirm('提示！', '患者没有知情同意书,是否添加！(仅支持样本库系统已存在样品源的情况下才能添加)', function (r) {
                 //    $('#ConsentBook').combobox('clear');
                 //    if (r) {
@@ -192,6 +193,7 @@ function GetConsentForm(name, id) {
                 //    else { }
                 //});
             } else {
+                IstConsentForm = true;
                 //$('#ConsentBook').combobox('clear');
                 //var _consent = data.ds;
                 //$('#ConsentBook').combobox({
@@ -210,7 +212,6 @@ function clearForm() {
     $('#BaseInfoForm').form('clear');
     $('#ClinicalInfoDg').datagrid('loadData', { total: 0, rows: [] });
 }
-
 //绑定数据到基本信息数据框
 function AddBaseInfoToForm(_BaseInfo) {
     if (_BaseInfo == "SEE") {
@@ -390,6 +391,7 @@ function postPatientInfo() {
                         if (clinicalInfo.success) {
                             if (dg_SampleInfo.success) {
                                 //查询是否存在知情同意书
+                                var str = "";
                                 //赋值
                                 $('#txtPatientID').textbox('clear');
                                 $('#txtname').textbox('clear');
@@ -397,15 +399,21 @@ function postPatientInfo() {
                                 var txtname = $('#_80').textbox('getText');
                                 $('#txtPatientID').textbox('setValue', patientID);
                                 $('#txtname').textbox('setValue', txtname);
+                                if (GetConsentForm(txtname, patientID)) {
+                                    str = "该样品源已存在同意书";
+                                }
+                                else {
+                                    str = "该样品源目前没有知情同意书，请在下方导入";
+                                }
                                 //加个提示
-                                $.messager.show({ title: '提示！', msg: '导入成功：' + dg_SampleInfo.msg, showType: 'show' });
+                                $.messager.show({ title: '提示！', msg: '导入成功：' + dg_SampleInfo.msg + "," + str, showType: 'show' });
                             }
                             else {
-                                $.messager.show({ title: '提示！', msg: '样本添加失败：' + dg_SampleInfo.msg, showType: 'show' });
+                                $.messager.show({ title: '提示！', msg: '样本添加失败：' + dg_SampleInfo.msg + "," + str, showType: 'show' });
                             }
                         }
                         else {
-                            $.messager.show({ title: '提示！', msg: '临床信息导入失败：' + clinicalInfo.msg, showType: 'show' });
+                            $.messager.show({ title: '提示！', msg: '临床信息导入失败：' + clinicalInfo.msg + "," + str, showType: 'show' });
                         }
                     }
                     else {
@@ -417,21 +425,22 @@ function postPatientInfo() {
         });
     }
 }
+//转换数据
 function getBaseInfoFormData() {
     var baseInfoForm = $("#BaseInfoForm").serializeArray();
     var Tem;
     if (baseInfoForm) { Tem = JSON.stringify(baseInfoForm); }
     return Tem;
 }
+//转换数据
 function getSampleInfoFormData() {
     var sampleInfo = $("#SampleInfoForm").serializeArray();
     var nice_sampleInfo = new Array();
     var str113 = "";
     for (var i = 0; i < sampleInfo.length; i++) {
-        if (sampleInfo[i].name == "_113")
-        {
-            if (str113!="") {
-                str113 = str113 + ";"+sampleInfo[i].value
+        if (sampleInfo[i].name == "_113") {
+            if (str113 != "") {
+                str113 = str113 + ";" + sampleInfo[i].value
             }
             else {
                 str113 = sampleInfo[i].value;
@@ -484,6 +493,11 @@ function clearsetClinicalInfoDg() {
 //添加样本信息到
 function AddSampleInfoToDg() {
     var SampleGroupEtext = $('#SampleGroupE').textbox('getText');
+    var IntvolumeE = $('#volumeE').textbox('getText');
+    var IntScountE = $('#ScountE').textbox('getText');
+    if (!checkRate(IntvolumeE, IntScountE)) {
+        $.messager.alert('提示', '体积和管数必须为数字', 'error'); return;
+    }
     if (SampleGroupEtext == "") {
         $.messager.alert('提示', '样品课题组不能为空', 'error'); return;
     }
@@ -506,6 +520,7 @@ function AddSampleInfoToDg() {
         $('#dg_SampleInfo').datagrid('showColumn', 'Sample_group');
     }
 }
+//清除信息
 function clearSampleInfoAddForm() {
     $('#sampleInfoFormToDg').form('clear');
 }
@@ -558,6 +573,17 @@ function ForSubmitSampleInfo() {
         });
     }
 
+}
+
+function checkRate(intvolume, intScounte) {
+    var re = /^[0-9]+.?[0-9]*$/;   //判断字符串是否为数字    
+    var ae = /^[1-9]+[0-9]*]*$/;  //判断正整数 
+    if (re.test(intvolume) && ae.test(intScounte)) {
+        return true;
+    }
+    else {
+        return false;
+    }
 }
 //采用jquery easyui loading css效果 
 function ajaxLoading() {

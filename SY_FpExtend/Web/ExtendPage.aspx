@@ -242,12 +242,13 @@
                     <tr>
                         <td style="width: 100px;">体积:</td>
                         <td>
-                            <input class="easyui-numberbox" name="volumeE" id="volumeE" data-options="required:false,editable:true,prompt:'输入样品体积时请注意单位'" /></td>
+
+                            <input class="easyui-combobox" name="volumeE" id="volumeE" data-options="value:500,required:false,editable:true,prompt:'输入样品体积时请注意单位'" /></td>
                     </tr>
                     <tr>
                         <td style="width: 100px;">管数:</td>
                         <td>
-                            <input class="easyui-numberbox" name="ScountE" id="ScountE" data-options="min:1,value:1,required:true,prompt:'请输入分管数'" /></td>
+                            <input class="easyui-combobox" name="ScountE" id="ScountE" data-options="min:1,value:1,required:true,prompt:'请输入分管数'" /></td>
                     </tr>
                     <tr>
                         <td style="width: 100px;">样品来源:</td>
