@@ -440,7 +440,7 @@ function getSampleInfoFormData() {
     for (var i = 0; i < sampleInfo.length; i++) {
         if (sampleInfo[i].name == "_113") {
             if (str113 != "") {
-                str113 = str113 + "%3b" + sampleInfo[i].value
+                str113 = str113 + "%3b" + sampleInfo[i].value;//拼接传入系统必须转义”;“号
             }
             else {
                 str113 = sampleInfo[i].value;
