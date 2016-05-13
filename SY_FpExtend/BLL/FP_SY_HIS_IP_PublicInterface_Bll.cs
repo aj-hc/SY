@@ -245,8 +245,16 @@ namespace RuRo.BLL
             baseinfo.PatientID = Convert.ToInt32(dic["患者ID"].ToString());
             baseinfo.RegisterID = Convert.ToInt32(dic["门诊ID"]);
             baseinfo.InPatientID = Convert.ToInt32(dic["住院ID"]);
+            baseinfo.ADDTIME =Convert.ToDateTime(dic["ADDTIME"].ToString());
             DAL.BasedInfo baseinfo_dal = new DAL.BasedInfo();
-            baseinfo_dal.Add(baseinfo);
+            int count=baseinfo_dal.Add(baseinfo);
+            //int baseinfoID=0;
+            //if (count>0)
+            //{
+            //    DataSet ds=baseinfo_dal.GetList(1, "", "");
+            //    baseinfoID = Convert.ToInt32(ds.Tables[0].Rows[0]["id"]);
+            //}
+            //return baseinfoID;
         }
         public void InsertLog(Dictionary<string, string> dic) 
         {
@@ -257,6 +265,7 @@ namespace RuRo.BLL
             log.BASE_MSG = dic["BASE_MSG"].ToString();
             log.CLINICAL_MSG = dic["CLINICAL_MSG"].ToString();
             log.MSG = dic["MSG"].ToString();
+            log.PatientID =Convert.ToInt32(dic["PatientID"].ToString());
             TB_SAMPLE_LOG bllLog = new TB_SAMPLE_LOG();
             bllLog.Add(log);
         }

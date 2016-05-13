@@ -19,6 +19,8 @@ namespace RuRo.Model
         private string _diseasename;
         private string _description;
         private string _type;
+        private DateTime? _addtime;
+        private int? _patientid;
         /// <summary>
         /// 
         /// </summary>
@@ -90,6 +92,22 @@ namespace RuRo.Model
         {
             set { _type = value; }
             get { return _type; }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public DateTime? ADDTIME
+        {
+            set { _addtime = value; }
+            get { return _addtime; }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public int? PatientID
+        {
+            set { _patientid = value; }
+            get { return _patientid; }
         }
         #endregion Model
 

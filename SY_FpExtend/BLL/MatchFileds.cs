@@ -26,6 +26,7 @@ namespace RuRo.BLL
             dic.Add("PatientID", "患者ID");
             dic.Add("InPatientID", "住院ID");
             dic.Add("RegisterID", "门诊ID");
+            dic.Add("ADDTIME", "ADDTIME");
             return dic;
         }
         public static Dictionary<string, string> SampleFiledsMatchDic()
@@ -70,6 +71,7 @@ namespace RuRo.BLL
             dic.Add("Description", "疾病描述");
             dic.Add("InPatientID", "住院ID");
             dic.Add("RegisterID", "挂号ID");
+            dic.Add("PatientID","PatientID");
             return dic;
         }
     }

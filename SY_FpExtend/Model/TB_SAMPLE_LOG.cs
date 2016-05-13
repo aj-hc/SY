@@ -11,8 +11,7 @@ namespace RuRo.Model
         { }
         #region Model
         private int _log_id;
-        private int? _base_id;
-        private int? _clinical_id;
+        private int? _patientid;
         private string _base_msg;
         private string _clinical_msg;
         private string _msg;
@@ -31,18 +30,10 @@ namespace RuRo.Model
         /// <summary>
         /// 
         /// </summary>
-        public int? BASE_ID
+        public int? PatientID
         {
-            set { _base_id = value; }
-            get { return _base_id; }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        public int? CLINICAL_ID
-        {
-            set { _clinical_id = value; }
-            get { return _clinical_id; }
+            set { _patientid = value; }
+            get { return _patientid; }
         }
         /// <summary>
         /// 

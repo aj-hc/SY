@@ -10,6 +10,7 @@
     <script src="include/js/jquery.cookie.js"></script>
     <link href="../include/jquery-easyui-1.4.3/themes/default/easyui.css" rel="stylesheet" />
     <link href="../include/jquery-easyui-1.4.3/themes/icon.css" rel="stylesheet" />
+    <script src="../include/jquery-easyui-1.4.3/locale/easyui-lang-zh_CN.js"></script>
     <link href="include/css/default.css" rel="stylesheet" />
     <script src="../include/js/default.js"></script>
     <script src="include/js/sy_func.js"></script>

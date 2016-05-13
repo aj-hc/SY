@@ -37,9 +37,9 @@ namespace RuRo.DAL
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("insert into ClinicalInfo(");
-            strSql.Append("DiagnoseTypeFlag,DiagnoseDateTime,RegisterID,InPatientID,ICDCode,DiseaseName,Description,type)");
+            strSql.Append("DiagnoseTypeFlag,DiagnoseDateTime,RegisterID,InPatientID,ICDCode,DiseaseName,Description,type,PatientID,ADDTIME)");
             strSql.Append(" values (");
-            strSql.Append("@DiagnoseTypeFlag,@DiagnoseDateTime,@RegisterID,@InPatientID,@ICDCode,@DiseaseName,@Description,@type)");
+            strSql.Append("@DiagnoseTypeFlag,@DiagnoseDateTime,@RegisterID,@InPatientID,@ICDCode,@DiseaseName,@Description,@type,@PatientID,@ADDTIME)");
             strSql.Append(";select @@IDENTITY");
             SqlParameter[] parameters = {
 					new SqlParameter("@DiagnoseTypeFlag", SqlDbType.NVarChar,20),
@@ -49,7 +49,9 @@ namespace RuRo.DAL
 					new SqlParameter("@ICDCode", SqlDbType.NVarChar,30),
 					new SqlParameter("@DiseaseName", SqlDbType.NVarChar,100),
 					new SqlParameter("@Description", SqlDbType.NVarChar,100),
-					new SqlParameter("@type", SqlDbType.NVarChar,50)};
+					new SqlParameter("@type", SqlDbType.NVarChar,50),
+                    new SqlParameter("@PatientID", SqlDbType.Int,4),
+					new SqlParameter("@ADDTIME", SqlDbType.DateTime)};
             parameters[0].Value = model.DiagnoseTypeFlag;
             parameters[1].Value = model.DiagnoseDateTime;
             parameters[2].Value = model.RegisterID;
@@ -58,6 +60,8 @@ namespace RuRo.DAL
             parameters[5].Value = model.DiseaseName;
             parameters[6].Value = model.Description;
             parameters[7].Value = model.type;
+            parameters[8].Value = model.PatientID;
+            parameters[9].Value = model.ADDTIME;
 
             object obj = DbHelperSQL_SY.GetSingleSY(strSql.ToString(), parameters);
             if (obj == null)
@@ -83,7 +87,8 @@ namespace RuRo.DAL
             strSql.Append("ICDCode=@ICDCode,");
             strSql.Append("DiseaseName=@DiseaseName,");
             strSql.Append("Description=@Description,");
-            strSql.Append("type=@type");
+            strSql.Append("type=@type,");
+            strSql.Append("ADDTIME=@ADDTIME");
             strSql.Append(" where id=@id");
             SqlParameter[] parameters = {
 					new SqlParameter("@DiagnoseTypeFlag", SqlDbType.NVarChar,20),
@@ -94,6 +99,7 @@ namespace RuRo.DAL
 					new SqlParameter("@DiseaseName", SqlDbType.NVarChar,100),
 					new SqlParameter("@Description", SqlDbType.NVarChar,100),
 					new SqlParameter("@type", SqlDbType.NVarChar,50),
+					new SqlParameter("@ADDTIME", SqlDbType.DateTime),
 					new SqlParameter("@id", SqlDbType.Int,4)};
             parameters[0].Value = model.DiagnoseTypeFlag;
             parameters[1].Value = model.DiagnoseDateTime;
@@ -103,7 +109,8 @@ namespace RuRo.DAL
             parameters[5].Value = model.DiseaseName;
             parameters[6].Value = model.Description;
             parameters[7].Value = model.type;
-            parameters[8].Value = model.id;
+            parameters[8].Value = model.ADDTIME;
+            parameters[9].Value = model.id;
 
             int rows = DbHelperSQL_SY.ExecuteSqlSY(strSql.ToString(), parameters);
             if (rows > 0)
@@ -167,7 +174,7 @@ namespace RuRo.DAL
         {
 
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select  top 1 id,DiagnoseTypeFlag,DiagnoseDateTime,RegisterID,InPatientID,ICDCode,DiseaseName,Description,type from ClinicalInfo ");
+            strSql.Append("select  top 1 id,DiagnoseTypeFlag,DiagnoseDateTime,RegisterID,InPatientID,ICDCode,DiseaseName,Description,type,PatientID,ADDTIME from ClinicalInfo ");
             strSql.Append(" where id=@id");
             SqlParameter[] parameters = {
 					new SqlParameter("@id", SqlDbType.Int,4)
@@ -231,6 +238,14 @@ namespace RuRo.DAL
                 {
                     model.type = row["type"].ToString();
                 }
+                if (row["ADDTIME"] != null && row["ADDTIME"].ToString() != "")
+                {
+                    model.ADDTIME = DateTime.Parse(row["ADDTIME"].ToString());
+                }
+                if (row["PatientID"] != null && row["PatientID"].ToString() != "")
+                {
+                    model.PatientID = int.Parse(row["PatientID"].ToString());
+                }
             }
             return model;
         }
@@ -241,7 +256,7 @@ namespace RuRo.DAL
         public DataSet GetList(string strWhere)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select id,DiagnoseTypeFlag,DiagnoseDateTime,RegisterID,InPatientID,ICDCode,DiseaseName,Description,type ");
+            strSql.Append("select id,DiagnoseTypeFlag,DiagnoseDateTime,RegisterID,InPatientID,ICDCode,DiseaseName,Description,type,ADDTIME ");
             strSql.Append(" FROM ClinicalInfo ");
             if (strWhere.Trim() != "")
             {
@@ -261,7 +276,7 @@ namespace RuRo.DAL
             {
                 strSql.Append(" top " + Top.ToString());
             }
-            strSql.Append(" id,DiagnoseTypeFlag,DiagnoseDateTime,RegisterID,InPatientID,ICDCode,DiseaseName,Description,type ");
+            strSql.Append(" id,DiagnoseTypeFlag,DiagnoseDateTime,RegisterID,InPatientID,ICDCode,DiseaseName,Description,type,PatientID,ADDTIME ");
             strSql.Append(" FROM ClinicalInfo ");
             if (strWhere.Trim() != "")
             {

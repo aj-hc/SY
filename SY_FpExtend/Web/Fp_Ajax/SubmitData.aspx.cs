@@ -51,19 +51,6 @@ namespace RuRo.Web.Fp_Ajax
                 string result = ImportPatientInfo(up, departments);
                 Response.Write(result);
             }
-            if (action == "postSampleInfo")
-            {
-                //string id=获取样本的行号
-                //使用方法提交样本数据到fp
-                //返回提交后的结果
-            }
-            if (action == "posSingleData")
-            {
-                //string id=获取样本的行号
-                //使用方法提交样本数据到fp
-                //返回提交后的结果
-                string result = ImportPatientInfo(up, departments);
-            }
             if (action == "getConsentForm")
             {
                 string result = GetConsentFormInfo(up, departments);
@@ -145,6 +132,7 @@ namespace RuRo.Web.Fp_Ajax
             Dictionary<string, string> logDic = new Dictionary<string, string>();
             Dictionary<string, string> importResult = new Dictionary<string, string>();
             string PatientID = string.Empty;
+            //bool IsSuccess = false;
             if (baseInfoDic.ContainsKey("PatientID"))
             {
                 PatientID = baseInfoDic["PatientID"];
@@ -157,9 +145,12 @@ namespace RuRo.Web.Fp_Ajax
             string date = DateTime.Now.ToString();
             baseInfoDic.Add("Name", PatientID);
             baseInfoDic.Add("Description", PatientName);
+            baseInfoDic.Add("ADDTIME", date);
+            //记录表操作
+            logDic.Add("PatientID", PatientID);//记录ID
             logDic.Add("type", department);//添加科室到记录表
             logDic.Add("LOG_UP", username);//添加登陆人员
-            logDic.Add("LOG_DATE", date);
+            logDic.Add("LOG_DATE", date);//添加纪录时间
             //导入样本源数据
             Dictionary<string, string> mathcBaseInfoDic = MatchBaseInfoDic(baseInfoDic);//转化成字典
             BLL.FP_SY_HIS_IP_PublicInterface_Bll bll = new BLL.FP_SY_HIS_IP_PublicInterface_Bll();
@@ -167,9 +158,10 @@ namespace RuRo.Web.Fp_Ajax
             //判断是否成功或者已存在该样品源则继续添加下一步
             if (improtBaseInfoResult.Contains("true") || improtBaseInfoResult.Contains("should be unique."))
             {
-                bll.InsertBaseInfo(mathcBaseInfoDic);//保存添加的样品源到本地库
                 improtBaseInfoResult = improtBaseInfoResult.Replace("false", "true");
                 importResult.Add("_baseInfo", FreezerProUtility.Fp_Common.ConvertResStr.ConvertRes(improtBaseInfoResult));
+                //日志操作
+                bll.InsertBaseInfo(mathcBaseInfoDic);//保存添加的样品源到本地库
                 logDic.Add("BASE_MSG", improtBaseInfoResult);//添加导入样品源信息
                 #region 导入临床数据
                 //导入临床数据
@@ -188,10 +180,15 @@ namespace RuRo.Web.Fp_Ajax
                         if (improtTestDataResult.Contains("\"status\":\"DONE\"") && improtTestDataResult.Contains("\"success\":true,"))
                         {
                             //导入成功--保存数据到本地数据库
-                            SaveClinicalDicToLocalBase(clinicalInfoDgDicList, departments);
+                            SaveClinicalDicToLocalBase(clinicalInfoDgDicList, departments,Convert.ToInt32(PatientID),Convert.ToDateTime(date));
+                            importResult.Add("_clinicalInfo", FreezerProUtility.Fp_Common.ConvertResStr.ConvertRes(improtTestDataResult));
+                            logDic.Add("CLINICAL_MSG", improtTestDataResult);//添加诊断类型
                         }
-                        importResult.Add("_clinicalInfo", FreezerProUtility.Fp_Common.ConvertResStr.ConvertRes(improtTestDataResult));
-                        logDic.Add("CLINICAL_MSG", improtTestDataResult);//添加诊断类型
+                        else
+                        {
+
+                        }
+                       
                     }
                     else
                     {
@@ -256,6 +253,7 @@ namespace RuRo.Web.Fp_Ajax
                 importResult.Add("improtBaseInfoResult", res);
                 logDic.Add("BASE_MSG", "样品源导入失败,请检查数据");//添加导入样品源信息
             }
+            //logDic.Add("STATE", IsSuccess.ToString());
             bll.InsertLog(logDic);//记录状态到本地数据库
             return FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(importResult);
         }
@@ -653,7 +651,6 @@ namespace RuRo.Web.Fp_Ajax
                 }
                 resDicList.Add(resDic);
             }
-
             return resDicList;
         }
         #endregion
@@ -742,9 +739,10 @@ namespace RuRo.Web.Fp_Ajax
         /// </summary>
         /// <param name="clinicalInfoDgDicList">临床数据字典</param>
         /// <param name="departments">科室</param>
-        private void SaveClinicalDicToLocalBase(List<Dictionary<string, string>> clinicalInfoDgDicList, string departments)
+        private void SaveClinicalDicToLocalBase(List<Dictionary<string, string>> clinicalInfoDgDicList, string departments, int patientid,DateTime addtime)
         {
             BLL.ClinicalInfo clinicalBll = new BLL.ClinicalInfo();
+            List<int> list = new List<int>();
             foreach (var item in clinicalInfoDgDicList)
             {
                 Model.ClinicalInfo clinical = new Model.ClinicalInfo();
@@ -778,6 +776,8 @@ namespace RuRo.Web.Fp_Ajax
                             clinical.RegisterID = int.Parse(dic.Value);
                         }
                         clinical.type = departments;
+                        clinical.PatientID = patientid;
+                        clinical.ADDTIME = addtime;
                     }
                     catch (Exception ex)
                     {
@@ -785,7 +785,7 @@ namespace RuRo.Web.Fp_Ajax
                         continue;
                     }
                 }
-                clinicalBll.Add(clinical);
+               int count= clinicalBll.Add(clinical);
             }
         }
         #endregion

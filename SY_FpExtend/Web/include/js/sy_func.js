@@ -528,54 +528,6 @@ function clearSampleInfoAddForm() {
 function Cleardg_SampleInfo() {
     $('#dg_SampleInfo').datagrid('loadData', { total: 0, rows: [] });
 }
-//提交单条样品
-function ForSubmitSampleInfo() {
-    var username = $.cookie('username');
-    var departments = $.cookie(username + 'department');
-    if (!departments) { $.messager.alert('提示', '必须选择科室', 'error'); return; }
-    var _baseinfo = getBaseInfoFormData();
-    //ClinicalInfoDg
-    var _ClinicalInfoDg = $('#ClinicalInfoDg').datagrid('getChecked');
-    var _sampleInfoForm = getSampleInfoFormData();
-    var _dg_SampleInfoDg = $('#dg_SampleInfo').datagrid('getSelected');
-    if (_dg_SampleInfoDg == null) { $.messager.alert('提示', '请选中提交行再进行提交', 'error'); return; };
-    // var =_dg_SampleInfoDg.State.ind
-    if (_dg_SampleInfoDg.State.indexOf("成功") > 0) { $.messager.alert('提示', '只能选取可以提交的数据，且每次只能一条！！', 'error'); return; }
-    if (_dg_SampleInfoDg.State.indexOf("重新提交") > 0) {
-        var num = $('#dg_SampleInfo').datagrid('getRowIndex', $('#dg_SampleInfo').datagrid('getSelected')) + 1;
-        $.ajax({
-            type: 'post',
-            dataType: "json",
-            url: '/Fp_Ajax/SubmitData.aspx?action=posSingleData',
-            data: {
-                departments: departments,
-                baseinfo: _baseinfo,
-                clinicalInfoDg: _ClinicalInfoDg,
-                sampleInfoForm: _sampleInfoForm,
-                dg_SampleInfo: _dg_SampleInfoDg
-            },
-            onSubmit: function () { },
-            success: function (data) {
-                if (data) {
-                    if (data[0].success == "True") {
-                        msg = msg + "<br />" + "第" + data[0].num + "行：" + "导入成功";
-                        $('#dg_SampleInfo').datagrid('updateRow', {
-                            index: data[0].num - 1,
-                            row:
-                                {
-                                    State: '成功',
-                                    Msg: data[0].msg
-                                }
-                        });
-                    }
-                }
-                else { $.messager.alert('提示', '服务器未响应', 'error'); return; }
-            }
-        });
-    }
-
-}
-
 function checkRate(intvolume, intScounte) {
     var re = /^[0-9]+.?[0-9]*$/;   //判断字符串是否为数字    
     var ae = /^[1-9]+[0-9]*]*$/;  //判断正整数 
