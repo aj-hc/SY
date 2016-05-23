@@ -188,7 +188,6 @@ namespace RuRo.Web.Fp_Ajax
                         {
 
                         }
-                       
                     }
                     else
                     {
@@ -220,14 +219,58 @@ namespace RuRo.Web.Fp_Ajax
                         Dictionary<string, string>.KeyCollection dickeyname = item.Keys;//获取添加数据的键值
                         foreach (string keyname in dickeyname)//读取键值名称
                         {
+                            if (sampleInfoDic.ContainsKey(keyname))
+                            {
+                                sampleInfoDic.Remove(keyname);
+                            }
                             string itemvalue = item[keyname].ToString();
                             sampleInfoDic.Add(keyname, itemvalue);
                         }
                         //因前台在后台重新赋值
                         string Scount = item["Scount"];
                         string strSampleType = item["SampleType"];
-                        sampleInfoDic.Add("Sample Source",PatientID);
-                        sampleInfoDic.Add("Sample Type",strSampleType);
+                        //添加样品源字段
+                        if (sampleInfoDic.ContainsKey("Sample Source"))
+                        {
+                            
+                        }
+                        else
+                        {
+                            sampleInfoDic.Add("Sample Source", PatientID);
+                        }
+                        //添加样品类型
+                        if (sampleInfoDic.ContainsKey("Sample Type"))
+                        {
+                            if (sampleInfoDic["Sample Type"]==strSampleType)
+                            {
+                                
+                            }
+                            else
+                            {
+                                sampleInfoDic.Remove("Sample Type");
+                                sampleInfoDic.Add("Sample Type", strSampleType);
+                            }
+                        }
+                        else
+                        {
+                            sampleInfoDic.Add("Sample Type", strSampleType);
+                        }
+                        if (sampleInfoDic.ContainsKey("ALIQUOT"))
+                        {
+                            if (sampleInfoDic["Sample Type"]==ALIQUOT.ToString())
+                            {
+                                
+                            }
+                            else
+                            {
+                                sampleInfoDic.Remove("ALIQUOT");
+                                sampleInfoDic.Add("ALIQUOT", ALIQUOT.ToString());
+                            }
+                        }
+                        else
+                        {
+                            sampleInfoDic.Add("ALIQUOT", ALIQUOT.ToString());
+                        }
                         Tem = FreezerProUtility.Fp_Common.FpJsonHelper.DeserializeObject<Dictionary<string, string>>(FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(MatchSampleInfoDic(RemoveEmpty(AddName(sampleInfoDic, PatientID, PatientName)))));
                         for (int i = 0; i < int.Parse(Scount); i++)
                         {
@@ -497,19 +540,20 @@ namespace RuRo.Web.Fp_Ajax
             {
                 try
                 {
-                    if (item.Name == "DiagnoseTypeFlag")
-                    {
-                        string value = Common.ReflectHelper.GetValue(clinicalInfo, item.Name);
-                        if (clinicalDiagnoseTypeFlagdic.ContainsKey(value))
-                        {
-                            clinicalInfoDic.Add(item.Name, clinicalDiagnoseTypeFlagdic[value]);
-                        }
-                    }
-                    else
-                    {
-                        string value = Common.ReflectHelper.GetValue(clinicalInfo, item.Name);
-                        clinicalInfoDic.Add(item.Name, value);
-                    }
+                    //if (item.Name == "DiagnoseTypeFlag")
+                    //{
+                    //    string value = Common.ReflectHelper.GetValue(clinicalInfo, item.Name);
+                    //    clinicalInfoDic.Add(item.Name, value);
+                    //    //if (clinicalDiagnoseTypeFlagdic.ContainsKey(value))
+                    //    //{
+                    //    //clinicalInfoDic.Add(item.Name, clinicalDiagnoseTypeFlagdic[value]);
+                    //    //}
+                    //}
+                    //else
+                    //{
+                    string value = Common.ReflectHelper.GetValue(clinicalInfo, item.Name);
+                    clinicalInfoDic.Add(item.Name, value);
+                    //}
                 }
                 catch (Exception ex)
                 {

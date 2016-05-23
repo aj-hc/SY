@@ -238,7 +238,7 @@
                     <tr>
                         <td style="width: 100px;">样品类型:</td>
                         <td>
-                            <input class="easyui-combobox" name="sampleTypeE" id="sampleTypeE" data-options="required:true,multiple:false,prompt:'请选择样品类型'" /></td>
+                            <input class="easyui-combobox" name="sampleTypeE" id="sampleTypeE" data-options="required:true,editable:false,multiple:false,prompt:'请选择样品类型'" /></td>
                     </tr>
                     <tr>
                         <td style="width: 100px;">体积:</td>

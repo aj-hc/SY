@@ -80,30 +80,30 @@ $(function () {
             { field: 'Sample_group', title: '样品组', width: '15%', align: 'center', hidden: 'false' }
         ]],
         tools: [
-            {
-                // text: '保存',
-                iconCls: 'icon-save',
-                handler: function () {
-                    $('#dg_SampleInfo').datagrid('acceptChanges');
-                    //var rows = $dg_SampleInfo.datagrid('getRows');
-                    //var bool = true;
-                    //for (var i = 0; i < rows.length; i++) {
-                    //    if (rows[i].Scount <= 0 || rows[i].Scount == "" || rows[i].SampleType == "" || rows[i].SampleType == undefined) {
-                    //        $dg_SampleInfo.datagrid('beginEdit', i);
-                    //        bool = false;
-                    //    }
-                    //}
-                    //if (bool == true) {
-                    //    SampleInfoadd = true;
-                    //    $dg_SampleInfo.datagrid('endEdit', editRow);
-                    //    var rowstr = JSON.stringify(rows);
-                    //}
-                    //else {
-                    //    SampleInfoadd = false;
-                    //    $.messager.alert('提示', '试管数量必须大于0,且样本类型不能为空', 'error');
-                    //}
-                }
-            }, '-',
+            //{
+            //    // text: '保存',
+            //    iconCls: 'icon-save',
+            //    handler: function () {
+            //        $('#dg_SampleInfo').datagrid('acceptChanges');
+            //        //var rows = $dg_SampleInfo.datagrid('getRows');
+            //        //var bool = true;
+            //        //for (var i = 0; i < rows.length; i++) {
+            //        //    if (rows[i].Scount <= 0 || rows[i].Scount == "" || rows[i].SampleType == "" || rows[i].SampleType == undefined) {
+            //        //        $dg_SampleInfo.datagrid('beginEdit', i);
+            //        //        bool = false;
+            //        //    }
+            //        //}
+            //        //if (bool == true) {
+            //        //    SampleInfoadd = true;
+            //        //    $dg_SampleInfo.datagrid('endEdit', editRow);
+            //        //    var rowstr = JSON.stringify(rows);
+            //        //}
+            //        //else {
+            //        //    SampleInfoadd = false;
+            //        //    $.messager.alert('提示', '试管数量必须大于0,且样本类型不能为空', 'error');
+            //        //}
+            //    }
+            //}, '-',
             {
                 // text: '添加',
                 iconCls: 'icon-add',
