@@ -168,6 +168,13 @@ namespace RuRo.BLL
             ds = dal.GetTB_CONSENT_FORM(model);
             return FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(ds);
         }
+        public int GetTB_CONSENT_FORM_BLL(RuRo.Model.TB_CONSENT_FORM model,int num)
+        {
+            DataSet ds = new DataSet();
+            ds = dal.GetTB_CONSENT_FORM(model);
+            int count = ds.Tables[0].Rows.Count;
+            return count;
+        }
         public string Sel_TB_CONSENT_FORM_Count_Bll(string patientID, string consent_from)
         {
             string str = "";

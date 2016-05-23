@@ -73,8 +73,6 @@ function ajaxFileUpload() {
     }
     return false;
 }
-
-
 //采用jquery easyui loading css效果 
 function ajaxLoading() {
     $("<div class=\"datagrid-mask\"></div>").css({ display: "block", width: "100%", height: $(window).height() }).appendTo("body");

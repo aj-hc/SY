@@ -37,7 +37,6 @@ namespace RuRo.Web.Fp_Ajax
                     context.Response.End();
                 }
             }
-
         }
         /// <summary>
         /// 上传图片并导入FREEZERPRO
@@ -62,29 +61,36 @@ namespace RuRo.Web.Fp_Ajax
             //必须传入绝对路径
             if (RuRo.Common.Filehleper.DirFileHelper.IsExistDirectory(newstrpath)) { }
             else { RuRo.Common.Filehleper.DirFileHelper.CreateDir(strpath); }
-            //上传图片
-            mes = PostImg(newstrpath, files);
-            if (mes.Contains(System.IO.Path.GetFileName(files[0].FileName)))
+            //上传图片，名称为空时不上传
+            if (files[0].FileName=="")
             {
-                mes = "";
-                //读取图片处理并保存到指定的文件夹中,并返回路径和图片名称；
-                mes = HandleImg(newstrpath + System.IO.Path.GetFileName(files[0].FileName), dickeshi["SP"], struid, strdate, files, context, ref newimgName);
-                //添加到Freezerpro诊断信息中
-                Dictionary<string, string> dicdata = new Dictionary<string, string>();//匹配传入系统的数据
-                if (mes.Contains(newimgName))
+                mes = "找不到图片";
+            }
+            else
+            {
+                mes = PostImg(newstrpath, files);
+                if (mes.Contains(System.IO.Path.GetFileName(files[0].FileName)))
                 {
-                    //删除服务器端的存放图片文件夹
-                    string newpath = CreatDownUrl(mes);//生成导入的路径
-                    dicdata = Set_dataDic(struid, strname, strdate, newpath);//添加到字典匹配
-                    string msg = Import_TestData(dicdata, newpath, strname, dickeshi["keshi"].ToString());//提交到系统
-                    if (msg.Contains("成功"))
+                    mes = "";
+                    //读取图片处理并保存到指定的文件夹中,并返回路径和图片名称；
+                    mes = HandleImg(newstrpath + System.IO.Path.GetFileName(files[0].FileName), dickeshi["SP"], struid, strdate, files, context, ref newimgName);
+                    //添加到Freezerpro诊断信息中
+                    Dictionary<string, string> dicdata = new Dictionary<string, string>();//匹配传入系统的数据
+                    if (mes.Contains(newimgName))
                     {
-                        RuRo.Common.Filehleper.DirFileHelper.ClearDirectory(newstrpath);//删除文件夹下面的文件
-                    }
-                    else
-                    {
-                        RuRo.Common.Filehleper.DirFileHelper.DeleteFile(mes);
-                        RuRo.Common.Filehleper.DirFileHelper.ClearDirectory(newstrpath);//删除文件夹下面的文件
+                        //删除服务器端的存放图片文件夹
+                        string newpath = CreatDownUrl(mes);//生成导入的路径
+                        dicdata = Set_dataDic(struid, strname, strdate, newpath);//添加到字典匹配
+                        string msg = Import_TestData(dicdata, newpath, strname, dickeshi["keshi"].ToString());//提交到系统
+                        if (msg.Contains("成功"))
+                        {
+                            RuRo.Common.Filehleper.DirFileHelper.ClearDirectory(newstrpath);//删除文件夹下面的文件
+                        }
+                        else
+                        {
+                            RuRo.Common.Filehleper.DirFileHelper.DeleteFile(mes);
+                            RuRo.Common.Filehleper.DirFileHelper.ClearDirectory(newstrpath);//删除文件夹下面的文件
+                        }
                     }
                 }
             }
@@ -274,17 +280,24 @@ namespace RuRo.Web.Fp_Ajax
                         model.Consent_From = imgguid;
                         model.PatientName = PatientName;
                         model.Date =Convert.ToDateTime(datadic["上传日期"]);
-                        RuRo.BLL.TB_CONSENT_FORM bll = new BLL.TB_CONSENT_FORM();
-                        bll.Add(model);
+                        //清空COOKIE
                         RuRo.Common.CookieHelper.ClearCookie("uid");
                         RuRo.Common.CookieHelper.ClearCookie("pname");
-                        res = "导入知情同意书成功，图片地址:" + datadic["图片网络链接地址"];
+                        RuRo.BLL.TB_CONSENT_FORM bll = new BLL.TB_CONSENT_FORM();
+                        int count= bll.Add(model);
+                        if (count>0)
+                        {
+                            res = "导入知情同意书成功，图片地址:" + datadic["图片网络链接地址"];
+                        }
+                        else
+                        {
+                            res = "知情同意书导入系统成功，但网络有错误，无法检测到图片地址";
+                        }
                         return res;
                     }
                     else
                     {
                         res = "系统不存在此样品源，导入失败，请录入样品源后重新上传！";
-
                         return res;
                     }
                 }

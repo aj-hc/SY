@@ -45,7 +45,7 @@
         <div class="h"></div>
         <div id="patient">
             <div id="hand" style="width: 900px; float: left; padding: 1px;">
-                <div class="easyui-panel" style="width: 580px; float: left;">
+                <div class="easyui-panel" style="width: 900px; float: left;">
                     <div style="padding: 1px">
                         <b>基本资料：</b>
                         <form id="BaseInfoForm">
