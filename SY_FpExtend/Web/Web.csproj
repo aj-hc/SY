@@ -4,8 +4,6 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{5B535162-10C2-4238-BC56-193B968E1834}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
@@ -45,20 +43,6 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="LTP.Accounts, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Lib\LTP.Accounts.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="LtpPageControl, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\Lib\LtpPageControl.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.Web.UI.WebControls, Version=1.0.2.226, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Lib\Microsoft.Web.UI.WebControls.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -74,6 +58,15 @@
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Web.Mobile" />
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="LTP.Accounts">
+      <HintPath>..\Lib\LTP.Accounts.dll</HintPath>
+    </Reference>
+    <Reference Include="LtpPageControl, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\Lib\LtpPageControl.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.UI.WebControls">
+      <HintPath>..\Lib\Microsoft.Web.UI.WebControls.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="chome\ChromeStandaloneSetup 21.0.1180.89.exe" />
@@ -682,6 +675,7 @@
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Pages\Log_Import\ShowImportSample.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConsentForm.aspx.cs">
@@ -868,6 +862,12 @@
     <Compile Include="ValidateCode.aspx.designer.cs">
       <DependentUpon>ValidateCode.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Pages\Log_Import\ShowImportSample.aspx.cs">
+      <DependentUpon>ShowImportSample.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Log_Import\ShowImportSample.aspx.designer.cs">
+      <DependentUpon>ShowImportSample.aspx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Style.css" />
@@ -888,7 +888,7 @@
       <Name>Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\FreezerProUtility\FreezerProUtility.csproj">
-      <Project>{8f8a2679-a4e7-4f84-8306-74c7bc8cd24c}</Project>
+      <Project>{8F8A2679-A4E7-4F84-8306-74C7BC8CD24C}</Project>
       <Name>FreezerProUtility</Name>
     </ProjectReference>
     <ProjectReference Include="..\Model\Model.csproj">
@@ -946,5 +946,10 @@
         </WebProjectProperties>
       </FlavorProperties>
     </VisualStudio>
+    <MonoDevelop>
+      <Properties>
+        <XspParameters Port="8080" Address="127.0.0.1" SslMode="None" SslProtocol="Default" KeyType="None" CertFile="" KeyFile="" PasswordOptions="None" Password="" Verbose="True" />
+      </Properties>
+    </MonoDevelop>
   </ProjectExtensions>
 </Project>
