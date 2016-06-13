@@ -75,7 +75,7 @@ namespace RuRo.Web.Fp_Ajax
                 consent.PatientName = name;
                 consent.PatientID = Convert.ToInt32(uid);
                 BLL.TB_CONSENT_FORM bll = new TB_CONSENT_FORM();
-                string strJson=bll.GetTB_CONSENT_FORM_BLL(consent);
+                string strJson = bll.GetTB_CONSENT_FORM_BLL(consent);
                 Response.Write(strJson);
             }
             if (action == "getConsentFormCount")
@@ -86,19 +86,20 @@ namespace RuRo.Web.Fp_Ajax
                 consent.PatientName = name;
                 consent.PatientID = Convert.ToInt32(uid);
                 BLL.TB_CONSENT_FORM bll = new TB_CONSENT_FORM();
-                int count = bll.GetTB_CONSENT_FORM_BLL(consent,1);
+                int count = bll.GetTB_CONSENT_FORM_BLL(consent, 1);
                 Response.Write(count);
             }
+            //查询设定
             if (action == "QuerySettingByCom")
             {
                 string strJson = "";
-                string type=Request.Params["valueType"].ToString();//获取传输类型
+                string type = Request.Params["valueType"].ToString();//获取传输类型
                 string username = Common.CookieHelper.GetCookieValue("username");
                 string keshi = Common.CookieHelper.GetCookieValue(username + "department");
-                string StrDepartments =PageConData.DecryptDepartments(keshi);
+                string StrDepartments = PageConData.DecryptDepartments(keshi);
                 BLL.TB_SETTING_VALUE bll = new TB_SETTING_VALUE();
                 System.Data.DataSet ds = bll.GetList("SETTING_TYPE='" + type + "' AND DEPARTMENTS='" + StrDepartments + "'");
-                if (ds.Tables[0].Rows.Count>0)
+                if (ds.Tables[0].Rows.Count > 0)
                 {
                     strJson = FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(ds);
                 }
@@ -110,7 +111,7 @@ namespace RuRo.Web.Fp_Ajax
                 string strJson = "";
                 BLL.TB_SETTING_VALUE bll = new TB_SETTING_VALUE();
                 string StrArray = Request.Params["settingID"].ToString();
-                bool ISDel= bll.DeleteList(StrArray);
+                bool ISDel = bll.DeleteList(StrArray);
                 if (ISDel)
                 {
                     strJson = "删除成功";
@@ -118,6 +119,30 @@ namespace RuRo.Web.Fp_Ajax
                 else
                 {
                     strJson = "删除失败";
+                }
+                Response.Write(strJson);
+            }
+            if (action == "getLogImport")
+            {
+                string strJson = "";
+                string strImportType = Request.Params["Importtype"].ToString();
+                string strStartDate = Request.Params["stratDate"].ToString();
+                string strendDate = Request.Params["endDate"].ToString();
+                BLL.Log_Import log_bll = new Log_Import();
+                if (strImportType != "")
+                {
+                    if (Common.DEncrypt.DESEncrypt.IsDesDecrypt(strImportType, "") == "TMD")//=TMD时未加密
+                    {
+                    }
+                    else
+                    {
+                        strImportType = Common.DEncrypt.DESEncrypt.Decrypt(strImportType);
+                    }
+                    System.Data.DataSet ds = log_bll.GetList("");
+                    if (ds.Tables[0].Rows.Count > 0)
+                    {
+                        strJson = FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(ds);
+                    }
                 }
                 Response.Write(strJson);
             }
