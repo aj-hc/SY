@@ -99,6 +99,7 @@ namespace RuRo.DAL
 					new SqlParameter("@DiseaseName", SqlDbType.NVarChar,100),
 					new SqlParameter("@Description", SqlDbType.NVarChar,100),
 					new SqlParameter("@type", SqlDbType.NVarChar,50),
+                    new SqlParameter("@PatientID", SqlDbType.Int,4),
 					new SqlParameter("@ADDTIME", SqlDbType.DateTime),
 					new SqlParameter("@id", SqlDbType.Int,4)};
             parameters[0].Value = model.DiagnoseTypeFlag;
@@ -109,8 +110,9 @@ namespace RuRo.DAL
             parameters[5].Value = model.DiseaseName;
             parameters[6].Value = model.Description;
             parameters[7].Value = model.type;
-            parameters[8].Value = model.ADDTIME;
-            parameters[9].Value = model.id;
+            parameters[8].Value = model.PatientID;
+            parameters[9].Value = model.ADDTIME;
+            parameters[10].Value = model.id;
 
             int rows = DbHelperSQL_SY.ExecuteSqlSY(strSql.ToString(), parameters);
             if (rows > 0)
@@ -256,7 +258,7 @@ namespace RuRo.DAL
         public DataSet GetList(string strWhere)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select id,DiagnoseTypeFlag,DiagnoseDateTime,RegisterID,InPatientID,ICDCode,DiseaseName,Description,type,ADDTIME ");
+            strSql.Append("select id,DiagnoseTypeFlag,DiagnoseDateTime,RegisterID,InPatientID,ICDCode,DiseaseName,Description,type,PatientID,ADDTIME ");
             strSql.Append(" FROM ClinicalInfo ");
             if (strWhere.Trim() != "")
             {
@@ -391,7 +393,6 @@ namespace RuRo.DAL
                 return false;
             }
         }
-
         #endregion  ExtensionMethod
     }
 }

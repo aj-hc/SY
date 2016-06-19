@@ -120,7 +120,6 @@
     <Compile Include="SysManage.cs" />
     <Compile Include="BasedInfo.cs" />
     <Compile Include="ClinicalInfo.cs" />
-    <Compile Include="EmployeeInfo.cs" />
     <Compile Include="ExamineInfo.cs" />
     <Compile Include="FP_UserFields.cs" />
     <Compile Include="Fp_UserFields_Match.cs" />

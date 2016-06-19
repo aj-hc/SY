@@ -58,7 +58,6 @@ namespace RuRo.DAL
             parameters[5].Value = model.LOG_DATE;
             parameters[6].Value = model.type;
             parameters[7].Value = model.LOG_UP;
-
             object obj = DbHelperSQL_SY.GetSingleSY(strSql.ToString(), parameters);
             if (obj == null)
             {

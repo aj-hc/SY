@@ -41,19 +41,38 @@ namespace RuRo.BLL
         /// 获取数据根据当前日期
         /// </summary>
         /// <param name="date"></param>
-        public DataSet GetDate(string user, string department)
+        public string GetDate(string user, string department)
         {
             //默认情况下查询当前日期下的当前用户的数据
             //根据用户获取当前日期的数据
             //判断department是否为空
-
-            return new DataSet();
+            StringBuilder SB = new StringBuilder();
+            string strDate = DateTime.Now.ToString();
+            RuRo.Model.ModelForDataGrid model = new RuRo.Model.ModelForDataGrid();
+            model= GetDateByDate(SB, 1, 10);
+            string strJson = FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(model);
+            return strJson;
         }
-        public DataSet GetDate(string user, string department, string start_date, string end_date)
+        public string GetDate(string user, string department, string start_date, string end_date,int starindex,int endindex)
         {
-            //根据用户传入的日期范围查询数据
-            //判断department是否为空
-            return new DataSet();
+            string strWhere = "";
+            string strJson="";
+            StringBuilder SB=new StringBuilder();
+            DataSet ds = new DataSet();
+            if (user!="")
+            {
+                strWhere = "Import_User_Id='" + user + "' AND Import_Date>='" + start_date + "' AND Import_Date<='" + end_date+"'";
+                SB.Append(strWhere);
+            }
+            else if (department!="")
+            {
+                strWhere = "Import_User_Department='" + department + "' AND Import_Date>='" + start_date + "' AND Import_Date<='" + end_date + "'";
+                SB.Append(strWhere);
+            }
+            RuRo.Model.ModelForDataGrid model = new RuRo.Model.ModelForDataGrid();
+            GetDateByDate(SB, starindex, endindex);
+            strJson = FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(model);
+            return strJson;
         }
 		public	void GetData(){
 		
@@ -64,14 +83,13 @@ namespace RuRo.BLL
         /// <param name="strWhere">默认请指定科室或用户</param>
         /// <param name="stratIndex"></param>
         /// <param name="endIndex"></param>
-        private void GetDateByDate(StringBuilder strWhere, int stratIndex, int endIndex)
+        private RuRo.Model.ModelForDataGrid GetDateByDate(StringBuilder strWhere, int stratIndex, int endIndex)
         {
             Log_Import log_Import = new Log_Import();
             BasedInfo basedInfo = new BasedInfo();
             TB_CONSENT_FORM tb_CONSENT_FORM = new TB_CONSENT_FORM();
 			RuRo.Model.ModelForDataGrid model = new RuRo.Model.ModelForDataGrid ();
 			int count = log_Import.GetRecordCount (strWhere.ToString());
-
 			model.Total = count.ToString ();
             if (string.IsNullOrEmpty(strWhere.ToString()))
             {
@@ -84,15 +102,18 @@ namespace RuRo.BLL
             }
             DataSet ds_Log_Import = log_Import.GetListByPage(strWhere.ToString(), "", stratIndex, endIndex);
             String strWherePatients = CreatPatientIDWhere(ds_Log_Import);
-			if (strWherePatients.ToString ().Length > 0) {
+			if (strWherePatients.ToString ().Length > 0) 
+            {
 				//查询基本信息
 				DataSet ds_BaseInfo = basedInfo.GetList (" PatientID in " + strWherePatients);
 				//查询知情同意信息
 				DataSet ds_Tb_CONSENT_FORM = tb_CONSENT_FORM.GetList (" PatientID in " + strWherePatients);	
 				model.JsonData=CreatResultDataSet (ds_Log_Import, ds_BaseInfo, ds_Tb_CONSENT_FORM);
-			} else {
+			} else 
+            {
 				model.JsonData= ds_Log_Import;
 			}
+            return model;
         }
 
 		#region 根据查询出来的数据创建唯一号字符串 + private string CreatPatientIDWhere (DataSet ds_Log_Import)

@@ -51,7 +51,8 @@ namespace RuRo.DAL
 			strSql.Append("@id,@obj_id,@display_name,@name,@type,@values,@show,@created_at,@updated_at,@inuse)");
 			strSql.Append(";select @@IDENTITY");
 			SqlParameter[] parameters = {
-					new SqlParameter("@id", SqlDbType.Int,4),
+					new SqlParameter("@userFieldId", SqlDbType.Int,4),
+                    new SqlParameter("@id", SqlDbType.Int,4),
 					new SqlParameter("@obj_id", SqlDbType.Int,4),
 					new SqlParameter("@display_name", SqlDbType.NVarChar,128),
 					new SqlParameter("@name", SqlDbType.NVarChar,128),
@@ -61,17 +62,17 @@ namespace RuRo.DAL
 					new SqlParameter("@created_at", SqlDbType.NVarChar,128),
 					new SqlParameter("@updated_at", SqlDbType.NVarChar,128),
 					new SqlParameter("@inuse", SqlDbType.NVarChar,128)};
-			parameters[0].Value = model.id;
-			parameters[1].Value = model.obj_id;
-			parameters[2].Value = model.display_name;
-			parameters[3].Value = model.name;
-			parameters[4].Value = model.type;
-			parameters[5].Value = model.values;
-			parameters[6].Value = model.show;
-			parameters[7].Value = model.created_at;
-			parameters[8].Value = model.updated_at;
-			parameters[9].Value = model.inuse;
-
+			parameters[0].Value = model.userFieldId;
+            parameters[1].Value = model.id;
+			parameters[2].Value = model.obj_id;
+			parameters[3].Value = model.display_name;
+			parameters[4].Value = model.name;
+			parameters[5].Value = model.type;
+			parameters[6].Value = model.values;
+			parameters[7].Value = model.show;
+			parameters[8].Value = model.created_at;
+			parameters[9].Value = model.updated_at;
+			parameters[10].Value = model.inuse;
 			object obj = DbHelperSQL_SY.GetSingleSY(strSql.ToString(),parameters);
 			if (obj == null)
 			{

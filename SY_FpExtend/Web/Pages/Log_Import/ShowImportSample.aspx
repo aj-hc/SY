@@ -36,8 +36,8 @@
         <div id="gd_Show_Import_Sampe"></div>
     </div>
     <script type="text/javascript">
-        ////创建datagrid
-        $(function () {
+        //创建datagrid
+        $(function (){
             $('#gd_Show_Import_Sampe').datagrid({
                 url: 'ShowImportSample.aspx',
                 method: 'get',
@@ -64,7 +64,7 @@
                     { field: 'Import_Date', title: '日期', width: "15%", align: 'center' },
                     { field: 'TB_CONSENT_FORM', title: '知情同意', width: '10%', align: 'center' },
                     { field: 'Others', title: '样本信息', width: '40%', align: 'center' },
-                ]],
+                ]]
             });
         });
         //变换查询方式
@@ -75,10 +75,10 @@
             var comtype = $('#ser_Method_Type').combobox('getValue');
             //获取值
             if (comtype == "user") {
-                value = username;//获取当前用户
+                value ="1-"+ username;//获取当前用户
             }
             else {
-                value = departments;//获取当前科室
+                value ="2-"+ departments;//获取当前科室
             }
             return value;
         }
