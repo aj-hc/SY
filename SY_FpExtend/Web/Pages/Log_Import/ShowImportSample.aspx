@@ -12,7 +12,6 @@
     <link href="../../include/jquery-easyui-1.4.3/themes/default/easyui.css" rel="stylesheet" />
     <link href="../../include/jquery-easyui-1.4.3/themes/icon.css" rel="stylesheet" />
     <link href="../../include/css/default.css" rel="stylesheet" />
-
 </head>
 <body>
     <div>
@@ -39,8 +38,6 @@
         //创建datagrid
         $(function (){
             $('#gd_Show_Import_Sampe').datagrid({
-                url: 'ShowImportSample.aspx',
-                method: 'get',
                 title: '记录',
                 //width: 700,
                 height: 'auto',
@@ -66,6 +63,25 @@
                     { field: 'Others', title: '样本信息', width: '40%', align: 'center' },
                 ]]
             });
+            $.ajax({
+                type: 'GET',
+                url: '/Fp_Ajax/GetData.aspx?action=getDefaultImport',
+                success: function (data)
+                {
+                    if (data!="") {
+                        var objdata = JSON.parse(data);
+                        var total =objdata.Total;
+                        if (total > 0)
+                        {
+                            var jsondata = objdata.JsonData;
+                            var ds = jsondata.ds;
+                            $('#gd_Show_Import_Sampe').datagrid('loadData', ds);
+                        }
+                    }
+                }
+            });
+
+
         });
         //变换查询方式
         function change_Ser_Method() {

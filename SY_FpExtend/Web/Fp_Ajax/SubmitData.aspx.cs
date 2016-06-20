@@ -132,6 +132,9 @@ namespace RuRo.Web.Fp_Ajax
             Dictionary<string, string> logDic = new Dictionary<string, string>();
             Dictionary<string, string> importResult = new Dictionary<string, string>();
             string PatientID = string.Empty;
+            //添加到log_import表中
+            RuRo.Model.Log_Import log_improt=new Model.Log_Import();
+            RuRo.BLL.Log_Import log_improt_bll = new BLL.Log_Import();
             //bool IsSuccess = false;
             if (baseInfoDic.ContainsKey("PatientID"))
             {
@@ -143,14 +146,20 @@ namespace RuRo.Web.Fp_Ajax
                 PatientName = baseInfoDic["PatientName"];
             }
             string date = DateTime.Now.ToString();
+            //添加信息记录到baseIngfo表中
             baseInfoDic.Add("Name", PatientID);
             baseInfoDic.Add("Description", PatientName);
             baseInfoDic.Add("ADDTIME", date);
-            //记录表操作
+            //添加记录到log表中
             logDic.Add("PatientID", PatientID);//记录ID
             logDic.Add("type", department);//添加科室到记录表
             logDic.Add("LOG_UP", username);//添加登陆人员
             logDic.Add("LOG_DATE", date);//添加纪录时间
+            //添加信息到log_import表中（基本信息）
+            log_improt.PatientID = PatientID;
+            log_improt.Import_Date =Convert.ToDateTime(date);
+            log_improt.Import_User_Department = department;
+            log_improt.Import_User_Id = username;
             //导入样本源数据
             Dictionary<string, string> mathcBaseInfoDic = MatchBaseInfoDic(baseInfoDic);//转化成字典
             BLL.FP_SY_HIS_IP_PublicInterface_Bll bll = new BLL.FP_SY_HIS_IP_PublicInterface_Bll();
@@ -162,7 +171,13 @@ namespace RuRo.Web.Fp_Ajax
                 importResult.Add("_baseInfo", FreezerProUtility.Fp_Common.ConvertResStr.ConvertRes(improtBaseInfoResult));
                 //日志操作
                 bll.InsertBaseInfo(mathcBaseInfoDic);//保存添加的样品源到本地库
+                //保存日志记录
                 logDic.Add("BASE_MSG", improtBaseInfoResult);//添加导入样品源信息
+                //log_improt保存到log_improt表
+                log_improt.Import_Type = "sample_source";
+                log_improt.Import_State = true;
+                log_improt.Import_Date_Msg = improtBaseInfoResult;
+                log_improt_bll.Add(log_improt);
                 #region 导入临床数据
                 //导入临床数据
                 if (clinicalInfoDgDicList.Count > 0)
@@ -183,6 +198,12 @@ namespace RuRo.Web.Fp_Ajax
                             SaveClinicalDicToLocalBase(clinicalInfoDgDicList, departments,Convert.ToInt32(PatientID),Convert.ToDateTime(date));
                             importResult.Add("_clinicalInfo", FreezerProUtility.Fp_Common.ConvertResStr.ConvertRes(improtTestDataResult));
                             logDic.Add("CLINICAL_MSG", improtTestDataResult);//添加诊断类型
+                            //log_improt保存到log_improt表
+                            log_improt.Import_Type = "test_data";
+                            log_improt.Import_State = true;
+                            log_improt.Import_Date_Msg = improtTestDataResult;
+                            log_improt_bll.Add(log_improt);
+
                         }
                         else
                         {
@@ -194,6 +215,11 @@ namespace RuRo.Web.Fp_Ajax
                         string res = "{\"success\":true,\"msg\":\"无临床数据需要导入\",\"message\":\"无临床数据需要导入\",\"status\":\"DONE\",\"job_id\":\"\"}";
                         importResult.Add("_clinicalInfo", res);
                         logDic.Add("CLINICAL_MSG", "无临床数据需要导入");//添加诊断类型
+                        //log_improt保存到log_improt表
+                        log_improt.Import_Type = "test_data";
+                        log_improt.Import_State = true;
+                        log_improt.Import_Date_Msg = res;
+                        log_improt_bll.Add(log_improt);
                     }
                 }
                 else
@@ -201,6 +227,11 @@ namespace RuRo.Web.Fp_Ajax
                     string res = "{\"success\":true,\"msg\":\"无临床数据需要导入\",\"message\":\"无临床数据需要导入\",\"status\":\"DONE\",\"job_id\":\"\"}";
                     importResult.Add("_clinicalInfo", res);
                     logDic.Add("CLINICAL_MSG", "无临床数据需要导入");//添加诊断类型
+                    //log_improt保存到log_improt表
+                    log_improt.Import_Type = "test_data";
+                    log_improt.Import_State = true;
+                    log_improt.Import_Date_Msg = res;
+                    log_improt_bll.Add(log_improt);
                 }
                 #endregion
                 //导入样本数据
@@ -211,6 +242,19 @@ namespace RuRo.Web.Fp_Ajax
                 //判断样品数据是否存在
                 if (sampleInfoDgDicList.Count > 0)
                 {
+                    //将log_improt传入的值拼接起来
+                    log_improt.Others = "";
+                    for (int i = 0; i < sampleInfoDgDicList.Count; i++)
+                    {
+                        if (log_improt.Others=="")
+                        {
+                            log_improt.Others=sampleInfoDgDicList[i]["SampleType"] + ":" + sampleInfoDgDicList[i]["Scount"] + "管";
+                        }
+                        else
+                        {
+                            log_improt.Others = log_improt.Others + ";" + sampleInfoDgDicList[i]["SampleType"] + ":" + sampleInfoDgDicList[i]["Scount"] + "管";
+                        }
+                    }
                     foreach (Dictionary<string, string> item in sampleInfoDgDicList)
                     {
                         Dictionary<string, string> Tem = new Dictionary<string, string>();
@@ -280,6 +324,18 @@ namespace RuRo.Web.Fp_Ajax
                     string importSampleRes = FreezerProUtility.Fp_BLL.Samples.Import_Sample(up, department, dataDicList);
                     importResult.Add("_dg_SampleInfo", FreezerProUtility.Fp_Common.ConvertResStr.ConvertRes(importSampleRes));
                     logDic.Add("MSG", FreezerProUtility.Fp_Common.ConvertResStr.ConvertRes(importSampleRes));
+                    //log_improt保存到log_improt表样品
+                    log_improt.Import_Type = "sample";
+                    if (importSampleRes.Contains("true"))
+                    {
+                        log_improt.Import_State = true;
+                    }
+                    else
+                    {
+                        log_improt.Import_State = false;
+                    }
+                    log_improt.Import_Date_Msg = FreezerProUtility.Fp_Common.ConvertResStr.ConvertRes(importSampleRes);
+                    log_improt_bll.Add(log_improt);
                 }
                 else
                 {
@@ -295,8 +351,12 @@ namespace RuRo.Web.Fp_Ajax
                 string res = "{\"success\":false,\"msg\":\"样品源导入失败,请检查数据\",\"message\":\"样品源导入失败,请检查数据\",\"status\":\"DONE\",\"job_id\":\"\"}";
                 importResult.Add("improtBaseInfoResult", res);
                 logDic.Add("BASE_MSG", "样品源导入失败,请检查数据");//添加导入样品源信息
+                //log_improt保存到log_improt表
+                log_improt.Import_Type = "sample_source";
+                log_improt.Import_State = false;
+                log_improt.Import_Date_Msg = res;
+                log_improt_bll.Add(log_improt);
             }
-            //logDic.Add("STATE", IsSuccess.ToString());
             bll.InsertLog(logDic);//记录状态到本地数据库
             return FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(importResult);
         }
@@ -895,7 +955,13 @@ namespace RuRo.Web.Fp_Ajax
             return t;
         }
         #endregion
-
+        /// <summary>
+        /// 添加设定名称
+        /// </summary>
+        /// <param name="dic"></param>
+        /// <param name="name"></param>
+        /// <param name="PatientName"></param>
+        /// <returns></returns>
         private Dictionary<string, string> AddName(Dictionary<string, string> dic, string name, string PatientName)
         {
             Dictionary<string, string> resDic = new Dictionary<string, string>();

@@ -324,7 +324,8 @@ namespace RuRo.DAL
 			{
 				strSql.Append("order by T.Id desc");
 			}
-			strSql.Append(")AS Row, T.*  from Log_Import T ");
+			strSql.Append(")AS Row, ");
+            strSql.Append("T.*  from Log_Import T ");
 			if (!string.IsNullOrEmpty(strWhere.Trim()))
 			{
 				strSql.Append(" WHERE " + strWhere);

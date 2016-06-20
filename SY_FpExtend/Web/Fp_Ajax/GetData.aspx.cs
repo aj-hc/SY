@@ -63,7 +63,7 @@ namespace RuRo.Web.Fp_Ajax
                         case "8": Response.Write(testRes8); break;
                         default:
                             break;
-                    } 
+                    }
                     #endregion
                 }
             }
@@ -142,12 +142,9 @@ namespace RuRo.Web.Fp_Ajax
                         if (array[1].ToString() != "")
                         {
                             strGetDataType = array[1].ToString();
-                            strJson = log_bll.GetDate(strGetDataType, "", strStartDate, strendDate,0,0);
+                            strJson = log_bll.GetDate(strGetDataType, "", strStartDate, strendDate, 0, 0);
                         }
-                        else
-                        {
-                            
-                        }
+                        else{}
                     }
                     else
                     {
@@ -159,11 +156,31 @@ namespace RuRo.Web.Fp_Ajax
                         }
                         else
                         {
-                            
+
                         }
                     }
                 }
                 Response.Write(strJson);
+            }
+            if (action == "getDefaultImport")
+            {
+                try
+                {
+                    string user = Common.CookieHelper.GetCookieValue("username");
+                    string department = Common.CookieHelper.GetCookieValue(user + "department");
+                    string strJson = "";
+                    if (string.IsNullOrEmpty(user) || string.IsNullOrEmpty(department))
+                    {
+                         Response.Redirect("../../Login.aspx");
+                    }
+                    BLL.Log_Show log_Show = new BLL.Log_Show();
+                    strJson = log_Show.GetDate(user, "");
+                    Response.Write(strJson);
+                }
+                catch (Exception)
+                {
+                    Response.Redirect("../../Login.aspx");
+                }
             }
         }
 
