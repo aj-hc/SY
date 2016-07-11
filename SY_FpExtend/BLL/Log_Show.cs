@@ -107,7 +107,11 @@ namespace RuRo.BLL
                 strWhere.Append(" and T.Import_State=1 and T.Import_Type = 'sample' ");
             }
             DataSet ds_Log_Import = log_Import.GetListByPage(strWhere.ToString(), "", stratIndex, endIndex);
-            String strWherePatients = CreatPatientIDWhere(ds_Log_Import);
+            String strWherePatients = "";
+            if (ds_Log_Import.Tables[0].Rows.Count>0)
+            {
+                 strWherePatients = CreatPatientIDWhere(ds_Log_Import);
+            }
             if (strWherePatients.ToString().Length > 0)
             {
                 //查询基本信息
@@ -185,12 +189,23 @@ namespace RuRo.BLL
                             }
                         }
                         //添加是否存在知情同意书
-                        for (int k = 0; k < ds_Tb.Tables[0].Rows.Count; k++)
+                        if (ds_Tb.Tables[0].Rows.Count>0)       
                         {
-                            if (ds.Tables[0].Rows[i]["PatientID"].ToString() == ds_Base.Tables[0].Rows[j]["PatientID"].ToString())
+                            for (int k = 0; k < ds_Tb.Tables[0].Rows.Count; k++)
                             {
-                                ds.Tables[0].Rows[i]["TB_CONSENT_FORM"] = "有";
+                                if (ds.Tables[0].Rows[i]["PatientID"].ToString() == ds_Base.Tables[0].Rows[k]["PatientID"].ToString())
+                                {
+                                    ds.Tables[0].Rows[i]["TB_CONSENT_FORM"] = "有";
+                                }
+                                else
+                                {
+                                    ds.Tables[0].Rows[i]["TB_CONSENT_FORM"] = "无";
+                                }
                             }
+                        }
+                        else
+                        {
+                            ds.Tables[0].Rows[i]["TB_CONSENT_FORM"] = "无";
                         }
                     }
                     //foreach (DataRow row in ds.Tables[0].Rows)

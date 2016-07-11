@@ -12,6 +12,7 @@
     <link href="../../include/jquery-easyui-1.4.3/themes/default/easyui.css" rel="stylesheet" />
     <link href="../../include/jquery-easyui-1.4.3/themes/icon.css" rel="stylesheet" />
     <link href="../../include/css/default.css" rel="stylesheet" />
+    <script src="../../include/js/jquery.cookie.js"></script>
 </head>
 <body>
     <div>
@@ -36,7 +37,7 @@
     </div>
     <script type="text/javascript">
         //创建datagrid
-        $(function (){
+        $(function () {
             $('#gd_Show_Import_Sampe').datagrid({
                 title: '记录',
                 //width: 700,
@@ -53,6 +54,7 @@
                 singleSelect: false,//是否单选 
                 pagination: true,//分页控件 
                 rownumbers: true,//行号  
+                pageList:[10],
                 columns: [[
                     { field: 'Id', title: 'Id', width: 80, hidden: true },
                     { field: 'PatientID', title: '唯一标识', width: "10%", align: 'center' },
@@ -63,16 +65,15 @@
                     { field: 'Others', title: '样本信息', width: '40%', align: 'center' },
                 ]]
             });
+            //获取默认数据
             $.ajax({
                 type: 'GET',
                 url: '/Fp_Ajax/GetData.aspx?action=getDefaultImport',
-                success: function (data)
-                {
-                    if (data!="") {
+                success: function (data) {
+                    if (data != "") {
                         var objdata = JSON.parse(data);
-                        var total =objdata.Total;
-                        if (total > 0)
-                        {
+                        var total = objdata.Total;
+                        if (total > 0) {
                             var jsondata = objdata.JsonData;
                             var ds = jsondata.ds;
                             $('#gd_Show_Import_Sampe').datagrid('loadData', ds);
@@ -80,8 +81,16 @@
                     }
                 }
             });
-
-
+            //当分页时运行
+            var pager = $("#gd_Show_Import_Sampe").datagrid("getPager");
+            pager.pagination({
+                onSelectPage: function (pageNo, pageSize) {
+                    var type = change_Ser_Method();//根据查询类型获取值
+                    var stratDate = $('#strat_Date').textbox('getValue');
+                    var endDate = $('#end_Date').textbox('getValue');
+                    getDataForPage(type, stratDate, endDate, pageNo, pageSize);
+                }
+            });
         });
         //变换查询方式
         function change_Ser_Method() {
@@ -91,82 +100,77 @@
             var comtype = $('#ser_Method_Type').combobox('getValue');
             //获取值
             if (comtype == "user") {
-                value ="1-"+ username;//获取当前用户
+                value = "1-" + username;//获取当前用户
             }
             else {
-                value ="2-"+ departments;//获取当前科室
+                value = "2-" + departments;//获取当前科室
             }
             return value;
         }
         //查询数据
         function queryreport() {
             var type = change_Ser_Method();//根据查询类型获取值
-            var stratDate = $('#ser_Method_Type').textbox('getValue');
-            var endDate = $('#ser_Method_Type').textbox('getValue');
+            var stratDate = $('#strat_Date').textbox('getValue');
+            var endDate = $('#end_Date').textbox('getValue');
             if (stratDate == "" || endDate == "") { $.messager.alert('错误', '查询日期不能为空', 'error'); return; }
             else {
-                    if (!dateCompare) { $.messager.alert('错误', '开始日期不能大于结束日期', 'error'); return; }
-                    else {
-                        $.ajax({
-                            type: 'GET',
-                            url: '/Fp_Ajax/GetData.aspx?action=getLogImport',
-                            data: {
-                                Importtype: type,
-                                stratDate: stratDate,
-                                endDate: endDate
-                            },
-                            onSubmit: function () { },
-                            success: function (data) {
-                                if (data == "") { $.messager.alert('查询不到数据'); return; }
-                                else {
-                                    var ds = data.ds;
-                                    if (ds[0] == undefined) { $.messager.alert('返回数据有误'); return; }
-                                    else {
-                                        $('#gd_Show_Import_Sampe').datagrid({ loadFilter: pagerFilter }).datagrid('loadData', ds).datagrid('reload');
-                                    }
-                                }
-                            }
-                        });
+                if (!dateCompare) { $.messager.alert('错误', '开始日期不能大于结束日期', 'error'); return; }
+                else {
+                    getDataForPage(type, stratDate, endDate, 0, 0);
+                }
+            }
+        }
+        //获取数据
+        function getDataForPage(type, stratDate, endDate, pageNo, pageSize) {
+            var startCount;
+            var endCount;
+            if (pageNo != 0 && pageSize!=0) {
+                startCount = (pageNo - 1) * pageSize;
+                endCount = startCount + pageSize;
+            }
+            $.ajax({
+                type: 'GET',
+                url: '/Fp_Ajax/GetData.aspx?action=getLogImport',
+                data: {
+                    Importtype: type,
+                    stratDate: stratDate,
+                    endDate: endDate,
+                    startCount: startCount,
+                    endCount: endCount
+                },
+                onSubmit: function () { },
+                success: function (data) {
+                    if (data != "") {
+                        var objdata = JSON.parse(data);
+                        var total = objdata.Total;
+                        if (total > 0) {
+                            var jsondata = objdata.JsonData;
+                            var ds = jsondata.ds;
+                            $('#gd_Show_Import_Sampe').datagrid('loadData', ds);
+                            var pager = $("#gd_Show_Import_Sampe").datagrid("getPager");
+                            var count = 10;
+                            pager.pagination({
+                                total: total,
+                                pageNumber: pageNo
+                            });
+                        }
                     }
-                 }
+                }
+            });
         }
         //比较日期
         function dateCompare(startdate, enddate) {
             var arr = startdate.split("-");
             var starttime = new Date(arr[0], arr[1], arr[2]);
             var starttimes = starttime.getTime();
-
             var arrs = enddate.split("-");
             var lktime = new Date(arrs[0], arrs[1], arrs[2]);
             var lktimes = lktime.getTime();
-
             if (starttimes >= lktimes) {
                 return false;
             }
             else
                 return true;
-        }
-        //分页辅助
-        function pagerFilter(data) {
-            if (typeof data.length == 'number' && typeof data.splice == 'function') {	// is array
-                data = { total: data.length, rows: data }
-            }
-            var dg = $(this);
-            var opts = dg.datagrid('options');
-            var pager = dg.datagrid('getPager');
-            pager.pagination({
-                onSelectPage: function (pageNum, pageSize) {
-                    opts.pageNumber = pageNum;
-                    opts.pageSize = pageSize;
-                    pager.pagination('refresh', { pageNumber: pageNum, pageSize: pageSize });
-                    dg.datagrid('loadData', data);
-                }
-            });
-            if (!data.originalRows) { data.originalRows = (data.rows); }
-            var start = (opts.pageNumber - 1) * parseInt(opts.pageSize);
-            var end = start + parseInt(opts.pageSize);
-            data.rows = (data.originalRows.slice(start, end));
-            return data;
         }
     </script>
 </body>

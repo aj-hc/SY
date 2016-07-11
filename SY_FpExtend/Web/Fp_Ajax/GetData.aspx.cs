@@ -67,6 +67,7 @@ namespace RuRo.Web.Fp_Ajax
                     #endregion
                 }
             }
+            //查询知情同意书
             if (action == "getConsentForm")
             {
                 string name = Request.Params["gname"].ToString();
@@ -78,6 +79,7 @@ namespace RuRo.Web.Fp_Ajax
                 string strJson = bll.GetTB_CONSENT_FORM_BLL(consent);
                 Response.Write(strJson);
             }
+            //查询知情同意书数量
             if (action == "getConsentFormCount")
             {
                 string name = Request.Params["gname"].ToString();
@@ -122,6 +124,7 @@ namespace RuRo.Web.Fp_Ajax
                 }
                 Response.Write(strJson);
             }
+            //根据日期及类型读取
             if (action == "getLogImport")
             {
                 string strJson = "";
@@ -131,6 +134,19 @@ namespace RuRo.Web.Fp_Ajax
                 //获取传入的时间
                 string strStartDate = Request.Params["stratDate"].ToString();
                 string strendDate = Request.Params["endDate"].ToString();
+                //获取页码
+                int startCount = Convert.ToInt32(Request["startCount"]);
+                int endCount = Convert.ToInt32(Request["endCount"]);
+                //当第一次获取时，默认获取前10的数据
+                if (startCount==0||endCount==0)
+                {
+                    startCount = 1;
+                    endCount = 10;
+                }
+                else if (startCount>1)
+                {
+                    endCount = startCount+10-1;
+                }
                 //传入页码
                 if (array.Length > 0)
                 {
@@ -142,7 +158,7 @@ namespace RuRo.Web.Fp_Ajax
                         if (array[1].ToString() != "")
                         {
                             strGetDataType = array[1].ToString();
-                            strJson = log_bll.GetDate(strGetDataType, "", strStartDate, strendDate, 0, 0);
+                            strJson = log_bll.GetDate(strGetDataType, "", strStartDate, strendDate, startCount, endCount);
                         }
                         else{}
                     }
@@ -152,7 +168,7 @@ namespace RuRo.Web.Fp_Ajax
                         if (array[1].ToString() != "")
                         {
                             strGetDataType = Common.DEncrypt.DESEncrypt.Decrypt(array[1].ToString(), "");
-                            strJson = log_bll.GetDate("", strGetDataType, strStartDate, strendDate, 0, 0);
+                            strJson = log_bll.GetDate("", strGetDataType, strStartDate, strendDate, startCount, endCount);
                         }
                         else
                         {
@@ -162,6 +178,7 @@ namespace RuRo.Web.Fp_Ajax
                 }
                 Response.Write(strJson);
             }
+            //默认获取
             if (action == "getDefaultImport")
             {
                 try

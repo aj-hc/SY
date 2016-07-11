@@ -31,7 +31,7 @@ namespace RuRo.BLL
                 string strdate = dt.ToString("yyyy-MM-dd");
                 ds.Tables[0].Rows[i]["DiagnoseDateTime"] = strdate;
             }
-            string res= FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(ds);
+            string res = FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(ds);
             //排查，待测试
             if (res == "{\"ds\":[]}")
             {
@@ -78,7 +78,7 @@ namespace RuRo.BLL
             //        res = FreezerProUtility.Fp_Common.FpJsonHelper.ObjectToJsonStr(ds1);
             //    }
             //    #endregion
-                
+
             //}
             return res;
         }
@@ -115,7 +115,7 @@ namespace RuRo.BLL
                     dv.RowFilter = "EmployeeName LIKE '" + par + "%'";
                     ds1.Tables.Add(dv.ToTable());
                 }
-                else 
+                else
                 {
                     dv.RowFilter = "EmployeeNo like '" + par + "%'";
                     ds1.Tables.Add(dv.ToTable());
@@ -203,9 +203,9 @@ namespace RuRo.BLL
         /// 添加数据到ClinicalInfo表，记录
         /// </summary>
         /// <param name="ds"></param>
-        public void InsertClinicalInfo(Dictionary<string,string> dic)
+        public void InsertClinicalInfo(Dictionary<string, string> dic)
         {
-            
+
             DAL.ClinicalInfo dal = new DAL.ClinicalInfo();
             Model.ClinicalInfo model = new Model.ClinicalInfo();
             if (dic.Count > 0)
@@ -245,9 +245,18 @@ namespace RuRo.BLL
             baseinfo.PatientID = Convert.ToInt32(dic["患者ID"].ToString());
             baseinfo.RegisterID = Convert.ToInt32(dic["门诊ID"]);
             baseinfo.InPatientID = Convert.ToInt32(dic["住院ID"]);
-            baseinfo.ADDTIME =Convert.ToDateTime(dic["ADDTIME"].ToString());
+            baseinfo.ADDTIME = Convert.ToDateTime(dic["ADDTIME"].ToString());
             DAL.BasedInfo baseinfo_dal = new DAL.BasedInfo();
-            int count=baseinfo_dal.Add(baseinfo);
+            //查询去除重复后添加数据
+            DataSet ds = baseinfo_dal.GetList(" PatientID='" + baseinfo.InPatientID + "'");
+            if (ds.Tables[0].Rows.Count <= 0)
+            {
+                baseinfo_dal.Add(baseinfo);
+            }
+            else
+            {
+
+            }
             //int baseinfoID=0;
             //if (count>0)
             //{
@@ -256,16 +265,16 @@ namespace RuRo.BLL
             //}
             //return baseinfoID;
         }
-        public void InsertLog(Dictionary<string, string> dic) 
+        public void InsertLog(Dictionary<string, string> dic)
         {
             Model.TB_SAMPLE_LOG log = new Model.TB_SAMPLE_LOG();
             log.type = dic["type"];
             log.LOG_UP = dic["LOG_UP"];
-            log.LOG_DATE =Convert.ToDateTime(dic["LOG_DATE"]);
+            log.LOG_DATE = Convert.ToDateTime(dic["LOG_DATE"]);
             log.BASE_MSG = dic["BASE_MSG"].ToString();
             log.CLINICAL_MSG = dic["CLINICAL_MSG"].ToString();
             log.MSG = dic["MSG"].ToString();
-            log.PatientID =Convert.ToInt32(dic["PatientID"].ToString());
+            log.PatientID = Convert.ToInt32(dic["PatientID"].ToString());
             TB_SAMPLE_LOG bllLog = new TB_SAMPLE_LOG();
             bllLog.Add(log);
         }
