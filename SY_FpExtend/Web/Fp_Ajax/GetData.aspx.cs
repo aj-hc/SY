@@ -167,7 +167,7 @@ namespace RuRo.Web.Fp_Ajax
                         //获取当前科室
                         if (array[1].ToString() != "")
                         {
-                            strGetDataType = Common.DEncrypt.DESEncrypt.Decrypt(array[1].ToString(), "");
+                            strGetDataType= PageConData.DecryptDepartments(array[1].ToString());
                             strJson = log_bll.GetDate("", strGetDataType, strStartDate, strendDate, startCount, endCount);
                         }
                         else

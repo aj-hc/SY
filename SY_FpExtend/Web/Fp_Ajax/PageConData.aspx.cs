@@ -51,6 +51,7 @@ namespace RuRo.Web
                 case "SampleType_keti": Response.Write(Returnketi(up)); break;
                 case "ComSetting": Response.Write(ReturnComSetting()); break;
                 case "QuerySetting": Response.Write(ReturnQuerySetting()); break;
+                case "ICDCode": Response.Write(ReturnQuerySetting()); break;
                 default:
                     break;
             }
@@ -283,6 +284,14 @@ namespace RuRo.Web
             return res;
         }
         private string ReturnGet_Employee()
+        {
+            string mark = Request.Params["com"];
+            RuRo.BLL.FP_SY_HIS_IP_PublicInterface_Bll fp_sy = new BLL.FP_SY_HIS_IP_PublicInterface_Bll();
+            DataSet ds = new DataSet();
+            string JSON = fp_sy.GetSY_HC_GetEmployeeInfoJson(mark);
+            return JSON;
+        }
+        private string ReturnGet_TB_Disease()
         {
             string mark = Request.Params["com"];
             RuRo.BLL.FP_SY_HIS_IP_PublicInterface_Bll fp_sy = new BLL.FP_SY_HIS_IP_PublicInterface_Bll();

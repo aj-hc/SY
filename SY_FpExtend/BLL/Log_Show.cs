@@ -71,7 +71,7 @@ namespace RuRo.BLL
             }
             else if (department != "")
             {
-                strWhere = "Import_User_Department='" + department + "' Import_Date BETWEEN CONVERT(datetime,'" + start_date + "',120) AND CONVERT(datetime,'" + end_date + "',120)";
+                strWhere = "Import_User_Department='" + department + "'AND Import_Date BETWEEN CONVERT(datetime,'" + start_date + "',120) AND CONVERT(datetime,'" + end_date + "',120)";
                 SB.Append(strWhere);
             }
             RuRo.Model.ModelForDataGrid model = new RuRo.Model.ModelForDataGrid();

@@ -94,6 +94,7 @@
     <Reference Include="System.Configuration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="B_TB_Disease.cs" />
     <Compile Include="Download.cs" />
     <Compile Include="TB_CONSENT_FORM.cs" />
     <Compile Include="TB_IMGPATH.cs" />

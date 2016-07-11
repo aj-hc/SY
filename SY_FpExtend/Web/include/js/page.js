@@ -324,6 +324,43 @@ $(function () {
         panelHeight: 'auto'
     });
 })
+//ICD码
+$(function () {
+    $('#icdcode').combobox({
+        editable: true,
+        panelHeight: '200px',
+        delay: '600',
+        valueField: 'EmployeeNo',
+        textField: 'EmployeeName',
+        onChange: function (newVal, oldVal) {
+            var faultAddr = encodeURI(newVal);
+            //faultAddr = encodeURI(faultAddr);  //需要通过两次编码
+            if (newVal == "" || newVal == oldVal) {
+                $('#icdcode').combobox('clear');
+                return;
+            }
+            else {
+                var url = '../Fp_Ajax/PageConData.aspx?conMarc=ICDCode&com=' + faultAddr;
+                $('#icdcode').combobox('reload', url);
+            }
+        },
+        onHidePanel: function () {
+            var o = $('#icdcode').combobox('getValue');//获取采集人的EmployeeNo
+            var url = '../Fp_Ajax/PageConData.aspx?conMarc=Employee&com=' + o;
+            var temp = getEmployee(url);
+            if (temp) {
+                var tempjson = JSON.parse(temp);
+                $('#icdcode').combobox({
+                    editable: true,
+                    data: tempjson,
+                    valueField: 'EmployeeNo',
+                    textField: 'EmployeeName'
+                });
+                $('#icdcode').combobox('setValue', tempjson.EmployeeName);
+            }
+        }
+    });
+})
 
 /*------------------临床信息添加框 end--------------------------- */
 
