@@ -12,6 +12,7 @@
     <link href="../include/jquery-easyui-1.4.3/themes/icon.css" rel="stylesheet" />
     <script src="../include/jquery-easyui-1.4.3/locale/easyui-lang-zh_CN.js"></script>
     <link href="include/css/default.css" rel="stylesheet" />
+    <script src="include/js/base64.js"></script>
     <script src="../include/js/default.js"></script>
     <script src="include/js/sy_func.js"></script>
     <script src="include/js/page.js"></script>

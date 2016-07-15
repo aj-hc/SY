@@ -330,11 +330,10 @@ $(function () {
         editable: true,
         panelHeight: '200px',
         delay: '600',
-        valueField: 'EmployeeNo',
-        textField: 'EmployeeName',
+        valueField: 'ICDCode',
+        textField: 'ICDCode',
         onChange: function (newVal, oldVal) {
-            var faultAddr = encodeURI(newVal);
-            //faultAddr = encodeURI(faultAddr);  //需要通过两次编码
+           var faultAddr = encodeURI(newVal);
             if (newVal == "" || newVal == oldVal) {
                 $('#icdcode').combobox('clear');
                 return;
@@ -345,22 +344,28 @@ $(function () {
             }
         },
         onHidePanel: function () {
-            var o = $('#icdcode').combobox('getValue');//获取采集人的EmployeeNo
-            var url = '../Fp_Ajax/PageConData.aspx?conMarc=Employee&com=' + o;
-            var temp = getEmployee(url);
-            if (temp) {
-                var tempjson = JSON.parse(temp);
-                $('#icdcode').combobox({
-                    editable: true,
-                    data: tempjson,
-                    valueField: 'EmployeeNo',
-                    textField: 'EmployeeName'
-                });
-                $('#icdcode').combobox('setValue', tempjson.EmployeeName);
-            }
+            //将ICD码的中文名称读取到界面上
+            //清空原有值
+            $('#diseaseName').textbox('setText',"");
+            var o = $('#icdcode').combobox('getValue');//获取ICD码
+            var faultAddr = encodeURIComponent(o);//转码处理特殊字符
+            var url = '../Fp_Ajax/PageConData.aspx?conMarc=ICDName&com=' + faultAddr;
+            $.ajax({
+                type:'get',
+                url:url,
+                dataType:'text',
+                success:function(data)
+                {
+                    //重新赋值
+                    if (data != "")
+                    {
+                        $('#diseaseName').textbox('setText', data);
+                    }
+                }
+            });
         }
-    });
-})
+    })  
+});
 
 /*------------------临床信息添加框 end--------------------------- */
 

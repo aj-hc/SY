@@ -364,7 +364,7 @@ function postPatientInfo() {
                                 var txtname = $('#_80').textbox('getText');
                                 $('#txtPatientID').textbox('setValue', patientID);
                                 $('#txtname').textbox('setValue', txtname);
-                                //测试获取知情同意书,[判断知情同意书是否存在;
+                                //测试获取知情同意书,判断知情同意书是否存在;
                                 var pname = encodeURI(txtname);//对中文进行转码
                                 $.ajax({
                                     type: 'post',

@@ -212,7 +212,7 @@ namespace RuRo.DAL
 		public DataSet GetList(string strWhere)
 		{
 			StringBuilder strSql=new StringBuilder();
-			strSql.Append("select ID,DiseaseID,DiseaseName,MnemonicCode,ICDCode ");
+			strSql.Append("select DiseaseID,DiseaseName,MnemonicCode,ICDCode ");
 			strSql.Append(" FROM TB_Disease ");
 			if(strWhere.Trim()!="")
 			{

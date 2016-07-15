@@ -51,11 +51,14 @@ namespace RuRo.Web
                 case "SampleType_keti": Response.Write(Returnketi(up)); break;
                 case "ComSetting": Response.Write(ReturnComSetting()); break;
                 case "QuerySetting": Response.Write(ReturnQuerySetting()); break;
-                case "ICDCode": Response.Write(ReturnQuerySetting()); break;
+                case "ICDCode": Response.Write(ReturnGet_TB_Disease()); break;
+                case "ICDName": Response.Write(ReturnGet_TB_DiseaseName()); break;
                 default:
                     break;
             }
         }
+
+
         /// <summary>
         /// 显示设定字段
         /// </summary>
@@ -291,15 +294,40 @@ namespace RuRo.Web
             string JSON = fp_sy.GetSY_HC_GetEmployeeInfoJson(mark);
             return JSON;
         }
+        #region 读取ICD码名称和ICD
+        /// <summary>
+        /// 读取ICD
+        /// </summary>
+        /// <returns></returns>
         private string ReturnGet_TB_Disease()
         {
             string mark = Request.Params["com"];
-            RuRo.BLL.FP_SY_HIS_IP_PublicInterface_Bll fp_sy = new BLL.FP_SY_HIS_IP_PublicInterface_Bll();
-            DataSet ds = new DataSet();
-            string JSON = fp_sy.GetSY_HC_GetEmployeeInfoJson(mark);
+            RuRo.BLL.TB_Disease tb_Disease = new BLL.TB_Disease();
+            string JSON = tb_Disease.GetSY_HC_GetDiseaseJson(mark); ;
             return JSON;
         }
-
+        /// <summary>
+        /// 读取名称
+        /// </summary>
+        /// <returns></returns>
+        private string ReturnGet_TB_DiseaseName()
+        {
+            string mark = Request.Params["com"];
+            RuRo.BLL.TB_Disease tb_Disease = new BLL.TB_Disease();
+            DataSet ds = new DataSet();
+            ds= tb_Disease.GetList("ICDCode='"+mark+"'");
+            string JSON = "";
+            if (ds.Tables[0].Rows.Count>0)
+            {
+                ds.Tables[0].Columns.Remove("MnemonicCode");
+                ds.Tables[0].Columns.Remove("ICDCode");
+                ds.Tables[0].Columns.Remove("DiseaseID");
+                ds.Tables[0].AcceptChanges();
+                JSON = ds.Tables[0].Rows[0][0].ToString();
+            }
+            return JSON;
+        }
+        #endregion
         private string ReturnDepartments()
         {
             string res = "[{ \"value\": \"0\", \"text\": \"肺癌所\" }, { \"value\": \"1\", \"text\": \"心研所\" }]";
