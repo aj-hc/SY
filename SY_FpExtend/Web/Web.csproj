@@ -466,6 +466,7 @@
     <Content Include="index.aspx" />
     <Content Include="informedFrom\informedFrom.aspx" />
     <Content Include="chome\24.0.1312.56 _chrome_installer.exe" />
+    <Content Include="Pages\familys\AddFamily.aspx" />
     <Content Include="Pages\FieldSetting.aspx" />
     <Content Include="TestData\1.html" />
     <Content Include="Default.aspx" />
@@ -826,6 +827,13 @@
     <Compile Include="MasterPage.master.designer.cs">
       <DependentUpon>MasterPage.master</DependentUpon>
     </Compile>
+    <Compile Include="Pages\familys\AddFamily.aspx.cs">
+      <DependentUpon>AddFamily.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\familys\AddFamily.aspx.designer.cs">
+      <DependentUpon>AddFamily.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Pages\FieldSetting.aspx.cs">
       <DependentUpon>FieldSetting.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -864,6 +872,7 @@
     </Compile>
     <Compile Include="Pages\Log_Import\ShowImportSample.aspx.cs">
       <DependentUpon>ShowImportSample.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Pages\Log_Import\ShowImportSample.aspx.designer.cs">
       <DependentUpon>ShowImportSample.aspx</DependentUpon>

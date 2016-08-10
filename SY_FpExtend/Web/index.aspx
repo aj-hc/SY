@@ -41,6 +41,7 @@
                 <ul>
                     <li><div><a target="mainFrame"  rel="ExtendPage.aspx"  ><span></span>导入样品</a></div></li> 
                     <li><div><a target="mainFrame"  rel="\Pages\Log_Import\ShowImportSample.aspx" ><span></span>信息查询</a></div></li>
+                    <li><div><a target="mainFrame"  rel="\Pages\familys\AddFamily.aspx" ><span></span>家系添加</a></div></li>
                    <li><div><a target="mainFrame"  rel="\Pages\FieldSetting.aspx" ><span></span>字段设定</a></div></li>
                 </ul>
             </div>
