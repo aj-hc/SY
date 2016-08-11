@@ -110,6 +110,7 @@
     <Reference Include="System.Configuration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TB_Family.cs" />
     <Compile Include="D_TB_Disease.cs" />
     <Compile Include="TB_CONSENT_FORM.cs" />
     <Compile Include="TB_IMGPATH.cs" />
