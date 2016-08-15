@@ -74,5 +74,18 @@ namespace RuRo.BLL
             dic.Add("PatientID","PatientID");
             return dic;
         }
+
+        public static Dictionary<string, string> FamilyMatchDic() 
+        {
+            Dictionary<string, string> dic = new Dictionary<string, string>();
+            dic.Add("PatientID", "Sample Source");
+            dic.Add("PatientName", "姓名");
+            dic.Add("SexFlag", "性别");
+            dic.Add("Birthday", "出生日期");
+            dic.Add("PFamilyID", "关系人ID");
+            dic.Add("PFamilyName", "关系人姓名");
+            dic.Add("FamilyNeuxs", "关系");
+            return dic;
+        }
     }
 }

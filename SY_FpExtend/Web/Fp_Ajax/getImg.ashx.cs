@@ -464,35 +464,7 @@ namespace RuRo.Web.include.js
         }
         #endregion
 
-        #region 匹配临床信息字典
-        /// <summary>
-        /// 匹配临床信息字典
-        /// </summary>
-        /// <param name="clinicalDicList">临床信息字典</param>
-        /// <returns>匹配完成的字典</returns>
-        private List<Dictionary<string, string>> MatchClinicalDic(List<Dictionary<string, string>> clinicalDicList)
-        {
-            Dictionary<string, string> dic = BLL.MatchFileds.ClinicalFiledsMatchDic();
-            List<Dictionary<string, string>> resDicList = new List<Dictionary<string, string>>();
-            foreach (var clinicalDic in clinicalDicList)
-            {
-                Dictionary<string, string> resDic = new Dictionary<string, string>();
-                foreach (KeyValuePair<string, string> item in clinicalDic)
-                {
-                    if (dic.ContainsKey(item.Key))
-                    {
-                        string key = dic[item.Key];
-                        if (!resDic.ContainsKey(key))
-                        {
-                            resDic.Add(key, item.Value);
-                        }
-                    }
-                }
-                resDicList.Add(resDic);
-            }
-            return resDicList;
-        }
-        #endregion
+
 
         #region 判断路径是否存在
         /// <summary>

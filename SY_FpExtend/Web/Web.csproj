@@ -724,6 +724,9 @@
     <Compile Include="Fp_Ajax\DownImg.aspx.designer.cs">
       <DependentUpon>DownImg.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Fp_Ajax\FamilyHandler.ashx.cs">
+      <DependentUpon>FamilyHandler.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Fp_Ajax\GetData.aspx.cs">
       <DependentUpon>GetData.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -921,6 +924,7 @@
     <Content Include="Fp_Ajax\DowImg.ashx" />
     <Content Include="Fp_Ajax\UploadHandler.ashx" />
     <Content Include="Fp_Ajax\PageConDataTest.ashx" />
+    <Content Include="Fp_Ajax\FamilyHandler.ashx" />
     <None Include="Properties\PublishProfiles\sy.pubxml" />
   </ItemGroup>
   <PropertyGroup>

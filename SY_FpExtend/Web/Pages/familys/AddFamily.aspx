@@ -37,7 +37,7 @@
         <div id="Save_Family" style="width: 800px;"></div>
     </div>
     <div id="footer" style="width: 600px; padding: 5px; margin: 10px" data-options="region:'south',">
-        <a href="javascript:void(0)" class="easyui-linkbutton" id="submit" style="width: auto" onclick="postPatientInfo()">导入关联</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" id="submit" style="width: auto" onclick="PosFamilyNeuxs()">导入关联</a>
     </div>
     <!--关系信息录入框 -->
     <div id="w" class="easyui-window" title="家系添加" data-options="modal:false,closed:true,minimizable:false,maximizable:false,iconCls:'icon-add'" style="width: 436px; height: 299px; padding: 1px;">
@@ -47,12 +47,12 @@
                     <tr>
                         <td style="width: 100px;">姓名:</td>
                         <td>
-                            <input class="easyui-textbox" name="PatientName" id="PatientName" data-options="required:true,multiple:false,prompt:'请选择添加数据的诊断类型'" /></td>
+                            <input class="easyui-textbox" name="PFamilyName" id="PFamilyName" data-options="required:true,multiple:false,prompt:'请输入关联人姓名'" /></td>
                     </tr>
                     <tr>
                         <td style="width: 100px;">关联人ID:</td>
                         <td>
-                            <input class="easyui-numberbox" type="text" name="PFamilyID" id="PFamilyID" data-options="required:true,prompt:'请选择诊断日期'" /></td>
+                            <input class="easyui-numberbox" type="text" name="PFamilyID" id="PFamilyID" data-options="required:true,prompt:'请输入ID'" /></td>
                     </tr>
                     <tr>
                         <td style="width: 100px;">关系:</td>
@@ -141,14 +141,13 @@
                 success: function (data) {
                     ajaxLoadEnd();
                     if (data) {
-                        var dataInfo = data.ds;
                         if (data.ds == "") {
+                            $.messager.alert('错误', '查询不到数据，请检测数据是否存在于Freezerpro系统中', 'error'); return;
+                        }
+                        else {
                             //绑定数据到信息勾选
                             $('#get_Sample_Source').datagrid('loadData', { total: 0, rows: [] });//清空数据
                             $('#get_Sample_Source').datagrid('loadData', data.ds);
-                        }
-                        else {
-                            $.messager.alert('错误', '查询不到数据，请检测数据是否存在于Freezerpro系统中', 'error'); return;
                         }
                     }
                     else {
@@ -160,42 +159,52 @@
         //添加家族关系
         function AddRows() {
             var PFamilyID = $('#PFamilyID').textbox('getText');
-            var PatientName = $('#PatientName').textbox('getText');
+            var PatientName = $('#PFamilyName').textbox('getText');
             var FamilyNeuxs = $('#FamilyNeuxs').textbox('getText');
-            if (PFamilyID == "" || PatientName == "" || FamilyNeuxs == "")
-            {
-                $.messager.alert('错误','存在为空字段，请检查','error'); return;
+            if (PFamilyID == "" || PatientName == "" || FamilyNeuxs == "") {
+                $.messager.alert('错误', '存在为空字段，请检查', 'error'); return;
             }
             else {
                 //获取勾选数据
-                var _get_Sample_Source = $('#get_Sample_Source').datagrid('getChecked');
                 var isValid = $('#setFamily').form('validate');
-                _get_Sample_Source.push(isValid);
-                $('#Save_Family').datagrid('loadData', _get_Sample_Source);//添加数据
+                if (isValid) {
+                    var _get_Sample_Source = $('#get_Sample_Source').datagrid('getChecked');
+                    if (_get_Sample_Source.length>1) {
+                        $.messager.alert('错误', '只可以勾选一行，请检查', 'error'); return;
+                    }
+                    var setFamilyArray = $('#setFamily').serializeArray();
+                    $('#Save_Family').datagrid('insertRow', {
+                        index: 1,	// 索引从0开始
+                        row: {
+                            PatientID: _get_Sample_Source[0].PatientID,
+                            PatientName: _get_Sample_Source[0].PatientName,
+                            SexFlag: _get_Sample_Source[0].SexFlag,
+                            Birthday: _get_Sample_Source[0].Birthday,
+                            PFamilyName: setFamilyArray[0].value,
+                            PFamilyID: setFamilyArray[1].value,
+                            FamilyNeuxs: setFamilyArray[2].value
+                        }
+                    });
+                }
             }
         }
         //清除
-        function Clear() 
-        {
+        function Clear() {
             $('#setFamily').form('clear');
         }
         //pos数据创建
-        function PosFamilyNeuxs()
-        {
-            var from = $('#Save_Family').serializeArray();
+        function PosFamilyNeuxs() {
+            var familydata = $('#Save_Family').datagrid('getRows');
+            var rowfamilydata = JSON.stringify(familydata);
             $.ajax({
                 type: 'post',
                 dataType: "json",
                 url: '/Fp_Ajax/FamilyHandler.ashx?action=PostSaveFamily',
                 data: {
-                    departments: departments,
-                    baseinfo: _baseinfo,
-                    clinicalInfoDg: rowClinicalInfoDg,
-                    sampleInfoForm: _sampleInfoForm,
-                    dg_SampleInfo: _dg_SampleInfo
+                    fdata: rowfamilydata
                 },
-                success: function (data)
-                {
+                success: function (data) {
+
 
                 }
             });
