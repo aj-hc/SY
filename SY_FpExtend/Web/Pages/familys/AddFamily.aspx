@@ -125,6 +125,23 @@
                 ]
             })
         });
+        //绑定关系下拉
+        $(function () {
+            $('#FamilyNeuxs').combobox({
+                url: '../Fp_Ajax/PageConData.aspx?conMarc=QuerySetting&valueType=gx',
+                method: 'get',
+                valueField: 'text',
+                textField: 'text',
+                panelHeight: 'auto',
+                onChange: function (newValue, oldValue) {
+                    if (newValue != null) {
+                        var Num = MathRand();
+                        var Newurl = '../Fp_Ajax/PageConData.aspx?conMarc=QuerySetting&valueType=gx&num=' + Num;
+                        $('#FamilyNeuxs').combobox('reload', Newurl);
+                    }
+                }
+            });
+        })
         //获取基本数据
         function GetSample_Source() {
             var PId = $('#PatientID').textbox('getText');

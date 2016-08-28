@@ -8,7 +8,7 @@ using System.Web;
 namespace RuRo.Web.Fp_Ajax
 {
     /// <summary>
-    /// DowImg 的摘要说明
+    /// DowImg 的摘要说明 FTP操作
     /// </summary>
     public class DowImg : IHttpHandler
     {
