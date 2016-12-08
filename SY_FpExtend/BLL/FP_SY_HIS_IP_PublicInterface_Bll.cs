@@ -226,7 +226,7 @@ namespace RuRo.BLL
             }
         }
         /// <summary>
-        /// 添加数据到BaseInfo
+        /// 添加数据到BaseInfo,其实这里可以简化非常多，下次修改
         /// </summary>
         public void InsertBaseInfo(Dictionary<string, string> dic)
         {
@@ -246,6 +246,7 @@ namespace RuRo.BLL
             baseinfo.RegisterID = Convert.ToInt32(dic["门诊ID"]);
             baseinfo.InPatientID = Convert.ToInt32(dic["住院ID"]);
             baseinfo.ADDTIME = Convert.ToDateTime(dic["ADDTIME"].ToString());
+            baseinfo.IdentityCardNo=dic["身份证号"];
             DAL.BasedInfo baseinfo_dal = new DAL.BasedInfo();
             //查询去除重复后添加数据
             DataSet ds = baseinfo_dal.GetList(" PatientID='" + baseinfo.InPatientID + "'");
