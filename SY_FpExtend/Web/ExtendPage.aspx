@@ -98,12 +98,12 @@
                                             <input class="easyui-textbox" name="PatientID" id="_91" data-options="required:true" style="width: 110px;" /></td>
                                     </tr>
                                     <tr>
+                                        <td>身份证号：</td>
+                                        <td><input class="easyui-textbox" name="IdentityCardNo" id="IdentityCardNo" data-options="required:true" style="width: 110px;" /></td>
                                         <td style="display: none">住院ID：</td>
-                                        <td style="display: none">
-                                            <input class="easyui-textbox" name="InPatientID" id="_93" data-options="required:false" style="width: 110px;" /></td>
+                                        <td style="display: none"><input class="easyui-textbox" name="InPatientID" id="_93" data-options="required:false" style="width: 110px;" /></td>
                                         <td style="display: none">挂号ID：</td>
-                                        <td style="display: none">
-                                            <input class="easyui-textbox" name="RegisterID" id="_92" data-options="required:false" style="width: 110px;" /></td>
+                                        <td style="display: none"><input class="easyui-textbox" name="RegisterID" id="_92" data-options="required:false" style="width: 110px;" /></td>
                                     </tr>
                                 </table>
                             </div>

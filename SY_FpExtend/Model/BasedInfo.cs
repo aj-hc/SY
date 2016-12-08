@@ -26,6 +26,7 @@ namespace RuRo.Model
         private int? _registerid;
         private decimal? _inpatientid;
         private DateTime? _addtime;
+        private string _identityCardNo;
         /// <summary>
         /// 
         /// </summary>
@@ -42,6 +43,12 @@ namespace RuRo.Model
             set { _patientname = value; }
             get { return _patientname; }
         }
+        public string IdentityCardNo
+        {
+            set { _identityCardNo = value; }
+            get { return _identityCardNo; }
+        }
+        
         /// <summary>
         /// 
         /// </summary>

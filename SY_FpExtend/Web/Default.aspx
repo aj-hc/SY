@@ -22,7 +22,7 @@
             else
             {
                 if (browser == "IE") {
-                    $.messager.confirm('提示！', '请使用谷歌浏览器打开系统，是否下载谷歌浏览器？是：下载，否：退出', function (r) {
+                    $.messager.confirm('提示！', '请使用谷歌浏览器或IE10以上打开系统，是否下载谷歌浏览器？是：下载，否：退出', function (r) {
                         if (r) {
                             window.open("page.html", "newwindow", "height=100,width=400,toolbar=no,menubar=no,scrollbars=no,resizable=no, location=no,status=no");
                         }
@@ -34,7 +34,7 @@
             var height = 650;
             var l = Math.round((window.screen.width - width) / 2);
             var t = Math.round((window.screen.height - height) / 2);
-            window.open('Login.aspx', 'newwindow', 'height=' +screen.height + ', width=' +screen.width  + ', top=0,left=0,toolbar=no, menubar=no, scrollbars=no, resizable=yes,location=no, status=no')
+            window.open('Login.aspx', 'newwindow', 'height=' + screen.height + ', width=' + screen.width + ', top=0,left=0,toolbar=no, menubar=no, scrollbars=no, resizable=yes,location=no, status=no')
         }
         //$(function () {
         //    $(".side").css({ 'width': '24px', 'padding-right': '5px' });
@@ -75,8 +75,6 @@
 <body style="width: 100%; height: 100%">
     <%--嵌套页--%>
     <div id="main" style="width: 100%; height: 100%">
-<%--        <div id="logo" style="width: 100%; height: 40px; position: absolute; top: 2px; left: 50px;">
-            <img src="../Images/LoGo.jpg" style="width:80%; height: 38px; z-index: 100"></img></div>--%>
         <iframe runat="server" id="FreezerPro" name="FreezerPro" frameborder="0" style="width: 100%; height: 100%;"></iframe>
 
         <form action="/" method="post" runat="server" id="from">
@@ -85,7 +83,8 @@
                 <ul>
                     <li><a href="#" id="btnextend" onclick="doimport()">
                         <div class="sidebox">
-                            <img src="../Images/Images/ant.png" style="width: 21px; height: 15px" />&nbsp;打开扩展</div>
+                            <img src="../Images/Images/ant.png" style="width: 21px; height: 15px" />&nbsp;打开扩展
+                        </div>
                     </a></li>
                 </ul>
             </div>

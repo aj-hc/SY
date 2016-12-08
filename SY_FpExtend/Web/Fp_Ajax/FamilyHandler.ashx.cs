@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Data;
+using Newtonsoft.Json;
 
 namespace RuRo.Web.Fp_Ajax
 {
@@ -66,17 +67,32 @@ namespace RuRo.Web.Fp_Ajax
             //3.插入成功插入数据库
             if (strReult.Contains("\"status\":\"DONE\"") && strReult.Contains("\"success\":true,"))
             {
+                
                 RuRo.Model.TB_Family model = new Model.TB_Family();
-                model = FreezerProUtility.Fp_Common.FpJsonHelper.JsonStrToObject<RuRo.Model.TB_Family>(strFamilyJson);
+                //将字符串转化为MODEL
+                List<RuRo.Model.TB_Family> listdic = FreezerProUtility.Fp_Common.FpJsonHelper.DeserializeObject<List<RuRo.Model.TB_Family>>(strFamilyJson);
                 RuRo.BLL.TB_Family bll = new BLL.TB_Family();
-                int count= bll.Add(model);
-                if (count>0)
+                string strCount = "";
+                for (int i = 0; i < listdic.Count; i++)
                 {
-                    strMsg="导入成功";
+                    model = listdic[i];
+                    int count = bll.Add(model);
+                    if (count > 0)
+                    {
+                        
+                    }
+                    else
+                    {
+                        strCount+= i.ToString()+"," ;
+                    }
+                }
+                if (strCount=="")
+                {
+                    strMsg = "导入系统成功";
                 }
                 else
                 {
-                    strMsg="导入数据日志失败,数据已添加到Freezerpro中";
+                    strMsg = "导入系统成功," + strCount+"条数据导入数据库失败";
                 }
             }
             //4.插入失败，记录并提醒

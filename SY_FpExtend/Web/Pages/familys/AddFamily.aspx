@@ -128,7 +128,7 @@
         //绑定关系下拉
         $(function () {
             $('#FamilyNeuxs').combobox({
-                url: '../Fp_Ajax/PageConData.aspx?conMarc=QuerySetting&valueType=gx',
+                url: '../../Fp_Ajax/PageConData.aspx?conMarc=QuerySetting&valueType=gx',
                 method: 'get',
                 valueField: 'text',
                 textField: 'text',
@@ -136,7 +136,7 @@
                 onChange: function (newValue, oldValue) {
                     if (newValue != null) {
                         var Num = MathRand();
-                        var Newurl = '../Fp_Ajax/PageConData.aspx?conMarc=QuerySetting&valueType=gx&num=' + Num;
+                        var Newurl = '../../Fp_Ajax/PageConData.aspx?conMarc=QuerySetting&valueType=gx&num=' + Num;
                         $('#FamilyNeuxs').combobox('reload', Newurl);
                     }
                 }
@@ -215,16 +215,36 @@
             var rowfamilydata = JSON.stringify(familydata);
             $.ajax({
                 type: 'post',
-                dataType: "json",
+                dataType: "text",
                 url: '/Fp_Ajax/FamilyHandler.ashx?action=PostSaveFamily',
                 data: {
                     fdata: rowfamilydata
                 },
                 success: function (data) {
-
-
+                    if (data) {
+                        var s = data;
+                        $.messager.show({ title: '提示！', msg: s, showType: 'show' });
+                        clearg();
+                    }
+                    else {
+                        $.messager.alert('错误', '导入失败,请检查连接', 'error'); return;
+                    }
                 }
             });
+        }
+        function clearg() {
+            $('#PatientID').textbox('clear');
+            $('#PatientName').textbox('clear');
+            $('#get_Sample_Source').datagrid('loadData', { total: 0, rows: [] });
+            $('#Save_Family').datagrid('loadData', { total: 0, rows: [] });
+        }
+        //生成随机数
+        function MathRand() {
+            var Num = "";
+            for (var i = 0; i < 6; i++) {
+                Num += Math.floor(Math.random() * 10);
+            }
+            return Num;
         }
         //采用jquery easyui loading css效果 
         function ajaxLoading() {

@@ -7,6 +7,10 @@ namespace RuRo.BLL
 {
     public class MatchFileds
     {
+        /// <summary>
+        /// 将获取到的字段和系统中的字段匹配--样本源
+        /// </summary>
+        /// <returns></returns>
         public static Dictionary<string, string> BaseInfoMatchDic()
         {
             Dictionary<string, string> dic = new Dictionary<string, string>();
@@ -27,8 +31,13 @@ namespace RuRo.BLL
             dic.Add("InPatientID", "住院ID");
             dic.Add("RegisterID", "门诊ID");
             dic.Add("ADDTIME", "ADDTIME");
+            dic.Add("IdentityCardNo", "身份证号");
             return dic;
         }
+        /// <summary>
+        /// 将获取到的字段和系统中的字段匹配--样品字段
+        /// </summary>
+        /// <returns></returns>
         public static Dictionary<string, string> SampleFiledsMatchDic()
         {
             Dictionary<string, string> dic = new Dictionary<string, string>();
@@ -60,6 +69,10 @@ namespace RuRo.BLL
             dic.Add("Sample_group", "样品课题组");
             return dic;
         }
+        /// <summary>
+        /// 将获取到的字段和系统中的字段匹配--诊断信息字段
+        /// </summary>
+        /// <returns></returns>
         public static Dictionary<string, string> ClinicalFiledsMatchDic()
         {
             Dictionary<string, string> dic = new Dictionary<string, string>();
@@ -74,7 +87,10 @@ namespace RuRo.BLL
             dic.Add("PatientID","PatientID");
             return dic;
         }
-
+        /// <summary>
+        /// 将获取到的字段和系统中的字段匹配--家系
+        /// </summary>
+        /// <returns></returns>
         public static Dictionary<string, string> FamilyMatchDic() 
         {
             Dictionary<string, string> dic = new Dictionary<string, string>();

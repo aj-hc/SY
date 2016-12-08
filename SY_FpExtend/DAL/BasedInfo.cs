@@ -45,9 +45,9 @@ namespace RuRo.DAL
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("insert into BasedInfo(");
-            strSql.Append("PatientName,IPSeqNoText,PatientCardNo,SexFlag,Birthday,BloodTypeFlag,Phone,ContactPhone,ContactPerson,NativePlace,RegisterSeqNO,PatientID,RegisterID,InPatientID,ADDTIME)");
+            strSql.Append("PatientName,IPSeqNoText,PatientCardNo,SexFlag,Birthday,BloodTypeFlag,Phone,ContactPhone,ContactPerson,NativePlace,RegisterSeqNO,PatientID,RegisterID,InPatientID,IdentityCardNo,ADDTIME)");
             strSql.Append(" values (");
-            strSql.Append("@PatientName,@IPSeqNoText,@PatientCardNo,@SexFlag,@Birthday,@BloodTypeFlag,@Phone,@ContactPhone,@ContactPerson,@NativePlace,@RegisterSeqNO,@PatientID,@RegisterID,@InPatientID,@ADDTIME)");
+            strSql.Append("@PatientName,@IPSeqNoText,@PatientCardNo,@SexFlag,@Birthday,@BloodTypeFlag,@Phone,@ContactPhone,@ContactPerson,@NativePlace,@RegisterSeqNO,@PatientID,@RegisterID,@InPatientID,@IdentityCardNo,@ADDTIME)");
             strSql.Append(";select @@IDENTITY");
             SqlParameter[] parameters = {
 					new SqlParameter("@PatientName", SqlDbType.NVarChar,30),
@@ -64,6 +64,7 @@ namespace RuRo.DAL
 					new SqlParameter("@PatientID", SqlDbType.Int,4),
 					new SqlParameter("@RegisterID", SqlDbType.Int,4),
 					new SqlParameter("@InPatientID", SqlDbType.Money,8),
+                    new SqlParameter("@IdentityCardNo",SqlDbType.NVarChar,50),
 					new SqlParameter("@ADDTIME", SqlDbType.DateTime)};
             parameters[0].Value = model.PatientName;
             parameters[1].Value = model.IPSeqNoText;
@@ -79,7 +80,8 @@ namespace RuRo.DAL
             parameters[11].Value = model.PatientID;
             parameters[12].Value = model.RegisterID;
             parameters[13].Value = model.InPatientID;
-            parameters[14].Value = model.ADDTIME;
+            parameters[14].Value = model.IdentityCardNo;
+            parameters[15].Value = model.ADDTIME;
 
             object obj = DbHelperSQL_SY.GetSingleSY(strSql.ToString(), parameters);
             if (obj == null)
@@ -112,6 +114,7 @@ namespace RuRo.DAL
             strSql.Append("PatientID=@PatientID,");
             strSql.Append("RegisterID=@RegisterID,");
             strSql.Append("InPatientID=@InPatientID,");
+            strSql.Append("IdentityCardNo=@IdentityCardNo");
             strSql.Append("ADDTIME=@ADDTIME");
             strSql.Append(" where id=@id");
             SqlParameter[] parameters = {
@@ -129,6 +132,7 @@ namespace RuRo.DAL
 					new SqlParameter("@PatientID", SqlDbType.Int,4),
 					new SqlParameter("@RegisterID", SqlDbType.Int,4),
 					new SqlParameter("@InPatientID", SqlDbType.Money,8),
+                    new SqlParameter("@IdentityCardNo",SqlDbType.NVarChar,50),
 					new SqlParameter("@ADDTIME", SqlDbType.DateTime),
 					new SqlParameter("@id", SqlDbType.Int,4)};
             parameters[0].Value = model.PatientName;
@@ -146,8 +150,8 @@ namespace RuRo.DAL
             parameters[12].Value = model.RegisterID;
             parameters[13].Value = model.InPatientID;
             parameters[14].Value = model.ADDTIME;
+            parameters[15].Value = model.IdentityCardNo;
             parameters[15].Value = model.id;
-
             int rows = DbHelperSQL_SY.ExecuteSqlSY(strSql.ToString(), parameters);
             if (rows > 0)
             {

@@ -194,6 +194,7 @@ function AddBaseInfoToForm(_BaseInfo) {
         $("#_91").textbox('readonly', false);
         $("#_92").textbox('readonly', false);
         $("#_93").textbox('readonly', false);
+        $("#IdentityCardNo").textbox('readonly', false);
     }
     if (_BaseInfo) {
         if (_BaseInfo['PatientName'] && _BaseInfo['PatientName'] != "") {
@@ -266,6 +267,10 @@ function AddBaseInfoToForm(_BaseInfo) {
         if (_BaseInfo['InPatientID']) {
             $("#_93").textbox('setValue', $.trim(_BaseInfo['InPatientID']));
             $("#_93").textbox('readonly');
+        }
+        if (_BaseInfo['IdentityCardNo']) {
+            $("#IdentityCardNo").textbox('setValue', $.trim(_BaseInfo['IdentityCardNo']));
+            $("#IdentityCardNo").textbox('readonly');
         }
     }
     else { $.messager.alert('提示', '这个编号没有数据', 'error'); }

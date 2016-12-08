@@ -24,6 +24,7 @@ namespace RuRo.Model.PageInfoModel
         private string _patientid;
         private string _registerid;
         private string _inpatientid;
+        private string _identityCardNo;
        
         /// <summary>
         /// 
@@ -32,6 +33,11 @@ namespace RuRo.Model.PageInfoModel
         {
             set { _patientname = value; }
             get { return _patientname; }
+        }
+                public string IdentityCardNo
+        {
+            set { _identityCardNo = value; }
+            get { return _identityCardNo; }
         }
         /// <summary>
         /// 
